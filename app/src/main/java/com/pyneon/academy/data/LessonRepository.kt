@@ -70,9 +70,24 @@ object LessonRepository {
             buildList {
                 for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i)))
             }
-        }.sortedBy { it.order }
-        lessonCache = parsed
-        return parsed
+        }
+        val downloaded = ContentCenter().installedFiles(context).flatMap { f ->
+            try {
+                val array = JSONArray(f.readText())
+                buildList {
+                    for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i)))
+                }
+            } catch (_: Exception) {
+                emptyList()
+            }
+        }
+        val all = (parsed + downloaded).sortedBy { it.order }.distinctBy { it.id }
+        lessonCache = all
+        return all
+    }
+
+    fun invalidateCache() {
+        lessonCache = null
     }
 
     fun lesson(context: Context, id: String): Lesson? = lessons(context).firstOrNull { it.id == id }

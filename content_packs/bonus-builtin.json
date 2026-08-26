@@ -1,0 +1,33 @@
+[
+  {
+    "id": "l27",
+    "order": 27,
+    "chapter": 3,
+    "title": "彩蛋 · 内置函数巡礼",
+    "subtitle": "不 import 就能用的城市公共设施",
+    "xp": 150,
+    "blocks": [
+      {"type": "heading", "text": "全城免费的基础设施"},
+      {"type": "text", "text": "Python 里有几十个函数不需要任何 import，天生就能用——它们是这座城市的公共设施：测长度找 len、排序找 sorted、配对找 zip。高手不一定背下全部语法，但一定把这些设施用到飞起。"},
+      {"type": "table", "headers": ["函数", "一句话", "例子 → 结果"], "rows": [["len", "测长度", "len('neon') → 4"], ["sorted", "排序出新列表", "sorted([3,1]) → [1,3]"], ["sum / max / min", "聚合三兄弟", "sum([1,2,3]) → 6"], ["enumerate", "带序号遍历", "配对 (0,x)(1,y)"], ["zip", "并行打包", "zip([1,2],['a','b'])"], ["any / all", "任一为真 / 全部为真", "any([0,1]) → True"]]},
+      {"type": "code", "runnable": true, "code": "names = ['v', 'judy', 'k']\nscores = [88, 92, 79]\n\nfor rank, (n, s) in enumerate(zip(names, scores), start=1):\n    print(rank, n, s)\n\nprint(all(s >= 60 for s in scores))\nprint(sorted(scores, reverse=True)[:2])"},
+      {"type": "output", "text": "1 v 88\n2 judy 92\n3 k 79\nTrue\n[92, 88]"},
+      {"type": "tip", "text": "dir(str) 能列出字符串的全部方法——忘记方法名时，它是最好的备忘录。"},
+      {"type": "quiz", "question": "sorted('cba') 的结果是？", "options": ["'abc'", "['a', 'b', 'c']", "报错"], "answer": 1, "explain": "sorted 接受任何可迭代对象，永远返回新列表。"}
+    ],
+    "exercise": {
+      "title": "安全长度探测器",
+      "brief": "实现 safe_len(x)：x 有长度（支持 len）就返回长度；没有就返回 None 而不是报错。safe_len(42) 应返回 None。",
+      "starterCode": "def safe_len(x):\n    \n\nprint(safe_len('neon'))\nprint(safe_len(42))",
+      "hint": "hasattr(x, '__len__') 判断是否支持 len；不支持时返回 None。",
+      "tests": [
+        "assert safe_len('neon') == 4",
+        "assert safe_len([1, 2, 3]) == 3",
+        "assert safe_len(range(5)) == 5",
+        "assert safe_len(42) is None"
+      ],
+      "stdin": [],
+      "xp": 160
+    }
+  }
+]

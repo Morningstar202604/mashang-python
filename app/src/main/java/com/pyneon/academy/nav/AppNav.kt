@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pyneon.academy.screens.ArenaScreen
 import com.pyneon.academy.screens.BootScreen
 import com.pyneon.academy.screens.ChallengeDetailScreen
+import com.pyneon.academy.screens.ContentHubScreen
 import com.pyneon.academy.screens.HomeScreen
 import com.pyneon.academy.screens.LessonDetailScreen
 import com.pyneon.academy.screens.LessonsScreen
@@ -118,7 +119,8 @@ fun AppRoot() {
                 val id = entry.arguments?.getString("id").orEmpty()
                 ChallengeDetailScreen(challengeId = id, onBack = { navController.popBackStack() })
             }
-            composable("profile") { ProfileScreen() }
+            composable("profile") { ProfileScreen(onOpenContentHub = { navController.navigate("contenthub") }) }
+            composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
         }
     }
 }

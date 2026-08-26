@@ -1,0 +1,11 @@
+{
+  "updated_at": "2026-08-26",
+  "packs": [
+    {
+      "id": "bonus-builtin",
+      "name": "彩蛋课 · 内置函数巡礼",
+      "version": 1,
+      "description": "把 Python 的城市公共服务一次逛完：len/sorted/enumerate/zip/any/all…附随堂一问与判题实战。"
+    }
+  ]
+}

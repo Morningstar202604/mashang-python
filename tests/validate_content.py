@@ -296,6 +296,13 @@ SOLUTIONS = {
         "sample = ['[ERROR] a', '[INFO] b', '[ERROR] c']\n"
         "print(analyze(sample))"
     ),
+    "l27": (
+        "def safe_len(x):\n"
+        "    return len(x) if hasattr(x, '__len__') else None\n"
+        "\n"
+        "print(safe_len('neon'))\n"
+        "print(safe_len(42))"
+    ),
     "c01": (
         "def neon_fb(n):\n"
         "    result = []\n"
@@ -442,10 +449,19 @@ def main():
     for name in LESSON_FILES:
         with open(os.path.join(APP_ASSETS, name), encoding="utf-8") as f:
             lessons.extend(json.load(f))
+    pack_path = os.path.join(
+        os.path.dirname(__file__), "..", "content_packs", "bonus-builtin.json"
+    )
+    with open(pack_path, encoding="utf-8") as f:
+        lessons.extend(json.load(f))
     with open(os.path.join(APP_ASSETS, "challenges.json"), encoding="utf-8") as f:
         challenges = json.load(f)
 
     problems = structural_checks(lessons)
+    if not os.path.exists(
+        os.path.join(os.path.dirname(__file__), "..", "catalog.json")
+    ):
+        problems.append("catalog.json 缺失（内容中心远端目录）")
     items = []
     for lesson in sorted(lessons, key=lambda x: x["order"]):
         ex = lesson.get("exercise")
