@@ -7,13 +7,54 @@
     "subtitle": "站在父类肩膀上 · __str__ 的秘密",
     "xp": 140,
     "blocks": [
-      {"type": "heading", "text": "血脉传承与自我介绍"},
-      {"type": "text", "text": "子类继承父类的全部属性和方法，再叠加自己的特技——这就是继承。super().__init__() 负责先完成父类的初始化仪式，再干子类自己的事。而 __str__ 这样的「魔法方法」（双下划线包裹）是对象对外的接口：print(对象) 时 Python 会偷偷调用它。"},
-      {"type": "diagram", "text": "      Robot (父类)\n        │ name / hp / report()\n        ▼ 继承\n     Ninja (子类)\n        │ + stealth()\n        │ 覆写 hit(): 先减半伤害\n        └─ super() ─► 借用父类能力"},
-      {"type": "code", "runnable": true, "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return f'<{self.name}号生物>'\n\nclass Ninja(Animal):\n    def __init__(self, name, blade='振动刀'):\n        super().__init__(name)\n        self.blade = blade\n\nk = Ninja('K')\nprint(k)\nprint(k.blade)"},
-      {"type": "output", "text": "<K号生物>\n振动刀"},
-      {"type": "tip", "text": "__repr__ 是 __str__ 的工程师版（调试时显示）；__len__ 让 len(对象) 生效；__eq__ 自定义相等规则——魔法方法就是给运算符和内置函数挂钩子。"},
-      {"type": "quiz", "question": "print(对象) 时 Python 自动调用哪个方法？", "options": ["__init__", "__str__", "__main__"], "answer": 1, "explain": "print 与 f-string 都走 __str__；没定义时会退化到 __repr__。"}
+      {
+        "type": "heading",
+        "text": "血脉传承与自我介绍"
+      },
+      {
+        "type": "text",
+        "text": "子类继承父类的全部属性和方法，再叠加自己的特技——这就是继承。super().__init__() 负责先完成父类的初始化仪式，再干子类自己的事。而 __str__ 这样的「魔法方法」（双下划线包裹）是对象对外的接口：print(对象) 时 Python 会偷偷调用它。"
+      },
+      {
+        "type": "diagram",
+        "text": "      Robot (父类)\n        │ name / hp / report()\n        ▼ 继承\n     Ninja (子类)\n        │ + stealth()\n        │ 覆写 hit(): 先减半伤害\n        └─ super() ─► 借用父类能力"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n\n    def __str__(self):\n        return f'<{self.name}号生物>'\n\nclass Ninja(Animal):\n    def __init__(self, name, blade='振动刀'):\n        super().__init__(name)\n        self.blade = blade\n\nk = Ninja('K')\nprint(k)\nprint(k.blade)"
+      },
+      {
+        "type": "output",
+        "text": "<K号生物>\n振动刀"
+      },
+      {
+        "type": "task",
+        "text": "定义 class Ghost(Ninja) 只覆写 __str__ 改前缀，体验第三代继承。"
+      },
+      {
+        "type": "tip",
+        "text": "__repr__ 是 __str__ 的工程师版（调试时显示）；__len__ 让 len(对象) 生效；__eq__ 自定义相等规则——魔法方法就是给运算符和内置函数挂钩子。"
+      },
+      {
+        "type": "quiz",
+        "question": "print(对象) 时 Python 自动调用哪个方法？",
+        "options": [
+          "__init__",
+          "__str__",
+          "__main__"
+        ],
+        "answer": 1,
+        "explain": "print 与 f-string 都走 __str__；没定义时会退化到 __repr__。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "子类 __init__ 参数带上 weapon='刀' 默认值",
+          "super().__init__(name, hp) 先传父类，再存自己的 weapon",
+          "hit 里 super().hit(dmg // 2) 减半伤害；__str__ 返回 f'Ninja:{self.name}'"
+        ]
+      }
     ],
     "exercise": {
       "title": "暗影忍者",
@@ -39,12 +80,50 @@
     "subtitle": "类 + 异常 + 状态管理 实战",
     "xp": 160,
     "blocks": [
-      {"type": "heading", "text": "给夜之城造一台 ATM"},
-      {"type": "text", "text": "第一个真正的项目课。把类、异常、列表状态串成一个 BankAccount：存款、取款、交易流水。重点体会「用异常表达业务规则的拒绝」——这是工程界通行的做法。"},
-      {"type": "code", "runnable": true, "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n        self.history = []\n\n    def deposit(self, amount):\n        self.balance += amount\n        self.history.append(f'+{amount}')\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError('余额不足，义体银行拒绝该操作')\n        self.balance -= amount\n        self.history.append(f'-{amount}')\n\nacc = BankAccount('V', 100)\nacc.deposit(50)\nacc.withdraw(30)\ntry:\n    acc.withdraw(9999)\nexcept ValueError as e:\n    print('拦截:', e)\nprint(acc.balance, acc.history)"},
-      {"type": "output", "text": "拦截: 余额不足，义体银行拒绝该操作\n120 ['+50', '-30']"},
-      {"type": "tip", "text": "真实系统里还会加日志、锁、事务……但骨架永远是这三样：状态 + 操作 + 拒绝规则。"},
-      {"type": "quiz", "question": "withdraw 余额不足时为什么选择 raise 而不是返回 False？", "options": ["更省内存", "强制调用方处理失败，失败原因可携带详情", "语法要求"], "answer": 1, "explain": "异常携带信息且无法被静默忽略，比布尔返回值更安全。"}
+      {
+        "type": "heading",
+        "text": "给夜之城造一台 ATM"
+      },
+      {
+        "type": "text",
+        "text": "第一个真正的项目课。把类、异常、列表状态串成一个 BankAccount：存款、取款、交易流水。重点体会「用异常表达业务规则的拒绝」——这是工程界通行的做法。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n        self.history = []\n\n    def deposit(self, amount):\n        self.balance += amount\n        self.history.append(f'+{amount}')\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            raise ValueError('余额不足，义体银行拒绝该操作')\n        self.balance -= amount\n        self.history.append(f'-{amount}')\n\nacc = BankAccount('V', 100)\nacc.deposit(50)\nacc.withdraw(30)\ntry:\n    acc.withdraw(9999)\nexcept ValueError as e:\n    print('拦截:', e)\nprint(acc.balance, acc.history)"
+      },
+      {
+        "type": "output",
+        "text": "拦截: 余额不足，义体银行拒绝该操作\n120 ['+50', '-30']"
+      },
+      {
+        "type": "task",
+        "text": "连续 deposit 三次不同金额，打印 history 看流水形状。"
+      },
+      {
+        "type": "tip",
+        "text": "真实系统里还会加日志、锁、事务……但骨架永远是这三样：状态 + 操作 + 拒绝规则。"
+      },
+      {
+        "type": "quiz",
+        "question": "withdraw 余额不足时为什么选择 raise 而不是返回 False？",
+        "options": [
+          "更省内存",
+          "强制调用方处理失败，失败原因可携带详情",
+          "语法要求"
+        ],
+        "answer": 1,
+        "explain": "异常携带信息且无法被静默忽略，比布尔返回值更安全。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "__init__ 存 balance",
+          "withdraw 先比较 amount > balance，不足就 raise ValueError('insufficient')",
+          "通过则扣减并 return 新余额"
+        ]
+      }
     ],
     "exercise": {
       "title": "最小可用钱包",
@@ -68,13 +147,54 @@
     "subtitle": "yield：按需生产，绝不囤货",
     "xp": 150,
     "blocks": [
-      {"type": "heading", "text": "懒惰即美德"},
-      {"type": "text", "text": "普通函数一次算完返回全部结果；生成器函数遇到 yield 就「暂停供货」，下次要货时从暂停处继续。数据像流水一样一条条吐出，而不是先堆满整个仓库——处理海量数据时这就是性能的生死线。"},
-      {"type": "diagram", "text": "list 方式:  [1,1,2,3,5,...全部算完] ──一次性──► 内存\n                (100万元素? 内存爆炸)\n\ngenerator:   yield 0 → yield 1 → yield 1 → ...\n                (每次只要一个，用完即弃)"},
-      {"type": "code", "runnable": true, "code": "def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\n\nfor x in countdown(3):\n    print('倒计时', x)\n\ngen = (x * x for x in range(4))\nprint(sum(gen))"},
-      {"type": "output", "text": "倒计时 3\n倒计时 2\n倒计时 1\n14"},
-      {"type": "tip", "text": "(x*2 for x in data) 圆括号版推导式就是生成器表达式；sum/any/all 都能直接吃它。"},
-      {"type": "quiz", "question": "生成器可以被反复遍历吗？", "options": ["可以，随便遍历", "不行，耗尽就空了", "看数据大小"], "answer": 1, "explain": "生成器是一次性流水线，取完即空；需要重跑就重新调用生成器函数。"}
+      {
+        "type": "heading",
+        "text": "懒惰即美德"
+      },
+      {
+        "type": "text",
+        "text": "普通函数一次算完返回全部结果；生成器函数遇到 yield 就「暂停供货」，下次要货时从暂停处继续。数据像流水一样一条条吐出，而不是先堆满整个仓库——处理海量数据时这就是性能的生死线。"
+      },
+      {
+        "type": "diagram",
+        "text": "list 方式:  [1,1,2,3,5,...全部算完] ──一次性──► 内存\n                (100万元素? 内存爆炸)\n\ngenerator:   yield 0 → yield 1 → yield 1 → ...\n                (每次只要一个，用完即弃)"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "def countdown(n):\n    while n > 0:\n        yield n\n        n -= 1\n\nfor x in countdown(3):\n    print('倒计时', x)\n\ngen = (x * x for x in range(4))\nprint(sum(gen))"
+      },
+      {
+        "type": "output",
+        "text": "倒计时 3\n倒计时 2\n倒计时 1\n14"
+      },
+      {
+        "type": "task",
+        "text": "手动算一遍 sum(countdown(5))，再让程序对答案。"
+      },
+      {
+        "type": "tip",
+        "text": "(x*2 for x in data) 圆括号版推导式就是生成器表达式；sum/any/all 都能直接吃它。"
+      },
+      {
+        "type": "quiz",
+        "question": "生成器可以被反复遍历吗？",
+        "options": [
+          "可以，随便遍历",
+          "不行，耗尽就空了",
+          "看数据大小"
+        ],
+        "answer": 1,
+        "explain": "生成器是一次性流水线，取完即空；需要重跑就重新调用生成器函数。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "a, b = 0, 1 双变量初始化",
+          "循环 k 次：yield a 然后 a, b = b, a + b",
+          "生成器按需产出，list() 展开验证"
+        ]
+      }
     ],
     "exercise": {
       "title": "斐波那契发生器",
@@ -99,13 +219,54 @@
     "subtitle": "@ 语法：不改一行代码，赋予新能力",
     "xp": 170,
     "blocks": [
-      {"type": "heading", "text": "给函数穿上外挂"},
-      {"type": "text", "text": "装饰器是「函数工厂」：接收一个函数，返回增强版函数。@装饰器名 只是 fn = 装饰器(fn) 的甜话语法。日志、计时、权限检查都靠它无侵入地叠加——框架代码的灵魂。理解它的钥匙是先懂「闭包」：内层函数记住了外层的变量。"},
-      {"type": "diagram", "text": "@uppercase          等价于\n@装饰器  ────────►  greet = uppercase(greet)\ndef greet(): ...\n\n调用 greet()\n  └─► inner(s) 记住了原函数 fn\n        └─► fn(s).upper()   ← 增强后返回"},
-      {"type": "code", "runnable": true, "code": "def uppercase(fn):\n    def inner(text):\n        return fn(text).upper()\n    return inner\n\n@uppercase\ndef greet(name):\n    return f'hello {name}'\n\nprint(greet('neo'))\n\ndef make_multiplier(factor):\n    def apply(x):\n        return x * factor\n    return apply\n\ndouble = make_multiplier(2)\nprint(double(21))"},
-      {"type": "output", "text": "HELLO NEO\n42"},
-      {"type": "warn", "text": "inner 直接替换了原函数，其函数名和文档会丢失。正式项目里请给 inner 加上 @functools.wraps(fn)。"},
-      {"type": "quiz", "question": "@uppercase 定义在 greet 上方，等价于哪句代码？", "options": ["uppercase()", "greet = uppercase(greet)", "import uppercase"], "answer": 1, "explain": "@ 只是装饰器应用的语法糖。"}
+      {
+        "type": "heading",
+        "text": "给函数穿上外挂"
+      },
+      {
+        "type": "text",
+        "text": "装饰器是「函数工厂」：接收一个函数，返回增强版函数。@装饰器名 只是 fn = 装饰器(fn) 的甜话语法。日志、计时、权限检查都靠它无侵入地叠加——框架代码的灵魂。理解它的钥匙是先懂「闭包」：内层函数记住了外层的变量。"
+      },
+      {
+        "type": "diagram",
+        "text": "@uppercase          等价于\n@装饰器  ────────►  greet = uppercase(greet)\ndef greet(): ...\n\n调用 greet()\n  └─► inner(s) 记住了原函数 fn\n        └─► fn(s).upper()   ← 增强后返回"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "def uppercase(fn):\n    def inner(text):\n        return fn(text).upper()\n    return inner\n\n@uppercase\ndef greet(name):\n    return f'hello {name}'\n\nprint(greet('neo'))\n\ndef make_multiplier(factor):\n    def apply(x):\n        return x * factor\n    return apply\n\ndouble = make_multiplier(2)\nprint(double(21))"
+      },
+      {
+        "type": "output",
+        "text": "HELLO NEO\n42"
+      },
+      {
+        "type": "task",
+        "text": "再造 triple = make_multiplier(3)，验证闭包真的记住了 factor。"
+      },
+      {
+        "type": "warn",
+        "text": "inner 直接替换了原函数，其函数名和文档会丢失。正式项目里请给 inner 加上 @functools.wraps(fn)。"
+      },
+      {
+        "type": "quiz",
+        "question": "@uppercase 定义在 greet 上方，等价于哪句代码？",
+        "options": [
+          "uppercase()",
+          "greet = uppercase(greet)",
+          "import uppercase"
+        ],
+        "answer": 1,
+        "explain": "@ 只是装饰器应用的语法糖。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "make_multiplier 内层 apply 记住外部 factor 后返回",
+          "double_result 内层 return fn(a, b) * 2",
+          "@double_result 写在 add 上方即可生效"
+        ]
+      }
     ],
     "exercise": {
       "title": "锻造双重战衣",
@@ -131,13 +292,75 @@
     "subtitle": "map / filter / sorted(key=...)",
     "xp": 160,
     "blocks": [
-      {"type": "heading", "text": "匿名小刀与高阶函数"},
-      {"type": "text", "text": "lambda 是一次性小函数：lambda 参数: 表达式，省去 def 的仪式感。它与 map(加工)、filter(筛选)、sorted(key=排序依据) 组成数据处理三剑客——配合食用，效率翻倍。"},
-      {"type": "table", "headers": ["工具", "职责", "返回"], "rows": [["map(fn, 数据)", "逐个加工", "迭代器(需 list 展开)"], ["filter(fn, 数据)", "保留为真项", "迭代器"], ["sorted(data, key=f)", "按 f 结果排序", "新列表"]]},
-      {"type": "code", "runnable": true, "code": "nums = [3, -1, 4, -2]\nprint(list(map(abs, nums)))\nprint(list(filter(lambda x: x > 0, nums)))\n\nwords = ['cyber', 'ai', 'neon']\nprint(sorted(words, key=lambda w: len(w)))\nprint(max(words, key=lambda w: len(w)))"},
-      {"type": "output", "text": "[3, 1, 4, 2]\n[3, 4]\n['ai', 'neon', 'cyber']\ncyber"},
-      {"type": "tip", "text": "key 参数接受任何「吃一项吐比较值」的函数，lambda 只是常客——传已有函数如 len 同样合法。"},
-      {"type": "quiz", "question": "sorted(['bb','a','ccc'], key=len) 的结果？", "options": ["['a','bb','ccc']", "['ccc','bb','a']", "原顺序不变"], "answer": 0, "explain": "按长度升序排列。"}
+      {
+        "type": "heading",
+        "text": "匿名小刀与高阶函数"
+      },
+      {
+        "type": "text",
+        "text": "lambda 是一次性小函数：lambda 参数: 表达式，省去 def 的仪式感。它与 map(加工)、filter(筛选)、sorted(key=排序依据) 组成数据处理三剑客——配合食用，效率翻倍。"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "工具",
+          "职责",
+          "返回"
+        ],
+        "rows": [
+          [
+            "map(fn, 数据)",
+            "逐个加工",
+            "迭代器(需 list 展开)"
+          ],
+          [
+            "filter(fn, 数据)",
+            "保留为真项",
+            "迭代器"
+          ],
+          [
+            "sorted(data, key=f)",
+            "按 f 结果排序",
+            "新列表"
+          ]
+        ]
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "nums = [3, -1, 4, -2]\nprint(list(map(abs, nums)))\nprint(list(filter(lambda x: x > 0, nums)))\n\nwords = ['cyber', 'ai', 'neon']\nprint(sorted(words, key=lambda w: len(w)))\nprint(max(words, key=lambda w: len(w)))"
+      },
+      {
+        "type": "output",
+        "text": "[3, 1, 4, 2]\n[3, 4]\n['ai', 'neon', 'cyber']\ncyber"
+      },
+      {
+        "type": "task",
+        "text": "sorted(words, key=len, reverse=True) 反向排一次，对比结果。"
+      },
+      {
+        "type": "tip",
+        "text": "key 参数接受任何「吃一项吐比较值」的函数，lambda 只是常客——传已有函数如 len 同样合法。"
+      },
+      {
+        "type": "quiz",
+        "question": "sorted(['bb','a','ccc'], key=len) 的结果？",
+        "options": [
+          "['a','bb','ccc']",
+          "['ccc','bb','a']",
+          "原顺序不变"
+        ],
+        "answer": 0,
+        "explain": "按长度升序排列。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "用字典把 mode 映射到 lambda：'sq' 与 'dbl'",
+          "map(ops[mode], nums) 得到迭代器",
+          "外面包 list() 返回"
+        ]
+      }
     ],
     "exercise": {
       "title": "模式切换处理器",
@@ -161,13 +384,54 @@
     "subtitle": "Counter 计数 · re 正则 · json 复盘",
     "xp": 170,
     "blocks": [
-      {"type": "heading", "text": "三件趁手的军火"},
-      {"type": "text", "text": "collections.Counter 一行搞定频次统计；re 正则表达式用模式字符串在海量文本里精确狙击；json 你已见过——这节课把它们编成一队，下一课的综合项目全靠这套装备。"},
-      {"type": "diagram", "text": "re 正则速查:\n  \\d      一个数字        r'\\d+' 匹配连续数字\n  \\w      字母数字下划线\n  +       前面的重复1次以上\n  [abc]   a/b/c 中任意一个\n  ^ $     开头 / 结尾"},
-      {"type": "code", "runnable": true, "code": "from collections import Counter\nimport re\n\ntext = 'neon city neon rain cyber'\ncounts = Counter(text.split())\nprint(counts.most_common(2))\n\nprint(re.findall(r'\\d+', '坐标x12 y88 z5'))\nprint(re.sub(r'\\d+', '#', '坐标x12 y88'))"},
-      {"type": "output", "text": "[('neon', 2), ('city', 1)]\n['12', '88', '5']\n坐标x# y#"},
-      {"type": "warn", "text": "正则字符串永远加 r 前缀（raw string），否则 \\d 会被 Python 先解释成转义，正则收到的是残缺模式。"},
-      {"type": "quiz", "question": "正则中 \\d+ 匹配什么？", "options": ["字母 d", "一个或多个连续数字", "任意字符"], "answer": 1, "explain": "\\d 数字，+ 表示重复一到多次。"}
+      {
+        "type": "heading",
+        "text": "三件趁手的军火"
+      },
+      {
+        "type": "text",
+        "text": "collections.Counter 一行搞定频次统计；re 正则表达式用模式字符串在海量文本里精确狙击；json 你已见过——这节课把它们编成一队，下一课的综合项目全靠这套装备。"
+      },
+      {
+        "type": "diagram",
+        "text": "re 正则速查:\n  \\d      一个数字        r'\\d+' 匹配连续数字\n  \\w      字母数字下划线\n  +       前面的重复1次以上\n  [abc]   a/b/c 中任意一个\n  ^ $     开头 / 结尾"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "from collections import Counter\nimport re\n\ntext = 'neon city neon rain cyber'\ncounts = Counter(text.split())\nprint(counts.most_common(2))\n\nprint(re.findall(r'\\d+', '坐标x12 y88 z5'))\nprint(re.sub(r'\\d+', '#', '坐标x12 y88'))"
+      },
+      {
+        "type": "output",
+        "text": "[('neon', 2), ('city', 1)]\n['12', '88', '5']\n坐标x# y#"
+      },
+      {
+        "type": "task",
+        "text": "re.findall(r'[aeiou]', sentence) 数一数元音出现几次。"
+      },
+      {
+        "type": "warn",
+        "text": "正则字符串永远加 r 前缀（raw string），否则 \\d 会被 Python 先解释成转义，正则收到的是残缺模式。"
+      },
+      {
+        "type": "quiz",
+        "question": "正则中 \\d+ 匹配什么？",
+        "options": [
+          "字母 d",
+          "一个或多个连续数字",
+          "任意字符"
+        ],
+        "answer": 1,
+        "explain": "\\d 数字，+ 表示重复一到多次。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "sentence.lower().split() 先归一小写并切词",
+          "Counter(words) 一行建频次表",
+          "most_common(1)[0][0] 取榜首单词"
+        ]
+      }
     ],
     "exercise": {
       "title": "热词追踪器",
@@ -191,12 +455,86 @@
     "subtitle": "datetime 日志时间戳 · random 命运抽卡",
     "xp": 170,
     "blocks": [
-      {"type": "heading", "text": "给程序装上时钟和骰盅"},
-      {"type": "text", "text": "datetime 负责一切与时间有关的事：当前时刻、日期差、格式化时间戳；random 除了 randint 还能 choice 随机点名、shuffle 洗牌。两者组合能做出抽奖、模拟、日志系统等一大片功能。"},
-      {"type": "table", "headers": ["需求", "datetime 写法", "random 写法"], "rows": [["现在的时间", "date.today()", "-"], ["日期加减", "+ timedelta(days=7)", "-"], ["格式化", ".strftime('%Y-%m-%d')", "-"], ["随机选一个", "-", "choice(seq)"], ["洗牌", "-", "shuffle(lst)"], ["可复现随机", "-", "Random(seed)"]]},
-      {"type": "code", "runnable": true, "code": "from datetime import date, timedelta\nimport random\n\ntoday = date.today()\nprint(today.strftime('%Y-%m-%d'))\nprint('一周后:', today + timedelta(days=7))\n\ndeck = ['A', 'K', 'Q', 'J']\nrandom.shuffle(deck)\nprint(deck)\nprint('抽中:', random.choice(deck))"},
-      {"type": "tip", "text": "%Y 四位年 %m 月 %d 日 %H 时 %M 分 %S 秒——strftime 格式码背熟几个就够日常用了。"},
-      {"type": "quiz", "question": "需要「每次运行结果都相同的随机序列」应该？", "options": ["关掉电脑再开", "random.seed 固定种子", "多运行几次取平均"], "answer": 1, "explain": "相同种子产生完全相同的随机序列，测试与复现 bug 全靠它。"}
+      {
+        "type": "heading",
+        "text": "给程序装上时钟和骰盅"
+      },
+      {
+        "type": "text",
+        "text": "datetime 负责一切与时间有关的事：当前时刻、日期差、格式化时间戳；random 除了 randint 还能 choice 随机点名、shuffle 洗牌。两者组合能做出抽奖、模拟、日志系统等一大片功能。"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "需求",
+          "datetime 写法",
+          "random 写法"
+        ],
+        "rows": [
+          [
+            "现在的时间",
+            "date.today()",
+            "-"
+          ],
+          [
+            "日期加减",
+            "+ timedelta(days=7)",
+            "-"
+          ],
+          [
+            "格式化",
+            ".strftime('%Y-%m-%d')",
+            "-"
+          ],
+          [
+            "随机选一个",
+            "-",
+            "choice(seq)"
+          ],
+          [
+            "洗牌",
+            "-",
+            "shuffle(lst)"
+          ],
+          [
+            "可复现随机",
+            "-",
+            "Random(seed)"
+          ]
+        ]
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "from datetime import date, timedelta\nimport random\n\ntoday = date.today()\nprint(today.strftime('%Y-%m-%d'))\nprint('一周后:', today + timedelta(days=7))\n\ndeck = ['A', 'K', 'Q', 'J']\nrandom.shuffle(deck)\nprint(deck)\nprint('抽中:', random.choice(deck))"
+      },
+      {
+        "type": "task",
+        "text": "把 timedelta(days=7) 改成 days=-1，看看昨天是星期几。"
+      },
+      {
+        "type": "tip",
+        "text": "%Y 四位年 %m 月 %d 日 %H 时 %M 分 %S 秒——strftime 格式码背熟几个就够日常用了。"
+      },
+      {
+        "type": "quiz",
+        "question": "需要「每次运行结果都相同的随机序列」应该？",
+        "options": [
+          "关掉电脑再开",
+          "random.seed 固定种子",
+          "多运行几次取平均"
+        ],
+        "answer": 1,
+        "explain": "相同种子产生完全相同的随机序列，测试与复现 bug 全靠它。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "date(y, m, d).strftime('%a') 直接出英文缩写",
+          "copy = list(lst) 复制后再洗牌，保护原列表",
+          "random.Random(seed).shuffle(copy) 用独立实例不污染全局"
+        ]
+      }
     ],
     "exercise": {
       "title": "命运裁决者",
@@ -223,14 +561,58 @@
     "subtitle": "字符串 × 字典 × 循环 综合大考",
     "xp": 250,
     "blocks": [
-      {"type": "heading", "text": "最终委托：驯服失控的数据流"},
-      {"type": "text", "text": "高级篇毕业考。服务器日志是真实的乱序数据洪流，你的任务：解析每行开头的级别标签，统计各级数量，找出最严重的问题行。这个迷你项目的结构，和真实运维分析工具完全同构。"},
-      {"type": "diagram", "text": "原始日志行                    解析结果\n┌──────────────────────┐    ┌─────────────────┐\n│ [ERROR] core dump    │    │ ERROR : 2       │\n│ [INFO] link ok       │ ─► │ INFO  : 2       │\n│ [ERROR] disk fail    │    │ WARN  : 1       │\n│ [WARN] heat rising   │    │ total : 5       │\n│ [INFO] reboot done   │    └─────────────────┘\n└──────────────────────┘"},
-      {"type": "code", "runnable": true, "code": "logs = [\n    '[ERROR] core dump',\n    '[INFO] link ok',\n    '[ERROR] disk fail',\n    '[WARN] heat rising',\n    '[INFO] reboot done',\n]\n\ncounts = {}\nfor line in logs:\n    tag = line[1:line.index(']')]\n    counts[tag] = counts.get(tag, 0) + 1\n\nfor tag, num in sorted(counts.items(), key=lambda kv: -kv[1]):\n    print(f'{tag:6} {\"#\" * num} {num}')"},
-      {"type": "output", "text": "ERROR  ## 2\nINFO   ## 2\nWARN   # 1"},
-      {"type": "tip", "text": "f'{tag:6}' 左对齐占6位；'#' * num 是字符串乘法的小妙用——进度条都是这么画的。"},
-      {"type": "warn", "text": "毕业不是终点。接下来：挑战「角斗场」的全部关卡，然后带着这门手艺去写真正属于你的东西吧，浪人。"},
-      {"type": "quiz", "question": "counts.get(tag, 0) + 1 这个模式的作用是？", "options": ["删除键", "不存在则从 0 开始计数，存在则累加", "反转字典"], "answer": 1, "explain": "这是 Python 频次统计的标准姿势，比先判断再赋值简洁得多。"}
+      {
+        "type": "heading",
+        "text": "最终委托：驯服失控的数据流"
+      },
+      {
+        "type": "text",
+        "text": "高级篇毕业考。服务器日志是真实的乱序数据洪流，你的任务：解析每行开头的级别标签，统计各级数量，找出最严重的问题行。这个迷你项目的结构，和真实运维分析工具完全同构。"
+      },
+      {
+        "type": "diagram",
+        "text": "原始日志行                    解析结果\n┌──────────────────────┐    ┌─────────────────┐\n│ [ERROR] core dump    │    │ ERROR : 2       │\n│ [INFO] link ok       │ ─► │ INFO  : 2       │\n│ [ERROR] disk fail    │    │ WARN  : 1       │\n│ [WARN] heat rising   │    │ total : 5       │\n│ [INFO] reboot done   │    └─────────────────┘\n└──────────────────────┘"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "logs = [\n    '[ERROR] core dump',\n    '[INFO] link ok',\n    '[ERROR] disk fail',\n    '[WARN] heat rising',\n    '[INFO] reboot done',\n]\n\ncounts = {}\nfor line in logs:\n    tag = line[1:line.index(']')]\n    counts[tag] = counts.get(tag, 0) + 1\n\nfor tag, num in sorted(counts.items(), key=lambda kv: -kv[1]):\n    print(f'{tag:6} {\"#\" * num} {num}')"
+      },
+      {
+        "type": "output",
+        "text": "ERROR  ## 2\nINFO   ## 2\nWARN   # 1"
+      },
+      {
+        "type": "task",
+        "text": "日志再加一行 '[FATAL] x'，重跑 analyze 看 FATAL 是否自然出现在结果里。"
+      },
+      {
+        "type": "tip",
+        "text": "f'{tag:6}' 左对齐占6位；'#' * num 是字符串乘法的小妙用——进度条都是这么画的。"
+      },
+      {
+        "type": "warn",
+        "text": "毕业不是终点。接下来：挑战「角斗场」的全部关卡，然后带着这门手艺去写真正属于你的东西吧，浪人。"
+      },
+      {
+        "type": "quiz",
+        "question": "counts.get(tag, 0) + 1 这个模式的作用是？",
+        "options": [
+          "删除键",
+          "不存在则从 0 开始计数，存在则累加",
+          "反转字典"
+        ],
+        "answer": 1,
+        "explain": "这是 Python 频次统计的标准姿势，比先判断再赋值简洁得多。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "tag = line[1:line.index(']')] 截取方括号内的级别",
+          "result[tag] = result.get(tag, 0) + 1 累计",
+          "收尾 result['total'] = len(lines)"
+        ]
+      }
     ],
     "exercise": {
       "title": "完整日志统计",

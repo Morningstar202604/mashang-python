@@ -12,8 +12,10 @@
       {"type": "table", "headers": ["函数", "一句话", "例子 → 结果"], "rows": [["len", "测长度", "len('neon') → 4"], ["sorted", "排序出新列表", "sorted([3,1]) → [1,3]"], ["sum / max / min", "聚合三兄弟", "sum([1,2,3]) → 6"], ["enumerate", "带序号遍历", "配对 (0,x)(1,y)"], ["zip", "并行打包", "zip([1,2],['a','b'])"], ["any / all", "任一为真 / 全部为真", "any([0,1]) → True"]]},
       {"type": "code", "runnable": true, "code": "names = ['v', 'judy', 'k']\nscores = [88, 92, 79]\n\nfor rank, (n, s) in enumerate(zip(names, scores), start=1):\n    print(rank, n, s)\n\nprint(all(s >= 60 for s in scores))\nprint(sorted(scores, reverse=True)[:2])"},
       {"type": "output", "text": "1 v 88\n2 judy 92\n3 k 79\nTrue\n[92, 88]"},
+      {"type": "task", "text": "any([0, 0]) 与 all([0, 0]) 各返回什么？先在心里作答，再点运行验证。"},
       {"type": "tip", "text": "dir(str) 能列出字符串的全部方法——忘记方法名时，它是最好的备忘录。"},
-      {"type": "quiz", "question": "sorted('cba') 的结果是？", "options": ["'abc'", "['a', 'b', 'c']", "报错"], "answer": 1, "explain": "sorted 接受任何可迭代对象，永远返回新列表。"}
+      {"type": "quiz", "question": "sorted('cba') 的结果是？", "options": ["'abc'", "['a', 'b', 'c']", "报错"], "answer": 1, "explain": "sorted 接受任何可迭代对象，永远返回新列表。"},
+      {"type": "steps", "items": ["hasattr(x, '__len__') 探测是否支持 len", "支持就直接 return len(x)", "不支持返回 None，绝不抛异常"]}
     ],
     "exercise": {
       "title": "安全长度探测器",

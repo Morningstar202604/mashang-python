@@ -13,6 +13,8 @@ sealed class Block {
     data class Output(val text: String) : Block()
     data class Table(val headers: List<String>, val rows: List<List<String>>) : Block()
     data class Diagram(val text: String) : Block()
+    data class Task(val text: String) : Block()
+    data class Steps(val items: List<String>) : Block()
     data class Quiz(
         val question: String,
         val options: List<String>,
@@ -131,6 +133,13 @@ object LessonRepository {
                     blocks.add(Block.Table(headers, rows))
                 }
                 "diagram" -> blocks.add(Block.Diagram(b.getString("text")))
+                "task" -> blocks.add(Block.Task(b.getString("text")))
+                "steps" -> {
+                    val items = b.getJSONArray("items").let { ia ->
+                        buildList { for (j in 0 until ia.length()) add(ia.getString(j)) }
+                    }
+                    blocks.add(Block.Steps(items))
+                }
                 "quiz" -> {
                     val options = b.getJSONArray("options").let { oa ->
                         buildList { for (j in 0 until oa.length()) add(oa.getString(j)) }

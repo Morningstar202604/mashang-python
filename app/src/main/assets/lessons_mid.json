@@ -7,13 +7,95 @@
     "subtitle": "方法链：split / join / strip / replace",
     "xp": 90,
     "blocks": [
-      {"type": "heading", "text": "字符串自带的瑞士军刀"},
-      {"type": "text", "text": "进阶篇开课。字符串不是死物，它自带一整箱工具（专业说法叫「方法」，用点号调用）。数据清洗、格式转换全靠它们——真实项目里你每天都要用。"},
-      {"type": "table", "headers": ["方法", "作用", "例子 → 结果"], "rows": [["strip()", "掐头去尾去空白", "'  hi  '.strip() → 'hi'"], ["lower() / upper()", "转小写 / 大写", "'NeOn'.upper() → 'NEON'"], ["replace(a,b)", "替换", "'a-b'.replace('-','+') → 'a+b'"], ["split(sep)", "切开成列表", "'a,b'.split(',') → ['a','b']"], ["join(list)", "粘合成字符串", "'-'.join(['a','b']) → 'a-b'"], ["find(x)", "查找位置，找不到返回 -1", "'neon'.find('o') → 3"], ["count(x)", "统计出现次数", "'aaa'.count('a') → 3"]]},
-      {"type": "code", "runnable": true, "code": "raw = '  neon CITY online  '\nclean = raw.strip().lower()\nprint(clean)\n\nwords = clean.split(' ')\nprint(words)\nprint('-'.join(words))"},
-      {"type": "output", "text": "neon city online\n['neon', 'city', 'online']\nneon-city-online"},
-      {"type": "tip", "text": "方法可以像链条一样连着写：raw.strip().lower().split() —— 从左往右一步步加工。"},
-      {"type": "quiz", "question": "'a,b,c'.split(',') 的结果是？", "options": ["'abc'", "['a', 'b', 'c']", "('a','b','c')"], "answer": 1, "explain": "split 返回列表。"}
+      {
+        "type": "heading",
+        "text": "字符串自带的瑞士军刀"
+      },
+      {
+        "type": "text",
+        "text": "进阶篇开课。字符串不是死物，它自带一整箱工具（专业说法叫「方法」，用点号调用）。数据清洗、格式转换全靠它们——真实项目里你每天都要用。"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "方法",
+          "作用",
+          "例子 → 结果"
+        ],
+        "rows": [
+          [
+            "strip()",
+            "掐头去尾去空白",
+            "'  hi  '.strip() → 'hi'"
+          ],
+          [
+            "lower() / upper()",
+            "转小写 / 大写",
+            "'NeOn'.upper() → 'NEON'"
+          ],
+          [
+            "replace(a,b)",
+            "替换",
+            "'a-b'.replace('-','+') → 'a+b'"
+          ],
+          [
+            "split(sep)",
+            "切开成列表",
+            "'a,b'.split(',') → ['a','b']"
+          ],
+          [
+            "join(list)",
+            "粘合成字符串",
+            "'-'.join(['a','b']) → 'a-b'"
+          ],
+          [
+            "find(x)",
+            "查找位置，找不到返回 -1",
+            "'neon'.find('o') → 3"
+          ],
+          [
+            "count(x)",
+            "统计出现次数",
+            "'aaa'.count('a') → 3"
+          ]
+        ]
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "raw = '  neon CITY online  '\nclean = raw.strip().lower()\nprint(clean)\n\nwords = clean.split(' ')\nprint(words)\nprint('-'.join(words))"
+      },
+      {
+        "type": "output",
+        "text": "neon city online\n['neon', 'city', 'online']\nneon-city-online"
+      },
+      {
+        "type": "task",
+        "text": "在链条末尾追加 .replace('city', '都市')，运行看中英混排效果。"
+      },
+      {
+        "type": "tip",
+        "text": "方法可以像链条一样连着写：raw.strip().lower().split() —— 从左往右一步步加工。"
+      },
+      {
+        "type": "quiz",
+        "question": "'a,b,c'.split(',') 的结果是？",
+        "options": [
+          "'abc'",
+          "['a', 'b', 'c']",
+          "('a','b','c')"
+        ],
+        "answer": 1,
+        "explain": "split 返回列表。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "顺序：strip 去空白 → lower 转小写 → replace 替换空格为 '-'",
+          "方法可以一路点下去连成一串",
+          "return 整条链的结果"
+        ]
+      }
     ],
     "exercise": {
       "title": "代号清洗器",
@@ -36,13 +118,54 @@
     "subtitle": "不可变的承诺 与 天生去重的圈子",
     "xp": 90,
     "blocks": [
-      {"type": "heading", "text": "列表的两位亲戚"},
-      {"type": "text", "text": "元组 (tuple) 是上了锁的列表：创建后不能增删改，适合存坐标、配置这类「不该被改」的数据；集合 (set) 是个天生去重的圈子：同一个元素只留一份，还能做交并差运算。"},
-      {"type": "diagram", "text": "set A = {'cyber', 'neon', 'punk'}\nset B = {'neon', 'rain'}\n\nA & B (交集) ──► {'neon'}      都在\nA | B (并集) ──► {'cyber','neon','punk','rain'}\nA - B (差集) ──► {'cyber','punk'}   A有B没有"},
-      {"type": "code", "runnable": true, "code": "point = (35, 68)\nx, y = point\nprint(f'x={x} y={y}')\n\ntags_a = {'cyber', 'neon', 'punk'}\ntags_b = {'neon', 'rain'}\nprint(tags_a & tags_b)\nprint(len({1, 1, 2, 2, 3}))"},
-      {"type": "output", "text": "x=35 y=68\n{'neon'}\n3"},
-      {"type": "warn", "text": "空集合必须写 set()，不能写 {}——后者是空字典！这是 Python 历史遗留的小陷阱。"},
-      {"type": "quiz", "question": "len({1, 1, 2}) 的结果是？", "options": ["3", "2", "报错"], "answer": 1, "explain": "集合自动去重，重复元素只保留一个。"}
+      {
+        "type": "heading",
+        "text": "列表的两位亲戚"
+      },
+      {
+        "type": "text",
+        "text": "元组 (tuple) 是上了锁的列表：创建后不能增删改，适合存坐标、配置这类「不该被改」的数据；集合 (set) 是个天生去重的圈子：同一个元素只留一份，还能做交并差运算。"
+      },
+      {
+        "type": "diagram",
+        "text": "set A = {'cyber', 'neon', 'punk'}\nset B = {'neon', 'rain'}\n\nA & B (交集) ──► {'neon'}      都在\nA | B (并集) ──► {'cyber','neon','punk','rain'}\nA - B (差集) ──► {'cyber','punk'}   A有B没有"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "point = (35, 68)\nx, y = point\nprint(f'x={x} y={y}')\n\ntags_a = {'cyber', 'neon', 'punk'}\ntags_b = {'neon', 'rain'}\nprint(tags_a & tags_b)\nprint(len({1, 1, 2, 2, 3}))"
+      },
+      {
+        "type": "output",
+        "text": "x=35 y=68\n{'neon'}\n3"
+      },
+      {
+        "type": "task",
+        "text": "打印 tags_a - tags_b 和 tags_a ^ tags_b，体会差集与对称差。"
+      },
+      {
+        "type": "warn",
+        "text": "空集合必须写 set()，不能写 {}——后者是空字典！这是 Python 历史遗留的小陷阱。"
+      },
+      {
+        "type": "quiz",
+        "question": "len({1, 1, 2}) 的结果是？",
+        "options": [
+          "3",
+          "2",
+          "报错"
+        ],
+        "answer": 1,
+        "explain": "集合自动去重，重复元素只保留一个。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "准备 seen 集合记录见过的元素",
+          "不在 seen 里才 append 进 result 并 add 进 seen",
+          "顺序天然保持第一次出现的次序"
+        ]
+      }
     ],
     "exercise": {
       "title": "保序去重器",
@@ -66,13 +189,54 @@
     "subtitle": "默认参数 · *args · **kwargs",
     "xp": 100,
     "blocks": [
-      {"type": "heading", "text": "函数的完全体"},
-      {"type": "text", "text": "基础篇你会写简单函数了，现在解锁三个进化方向：默认参数（不传就用备胎值）、*args（打包任意多个位置参数成元组）、**kwargs（打包任意多个关键字参数成字典）。这让一个函数能应对千变万化的调用方式。"},
-      {"type": "diagram", "text": "def f(a, b=2, *args, **kwargs)\n     │    │      │        │\n     │    │      │        └─ 多余 key=val → 字典\n     │    │      └─ 多余位置参数 → 元组\n     │    └─ 不传就用默认值\n     └─ 必传"},
-      {"type": "code", "runnable": true, "code": "def deploy(name, region='夜之城', *modules, **config):\n    print(name, '@', region)\n    print('模块:', modules)\n    print('配置:', config)\n\ndeploy('V', '东京', '光学', '义体', fps=120)" },
-      {"type": "output", "text": "V @ 东京\n模块: ('光学', '义体')\n配置: {'fps': 120}"},
-      {"type": "warn", "text": "永远不要用可变对象做默认值（如 def f(x=[]))——所有调用会共享同一个列表，是著名的暗坑。需要时在函数内 x = x or []。"},
-      {"type": "quiz", "question": "*args 在函数内部是什么类型？", "options": ["列表 list", "元组 tuple", "字典 dict"], "answer": 1, "explain": "*args 收集成元组；**kwargs 收集成字典。"}
+      {
+        "type": "heading",
+        "text": "函数的完全体"
+      },
+      {
+        "type": "text",
+        "text": "基础篇你会写简单函数了，现在解锁三个进化方向：默认参数（不传就用备胎值）、*args（打包任意多个位置参数成元组）、**kwargs（打包任意多个关键字参数成字典）。这让一个函数能应对千变万化的调用方式。"
+      },
+      {
+        "type": "diagram",
+        "text": "def f(a, b=2, *args, **kwargs)\n     │    │      │        │\n     │    │      │        └─ 多余 key=val → 字典\n     │    │      └─ 多余位置参数 → 元组\n     │    └─ 不传就用默认值\n     └─ 必传"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "def deploy(name, region='夜之城', *modules, **config):\n    print(name, '@', region)\n    print('模块:', modules)\n    print('配置:', config)\n\ndeploy('V', '东京', '光学', '义体', fps=120)"
+      },
+      {
+        "type": "output",
+        "text": "V @ 东京\n模块: ('光学', '义体')\n配置: {'fps': 120}"
+      },
+      {
+        "type": "task",
+        "text": "给 deploy 多塞两个位置参数和一个键值参数，观察元组与字典各自收到什么。"
+      },
+      {
+        "type": "warn",
+        "text": "永远不要用可变对象做默认值（如 def f(x=[]))——所有调用会共享同一个列表，是著名的暗坑。需要时在函数内 x = x or []。"
+      },
+      {
+        "type": "quiz",
+        "question": "*args 在函数内部是什么类型？",
+        "options": [
+          "列表 list",
+          "元组 tuple",
+          "字典 dict"
+        ],
+        "answer": 1,
+        "explain": "*args 收集成元组；**kwargs 收集成字典。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "*nums 收进来是元组，sum(nums) 直接吃",
+          "start=0 是默认参数，调用时可覆盖",
+          "return sum(nums) + start 一行完成"
+        ]
+      }
     ],
     "exercise": {
       "title": "弹性结算台",
@@ -96,13 +260,54 @@
     "subtitle": "一行顶十行的 Python 哲学",
     "xp": 100,
     "blocks": [
-      {"type": "heading", "text": "把循环压缩成一行"},
-      {"type": "text", "text": "列表推导式 (comprehension) 是 Python 最优雅的语法之一：「对每个元素做加工，按条件筛选，直接生成新列表」。写惯了之后你会回不去的。"},
-      {"type": "diagram", "text": "[ 表达式   for 变量 in 可迭代   if 条件 ]\n   ▲            ▲                ▲\n  加工          遍历             筛选(可省略)\n\n[x*x for x in range(5) if x > 1]\n      →  x取0~4 → 过滤出1,2,3,4 → 平方 → [1,4,9,16]"},
-      {"type": "code", "runnable": true, "code": "squares = [x * x for x in range(5)]\nprint(squares)\n\nlevels = {'neo': 7, 'v': 9}\ndoubled = {k: v * 10 for k, v in levels.items()}\nprint(doubled)"},
-      {"type": "output", "text": "[0, 1, 4, 9, 16]\n{'neo': 70, 'v': 90}"},
-      {"type": "tip", "text": "字典和集合也有推导式：{k: v ...} 与 {x for x in ...}，套路一模一样。"},
-      {"type": "quiz", "question": "[x * 2 for x in range(3)] 的结果是？", "options": ["[0, 2, 4]", "[2, 4, 6]", "[0, 1, 2]"], "answer": 0, "explain": "range(3) 是 0,1,2，各自翻倍得 0,2,4。"}
+      {
+        "type": "heading",
+        "text": "把循环压缩成一行"
+      },
+      {
+        "type": "text",
+        "text": "列表推导式 (comprehension) 是 Python 最优雅的语法之一：「对每个元素做加工，按条件筛选，直接生成新列表」。写惯了之后你会回不去的。"
+      },
+      {
+        "type": "diagram",
+        "text": "[ 表达式   for 变量 in 可迭代   if 条件 ]\n   ▲            ▲                ▲\n  加工          遍历             筛选(可省略)\n\n[x*x for x in range(5) if x > 1]\n      →  x取0~4 → 过滤出1,2,3,4 → 平方 → [1,4,9,16]"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "squares = [x * x for x in range(5)]\nprint(squares)\n\nlevels = {'neo': 7, 'v': 9}\ndoubled = {k: v * 10 for k, v in levels.items()}\nprint(doubled)"
+      },
+      {
+        "type": "output",
+        "text": "[0, 1, 4, 9, 16]\n{'neo': 70, 'v': 90}"
+      },
+      {
+        "type": "task",
+        "text": "写一条推导式取出 levels 中数值大于 80 的键，做成列表。"
+      },
+      {
+        "type": "tip",
+        "text": "字典和集合也有推导式：{k: v ...} 与 {x for x in ...}，套路一模一样。"
+      },
+      {
+        "type": "quiz",
+        "question": "[x * 2 for x in range(3)] 的结果是？",
+        "options": [
+          "[0, 2, 4]",
+          "[2, 4, 6]",
+          "[0, 1, 2]"
+        ],
+        "answer": 0,
+        "explain": "range(3) 是 0,1,2，各自翻倍得 0,2,4。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "范围用 range(1, n + 1)（含 n 本身）",
+          "if i % 2 == 0 放在最后负责筛选",
+          "最前面的 i * i 是加工表达式"
+        ]
+      }
     ],
     "exercise": {
       "title": "偶数平方矩阵",
@@ -126,13 +331,54 @@
     "subtitle": "try / except / finally 优雅地失败",
     "xp": 110,
     "blocks": [
-      {"type": "heading", "text": "高手不是不出错，而是接得住错"},
-      {"type": "text", "text": "程序运行中随时可能被意外击中：除零、文件不存在、类型不对……try/except 就是一层护盾：把危险代码放进 try，被击中时由 except 接住处理，程序不再当场崩溃。"},
-      {"type": "diagram", "text": " try:\n   ├─ 危险代码执行\n   ├─ 没出错? ──────────► 跳过 except\n   └─ 出错了! ─► 匹配 except 类型 ─► 执行救援代码\n finally:\n   └─ 无论成败，最后必执行（善后清理）"},
-      {"type": "code", "runnable": true, "code": "try:\n    value = int(input('输入数字: '))\nexcept ValueError:\n    value = -1\n    print('信号无效，已切换备用协议')\nfinally:\n    print(f'最终 value = {value}')"},
-      {"type": "tip", "text": "except 可以写多个分支分别捕获不同异常；raise ValueError('原因') 主动抛出异常。"},
-      {"type": "warn", "text": "避免裸 except: ——它会吞掉所有错误包括你的 bug。至少写成 except Exception 或指定类型。"},
-      {"type": "quiz", "question": "finally 块里的代码什么时候执行？", "options": ["只在出错时", "只在成功时", "无论成功失败都执行"], "answer": 2, "explain": "finally 是善后专用，任何路径都会走到。"}
+      {
+        "type": "heading",
+        "text": "高手不是不出错，而是接得住错"
+      },
+      {
+        "type": "text",
+        "text": "程序运行中随时可能被意外击中：除零、文件不存在、类型不对……try/except 就是一层护盾：把危险代码放进 try，被击中时由 except 接住处理，程序不再当场崩溃。"
+      },
+      {
+        "type": "diagram",
+        "text": " try:\n   ├─ 危险代码执行\n   ├─ 没出错? ──────────► 跳过 except\n   └─ 出错了! ─► 匹配 except 类型 ─► 执行救援代码\n finally:\n   └─ 无论成败，最后必执行（善后清理）"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "try:\n    value = int(input('输入数字: '))\nexcept ValueError:\n    value = -1\n    print('信号无效，已切换备用协议')\nfinally:\n    print(f'最终 value = {value}')"
+      },
+      {
+        "type": "task",
+        "text": "给 try 补一个 else 分支：转换成功时打印 '协议正常'。"
+      },
+      {
+        "type": "tip",
+        "text": "except 可以写多个分支分别捕获不同异常；raise ValueError('原因') 主动抛出异常。"
+      },
+      {
+        "type": "warn",
+        "text": "避免裸 except: ——它会吞掉所有错误包括你的 bug。至少写成 except Exception 或指定类型。"
+      },
+      {
+        "type": "quiz",
+        "question": "finally 块里的代码什么时候执行？",
+        "options": [
+          "只在出错时",
+          "只在成功时",
+          "无论成功失败都执行"
+        ],
+        "answer": 2,
+        "explain": "finally 是善后专用，任何路径都会走到。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "safe_div 用 try 包住 a / b",
+          "except ZeroDivisionError: return None",
+          "parse_age 同理捕获 ValueError 返回 -1"
+        ]
+      }
     ],
     "exercise": {
       "title": "防爆除法器",
@@ -157,13 +403,76 @@
     "subtitle": "文件读写 与 JSON 存档",
     "xp": 110,
     "blocks": [
-      {"type": "heading", "text": "让数据活过这一次运行"},
-      {"type": "text", "text": "变量随程序结束而消失。想让数据留下来，就写入文件；想在系统间交换结构化数据，就用 JSON 格式——它是所有平台的通用语言。with open(...) as f 写法会在结束时自动关闭文件，是唯一推荐姿势。"},
-      {"type": "code", "runnable": true, "code": "with open('neon_log.txt', 'w', encoding='utf-8') as f:\n    f.write('接入时间 22:00\\n')\n    f.write('状态 在线\\n')\n\nwith open('neon_log.txt', encoding='utf-8') as f:\n    print(f.read())"},
-      {"type": "output", "text": "接入时间 22:00\n状态 在线"},
-      {"type": "table", "headers": ["模式", "含义", "文件不存在时"], "rows": [["'r'", "只读（默认）", "报错 FileNotFoundError"], ["'w'", "写入（清空原有）", "自动创建"], ["'a'", "追加到末尾", "自动创建"]]},
-      {"type": "code", "runnable": true, "code": "import json\n\nagent = {'name': 'Judy', 'hp': 88}\ntext = json.dumps(agent, ensure_ascii=False)\nprint(text, type(text))\nback = json.loads(text)\nprint(back['name'], back['hp'])"},
-      {"type": "quiz", "question": "json.dumps 之后得到的对象类型是？", "options": ["dict", "str", "list"], "answer": 1, "explain": "dumps 序列化成 JSON 字符串；loads 反序列化回 Python 对象。"}
+      {
+        "type": "heading",
+        "text": "让数据活过这一次运行"
+      },
+      {
+        "type": "text",
+        "text": "变量随程序结束而消失。想让数据留下来，就写入文件；想在系统间交换结构化数据，就用 JSON 格式——它是所有平台的通用语言。with open(...) as f 写法会在结束时自动关闭文件，是唯一推荐姿势。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "with open('neon_log.txt', 'w', encoding='utf-8') as f:\n    f.write('接入时间 22:00\\n')\n    f.write('状态 在线\\n')\n\nwith open('neon_log.txt', encoding='utf-8') as f:\n    print(f.read())"
+      },
+      {
+        "type": "output",
+        "text": "接入时间 22:00\n状态 在线"
+      },
+      {
+        "type": "task",
+        "text": "给 agent 加 'city' 字段重新 dumps，观察 JSON 文本多出了什么。"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "模式",
+          "含义",
+          "文件不存在时"
+        ],
+        "rows": [
+          [
+            "'r'",
+            "只读（默认）",
+            "报错 FileNotFoundError"
+          ],
+          [
+            "'w'",
+            "写入（清空原有）",
+            "自动创建"
+          ],
+          [
+            "'a'",
+            "追加到末尾",
+            "自动创建"
+          ]
+        ]
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import json\n\nagent = {'name': 'Judy', 'hp': 88}\ntext = json.dumps(agent, ensure_ascii=False)\nprint(text, type(text))\nback = json.loads(text)\nprint(back['name'], back['hp'])"
+      },
+      {
+        "type": "quiz",
+        "question": "json.dumps 之后得到的对象类型是？",
+        "options": [
+          "dict",
+          "str",
+          "list"
+        ],
+        "answer": 1,
+        "explain": "dumps 序列化成 JSON 字符串；loads 反序列化回 Python 对象。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "json.loads(json_str) 还原成字典",
+          "data.setdefault('level', 1)：没有就补、有就不动",
+          "return data"
+        ]
+      }
     ],
     "exercise": {
       "title": "档案还原师",
@@ -186,12 +495,76 @@
     "subtitle": "import 与标准库军火库",
     "xp": 110,
     "blocks": [
-      {"type": "heading", "text": "站在巨人的肩膀上开火"},
-      {"type": "text", "text": "Python 自带两百多个标准库模块：math 数学、random 随机、time 时间……一行 import 全部召唤。这节课还藏着一个重要机关：__name__ == '__main__'，它决定「被 import」还是「被直接运行」。"},
-      {"type": "table", "headers": ["库", "代表功能", "常用调用"], "rows": [["math", "数学常量与函数", "math.pi / math.sqrt(x)"], ["random", "随机数", "random.randint(a,b) / random.seed(n)"], ["datetime", "日期时间", "date.today() / timedelta(days=1)"], ["json", "JSON 编解码", "dumps / loads"]]},
-      {"type": "code", "runnable": true, "code": "import math\nimport random\n\nprint(math.pi, math.sqrt(144))\nrandom.seed(42)\nprint([random.randint(1, 6) for _ in range(3)])\nprint('我的名字是', __name__)"},
-      {"type": "tip", "text": "random.seed(n) 固定随机种子后，每次运行结果都一样——调试和测试时的救命稻草。"},
-      {"type": "quiz", "question": "__name__ == '__main__' 成立意味着？", "options": ["本文件被别人 import 了", "本文件正被直接运行", "Python 版本过旧"], "answer": 1, "explain": "只有直接运行时 __name__ 才是 '__main__'；被导入时它等于模块名。"}
+      {
+        "type": "heading",
+        "text": "站在巨人的肩膀上开火"
+      },
+      {
+        "type": "text",
+        "text": "Python 自带两百多个标准库模块：math 数学、random 随机、time 时间……一行 import 全部召唤。这节课还藏着一个重要机关：__name__ == '__main__'，它决定「被 import」还是「被直接运行」。"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "库",
+          "代表功能",
+          "常用调用"
+        ],
+        "rows": [
+          [
+            "math",
+            "数学常量与函数",
+            "math.pi / math.sqrt(x)"
+          ],
+          [
+            "random",
+            "随机数",
+            "random.randint(a,b) / random.seed(n)"
+          ],
+          [
+            "datetime",
+            "日期时间",
+            "date.today() / timedelta(days=1)"
+          ],
+          [
+            "json",
+            "JSON 编解码",
+            "dumps / loads"
+          ]
+        ]
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import math\nimport random\n\nprint(math.pi, math.sqrt(144))\nrandom.seed(42)\nprint([random.randint(1, 6) for _ in range(3)])\nprint('我的名字是', __name__)"
+      },
+      {
+        "type": "task",
+        "text": "把种子换成 random.seed(1) 连跑两次程序，确认两次结果完全一致。"
+      },
+      {
+        "type": "tip",
+        "text": "random.seed(n) 固定随机种子后，每次运行结果都一样——调试和测试时的救命稻草。"
+      },
+      {
+        "type": "quiz",
+        "question": "__name__ == '__main__' 成立意味着？",
+        "options": [
+          "本文件被别人 import 了",
+          "本文件正被直接运行",
+          "Python 版本过旧"
+        ],
+        "answer": 1,
+        "explain": "只有直接运行时 __name__ 才是 '__main__'；被导入时它等于模块名。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "函数内第一行 random.seed(7)",
+          "列表推导式 [random.randint(1, sides) for _ in range(times)]",
+          "times 控制个数，sides 决定上限"
+        ]
+      }
     ],
     "exercise": {
       "title": "固定种子的骰子",
@@ -214,13 +587,54 @@
     "subtitle": "class · __init__ · self 三件套",
     "xp": 130,
     "blocks": [
-      {"type": "heading", "text": "从散装代码到有机生命体"},
-      {"type": "text", "text": "高级篇预备课。当数据和操作它的函数越来越多，就该把它们打包成一个「物种」——类 (class)。类是图纸，对象是照着图纸造出的实体。__init__ 是出生时的初始化仪式，self 指「当前这个对象自己」。"},
-      {"type": "diagram", "text": "class 图纸: Robot           对象实例:\n┌──────────────────┐      ┌──────────────┐\n│ 属性: name, hp   │ 制造 ►│ name='V'     │\n│ 方法: report()   │      │ hp=88        │\n└──────────────────┘      └──────────────┘\n                          ┌──────────────┐\n              同一图纸再造 ►│ name='Judy'  │\n                          └──────────────┘"},
-      {"type": "code", "runnable": true, "code": "class Robot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\n    def report(self):\n        return f'{self.name}: HP {self.hp}'\n\nv = Robot('V')\njudy = Robot('Judy', 88)\nprint(v.report())\nprint(judy.report())"},
-      {"type": "output", "text": "V: HP 100\nJudy: HP 88"},
-      {"type": "warn", "text": "类里每个方法的第一个参数必须是 self——调用时不用手动传，Python 自动把对象塞进去。忘了写 self 会报参数数量错误。"},
-      {"type": "quiz", "question": "调用 v.report() 时，self 指的是？", "options": ["Robot 类本身", "对象 v 自己", "全局变量"], "answer": 1, "explain": "self 就是点号前面的那个对象。"}
+      {
+        "type": "heading",
+        "text": "从散装代码到有机生命体"
+      },
+      {
+        "type": "text",
+        "text": "高级篇预备课。当数据和操作它的函数越来越多，就该把它们打包成一个「物种」——类 (class)。类是图纸，对象是照着图纸造出的实体。__init__ 是出生时的初始化仪式，self 指「当前这个对象自己」。"
+      },
+      {
+        "type": "diagram",
+        "text": "class 图纸: Robot           对象实例:\n┌──────────────────┐      ┌──────────────┐\n│ 属性: name, hp   │ 制造 ►│ name='V'     │\n│ 方法: report()   │      │ hp=88        │\n└──────────────────┘      └──────────────┘\n                          ┌──────────────┐\n              同一图纸再造 ►│ name='Judy'  │\n                          └──────────────┘"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "class Robot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\n    def report(self):\n        return f'{self.name}: HP {self.hp}'\n\nv = Robot('V')\njudy = Robot('Judy', 88)\nprint(v.report())\nprint(judy.report())"
+      },
+      {
+        "type": "output",
+        "text": "V: HP 100\nJudy: HP 88"
+      },
+      {
+        "type": "task",
+        "text": "再造一台 judy = NeonBot('Judy', 88)，连续 report 两台对比。"
+      },
+      {
+        "type": "warn",
+        "text": "类里每个方法的第一个参数必须是 self——调用时不用手动传，Python 自动把对象塞进去。忘了写 self 会报参数数量错误。"
+      },
+      {
+        "type": "quiz",
+        "question": "调用 v.report() 时，self 指的是？",
+        "options": [
+          "Robot 类本身",
+          "对象 v 自己",
+          "全局变量"
+        ],
+        "answer": 1,
+        "explain": "self 就是点号前面的那个对象。"
+      },
+      {
+        "type": "steps",
+        "items": [
+          "__init__ 里 self.name / self.hp 存属性",
+          "hit 用 max(0, self.hp - dmg) 托底不为负",
+          "is_alive 只需 return self.hp > 0"
+        ]
+      }
     ],
     "exercise": {
       "title": "造一台霓虹机器人",

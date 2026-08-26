@@ -134,6 +134,8 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     is Block.Output -> OutputPreview(block.text)
                     is Block.Table -> NeonTable(block.headers, block.rows)
                     is Block.Diagram -> DiagramBox(block.text)
+                    is Block.Task -> TipBox(block.text, NeonYellow, "TASK · 跟着做")
+                    is Block.Steps -> StepsCard(block.items)
                     is Block.Quiz -> QuizCard(block)
                     is Block.CodeBlock -> CodeExampleCard(
                         code = block.code,
@@ -393,6 +395,34 @@ private fun QuizCard(quiz: Block.Quiz) {
 }
 
 private fun Modifier.androidxClickable(onClick: () -> Unit): Modifier = this.clickable(onClick = onClick)
+
+@Composable
+private fun StepsCard(items: List<String>) {
+    NeonCard(accent = NeonGreen, filled = true) {
+        Text("STEPS · 解题步骤", style = MaterialTheme.typography.labelSmall, color = NeonGreen)
+        items.forEachIndexed { i, step ->
+            Row(
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.padding(top = if (i == 0) 8.dp else 6.dp)
+            ) {
+                Text(
+                    "${i + 1}",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = Bg0,
+                    modifier = Modifier
+                        .androidxBackground(NeonGreen, MaterialTheme.shapes.extraSmall)
+                        .padding(horizontal = 7.dp, vertical = 1.dp)
+                )
+                Spacer(Modifier.size(9.dp))
+                Text(step, style = MaterialTheme.typography.bodyMedium, color = TextMid)
+            }
+        }
+    }
+}
+
+@Composable
+private fun Modifier.androidxBackground(color: androidx.compose.ui.graphics.Color, shape: androidx.compose.ui.graphics.Shape): Modifier =
+    this.background(color, shape)
 
 @Composable
 private fun CodeExampleCard(
