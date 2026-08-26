@@ -97,6 +97,16 @@
         "explain": "split 返回列表。"
       },
       {
+        "type": "order",
+        "title": "方法链流水线：排出「去空格→转大写→加感叹号」的程序，输出 MEOW!!!",
+        "lines": [
+          "raw = ' Meow '",
+          "step1 = raw.strip()",
+          "final = step1.upper()",
+          "print(final + '!' * 3)"
+        ]
+      },
+      {
         "type": "practice",
         "title": "用户名规范化",
         "code": "raw = '  Neo_China  '\nclean = raw.strip().lower().replace('_', '-')\nprint(clean)\nprint(len(clean))",
@@ -189,6 +199,13 @@
         ],
         "answer": 1,
         "explain": "集合自动去重，重复元素只保留一个。"
+      },
+      {
+        "type": "fill",
+        "goal": "集合自动去重后测长度，内置函数是？输出应为 2。",
+        "code": "tags = {'py', 'py', 'go'}\nprint(____(tags))",
+        "answer": "len",
+        "explain": "{py, go} 去重后只剩 2 个元素，len 测长度。"
       },
       {
         "type": "practice",
@@ -286,6 +303,15 @@
         "explain": "*args 收集成元组；**kwargs 收集成字典。"
       },
       {
+        "type": "order",
+        "title": "*args 打包演示：排出输出 3 的程序。",
+        "lines": [
+          "def bag(*items):",
+          "    return len(items)",
+          "print(bag(1, 2, 3))"
+        ]
+      },
+      {
         "type": "practice",
         "title": "万能日志函数",
         "code": "def log(tag, *messages, level='INFO'):\n    print(f'[{level}] {tag}:', *messages)\n\nlog('NET', '连接成功', '延迟 12ms')\nlog('DB', '查询超时', level='WARN')",
@@ -381,6 +407,13 @@
         "explain": "range(3) 是 0,1,2，各自翻倍得 0,2,4。"
       },
       {
+        "type": "fill",
+        "goal": "推导式取偶数的平方，输出 [4, 16]，表达式处填什么？",
+        "code": "nums = [____ for x in range(1, 6) if x % 2 == 0]\nprint(nums)",
+        "answer": "x*x",
+        "explain": "range(1,6) 中偶数为 2、4，平方得 [4, 16]。写 x**2 也对，但答案按 x*x 校验。"
+      },
+      {
         "type": "practice",
         "title": "成绩筛选器",
         "code": "scores = [55, 82, 91, 67, 73, 98, 44]\npassed = [s for s in scores if s >= 60]\navg = sum(passed) / len(passed)\nprint('及格:', passed)\nprint('平均:', round(avg, 1))",
@@ -474,6 +507,17 @@
         ],
         "answer": 2,
         "explain": "finally 是善后专用，任何路径都会走到。"
+      },
+      {
+        "type": "order",
+        "title": "异常捕获骨架：int('12a') 会炸，排出安全程序，输出 -1。",
+        "lines": [
+          "try:",
+          "    x = int('12a')",
+          "except ValueError:",
+          "    x = -1",
+          "print(x)"
+        ]
       },
       {
         "type": "practice",
@@ -594,6 +638,13 @@
         "explain": "dumps 序列化成 JSON 字符串；loads 反序列化回 Python 对象。"
       },
       {
+        "type": "fill",
+        "goal": "把 JSON 字符串还原成字典，用哪个函数？输出应为 1。",
+        "code": "import json\nd = json.____('{\"k\": 1}')\nprint(d['k'])",
+        "answer": "loads",
+        "explain": "loads = load string，字符串→字典；dumps 反方向打包。"
+      },
+      {
         "type": "practice",
         "title": "配置文件读写",
         "code": "import json\nconfig = {'host': '0.0.0.0', 'port': 8080, 'debug': True}\njson_str = json.dumps(config, indent=2)\nprint(json_str)\nrestored = json.loads(json_str)\nprint('端口:', restored['port'])",
@@ -710,6 +761,18 @@
         "explain": "只有直接运行时 __name__ 才是 '__main__'；被导入时它等于模块名。"
       },
       {
+        "type": "order",
+        "title": "可复现随机：两次掷骰子结果必须相同，排出输出 True 的程序。",
+        "lines": [
+          "import random",
+          "random.seed(7)",
+          "a = random.randint(1, 9)",
+          "random.seed(7)",
+          "b = random.randint(1, 9)",
+          "print(a == b)"
+        ]
+      },
+      {
         "type": "practice",
         "title": "洗牌模拟器",
         "code": "import random\nrandom.seed(99)\ncards = ['A', 'K', 'Q', 'J', '10']\nrandom.shuffle(cards)\nprint('洗牌后:', cards)\nprint('抽一张:', cards[0])",
@@ -802,6 +865,13 @@
         ],
         "answer": 1,
         "explain": "self 就是点号前面的那个对象。"
+      },
+      {
+        "type": "fill",
+        "goal": "构造方法（创建对象时自动调用）的名字是？",
+        "code": "class Bot:\n    def ____(self, name):\n        self.name = name\n\nb = Bot('V')\nprint(b.name)",
+        "answer": "__init__",
+        "explain": "__init__ 前后各两条下划线，Bot('V') 时自动执行完成属性初始化。"
       },
       {
         "type": "practice",

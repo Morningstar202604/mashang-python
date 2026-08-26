@@ -56,6 +56,19 @@
         "explain": "print 与 f-string 都走 __str__；没定义时会退化到 __repr__。"
       },
       {
+        "type": "order",
+        "title": "继承 + super 改良：排出输出 AB 的程序。",
+        "lines": [
+          "class A:",
+          "    def hi(self):",
+          "        return 'A'",
+          "class B(A):",
+          "    def hi(self):",
+          "        return super().hi() + 'B'",
+          "print(B().hi())"
+        ]
+      },
+      {
         "type": "practice",
         "title": "形状继承体系",
         "code": "class Shape:\n    def area(self):\n        return 0\n\nclass Rect(Shape):\n    def __init__(self, w, h):\n        self.w = w\n        self.h = h\n    def area(self):\n        return self.w * self.h\n\nr = Rect(5, 3)\nprint('面积:', r.area())",
@@ -147,6 +160,13 @@
         ],
         "answer": 1,
         "explain": "异常携带信息且无法被静默忽略，比布尔返回值更安全。"
+      },
+      {
+        "type": "fill",
+        "goal": "余额不足时主动抛出异常，关键字是？",
+        "code": "def withdraw(bal, amt):\n    if amt > bal:\n        ____ ValueError('insufficient')\n    return bal - amt",
+        "answer": "raise",
+        "explain": "raise 手动抛出异常，模拟银行拒绝超额取款。"
       },
       {
         "type": "practice",
@@ -244,6 +264,18 @@
         "explain": "生成器是一次性流水线，取完即空；需要重跑就重新调用生成器函数。"
       },
       {
+        "type": "order",
+        "title": "生成器逐个吐值：排出依次输出 1 和 2 的程序。",
+        "lines": [
+          "def gen():",
+          "    yield 1",
+          "    yield 2",
+          "g = gen()",
+          "print(next(g))",
+          "print(next(g))"
+        ]
+      },
+      {
         "type": "practice",
         "title": "无限计数器",
         "code": "def counter(start=0):\n    n = start\n    while True:\n        yield n\n        n += 1\ngen = counter(10)\nprint([next(gen) for _ in range(5)])",
@@ -338,6 +370,13 @@
         ],
         "answer": 1,
         "explain": "@ 只是装饰器应用的语法糖。"
+      },
+      {
+        "type": "fill",
+        "goal": "装饰器必须把内层函数交出去，return 后面填什么？",
+        "code": "def deco(fn):\n    def wrap():\n        return fn() * 2\n    return ____",
+        "answer": "wrap",
+        "explain": "返回 wrap 才算完成套壳——调用原函数名时实际执行的是它。"
       },
       {
         "type": "practice",
@@ -458,6 +497,15 @@
         "explain": "按长度升序排列。"
       },
       {
+        "type": "order",
+        "title": "lambda 当排序钥匙：按分数降序，排出输出 [('b', 2), ('a', 1)] 的程序。",
+        "lines": [
+          "data = [('a', 1), ('b', 2)]",
+          "srt = sorted(data, key=lambda p: p[1], reverse=True)",
+          "print(srt)"
+        ]
+      },
+      {
         "type": "practice",
         "title": "多字段排序",
         "code": "students = [('neo', 88), ('judy', 95), ('k', 72)]\nby_score = sorted(students, key=lambda s: s[1], reverse=True)\nfor name, score in by_score:\n    print(f'{name}: {score}')",
@@ -551,6 +599,13 @@
         ],
         "answer": 1,
         "explain": "\\d 数字，+ 表示重复一到多次。"
+      },
+      {
+        "type": "fill",
+        "goal": "Counter 求出现最多的元素，方法名是？输出应为 b。",
+        "code": "from collections import Counter\nc = Counter('aabbb')\nprint(c.____(1)[0][0])",
+        "answer": "most_common",
+        "explain": "most_common(1) 取频次榜首 [('b', 3)]，再 [0][0] 拿到字母 b。"
       },
       {
         "type": "practice",
@@ -680,6 +735,16 @@
         "explain": "相同种子产生完全相同的随机序列，测试与复现 bug 全靠它。"
       },
       {
+        "type": "order",
+        "title": "日期推算：排出计算两个日期相差天数的程序，输出 365。",
+        "lines": [
+          "from datetime import date",
+          "d = date(2025, 7, 4)",
+          "later = d.replace(year=2026)",
+          "print((later - d).days)"
+        ]
+      },
+      {
         "type": "practice",
         "title": "倒计时计算器",
         "code": "from datetime import date\ntoday = date.today()\nnew_year = date(today.year + 1, 1, 1)\ndays = (new_year - today).days\nprint(f'今天: {today}')\nprint(f'距元旦还有 {days} 天')",
@@ -780,6 +845,13 @@
         ],
         "answer": 1,
         "explain": "这是 Python 频次统计的标准姿势，比先判断再赋值简洁得多。"
+      },
+      {
+        "type": "fill",
+        "goal": "找到第一个 ] 的位置来切日志标签，字符串方法是？输出 ERROR。",
+        "code": "line = '[ERROR] down'\ntag = line[1:line.____(']')]\nprint(tag)",
+        "answer": "index",
+        "explain": "index(']') 返回 6，切片 [1:6] 得 ERROR。"
       },
       {
         "type": "practice",

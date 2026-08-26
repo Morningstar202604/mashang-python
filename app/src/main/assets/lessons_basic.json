@@ -57,6 +57,15 @@
         "text": "引号必须成对出现，否则会触发 SyntaxError——别慌，报错信息会告诉你哪一行出了问题。"
       },
       {
+        "type": "order",
+        "title": "这三行 print 会按什么顺序执行？把它们排成「自检→就绪→欢迎」的正确程序。",
+        "lines": [
+          "print('系统自检…')",
+          "print('内存映射完成')",
+          "print('欢迎接入霓虹城')"
+        ]
+      },
+      {
         "type": "practice",
         "title": "温度转换播报",
         "code": "celsius = 36\nfahrenheit = celsius * 9 // 5 + 32\nprint('当前温度:', celsius, '°C')\nprint('华氏:', fahrenheit, '°F')",
@@ -185,6 +194,13 @@
         "text": "变量名只能由字母、数字、下划线组成，且不能以数字开头。2fast 是非法的，fast2 合法。"
       },
       {
+        "type": "fill",
+        "goal": "补全后程序输出 350。____ 处缺什么？",
+        "code": "hp = 100\narmor = 3.____\nprint(hp * armor)",
+        "answer": "5",
+        "explain": "100 × 3.5 = 350，小数点后补 5。"
+      },
+      {
         "type": "practice",
         "title": "角色状态初始化",
         "code": "name = '影刃'\nlevel = 5\nexp = 1250.75\nis_online = True\n\nprint(name, 'Lv.' + str(level))\nprint('经验:', exp)",
@@ -287,6 +303,15 @@
         ],
         "answer": 0,
         "explain": "索引从 0 开始计数，[0] 取第一个字符。"
+      },
+      {
+        "type": "order",
+        "title": "把三行排成能打印 Hi,neo 的完整程序。",
+        "lines": [
+          "name = 'neo'",
+          "greet = f'Hi,{name}'",
+          "print(greet)"
+        ]
       },
       {
         "type": "practice",
@@ -413,6 +438,13 @@
         "explain": "// 向下取整，丢掉小数部分。"
       },
       {
+        "type": "fill",
+        "goal": "让 print 输出 7 整除 2 的结果 3，运算符处填什么？",
+        "code": "print(7 ____ 2)",
+        "answer": "//",
+        "explain": "// 是整除（向下取整），7 // 2 = 3；/ 会得到 3.5。"
+      },
+      {
         "type": "practice",
         "title": "折扣计算器",
         "code": "price = 299\ndiscount = 7\ntotal = price * discount // 10\nprint('原价:', price)\nprint('折后:', total)\nprint('找零:', price - total)",
@@ -502,6 +534,15 @@
         ],
         "answer": 1,
         "explain": "无论输入什么内容，input() 都按字符串返回。"
+      },
+      {
+        "type": "order",
+        "title": "排出「根据小时决定昼夜问候」的程序，输出应为：夜。",
+        "lines": [
+          "hour = 21",
+          "mood = '夜' if hour >= 20 else '昼'",
+          "print(mood)"
+        ]
       },
       {
         "type": "practice",
@@ -596,6 +637,13 @@
         ],
         "answer": 1,
         "explain": "elif 链是短路结构，命中第一个真条件后就跳过其余分支。"
+      },
+      {
+        "type": "fill",
+        "goal": "score=60 时要输出 C，elif 的比较符填什么？",
+        "code": "score = 60\nif score >= 90:\n    grade = 'A'\nelif score ____ 60:\n    grade = 'C'\nprint(grade)",
+        "answer": ">=",
+        "explain": "60 >= 60 成立走 elif 分支；若写 > 则 60 落不进任何分支之外需 else 兜底。"
       },
       {
         "type": "practice",
@@ -696,6 +744,18 @@
         ],
         "answer": 1,
         "explain": "从 0 开始，到 stop-1 结束。"
+      },
+      {
+        "type": "order",
+        "title": "翻倍累加直到超过 100：排出正确循环，程序最后输出 64。",
+        "lines": [
+          "total = 0",
+          "n = 1",
+          "while total < 100:",
+          "    n *= 2",
+          "    total += n",
+          "print(n)"
+        ]
       },
       {
         "type": "practice",
@@ -799,6 +859,13 @@
         "explain": "列表长度按顶层元素计，嵌套列表整体算 1 个元素。"
       },
       {
+        "type": "fill",
+        "goal": "把 'c' 加到列表末尾，方法名是什么？",
+        "code": "items = ['a', 'b']\nitems.____('c')\nprint(items)",
+        "answer": "append",
+        "explain": "append 追加到末尾得到 ['a','b','c']；insert 可插到指定位置。"
+      },
+      {
         "type": "practice",
         "title": "装备栏管理",
         "code": "bag = ['子弹', '绷带', '电池']\nbag.append('义肢')\nfirst = bag.pop(0)\nprint('使用了:', first)\nprint('剩余:', bag)",
@@ -895,6 +962,16 @@
         "explain": "get 不传默认值时，键缺失返回 None；而 d['x'] 这种写法才会抛 KeyError。"
       },
       {
+        "type": "order",
+        "title": "排出词频统计骨架，输出 {'a': 2, 'b': 1, 'c': 1}。",
+        "lines": [
+          "counts = {}",
+          "for ch in 'abca':",
+          "    counts[ch] = counts.get(ch, 0) + 1",
+          "print(counts)"
+        ]
+      },
+      {
         "type": "practice",
         "title": "词频统计器",
         "code": "text = 'hello world hello python'\nwords = text.split()\nfreq = {}\nfor w in words:\n    freq[w] = freq.get(w, 0) + 1\nprint(freq)\nprint('最多次:', max(freq, key=freq.get))",
@@ -984,6 +1061,13 @@
         ],
         "answer": 1,
         "explain": "sum 对数值序列求和。完成本课后，前往「角斗场」接受终极试炼吧！"
+      },
+      {
+        "type": "fill",
+        "goal": "让函数把结果交出来（double(21) 输出 42），关键字是什么？",
+        "code": "def double(x):\n    ____ x * 2\n\nprint(double(21))",
+        "answer": "return",
+        "explain": "return 把计算结果返回给调用方；没有它函数默认返回 None。"
       },
       {
         "type": "practice",

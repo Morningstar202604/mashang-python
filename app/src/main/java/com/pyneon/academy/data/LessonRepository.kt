@@ -16,6 +16,8 @@ sealed class Block {
     data class Task(val text: String) : Block()
     data class Steps(val items: List<String>) : Block()
     data class Practice(val title: String, val code: String, val output: String, val hint: String) : Block()
+    data class Fill(val goal: String, val code: String, val answer: String, val explain: String) : Block()
+    data class Order(val title: String, val lines: List<String>) : Block()
     data class Quiz(
         val question: String,
         val options: List<String>,
@@ -147,6 +149,18 @@ object LessonRepository {
                     output = b.getString("output"),
                     hint = b.getString("hint")
                 ))
+                "fill" -> blocks.add(Block.Fill(
+                    goal = b.getString("goal"),
+                    code = b.getString("code"),
+                    answer = b.getString("answer"),
+                    explain = b.getString("explain")
+                ))
+                "order" -> {
+                    val ls = b.getJSONArray("lines").let { la ->
+                        buildList { for (j in 0 until la.length()) add(la.getString(j)) }
+                    }
+                    blocks.add(Block.Order(b.getString("title"), ls))
+                }
                 "quiz" -> {
                     val options = b.getJSONArray("options").let { oa ->
                         buildList { for (j in 0 until oa.length()) add(oa.getString(j)) }

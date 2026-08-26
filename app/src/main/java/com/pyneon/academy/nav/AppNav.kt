@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pyneon.academy.screens.ArenaScreen
 import com.pyneon.academy.screens.BootScreen
+import com.pyneon.academy.screens.CertificateScreen
 import com.pyneon.academy.screens.ChallengeDetailScreen
 import com.pyneon.academy.screens.ContentHubScreen
 import com.pyneon.academy.screens.HomeScreen
@@ -119,8 +120,12 @@ fun AppRoot() {
                 val id = entry.arguments?.getString("id").orEmpty()
                 ChallengeDetailScreen(challengeId = id, onBack = { navController.popBackStack() })
             }
-            composable("profile") { ProfileScreen(onOpenContentHub = { navController.navigate("contenthub") }) }
+            composable("profile") { ProfileScreen(
+                onOpenContentHub = { navController.navigate("contenthub") },
+                onOpenCertificate = { navController.navigate("certificate") }
+            ) }
             composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
+            composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
         }
     }
 }

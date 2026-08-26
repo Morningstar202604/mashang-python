@@ -60,7 +60,7 @@ import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(onOpenContentHub: () -> Unit = {}) {
+fun ProfileScreen(onOpenContentHub: () -> Unit = {}, onOpenCertificate: () -> Unit = {}) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val progress by ProgressStore.flow(context).collectAsState(initial = Progress())
@@ -108,6 +108,25 @@ fun ProfileScreen(onOpenContentHub: () -> Unit = {}) {
             }
         }
 
+        SectionHeader("毕业认证", accent = NeonYellow)
+        val allDone = progress.completedLessons.size >= lessons.size
+        NeonCard(
+            accent = if (allDone) NeonYellow else Color(0xFF2A3547),
+            onClick = if (allDone) onOpenCertificate else null
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Icon(Icons.Outlined.EmojiEvents, contentDescription = null, tint = if (allDone) NeonYellow else Color(0xFF3A4A63), modifier = Modifier.size(28.dp))
+                Column {
+                    Text("GRADUATION · 城市毕业证书", style = MaterialTheme.typography.titleSmall, color = if (allDone) Color(0xFFE6F1FF) else TextDim)
+                    Text(
+                        if (allDone) "已达成！点击查看并分享你的证书" else "通关全部 ${lessons.size} 讲后解锁（${progress.completedLessons.size}/${lessons.size}）",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextDim
+                    )
+                }
+            }
+        }
+
         SectionHeader("成就徽章", accent = NeonYellow)
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Achievement.entries.chunked(2).forEach { pair ->
@@ -141,7 +160,7 @@ fun ProfileScreen(onOpenContentHub: () -> Unit = {}) {
         SectionHeader("系统信息", accent = NeonGreen)
         NeonCard(accent = NeonGreen) {
             InfoRow("运行时", "CPython $pythonVersion · Chaquopy 嵌入")
-            InfoRow("版本", "码上Python v0.2.1")
+            InfoRow("版本", "码上Python v0.3.0")
             InfoRow("网络", "离线优先 · 联网仅拉取新课程")
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

@@ -22,11 +22,13 @@ import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -138,6 +140,8 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     is Block.Task -> TipBox(block.text, NeonYellow, "TASK · 跟着做")
                     is Block.Steps -> StepsCard(block.items)
                     is Block.Practice -> PracticeCard(block)
+                    is Block.Fill -> FillCard(block)
+                    is Block.Order -> OrderPuzzleCard(block)
                     is Block.Quiz -> QuizCard(block)
                     is Block.CodeBlock -> CodeExampleCard(
                         code = block.code,
@@ -494,6 +498,143 @@ private fun PracticeCard(practice: Block.Practice) {
         OutputPreview(practice.output)
         Spacer(Modifier.height(8.dp))
         TipBox(practice.hint, NeonCyan, "提示")
+    }
+}
+
+@Composable
+private fun FillCard(fill: Block.Fill) {
+    var input by remember(fill.goal) { mutableStateOf("") }
+    var attempts by remember(fill.goal) { mutableStateOf(0) }
+    val correct = input.trim() == fill.answer.trim()
+    val checked = attempts > 0
+    NeonCard(accent = NeonYellow, filled = true) {
+        Text("FILL · 填空补全", style = MaterialTheme.typography.labelSmall, color = NeonYellow)
+        Spacer(Modifier.height(4.dp))
+        Text(fill.goal, style = MaterialTheme.typography.bodyMedium, color = TextHi)
+        Spacer(Modifier.height(8.dp))
+        PythonCodeField(
+            value = remember(fill.code) { TextFieldValue(fill.code) },
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SurfaceHigh.copy(alpha = 0.45f))
+                .border(1.dp, NeonYellow.copy(alpha = 0.2f), MaterialTheme.shapes.extraSmall)
+                .padding(4.dp),
+            minHeight = 60
+        )
+        Spacer(Modifier.height(10.dp))
+        OutlinedTextField(
+            value = input,
+            onValueChange = { input = it },
+            singleLine = true,
+            label = { Text("输入 ____ 处缺失的内容", style = MaterialTheme.typography.labelMedium) },
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            NeonButton(label = "检查", accent = NeonYellow, onClick = { attempts += 1 })
+            if (checked && !correct) {
+                NeonButton(label = "看答案", accent = TextMid, onClick = { input = fill.answer })
+            }
+        }
+        if (checked) {
+            Spacer(Modifier.height(6.dp))
+            Text(
+                if (correct) "✓ 正确！" else "✗ 还不对，再试试",
+                style = MaterialTheme.typography.labelMedium,
+                color = if (correct) NeonGreen else NeonMagenta
+            )
+            if (correct || attempts >= 3) {
+                Spacer(Modifier.height(2.dp))
+                Text(fill.explain, style = MaterialTheme.typography.bodySmall, color = TextMid)
+            }
+        }
+    }
+}
+
+@Composable
+private fun OrderPuzzleCard(order: Block.Order) {
+    val shuffled = remember(order.title) { order.lines.shuffled() }
+    val selection = remember(order.title) { mutableStateListOf<Int>() }
+    val solved = selection.size == order.lines.size &&
+        selection.map { shuffled[it] } == order.lines
+    val done = remember(solved) { mutableStateOf(false) }
+    if (solved && selection.isNotEmpty() && !done.value && selection.size == order.lines.size) {
+        done.value = true
+    }
+    if (!solved) done.value = false
+    val verdict: Boolean? = if (selection.size == order.lines.size) solved else null
+    NeonCard(accent = when (verdict) { true -> NeonGreen; false -> NeonMagenta; null -> NeonCyan }, filled = true) {
+        Text("ORDER · 代码排序", style = MaterialTheme.typography.labelSmall, color = NeonCyan)
+        Spacer(Modifier.height(4.dp))
+        Text(order.title, style = MaterialTheme.typography.bodyMedium, color = TextHi)
+        Spacer(Modifier.height(2.dp))
+        Text("按正确顺序依次点击下面的代码行", style = MaterialTheme.typography.labelSmall, color = TextDim)
+        Spacer(Modifier.height(8.dp))
+        shuffled.forEachIndexed { displayIdx, line ->
+            val pickOrder = selection.indexOf(displayIdx)
+            val picked = pickOrder >= 0
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 3.dp)
+                    .androidxClickable {
+                        if (verdict == null) {
+                            if (picked) selection.remove(displayIdx) else selection.add(displayIdx)
+                        }
+                    }
+                    .background(
+                        when {
+                            verdict == true -> NeonGreen.copy(alpha = 0.10f)
+                            picked -> NeonCyan.copy(alpha = 0.12f)
+                            else -> SurfaceHigh.copy(alpha = 0.35f)
+                        },
+                        MaterialTheme.shapes.extraSmall
+                    )
+                    .border(
+                        1.dp,
+                        when {
+                            verdict == true -> NeonGreen.copy(alpha = 0.5f)
+                            picked -> NeonCyan.copy(alpha = 0.55f)
+                            else -> TextDim.copy(alpha = 0.35f)
+                        },
+                        MaterialTheme.shapes.extraSmall
+                    )
+                    .padding(horizontal = 10.dp, vertical = 10.dp)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(24.dp)
+                        .background(
+                            if (picked) NeonCyan else TextDim.copy(alpha = 0.3f),
+                            MaterialTheme.shapes.extraSmall
+                        )
+                ) {
+                    Text(
+                        if (picked) "${pickOrder + 1}" else "·",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = if (picked) Bg0 else TextMid
+                    )
+                }
+                Spacer(Modifier.size(10.dp))
+                Text(line, style = MaterialTheme.typography.bodySmall, color = TextMid)
+            }
+        }
+        if (verdict != null) {
+            Spacer(Modifier.height(6.dp))
+            Text(
+                if (verdict) "✓ 顺序正确，程序逻辑成立！" else "✗ 顺序不对，点行可取消重选",
+                style = MaterialTheme.typography.labelMedium,
+                color = if (verdict) NeonGreen else NeonMagenta
+            )
+        }
+        if (selection.isNotEmpty()) {
+            Spacer(Modifier.height(6.dp))
+            NeonButton(label = "重排", accent = TextMid, onClick = { selection.clear() })
+        }
     }
 }
 
