@@ -13,3 +13,5 @@ keystore.properties
 *.keystore
 .opencode/
 
+__pycache__/
+*.pyc
