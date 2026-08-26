@@ -162,18 +162,21 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                 NeonCard(accent = if (alreadySolved) NeonGreen else NeonMagenta, filled = false) {
                     Text(exercise.brief, style = MaterialTheme.typography.bodyLarge, color = TextMid)
 
-                    Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(14.dp))
+                    Text("CODE EDITOR", style = MaterialTheme.typography.labelSmall, color = NeonMagenta.copy(alpha = 0.7f))
+                    Spacer(Modifier.height(4.dp))
                     PythonCodeField(
                         value = editorValue,
                         onValueChange = { editorValue = it },
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(SurfaceHigh.copy(alpha = 0.5f))
+                            .border(1.dp, NeonMagenta.copy(alpha = 0.20f), MaterialTheme.shapes.extraSmall)
                             .padding(4.dp),
                         minHeight = 160
                     )
 
-                    Spacer(Modifier.height(12.dp))
+                    Spacer(Modifier.height(14.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         NeonButton(
                             label = "运行判题",
@@ -209,9 +212,11 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     }
 
                     if (hintOpen && exercise.hint.isNotEmpty()) {
+                        Spacer(Modifier.height(10.dp))
                         TipBox(exercise.hint, NeonYellow, "HINT")
                     }
                     if (!checking && checkResult != null) {
+                        Spacer(Modifier.height(10.dp))
                         ConsoleResult(result = checkResult, running = false)
                     }
                     if (alreadySolved && checkResult?.passed != false) {
@@ -219,7 +224,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                             "// 已通关 ✓",
                             style = MaterialTheme.typography.labelMedium,
                             color = NeonGreen,
-                            modifier = Modifier.padding(top = 6.dp)
+                            modifier = Modifier.padding(top = 8.dp)
                         )
                     }
                 }
@@ -262,11 +267,13 @@ private fun TipBox(text: String, accent: androidx.compose.ui.graphics.Color, tag
     Column(
         Modifier
             .fillMaxWidth()
-            .background(accent.copy(alpha = 0.07f))
-            .padding(horizontal = 12.dp, vertical = 10.dp)
+            .background(accent.copy(alpha = 0.07f), MaterialTheme.shapes.medium)
+            .border(1.dp, accent.copy(alpha = 0.18f), MaterialTheme.shapes.medium)
+            .padding(horizontal = 14.dp, vertical = 14.dp)
     ) {
         Text(tag, style = MaterialTheme.typography.labelMedium, color = accent)
-        Text(text, style = MaterialTheme.typography.bodyMedium, color = TextMid, modifier = Modifier.padding(top = 2.dp))
+        Spacer(Modifier.height(4.dp))
+        Text(text, style = MaterialTheme.typography.bodyMedium, color = TextMid)
     }
 }
 
@@ -275,16 +282,16 @@ private fun OutputPreview(text: String) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(androidx.compose.ui.graphics.Color(0xFF060A0E))
-            .border(1.dp, NeonGreen.copy(alpha = 0.35f), MaterialTheme.shapes.small)
-            .padding(12.dp)
+            .background(androidx.compose.ui.graphics.Color(0xFF060A0E), MaterialTheme.shapes.medium)
+            .border(1.dp, NeonGreen.copy(alpha = 0.35f), MaterialTheme.shapes.medium)
+            .padding(14.dp)
     ) {
         Text("OUTPUT · 运行结果", style = MaterialTheme.typography.labelSmall, color = NeonGreen.copy(alpha = 0.7f))
+        Spacer(Modifier.height(4.dp))
         Text(
             text,
             style = MaterialTheme.typography.bodyMedium,
-            color = NeonGreen.copy(alpha = 0.92f),
-            modifier = Modifier.padding(top = 4.dp)
+            color = NeonGreen.copy(alpha = 0.92f)
         )
     }
 }
@@ -294,16 +301,16 @@ private fun DiagramBox(text: String) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(NeonCyan.copy(alpha = 0.05f))
-            .border(1.dp, NeonCyan.copy(alpha = 0.4f), MaterialTheme.shapes.small)
-            .padding(12.dp)
+            .background(NeonCyan.copy(alpha = 0.05f), MaterialTheme.shapes.medium)
+            .border(1.dp, NeonCyan.copy(alpha = 0.4f), MaterialTheme.shapes.medium)
+            .padding(14.dp)
     ) {
         Text("DIAGRAM · 图示", style = MaterialTheme.typography.labelSmall, color = NeonCyan.copy(alpha = 0.75f))
+        Spacer(Modifier.height(6.dp))
         Text(
             text,
             style = MaterialTheme.typography.bodyMedium,
-            color = androidx.compose.ui.graphics.Color(0xFFBFE9FF),
-            modifier = Modifier.padding(top = 6.dp)
+            color = androidx.compose.ui.graphics.Color(0xFFBFE9FF)
         )
     }
 }
@@ -345,7 +352,7 @@ private fun QuizCard(quiz: Block.Quiz) {
             quiz.question,
             style = MaterialTheme.typography.bodyLarge,
             color = androidx.compose.ui.graphics.Color(0xFFE6F1FF),
-            modifier = Modifier.padding(top = 4.dp, bottom = 10.dp)
+            modifier = Modifier.padding(top = 6.dp, bottom = 12.dp)
         )
         quiz.options.forEachIndexed { i, opt ->
             val isAnswer = i == quiz.answerIndex
@@ -357,39 +364,55 @@ private fun QuizCard(quiz: Block.Quiz) {
                 isAnswer -> NeonGreen.copy(alpha = 0.6f)
                 else -> TextDim.copy(alpha = 0.4f)
             }
+            val bg = when {
+                selected != null && isAnswer -> NeonGreen.copy(alpha = 0.10f)
+                selected != null && chosen -> NeonMagenta.copy(alpha = 0.10f)
+                else -> androidx.compose.ui.graphics.Color.Transparent
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .androidxClickable { if (selected == null) selected = i }
-                    .background(
-                        when {
-                            selected != null && isAnswer -> NeonGreen.copy(alpha = 0.08f)
-                            selected != null && chosen -> NeonMagenta.copy(alpha = 0.08f)
-                            else -> androidx.compose.ui.graphics.Color.Transparent
-                        }
-                    )
+                    .background(bg, MaterialTheme.shapes.extraSmall)
                     .border(1.dp, borderColor, MaterialTheme.shapes.extraSmall)
-                    .padding(horizontal = 10.dp, vertical = 8.dp)
+                    .padding(horizontal = 12.dp, vertical = 12.dp)
             ) {
-                Text(
-                    "${'A' + i}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = borderColor
-                )
-                Spacer(Modifier.size(8.dp))
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .size(26.dp)
+                        .background(borderColor.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
+                ) {
+                    Text(
+                        "${'A' + i}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = borderColor
+                    )
+                }
+                Spacer(Modifier.size(10.dp))
                 Text(opt, style = MaterialTheme.typography.bodyMedium, color = TextMid)
             }
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(8.dp))
         }
         if (selected != null) {
-            Text(
-                (if (selected == quiz.answerIndex) "✓ 答对了！" else "✗ 正确答案是 ${'A' + quiz.answerIndex}") +
-                    ("　" + quiz.explain),
-                style = MaterialTheme.typography.bodySmall,
-                color = if (selected == quiz.answerIndex) NeonGreen else NeonYellow,
-                modifier = Modifier.padding(top = 2.dp)
-            )
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 6.dp)
+                    .background(
+                        if (selected == quiz.answerIndex) NeonGreen.copy(alpha = 0.06f) else NeonYellow.copy(alpha = 0.06f),
+                        MaterialTheme.shapes.extraSmall
+                    )
+                    .padding(10.dp)
+            ) {
+                Text(
+                    if (selected == quiz.answerIndex) "✓ 答对了" else "✗ 正确答案是 ${'A' + quiz.answerIndex}",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = if (selected == quiz.answerIndex) NeonGreen else NeonYellow
+                )
+                Text(quiz.explain, style = MaterialTheme.typography.bodySmall, color = TextMid, modifier = Modifier.padding(top = 4.dp))
+            }
         }
     }
 }
@@ -400,21 +423,40 @@ private fun Modifier.androidxClickable(onClick: () -> Unit): Modifier = this.cli
 private fun StepsCard(items: List<String>) {
     NeonCard(accent = NeonGreen, filled = true) {
         Text("STEPS · 解题步骤", style = MaterialTheme.typography.labelSmall, color = NeonGreen)
+        Spacer(Modifier.height(8.dp))
         items.forEachIndexed { i, step ->
+            if (i > 0) {
+                Box(
+                    Modifier
+                        .padding(start = 14.dp, top = 2.dp, bottom = 2.dp)
+                        .size(width = 20.dp, height = 1.dp)
+                        .background(NeonGreen.copy(alpha = 0.25f))
+                )
+            }
             Row(
                 verticalAlignment = Alignment.Top,
-                modifier = Modifier.padding(top = if (i == 0) 8.dp else 6.dp)
+                modifier = Modifier.padding(top = if (i == 0) 0.dp else 8.dp)
             ) {
-                Text(
-                    "${i + 1}",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = Bg0,
+                Box(
+                    contentAlignment = Alignment.Center,
                     modifier = Modifier
-                        .androidxBackground(NeonGreen, MaterialTheme.shapes.extraSmall)
-                        .padding(horizontal = 7.dp, vertical = 1.dp)
+                        .size(30.dp)
+                        .background(NeonGreen, MaterialTheme.shapes.extraSmall)
+                        .padding(horizontal = 0.dp)
+                ) {
+                    Text(
+                        "${i + 1}",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = Bg0
+                    )
+                }
+                Spacer(Modifier.size(12.dp))
+                Text(
+                    step,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = TextMid,
+                    modifier = Modifier.padding(top = 4.dp)
                 )
-                Spacer(Modifier.size(9.dp))
-                Text(step, style = MaterialTheme.typography.bodyMedium, color = TextMid)
             }
         }
     }
@@ -440,8 +482,9 @@ private fun CodeExampleCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(SurfaceHigh.copy(alpha = 0.45f))
+                .border(1.dp, NeonCyan.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
                 .padding(4.dp),
-            minHeight = 60
+            minHeight = 80
         )
         Spacer(Modifier.height(10.dp))
         if (runnable) {
