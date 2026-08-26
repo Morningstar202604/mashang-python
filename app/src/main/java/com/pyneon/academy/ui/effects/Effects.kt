@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -170,11 +172,26 @@ fun NeonCard(
 ): Unit {
     val shape: Shape = androidx.compose.foundation.shape.CutCornerShape(14.dp)
     val bg = if (filled) accent.copy(alpha = 0.10f) else SurfaceDark
-    val base = Modifier
+    val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
+    val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
+    val scale by androidx.compose.animation.core.animateFloatAsState(
+        targetValue = if (pressed && onClick != null) 0.98f else 1f,
+        animationSpec = androidx.compose.animation.core.tween(90),
+        label = "cardScale"
+    )
+    var base = Modifier
+        .graphicsLayer { scaleX = scale; scaleY = scale }
         .clip(shape)
         .background(bg)
         .border(neonBorder(accent), shape)
-    Box(modifier.then(if (onClick != null) base.clickable { onClick() } else base)) {
+    if (onClick != null) {
+        base = base.clickable(interactionSource = interaction, indication = null) {
+            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+            onClick()
+        }
+    }
+    Box(modifier.then(base)) {
         Column(Modifier.padding(16.dp), content = content)
     }
 }

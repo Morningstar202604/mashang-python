@@ -72,6 +72,14 @@ object PyBridge {
         }
     }
 
+    fun warmup(): Boolean {
+        return try {
+            runCode("pass", emptyList(), 6.0).ok
+        } catch (_: Throwable) {
+            false
+        }
+    }
+
     fun replStart() {
         module("repl").callAttr("start")
     }

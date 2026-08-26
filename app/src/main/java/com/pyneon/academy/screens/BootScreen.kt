@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -39,11 +40,16 @@ import kotlinx.coroutines.delay
 @Composable
 fun BootScreen(onDone: () -> Unit) {
     val context = LocalContext.current
-    val bootLines = remember {
+    var pyStatus by remember { mutableStateOf("RUN") }
+    val bootLines = remember(pyStatus) {
         listOf(
-            "MASHANG BIOS v0.2.0 ........... OK",
+            "MASHANG BIOS v0.3.1 ........... OK",
             "神经接口驱动加载 .............. OK",
-            "挂载 CPython 3.13 运行时 ...... OK",
+            when (pyStatus) {
+                "RUN" -> "挂载 CPython 运行时 .......... 校验中"
+                "OK" -> "挂载 CPython 运行时 .......... OK"
+                else -> "挂载 CPython 运行时 .......... FAIL"
+            },
             "同步课程数据流 ................ OK",
             "建立加密信道 .................. 完成",
             "",
@@ -53,13 +59,22 @@ fun BootScreen(onDone: () -> Unit) {
     var shown by remember { mutableIntStateOf(0) }
 
     LaunchedEffect(Unit) {
+        shown = 1
+        delay(170L)
+        shown = 2
+        delay(170L)
         PyBridge.ensureStarted(context)
-        ProgressStore.touchStreak(context, Clock.todayEpochDay())
-        for (i in bootLines.indices) {
-            shown = i + 1
-            delay(if (i == 2) 320L else 190L)
+        val ok = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+            PyBridge.warmup()
         }
-        delay(700)
+        pyStatus = if (ok) "OK" else "FAIL"
+        shown = 3
+        ProgressStore.touchStreak(context, Clock.todayEpochDay())
+        for (i in 3 until bootLines.size) {
+            shown = i + 1
+            delay(190L)
+        }
+        delay(650)
         onDone()
     }
 
@@ -81,8 +96,13 @@ fun BootScreen(onDone: () -> Unit) {
             )
             Spacer(Modifier.height(28.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                bootLines.take(shown).forEach { line ->
-                    Text(line, style = MaterialTheme.typography.bodySmall, color = NeonGreen.copy(alpha = 0.85f))
+                bootLines.take(shown).forEachIndexed { idx, line ->
+                    val failLine = idx == 2 && pyStatus == "FAIL"
+                    Text(
+                        line,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (failLine) NeonMagenta else NeonGreen.copy(alpha = 0.85f)
+                    )
                 }
             }
             Spacer(Modifier.height(24.dp))

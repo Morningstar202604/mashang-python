@@ -88,7 +88,25 @@ fun AppRoot() {
             startDestination = "boot",
             modifier = Modifier
                 .padding(padding)
-                .background(Bg0)
+                .background(Bg0),
+            enterTransition = {
+                androidx.compose.animation.slideInHorizontally(
+                    animationSpec = androidx.compose.animation.core.tween(260),
+                    initialOffsetX = { it / 4 }
+                ) + androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(260))
+            },
+            exitTransition = {
+                androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(160))
+            },
+            popEnterTransition = {
+                androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(200))
+            },
+            popExitTransition = {
+                androidx.compose.animation.slideOutHorizontally(
+                    animationSpec = androidx.compose.animation.core.tween(240),
+                    targetOffsetX = { it / 4 }
+                ) + androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(240))
+            }
         ) {
             composable("boot") {
                 BootScreen(onDone = {
