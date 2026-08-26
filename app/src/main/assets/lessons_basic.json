@@ -1,0 +1,306 @@
+[
+  {
+    "id": "l01",
+    "order": 1,
+    "chapter": 1,
+    "title": "第一次握手",
+    "subtitle": "print() 与你的第一行代码",
+    "xp": 60,
+    "blocks": [
+      {"type": "heading", "text": "向霓虹城市问好"},
+      {"type": "text", "text": "欢迎接入，赛博学徒。每一段传奇都从一行输出开始。print() 是 Python 最基础的指令——把括号里的内容打印到终端，就像对着整座城市广播。字符串要用引号包裹，单引号或双引号都可以。"},
+      {"type": "code", "runnable": true, "code": "print('Hello, Neon City!')\nprint(\"你好，霓虹都市\")\nprint('连接已建立...')"},
+      {"type": "output", "text": "Hello, Neon City!\n你好，霓虹都市\n连接已建立..."},
+      {"type": "tip", "text": "print 可以一次输出多个值，用逗号分隔，输出时会自动用空格隔开。"},
+      {"type": "code", "runnable": true, "code": "print('代号', 'NEO', '状态', '在线')"},
+      {"type": "quiz", "question": "print('Hi', 'Neo') 会输出什么？", "options": ["HiNeo", "Hi Neo", "'Hi' 'Neo'"], "answer": 1, "explain": "逗号分隔的多个值之间会自动插入一个空格。"},
+      {"type": "warn", "text": "引号必须成对出现，否则会触发 SyntaxError——别慌，报错信息会告诉你哪一行出了问题。"}
+    ],
+    "exercise": {
+      "title": "建立身份档案",
+      "brief": "创建变量 hacker_name 保存你的代号（任意非空字符串），变量 online 设为 True，然后用 print 输出它们。",
+      "starterCode": "hacker_name = '你的代号'\nonline = \n\nprint(hacker_name, online)",
+      "hint": "布尔值直接写 True（首字母大写），不需要引号。",
+      "tests": [
+        "assert isinstance(hacker_name, str) and len(hacker_name) > 0",
+        "assert online is True"
+      ],
+      "stdin": [],
+      "xp": 80
+    }
+  },
+  {
+    "id": "l02",
+    "order": 2,
+    "chapter": 1,
+    "title": "变量与数据类型",
+    "subtitle": "int / float / str / bool 四大家族",
+    "xp": 60,
+    "blocks": [
+      {"type": "heading", "text": "数据是城市的血液"},
+      {"type": "text", "text": "变量像一个贴了标签的储物柜：用 = 把值放进去，之后随时读取或覆盖。Python 会自动识别类型，你不用提前声明——这是它对新手最温柔的地方。"},
+      {"type": "diagram", "text": "标签(变量名)        储物柜(内存)\n   hp   ────────►  ┌─────────┐\n                    │   100   │\n                    └─────────┘"},
+      {"type": "table", "headers": ["类型", "例子", "用途"], "rows": [["int", "100", "整数：血量、次数"], ["float", "37.5", "小数：护盾、概率"], ["str", "'V'", "文本：名字、对话"], ["bool", "True", "真伪：开关状态"]]},
+      {"type": "code", "runnable": true, "code": "hp = 100\narmor = 37.5\ncallsign = 'V'\nalive = True\n\nprint(type(hp), type(armor))\nprint(type(callsign), type(alive))"},
+      {"type": "output", "text": "<class 'int'> <class 'float'>\n<class 'str'> <class 'bool'>"},
+      {"type": "tip", "text": "type(x) 查看任何值的类型；isinstance(x, int) 判断是否属于某类型。"},
+      {"type": "quiz", "question": "type(3.14) 的结果是什么？", "options": ["<class 'int'>", "<class 'float'>", "<class 'str'>"], "answer": 1, "explain": "带小数点的数字字面量都是 float。"},
+      {"type": "warn", "text": "变量名只能由字母、数字、下划线组成，且不能以数字开头。2fast 是非法的，fast2 合法。"}
+    ],
+    "exercise": {
+      "title": "装备初始化",
+      "brief": "设定能量 energy 为整数 9000，护盾 shield 为小数 62.5，然后计算总和 total = energy + shield。",
+      "starterCode": "energy = \nshield = \n\ntotal = energy + shield\nprint(total)",
+      "hint": "energy 用整数写法（无引号无小数点），shield 带小数点即可。",
+      "tests": [
+        "assert isinstance(energy, int) and energy > 0",
+        "assert isinstance(shield, float)",
+        "assert abs(total - (energy + shield)) < 1e-9"
+      ],
+      "stdin": [],
+      "xp": 90
+    }
+  },
+  {
+    "id": "l03",
+    "order": 3,
+    "chapter": 1,
+    "title": "字符串行动",
+    "subtitle": "拼接、切片、f-string 格式化",
+    "xp": 70,
+    "blocks": [
+      {"type": "heading", "text": "文字即武器"},
+      {"type": "text", "text": "字符串支持 + 拼接和 * 复制。而 f-string 是最优雅的格式化方式：引号前加个 f，花括号里可以直接放变量甚至表达式——像给句子开了个传送门。"},
+      {"type": "code", "runnable": true, "code": "name = 'neo'\nlevel = 7\n\nprint('接入者: ' + name)\nprint(f'等级 {level} · 权限 {level * 10}%')\nprint(name.upper(), name * 3)"},
+      {"type": "output", "text": "接入者: neo\n等级 7 · 权限 70%\nNEO neoneoneo"},
+      {"type": "heading", "text": "切片：精准切割"},
+      {"type": "text", "text": "用 [起:止] 提取片段，含头不含尾；负索引从末尾倒数。[0] 是第一个字符，[-1] 是最后一个字符。记住口诀：左闭右开。"},
+      {"type": "diagram", "text": "索引   0   1   2   3   4   5   6   7   8   9\n     ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┐\n     │ G │ L │ I │ T │ C │ H │ W │ A │ V │ E │\n     └───┴───┴───┴───┴───┴───┴───┴───┴───┴───┘\n负索引 -10 -9  -8  -7  -6  -5  -4  -3  -2  -1"},
+      {"type": "code", "runnable": true, "code": "freq = 'GLITCHWAVE'\nprint(freq[0:6])\nprint(freq[-5:])\nprint(len(freq))"},
+      {"type": "quiz", "question": "'NEON'[0] 的结果是？", "options": ["'N'", "'E'", "报错"], "answer": 0, "explain": "索引从 0 开始计数，[0] 取第一个字符。"}
+    ],
+    "exercise": {
+      "title": "伪造通行代号",
+      "brief": "已知 base = 'CYBER'。请构造 full_id = base + '-' + base 的后三个字母，最终形如 CYBER-BER。",
+      "starterCode": "base = 'CYBER'\n\nfull_id = base + '-' + \nprint(full_id)",
+      "hint": "切片 base[2:] 得到 'BER'，再与 base 和 '-' 拼接。",
+      "tests": [
+        "assert full_id == 'CYBER-BER'"
+      ],
+      "stdin": [],
+      "xp": 90
+    }
+  },
+  {
+    "id": "l04",
+    "order": 4,
+    "chapter": 1,
+    "title": "数字运算协议",
+    "subtitle": "+ - * / 以及 // % ** 三剑客",
+    "xp": 70,
+    "blocks": [
+      {"type": "heading", "text": "算力就是权力"},
+      {"type": "text", "text": "Python 的算术运算符和数学课基本一致，但多了三个好东西：// 整除（向下取整）、% 取余、** 幂运算。它们是后续算法课的地基。"},
+      {"type": "table", "headers": ["运算符", "例子", "结果", "记忆法"], "rows": [["/", "7 / 2", "3.5", "普通除法，一定是小数"], ["//", "7 // 2", "3", "只要整数部分"], ["%", "7 % 2", "1", "分完剩下的余数"], ["**", "2 ** 10", "1024", "乘几次方"]]},
+      {"type": "code", "runnable": true, "code": "print(7 / 2, 7 // 2, 7 % 2)\nprint(2 ** 10)\nprint((1 + 2) * 4)"},
+      {"type": "output", "text": "3.5 3 1\n1024\n12"},
+      {"type": "tip", "text": "% 取余是判断整除的神器：n % 2 == 0 表示 n 是偶数。"},
+      {"type": "quiz", "question": "7 // 2 的结果是？", "options": ["3.5", "3", "4"], "answer": 1, "explain": "// 向下取整，丢掉小数部分。"}
+    ],
+    "exercise": {
+      "title": "伤害结算器",
+      "brief": "实现函数 damage(attack, defense)：攻击开平方取整，再减去防御的一半（整除）。damage(25, 6) 应返回 2。",
+      "starterCode": "def damage(attack, defense):\n    return \n\nprint(damage(25, 6))\nprint(damage(100, 10))",
+      "hint": "** 0.5 即开平方；先 int(attack ** 0.5) 再减 defense // 2。",
+      "tests": [
+        "assert damage(25, 6) == 2",
+        "assert damage(100, 10) == 5",
+        "assert damage(16, 20) == -6"
+      ],
+      "stdin": [],
+      "xp": 100
+    }
+  },
+  {
+    "id": "l05",
+    "order": 5,
+    "chapter": 1,
+    "title": "输入信号",
+    "subtitle": "input() 与外部世界通信",
+    "xp": 70,
+    "blocks": [
+      {"type": "heading", "text": "接收来自街头的信号"},
+      {"type": "text", "text": "input() 会暂停程序等待用户输入一行文本并原样返回。关键陷阱：它永远返回 str！要当数字用必须手动转换 int(input()) 或 float(input())——新手第一大坑就在这。"},
+      {"type": "warn", "text": "本课示例使用预置输入队列运行：点击运行后会自动逐行喂入数据。想体验真正的键盘交互？去「神经接口」终端。"},
+      {"type": "diagram", "text": "键盘输入 '42' ──► input() ──► '42'(字符串!)\n                              │\n                        int() 转换\n                              ▼\n                             42 (数字)"},
+      {"type": "code", "runnable": true, "code": "callsign = input('代号: ')\nhours = int(input('在线小时: '))\n\nprint(f'{callsign} 已潜行 {hours} 小时')\nprint(hours >= 8 and '精英级' or '学徒级')"},
+      {"type": "quiz", "question": "不带转换时，input() 返回的类型永远是？", "options": ["int", "str", "看用户输什么"], "answer": 1, "explain": "无论输入什么内容，input() 都按字符串返回。"}
+    ],
+    "exercise": {
+      "title": "信号回执",
+      "brief": "函数 echo_band(band) 接收频段字符串，返回格式为 BAND:<原串大写> 的回执。例如 echo_band('neon') 返回 'BAND:NEON'。",
+      "starterCode": "def echo_band(band):\n    return \n\nprint(echo_band('neon'))",
+      "hint": "band.upper() 转大写，再用 f-string 拼 'BAND:{...}'。",
+      "tests": [
+        "assert echo_band('neon') == 'BAND:NEON'",
+        "assert echo_band('Ghost') == 'BAND:GHOST'"
+      ],
+      "stdin": [],
+      "xp": 100
+    }
+  },
+  {
+    "id": "l06",
+    "order": 6,
+    "chapter": 1,
+    "title": "条件分支矩阵",
+    "subtitle": "if / elif / else 决策树",
+    "xp": 80,
+    "blocks": [
+      {"type": "heading", "text": "每一次选择都在改写命运线"},
+      {"type": "text", "text": "if 检测条件是否为真，为真则进入缩进的代码块；elif 补充更多分支；else 兜底所有剩余情况。缩进（4 个空格）在 Python 里是语法本体——缩进错了程序就散架了。"},
+      {"type": "diagram", "text": "        ┌──────────┐\n        │ power>=90?│──是──► 评级 S\n        └────┬─────┘\n             否\n        ┌────▼─────┐\n        │ power>=60?│──是──► 评级 A\n        └────┬─────┘\n             否\n             └──────────► 评级 B"},
+      {"type": "code", "runnable": true, "code": "power = 87\n\nif power >= 90:\n    print('评级 S · 传奇接入者')\nelif power >= 60:\n    print('评级 A · 精英浪人')\nelse:\n    print('评级 B · 街头学徒')"},
+      {"type": "output", "text": "评级 A · 精英浪人"},
+      {"type": "text", "text": "比较运算符：> < >= <= == !=。逻辑组合：and、or、not。特别注意：== 才是比较，= 是赋值——写混了编译器会用红色报错提醒你。"},
+      {"type": "quiz", "question": "if / elif 链中，多个条件同时为真时会执行几个分支？", "options": ["全部为真的都执行", "只执行第一个为真的", "执行最后一个为真的"], "answer": 1, "explain": "elif 链是短路结构，命中第一个真条件后就跳过其余分支。"}
+    ],
+    "exercise": {
+      "title": "权限门卫",
+      "brief": "实现 access(level)：level >= 100 返回 'ROOT'；>= 50 返回 'OPERATOR'；否则返回 'GUEST'。",
+      "starterCode": "def access(level):\n    \n\nprint(access(120))\nprint(access(66))\nprint(access(3))",
+      "hint": "三个分支三段 return；注意 elif 的条件顺序要从高到低。",
+      "tests": [
+        "assert access(120) == 'ROOT'",
+        "assert access(100) == 'ROOT'",
+        "assert access(66) == 'OPERATOR'",
+        "assert access(3) == 'GUEST'"
+      ],
+      "stdin": [],
+      "xp": 110
+    }
+  },
+  {
+    "id": "l07",
+    "order": 7,
+    "chapter": 1,
+    "title": "循环引擎",
+    "subtitle": "for 遍历与 while 推进",
+    "xp": 80,
+    "blocks": [
+      {"type": "heading", "text": "让机器替你重复"},
+      {"type": "text", "text": "for i in range(n) 循环 n 次，i 从 0 数到 n-1；while 在条件为真期间持续执行。break 立即越狱跳出循环，continue 跳过本轮继续下一轮。"},
+      {"type": "diagram", "text": "for 循环:  range(1,6) ─► 1 2 3 4 5  (逐个喂给 i)\nwhile:     条件为真? ─是─► 执行代码 ─┐\n               ▲                     │\n               └─────────────────────┘"},
+      {"type": "code", "runnable": true, "code": "for i in range(1, 6):\n    print(f'脉冲 {i} 发送')\n\nbattery = 100\nwhile battery > 0:\n    battery -= 30\n    print(f'电量 {battery}')"},
+      {"type": "output", "text": "脉冲 1 发送\n脉冲 2 发送\n脉冲 3 发送\n脉冲 4 发送\n脉冲 5 发送\n电量 70\n电量 40\n电量 10\n电量 -20"},
+      {"type": "tip", "text": "range(start, stop, step)：range(0, 10, 2) 产生 0 2 4 6 8。stop 永远取不到。"},
+      {"type": "warn", "text": "while 条件必须能被改变为假，否则就是死循环——放心，本 App 的看门狗会在超时后强制中断你。"},
+      {"type": "quiz", "question": "range(3) 依次产生哪些数字？", "options": ["1 2 3", "0 1 2", "0 1 2 3"], "answer": 1, "explain": "从 0 开始，到 stop-1 结束。"}
+    ],
+    "exercise": {
+      "title": "能量谐波求和",
+      "brief": "实现 harmonic(limit)：计算 2 到 limit（含）之间所有偶数的和。harmonic(10) 返回 30。",
+      "starterCode": "def harmonic(limit):\n    total = 0\n    \n    return total\n\nprint(harmonic(10))",
+      "hint": "for n in range(2, limit + 1, 2): total += n",
+      "tests": [
+        "assert harmonic(10) == 30",
+        "assert harmonic(11) == 30",
+        "assert harmonic(3) == 2",
+        "assert harmonic(1) == 0"
+      ],
+      "stdin": [],
+      "xp": 120
+    }
+  },
+  {
+    "id": "l08",
+    "order": 8,
+    "chapter": 1,
+    "title": "列表仓库",
+    "subtitle": "有序数据的容器",
+    "xp": 90,
+    "blocks": [
+      {"type": "heading", "text": "把装备码进队列"},
+      {"type": "text", "text": "列表用方括号定义，是最常用的容器：loot = ['芯片', '电池']。append 尾部添加，len 取长度，in 判断成员，切片语法与字符串完全相同。"},
+      {"type": "diagram", "text": "loot ──► ┌──────┬──────┬──────┐\n         │ 芯片 │ 电池 │ 义眼 │   ← append 后\n         └──────┴──────┴──────┘\n索引       0      1      2      (len=3)"},
+      {"type": "code", "runnable": true, "code": "loot = ['芯片', '电池']\nloot.append('义眼')\nprint(loot, len(loot))\n\nprint('电池' in loot)\nprint(loot[:2])\nprint(sorted([3, 1, 2]))"},
+      {"type": "output", "text": "['芯片', '电池', '义眼'] 3\nTrue\n['芯片', '电池']\n[1, 2, 3]"},
+      {"type": "text", "text": "遍历列表直接 for item in lst；需要序号时用 enumerate(lst)，一次拿到下标和元素两个值。"},
+      {"type": "code", "runnable": true, "code": "scores = [88, 92, 79]\nfor idx, s in enumerate(scores):\n    print(idx, s)"},
+      {"type": "quiz", "question": "len([1, [2, 3], 'x']) 的结果是？", "options": ["4", "3", "报错"], "answer": 1, "explain": "列表长度按顶层元素计，嵌套列表整体算 1 个元素。"}
+    ],
+    "exercise": {
+      "title": "巅峰战力扫描",
+      "brief": "不用内置 max，实现 peak(values)：遍历找出最大值并返回。空列表返回 None。",
+      "starterCode": "def peak(values):\n    \n\nprint(peak([88, 92, 79]))\nprint(peak([]))",
+      "hint": "先判断 if not values: return None；再用一个 best 变量记录当前最大，逐个比较更新。",
+      "tests": [
+        "assert peak([88, 92, 79]) == 92",
+        "assert peak([-5, -1, -9]) == -1",
+        "assert peak([7]) == 7",
+        "assert peak([]) is None"
+      ],
+      "stdin": [],
+      "xp": 130
+    }
+  },
+  {
+    "id": "l09",
+    "order": 9,
+    "chapter": 1,
+    "title": "字典密钥库",
+    "subtitle": "键值对映射",
+    "xp": 90,
+    "blocks": [
+      {"type": "heading", "text": "以键索骥"},
+      {"type": "text", "text": "字典用花括号存键值对，像一张门禁卡映射表：刷卡(key)立刻找到房间(value)。user = {'name': 'V', 'lv': 7}。通过 user['name'] 取值；get(key, 默认值) 更安全——键不存在也不报错。"},
+      {"type": "diagram", "text": "user ──► ┌─────────┬────────┐\n         │ 'name'  │  'V'   │\n         ├─────────┼────────┤\n         │ 'lv'    │   7    │\n         └─────────┴────────┘\n            key  ─► value"},
+      {"type": "code", "runnable": true, "code": "user = {'name': 'V', 'lv': 7}\nprint(user['name'], user.get('guild', '无公会'))\n\nuser['lv'] += 1\nuser['title'] = '浪人'\nfor k, v in user.items():\n    print(k, '=', v)"},
+      {"type": "output", "text": "V 无公会\nname = V\nlv = 8\ntitle = 浪人"},
+      {"type": "tip", "text": "统计计数的万能咒语：counts[ch] = counts.get(ch, 0) + 1 —— 第 26 课的综合项目全靠它。"},
+      {"type": "quiz", "question": "d = {} 时，d.get('x') 的结果是？", "options": ["报错 KeyError", "None", "0"], "answer": 1, "explain": "get 不传默认值时，键缺失返回 None；而 d['x'] 这种写法才会抛 KeyError。"}
+    ],
+    "exercise": {
+      "title": "频率监听器",
+      "brief": "实现 freq(text)：统计每个字符出现的次数并返回字典。freq('aab') 应返回 {'a': 2, 'b': 1}。",
+      "starterCode": "def freq(text):\n    counts = {}\n    \n    return counts\n\nprint(freq('aab'))",
+      "hint": "遍历每个字符 ch，用 counts[ch] = counts.get(ch, 0) + 1 累计。",
+      "tests": [
+        "assert freq('aab') == {'a': 2, 'b': 1}",
+        "assert freq('neon') == {'n': 2, 'e': 1, 'o': 1}",
+        "assert freq('') == {}"
+      ],
+      "stdin": [],
+      "xp": 140
+    }
+  },
+  {
+    "id": "l10",
+    "order": 10,
+    "chapter": 1,
+    "title": "基础篇毕业式",
+    "subtitle": "函数 × 循环 × 字典 综合实战",
+    "xp": 120,
+    "blocks": [
+      {"type": "heading", "text": "组装你的第一台义体"},
+      {"type": "text", "text": "基础篇最后一课没有新知识——把前九课全部串联起来。你要写一个状态报告生成器：接收战士字典，产出格式化报告字符串。这种「聚合-加工-输出」的模式，是真实项目里最常见的形状。"},
+      {"type": "code", "runnable": true, "code": "def badge(warrior):\n    total = sum(warrior['stats'].values())\n    top = max(warrior['stats'], key=warrior['stats'].get)\n    return f\"[{warrior['name']}] 综合{total} 强项{top}\"\n\nw = {'name': 'Judy', 'stats': {'atk': 30, 'def': 22, 'hack': 41}}\nprint(badge(w))"},
+      {"type": "output", "text": "[Judy] 综合93 强项hack"},
+      {"type": "tip", "text": "sum(dict.values()) 对所有值求和；max(d, key=d.get) 找最大值对应的键——key 参数以后到处都会见到。"},
+      {"type": "quiz", "question": "sum([1, 2, 3]) 的结果是？", "options": ["123", "6", "报错"], "answer": 1, "explain": "sum 对数值序列求和。完成本课后，前往「角斗场」接受终极试炼吧！"}
+    ],
+    "exercise": {
+      "title": "街头信用评估",
+      "brief": "实现 street_credit(stats)：stats 形如 {'atk':x,'def':y,'hack':z}。三项之和 >= 100 返回 'LEGEND'，>= 60 返回 'PRO'，否则 'ROOKIE'。",
+      "starterCode": "def street_credit(stats):\n    \n\ns = {'atk': 40, 'def': 35, 'hack': 30}\nprint(street_credit(s))",
+      "hint": "sum(stats.values()) 先求总分，再走 if / elif / else 三段返回。",
+      "tests": [
+        "assert street_credit({'atk': 40, 'def': 35, 'hack': 30}) == 'LEGEND'",
+        "assert street_credit({'atk': 20, 'def': 20, 'hack': 21}) == 'PRO'",
+        "assert street_credit({'atk': 1, 'def': 2, 'hack': 3}) == 'ROOKIE'"
+      ],
+      "stdin": [],
+      "xp": 200
+    }
+  }
+]
