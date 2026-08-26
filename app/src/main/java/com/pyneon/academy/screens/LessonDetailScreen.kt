@@ -59,6 +59,7 @@ import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.SurfaceHigh
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -136,6 +137,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     is Block.Diagram -> DiagramBox(block.text)
                     is Block.Task -> TipBox(block.text, NeonYellow, "TASK · 跟着做")
                     is Block.Steps -> StepsCard(block.items)
+                    is Block.Practice -> PracticeCard(block)
                     is Block.Quiz -> QuizCard(block)
                     is Block.CodeBlock -> CodeExampleCard(
                         code = block.code,
@@ -465,6 +467,35 @@ private fun StepsCard(items: List<String>) {
 @Composable
 private fun Modifier.androidxBackground(color: androidx.compose.ui.graphics.Color, shape: androidx.compose.ui.graphics.Shape): Modifier =
     this.background(color, shape)
+
+@Composable
+private fun PracticeCard(practice: Block.Practice) {
+    NeonCard(accent = NeonCyan, filled = true) {
+        Text("PRACTICE · 跟做练习", style = MaterialTheme.typography.labelSmall, color = NeonCyan)
+        Spacer(Modifier.height(4.dp))
+        Text(practice.title, style = MaterialTheme.typography.titleSmall, color = TextHi)
+        Spacer(Modifier.height(10.dp))
+        Text("试一试：", style = MaterialTheme.typography.labelSmall, color = NeonCyan.copy(alpha = 0.7f))
+        Spacer(Modifier.height(4.dp))
+        PythonCodeField(
+            value = remember(practice.code) { TextFieldValue(practice.code) },
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(SurfaceHigh.copy(alpha = 0.45f))
+                .border(1.dp, NeonCyan.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
+                .padding(4.dp),
+            minHeight = 60
+        )
+        Spacer(Modifier.height(10.dp))
+        Text("预期输出：", style = MaterialTheme.typography.labelSmall, color = NeonGreen.copy(alpha = 0.7f))
+        Spacer(Modifier.height(4.dp))
+        OutputPreview(practice.output)
+        Spacer(Modifier.height(8.dp))
+        TipBox(practice.hint, NeonCyan, "提示")
+    }
+}
 
 @Composable
 private fun CodeExampleCard(

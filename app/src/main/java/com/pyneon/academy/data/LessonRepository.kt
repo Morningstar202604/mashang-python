@@ -15,6 +15,7 @@ sealed class Block {
     data class Diagram(val text: String) : Block()
     data class Task(val text: String) : Block()
     data class Steps(val items: List<String>) : Block()
+    data class Practice(val title: String, val code: String, val output: String, val hint: String) : Block()
     data class Quiz(
         val question: String,
         val options: List<String>,
@@ -140,6 +141,12 @@ object LessonRepository {
                     }
                     blocks.add(Block.Steps(items))
                 }
+                "practice" -> blocks.add(Block.Practice(
+                    title = b.getString("title"),
+                    code = b.getString("code"),
+                    output = b.getString("output"),
+                    hint = b.getString("hint")
+                ))
                 "quiz" -> {
                     val options = b.getJSONArray("options").let { oa ->
                         buildList { for (j in 0 until oa.length()) add(oa.getString(j)) }
