@@ -81,7 +81,8 @@ fun LessonsScreen(openLesson: (String) -> Unit) {
             val chapters = mapOf(
                 1 to "第一幕 · 基础协议",
                 2 to "第二幕 · 进阶装备",
-                3 to "第三幕 · 高阶义体"
+                3 to "第三幕 · 高阶义体",
+                4 to "终幕 · 边界之外"
             )
             items(lessons.size, key = { lessons[it].id }) { index ->
                 val lesson = lessons[index]

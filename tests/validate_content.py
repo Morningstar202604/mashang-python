@@ -303,6 +303,40 @@ SOLUTIONS = {
         "print(safe_len('neon'))\n"
         "print(safe_len(42))"
     ),
+    "l28": (
+        "def write_note(path, text):\n"
+        "    with open(path, 'w', encoding='utf-8') as f:\n"
+        "        f.write(text)\n"
+        "    return len(text)\n"
+        "\n"
+        "print(write_note('note.txt', 'hello'))\n"
+        "print(open('note.txt', encoding='utf-8').read())"
+    ),
+    "l29": (
+        "class HackError(Exception):\n"
+        "    def __init__(self, msg='非法入侵'):\n"
+        "        super().__init__(msg)\n"
+        "\n"
+        "def guard(n):\n"
+        "    if n < 0:\n"
+        "        raise HackError()\n"
+        "    return n * 2\n"
+        "\n"
+        "print(guard(5))\n"
+        "try:\n"
+        "    guard(-1)\n"
+        "except HackError as e:\n"
+        "    print('已拦截:', e)"
+    ),
+    "l30": (
+        "import math\n"
+        "\n"
+        "def area_circle(r):\n"
+        "    return round(math.pi * r * r, 2)\n"
+        "\n"
+        "print(area_circle(1))\n"
+        "print(area_circle(2))"
+    ),
     "c01": (
         "def neon_fb(n):\n"
         "    result = []\n"

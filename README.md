@@ -5,16 +5,16 @@
 **码上，就是马上。Learn Python instantly — on your phone, fully offline.**
 
 一台装进口袋的赛博朋克 Python 学习终端：内嵌真·CPython 解释器，
-26 讲闯关课程、assert 自动判题、变量可视化、六段位成长体系。
+30 讲闯关课程、assert 自动判题、变量可视化、六段位成长体系。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-neon.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
-[![Lessons](https://img.shields.io/badge/%E8%AF%BE%E7%A8%8B-27%E8%AE%B2-F7FF00.svg)](#-课程体系-27-讲--三幕)
+[![Lessons](https://img.shields.io/badge/%E8%AF%BE%E7%A8%8B-30%E8%AE%B2-F7FF00.svg)](#-课程体系-30-讲--四幕)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 
-[下载 APK](#-下载安装) · [课程体系](#-课程体系-27-讲--三幕) · [参与贡献](#-参与贡献) · [⭐ 点个 Star](../../stargazers)
+[下载 APK](#-下载安装) · [课程体系](#-课程体系-30-讲--四幕) · [参与贡献](#-参与贡献) · [⭐ 点个 Star](../../stargazers)
 
 </div>
 
@@ -44,7 +44,7 @@
 
 | 你是 | 你会得到 |
 |---|---|
-| 零基础学生 / 转行者 | 27 讲中文剧情课，从 print 一路打到装饰器 |
+| 零基础学生 / 转行者 | 30 讲中文剧情课，从 print 一路打到装饰器 |
 | 通勤碎片时间学习者 | 全离线，地铁隧道里也能跑代码 |
 | 教师 / 家长 | 无广告、无账号、零数据上传，可放心推给学生 |
 | 开发者 | Compose + Chaquopy 完整参考实现，MIT 可商用 |
@@ -106,7 +106,7 @@ Pydroid 是开发工具；我们是"课程即代码"的学习终端——每讲�
 **Q: 课程内容可以商用吗？**
 可以。仓库 MIT 协议，课程 JSON 结构文档化，欢迎做成你自己的品牌分支。
 
-## 📚 课程体系（27 讲 · 三幕）
+## 📚 课程体系（30 讲 · 四幕）
 
 <details open>
 <summary><b>第一幕 · 基础协议</b>（点击折叠）</summary>
@@ -126,6 +126,9 @@ Pydroid 是开发工具；我们是"课程即代码"的学习终端——每讲�
 <summary><b>第三幕 · 高阶义体</b></summary>
 
 `19 继承与魔法方法` · `20 综合项目·赛博银行` · `21 生成器引擎` · `22 装饰器战衣` · `23 lambda三剑客` · `24 标准库实战(Counter/re)` · `25 时间与随机宇宙` · `26 毕业项目·日志分析器` · `27 彩蛋·内置函数巡礼(内容中心首发)`
+
+**终幕 · 边界之外** —— Python 核心在此通关：
+`28 文件读写协议` · `29 自定义异常` · `30 模块与主守卫(__main__)`
 
 </details>
 

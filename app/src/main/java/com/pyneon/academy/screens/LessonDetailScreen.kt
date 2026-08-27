@@ -120,6 +120,34 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
             )
         }
 
+        val allLessons = remember(lessonId) { LessonRepository.lessons(context) }
+        val lessonIdx = allLessons.indexOfFirst { it.id == lessonId }
+        if (lessonIdx >= 0 && allLessons.isNotEmpty()) {
+            Column(Modifier.padding(horizontal = 20.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "课程进度 ${lessonIdx + 1} / ${allLessons.size}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = TextDim,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        "${((lessonIdx + 1) * 100) / allLessons.size}%",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = NeonCyan
+                    )
+                }
+                androidx.compose.material3.LinearProgressIndicator(
+                    progress = { (lessonIdx + 1).toFloat() / allLessons.size },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp, bottom = 2.dp),
+                    color = NeonCyan,
+                    trackColor = NeonCyan.copy(alpha = 0.12f)
+                )
+            }
+        }
+
         Column(
             Modifier.padding(horizontal = 20.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
