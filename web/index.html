@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>码上Python · PY//NOW — 电脑端</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Pyodide：浏览器内 CPython（复用手机端同一套 runner.py 引擎） -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+</head>
+<body>
+  <div id="boot" class="boot">
+    <div class="boot-box">
+      <pre class="boot-art">
+ ██████╗ ██╗   ██╗███╗   ██╗███████╗ ███╗   ██╗ ██████╗
+██╔═══██╗╚██╗ ██╔╝████╗  ██║██╔════╝ ████╗  ██║██╔═══██╗
+██║   ██║ ╚████╔╝ ██╔██╗ ██║█████╗   ██╔██╗ ██║██║   ██║
+██║   ██║  �█╔══██╗ ██║╚██╗██║██╔══╝   ██║╚██╗██║██║   ██║
+╚██████╔╝ ██║  ██║ ██║ ╚████║███████╗ ██║ ╚████║╚██████╔╝
+ ╚═════╝  ╚═╝  ╚═╝ ╚═╝  ╚═══╝╚══════╝ ╚═╝  ╚═══╝ ╚═════╝
+      </pre>
+      <div class="boot-line" id="boot-line">> 正在载入 CPython 内核…</div>
+    </div>
+  </div>
+
+  <header class="hud-top">
+    <div class="logo">PY<span class="slash">//</span>NOW <span class="logo-sub">码上Python · 电脑端</span></div>
+    <nav class="nav">
+      <button class="nav-btn active" data-tab="home">指挥台</button>
+      <button class="nav-btn" data-tab="repl">神经接口</button>
+      <button class="nav-btn" data-tab="arena">角斗场</button>
+    </nav>
+    <div class="status"><span id="py-status" class="dot off"></span><span id="py-text">引擎离线</span></div>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

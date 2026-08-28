@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 唯一用途：内容中心（ContentCenter）手动下载课程包。App 不收集/上传任何个人数据。 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

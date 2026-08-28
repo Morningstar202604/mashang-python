@@ -42,13 +42,16 @@ import androidx.compose.ui.unit.dp
 import com.pyneon.academy.data.Block
 import com.pyneon.academy.data.Clock
 import com.pyneon.academy.data.LessonRepository
+import com.pyneon.academy.data.MistakeViewModel
 import com.pyneon.academy.data.Progress
 import com.pyneon.academy.data.ProgressStore
+import com.pyneon.academy.data.ReviewViewModel
 import com.pyneon.academy.py.PyBridge
 import com.pyneon.academy.py.RunResult
 import com.pyneon.academy.ui.components.ConsoleResult
-import com.pyneon.academy.ui.components.NeonButton
+import com.pyneon.academy.ui.components.CodeEditor
 import com.pyneon.academy.ui.components.PythonCodeField
+import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.SectionHeader
@@ -66,6 +69,7 @@ import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
@@ -73,13 +77,15 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val lesson = remember(lessonId) { LessonRepository.lesson(context, lessonId) }
     val progress by ProgressStore.flow(context).collectAsState(initial = Progress())
+    val mistakeVm: MistakeViewModel = viewModel()
+    val reviewVm: ReviewViewModel = viewModel()
 
     val runResults = remember(lessonId) { mutableStateMapOf<Int, RunResult>() }
     var runningKey by remember(lessonId) { mutableStateOf<Int?>(null) }
 
     val exercise = lesson?.exercise
     var editorValue by remember(lessonId) {
-        mutableStateOf(TextFieldValue(exercise?.starterCode ?: ""))
+        mutableStateOf(exercise?.starterCode ?: "")
     }
     var checkResult by remember(lessonId) { mutableStateOf<RunResult?>(null) }
     var checking by remember(lessonId) { mutableStateOf(false) }
@@ -94,6 +100,13 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
             Text("课程数据缺失", color = NeonMagenta)
         }
         return
+    }
+
+    // Generate review cards when lesson is first completed
+    androidx.compose.runtime.LaunchedEffect(alreadySolved) {
+        if (alreadySolved) {
+            reviewVm.generateCardsForLesson(lesson)
+        }
     }
 
     Column(
@@ -199,15 +212,15 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     Spacer(Modifier.height(14.dp))
                     Text("CODE EDITOR", style = MaterialTheme.typography.labelSmall, color = NeonMagenta.copy(alpha = 0.7f))
                     Spacer(Modifier.height(4.dp))
-                    PythonCodeField(
+                    CodeEditor(
                         value = editorValue,
                         onValueChange = { editorValue = it },
+                        hint = exercise.brief,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(SurfaceHigh.copy(alpha = 0.5f))
-                            .border(1.dp, NeonMagenta.copy(alpha = 0.20f), MaterialTheme.shapes.extraSmall)
-                            .padding(4.dp),
-                        minHeight = 160
+                            .height(200.dp),
+                        showLineNumbers = true,
+                        language = "python"
                     )
 
                     Spacer(Modifier.height(14.dp))
@@ -221,17 +234,34 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                                     checking = true
                                     checkResult = null
                                     val r = withContext(Dispatchers.Default) {
-                                        PyBridge.checkExercise(editorValue.text, exercise.tests, exercise.stdin)
+                                        PyBridge.checkExercise(editorValue, exercise.tests, exercise.stdin)
                                     }
                                     checkResult = r
                                     checking = false
                                     recordSideEffects(context, r)
-                                    if (r.passed == true && solvedKey !in progress.solvedKeys) {
-                                        ProgressStore.markExerciseSolved(context, solvedKey, exercise.xp, Clock.todayEpochDay())
-                                        ProgressStore.markLessonDone(context, lesson.id, lesson.xp)
-                                        rewardXp = exercise.xp + lesson.xp
-                                    } else if (r.passed == true && solvedKey in progress.solvedKeys) {
-                                        rewardXp = 0
+                                    if (r.passed == true) {
+                                        if (solvedKey !in progress.solvedKeys) {
+                                            ProgressStore.markExerciseSolved(context, solvedKey, exercise.xp, Clock.todayEpochDay())
+                                            ProgressStore.markLessonDone(context, lesson.id, lesson.xp)
+                                            rewardXp = exercise.xp + lesson.xp
+                                            // Generate review cards for this lesson
+                                            reviewVm.generateCardsForLesson(lesson)
+                                        } else {
+                                            rewardXp = 0
+                                        }
+                                    } else {
+                                        // Record mistake for review
+                                        val errorMsg = r.stdout?.takeIf { it.isNotBlank() } ?: r.stderr ?: "未知错误"
+                                        mistakeVm.recordMistake(
+                                            lessonId = lesson.id,
+                                            blockType = "exercise",
+                                            blockIndex = -1,
+                                        userCode = editorValue,
+                                        expected = exercise.tests.joinToString("\n"),
+                                        actual = r.stdout ?: "",
+                                        error = errorMsg,
+                                            conceptTags = extractConceptTags(lesson.id)
+                                        )
                                     }
                                 }
                             },
@@ -294,6 +324,37 @@ private suspend fun recordSideEffects(context: android.content.Context, result: 
         ProgressStore.markFirstRun(context)
     }
     ProgressStore.markNightRun(context, Clock.currentHour())
+}
+
+private fun extractConceptTags(lessonId: String): List<String> {
+    return when {
+        lessonId.startsWith("l01") -> listOf("basics", "variables")
+        lessonId.startsWith("l02") -> listOf("types", "strings")
+        lessonId.startsWith("l03") -> listOf("operators", "math")
+        lessonId.startsWith("l04") -> listOf("conditionals", "logic")
+        lessonId.startsWith("l05") -> listOf("loops", "iteration")
+        lessonId.startsWith("l06") -> listOf("functions", "definitions")
+        lessonId.startsWith("l07") -> listOf("lists", "collections")
+        lessonId.startsWith("l08") -> listOf("dicts", "mappings")
+        lessonId.startsWith("l09") -> listOf("file-io", "persistence")
+        lessonId.startsWith("l10") -> listOf("exceptions", "errors")
+        lessonId.startsWith("l11") -> listOf("oop", "classes")
+        lessonId.startsWith("l12") -> listOf("inheritance", "polymorphism")
+        lessonId.startsWith("l13") -> listOf("magic-methods", "dunder")
+        lessonId.startsWith("l14") -> listOf("generators", "iterators")
+        lessonId.startsWith("l15") -> listOf("decorators", "wrappers")
+        lessonId.startsWith("l16") -> listOf("lambdas", "functional")
+        lessonId.startsWith("l17") -> listOf("stdlib", "collections")
+        lessonId.startsWith("l18") -> listOf("regex", "text")
+        lessonId.startsWith("l19") -> listOf("datetime", "time")
+        lessonId.startsWith("l20") -> listOf("random", "probability")
+        lessonId.startsWith("l21") -> listOf("project", "logging")
+        lessonId.startsWith("l22") -> listOf("builtins", "inspection")
+        lessonId.startsWith("l23") -> listOf("files", "io")
+        lessonId.startsWith("l24") -> listOf("exceptions", "custom")
+        lessonId.startsWith("l25") -> listOf("modules", "packages")
+        else -> listOf("general")
+    }
 }
 
 @Composable

@@ -7,7 +7,7 @@ pluginManagement {
             content { includeGroupByRegex("org\\.jetbrains.*"); includeGroupByRegex("com\\.android.*"); includeGroupByRegex("com\\.chaquo.*") }
         }
         google {
-            content { includeGroupByRegex("com\\.android.*"); includeGroupByRegex("com\\.google.*"); includeGroupByRegex("androidx.*") }
+            content { includeGroupByRegex("com\\.android.*"); includeGroupByRegex("com\\.google.*"); includeGroupByRegex("androidx.*"); includeGroupByRegex("com\\.google\\.devtools.*") }
         }
         mavenCentral()
         gradlePluginPortal()

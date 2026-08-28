@@ -73,14 +73,14 @@ object LessonRepository {
             val raw = context.assets.open(fileName).bufferedReader().use { it.readText() }
             val array = JSONArray(raw)
             buildList {
-                for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i)))
+                for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i), defaultRunnable = true))
             }
         }
         val downloaded = ContentCenter().installedFiles(context).flatMap { f ->
             try {
                 val array = JSONArray(f.readText())
                 buildList {
-                    for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i)))
+                    for (i in 0 until array.length()) add(parseLesson(array.getJSONObject(i), defaultRunnable = false))
                 }
             } catch (_: Exception) {
                 emptyList()
@@ -111,7 +111,7 @@ object LessonRepository {
     fun challenge(context: Context, id: String): Challenge? =
         challenges(context).firstOrNull { it.id == id }
 
-    private fun parseLesson(obj: JSONObject): Lesson {
+    private fun parseLesson(obj: JSONObject, defaultRunnable: Boolean = true): Lesson {
         val blocks = mutableListOf<Block>()
         val blockArray = obj.getJSONArray("blocks")
         for (i in 0 until blockArray.length()) {
@@ -121,7 +121,7 @@ object LessonRepository {
                 "text" -> blocks.add(Block.Paragraph(b.getString("text")))
                 "tip" -> blocks.add(Block.Tip(b.getString("text")))
                 "warn" -> blocks.add(Block.Warn(b.getString("text")))
-                "code" -> blocks.add(Block.CodeBlock(b.getString("code"), b.optBoolean("runnable", true)))
+                "code" -> blocks.add(Block.CodeBlock(b.getString("code"), b.optBoolean("runnable", defaultRunnable)))
                 "output" -> blocks.add(Block.Output(b.getString("text")))
                 "table" -> {
                     val headers = b.getJSONArray("headers").let { ha ->

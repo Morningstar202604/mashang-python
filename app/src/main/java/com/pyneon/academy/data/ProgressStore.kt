@@ -21,12 +21,15 @@ data class Progress(
     val completedLessons: Set<String> = emptySet(),
     val solvedKeys: Set<String> = emptySet(),
     val streakDays: Int = 0,
+    val longestStreak: Int = 0,
+    val totalActiveDays: Int = 0,
     val lastActiveEpochDay: Long = -1L,
     val dailyDate: Long = -1L,
     val dailyCount: Int = 0,
     val firstRunDone: Boolean = false,
     val nightOwl: Boolean = false,
-    val terminalHead: Boolean = false
+    val terminalHead: Boolean = false,
+    val badges: Set<String> = emptySet()
 )
 
 object ProgressStore {
@@ -34,6 +37,8 @@ object ProgressStore {
     private val KEY_DONE_LESSONS = stringSetPreferencesKey("done_lessons")
     private val KEY_SOLVED = stringSetPreferencesKey("solved_keys")
     private val KEY_STREAK = intPreferencesKey("streak_days")
+    private val KEY_LONGEST_STREAK = intPreferencesKey("longest_streak")
+    private val KEY_TOTAL_ACTIVE_DAYS = intPreferencesKey("total_active_days")
     private val KEY_LAST_ACTIVE = longPreferencesKey("last_active_epoch_day")
     private val KEY_DAILY_DATE = longPreferencesKey("daily_date")
     private val KEY_DAILY_COUNT = intPreferencesKey("daily_count")
@@ -41,6 +46,7 @@ object ProgressStore {
     private val KEY_NIGHT_OWL = booleanPreferencesKey("night_owl")
     private val KEY_LAST_LESSON = stringPreferencesKey("last_lesson_id")
     private val KEY_TERMINAL_HEAD = booleanPreferencesKey("terminal_head")
+    private val KEY_BADGES = stringSetPreferencesKey("badges")
 
     private const val DAILY_BONUS_XP = 30
 
@@ -57,12 +63,15 @@ object ProgressStore {
         completedLessons = this[KEY_DONE_LESSONS] ?: emptySet(),
         solvedKeys = this[KEY_SOLVED] ?: emptySet(),
         streakDays = this[KEY_STREAK] ?: 0,
+        longestStreak = this[KEY_LONGEST_STREAK] ?: 0,
+        totalActiveDays = this[KEY_TOTAL_ACTIVE_DAYS] ?: 0,
         lastActiveEpochDay = this[KEY_LAST_ACTIVE] ?: -1L,
         dailyDate = this[KEY_DAILY_DATE] ?: -1L,
         dailyCount = this[KEY_DAILY_COUNT] ?: 0,
         firstRunDone = this[KEY_FIRST_RUN] ?: false,
         nightOwl = this[KEY_NIGHT_OWL] ?: false,
-        terminalHead = this[KEY_TERMINAL_HEAD] ?: false
+        terminalHead = this[KEY_TERMINAL_HEAD] ?: false,
+        badges = this[KEY_BADGES] ?: emptySet()
     )
 
     suspend fun touchStreak(context: Context, todayEpochDay: Long) {
@@ -137,6 +146,36 @@ object ProgressStore {
     suspend fun markTerminalHead(context: Context) {
         context.applicationContext.progressDataStore.edit { p ->
             p[KEY_TERMINAL_HEAD] = true
+        }
+    }
+
+    suspend fun setBadges(context: Context, badges: Set<String>) {
+        context.applicationContext.progressDataStore.edit { p ->
+            p[KEY_BADGES] = badges
+        }
+    }
+
+    suspend fun updateStreakStats(context: Context, streakDays: Int, longestStreak: Int, totalActiveDays: Int) {
+        context.applicationContext.progressDataStore.edit { p ->
+            p[KEY_STREAK] = streakDays
+            p[KEY_LONGEST_STREAK] = longestStreak
+            p[KEY_TOTAL_ACTIVE_DAYS] = totalActiveDays
+        }
+    }
+
+    suspend fun restoreFromBackup(context: Context, xpTotal: Int, completedLessons: Set<String>, solvedKeys: Set<String>, streakDays: Int, lastActiveEpochDay: Long, dailyDate: Long, dailyCount: Int, firstRunDone: Boolean, nightOwl: Boolean, terminalHead: Boolean, badges: Set<String>) {
+        context.applicationContext.progressDataStore.edit { prefs ->
+            prefs[KEY_XP] = xpTotal
+            prefs[KEY_DONE_LESSONS] = completedLessons
+            prefs[KEY_SOLVED] = solvedKeys
+            prefs[KEY_STREAK] = streakDays
+            prefs[KEY_LAST_ACTIVE] = lastActiveEpochDay
+            prefs[KEY_DAILY_DATE] = dailyDate
+            prefs[KEY_DAILY_COUNT] = dailyCount
+            prefs[KEY_FIRST_RUN] = firstRunDone
+            prefs[KEY_NIGHT_OWL] = nightOwl
+            prefs[KEY_TERMINAL_HEAD] = terminalHead
+            prefs[KEY_BADGES] = badges
         }
     }
 

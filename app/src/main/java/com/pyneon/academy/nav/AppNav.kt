@@ -8,6 +8,10 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.Terminal
+import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Backup
+import androidx.compose.material.icons.outlined.FlashOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -33,7 +37,9 @@ import com.pyneon.academy.screens.ContentHubScreen
 import com.pyneon.academy.screens.HomeScreen
 import com.pyneon.academy.screens.LessonDetailScreen
 import com.pyneon.academy.screens.LessonsScreen
+import com.pyneon.academy.screens.MistakeScreen
 import com.pyneon.academy.screens.ProfileScreen
+import com.pyneon.academy.screens.StreakScreen
 import com.pyneon.academy.screens.TerminalScreen
 import com.pyneon.academy.ui.theme.Bg1
 import com.pyneon.academy.ui.theme.Bg0
@@ -140,10 +146,19 @@ fun AppRoot() {
             }
             composable("profile") { ProfileScreen(
                 onOpenContentHub = { navController.navigate("contenthub") },
-                onOpenCertificate = { navController.navigate("certificate") }
+                onOpenCertificate = { navController.navigate("certificate") },
+                onOpenStreak = { navController.navigate("streak") },
+                onOpenMistakes = { navController.navigate("mistakes") },
+                onOpenBackup = { /* TODO: open backup dialog */ }
             ) }
             composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
-            composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
+composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
+            composable("streak") { StreakScreen(onBack = { navController.popBackStack() }) }
+            composable("mistakes") { MistakeScreen(onBack = { navController.popBackStack() }) }
+            composable("mistakes/{lessonId}") { entry ->
+                val id = entry.arguments?.getString("lessonId").orEmpty()
+                MistakeScreen(onBack = { navController.popBackStack() }, lessonId = id)
+            }
         }
-    }
+}
 }

@@ -1,0 +1,345 @@
+xargs: environment is too large for exec
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.10.2/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+Warning: Python version 3.13 may have fewer packages available. If you experience problems, try switching to version 3.8.
+
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:extractDebugPythonBuildPackages UP-TO-DATE
+> Task :app:generateDebugPythonRequirements UP-TO-DATE
+> Task :app:mergeDebugPythonSources UP-TO-DATE
+> Task :app:generateDebugPythonProxies UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:compileDebugKotlin
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/AppDatabase.kt:47:71 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'kotlin.collections.List<kotlin.String>?'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:16:16 Unresolved reference 'serialization'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:17:16 Unresolved reference 'serialization'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:18:16 Unresolved reference 'serialization'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:23:24 Unresolved reference 'Json'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:23:31 Unresolved reference 'prettyPrint'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:23:51 Unresolved reference 'ignoreUnknownKeys'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:51:51 Unresolved reference 'firstOrNull'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:53:54 Unresolved reference 'firstOrNull'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:53:71 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:74:20 'return' is prohibited here.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:76:42 Unresolved reference 'readText'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:80:17 'return' is prohibited here.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:94:63 Suspension functions can only be called within coroutine body.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:94:80 Unresolved reference 'it'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:95:57 Suspension functions can only be called within coroutine body.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:95:64 Unresolved reference 'it'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:100:27 Unresolved reference 'context'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:100:72 Unresolved reference 'edit'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:100:79 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:101:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Int>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:101:33 Cannot access 'val KEY_XP: Preferences.Key<Int>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:102:33 Cannot access 'val KEY_DONE_LESSONS: Preferences.Key<Set<String>>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:103:33 Cannot access 'val KEY_SOLVED: Preferences.Key<Set<String>>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:104:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Int>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:104:33 Cannot access 'val KEY_STREAK: Preferences.Key<Int>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:105:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Long>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:105:33 Cannot access 'val KEY_LAST_ACTIVE: Preferences.Key<Long>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:106:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Long>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:106:33 Cannot access 'val KEY_DAILY_DATE: Preferences.Key<Long>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:107:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Int>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:107:33 Cannot access 'val KEY_DAILY_COUNT: Preferences.Key<Int>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:108:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Boolean>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:108:33 Cannot access 'val KEY_FIRST_RUN: Preferences.Key<Boolean>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:109:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Boolean>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:109:33 Cannot access 'val KEY_NIGHT_OWL: Preferences.Key<Boolean>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:110:19 Argument type mismatch: actual type is 'androidx.datastore.preferences.core.Preferences.Key<kotlin.Boolean>', but 'kotlin.Int' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/BackupUtil.kt:110:33 Cannot access 'val KEY_TERMINAL_HEAD: Preferences.Key<Boolean>': it is private in 'com/pyneon/academy/data/ProgressStore'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ReviewScheduler.kt:24:23 Suspend function 'suspend fun <T> withContext(context: CoroutineContext, block: suspend CoroutineScope.() -> T): T
+    [R|Contract description]
+     <
+        CallsInPlace(block, EXACTLY_ONCE)
+    >' should be called only from a coroutine or another suspend function.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ReviewScheduler.kt:70:13 'when' expression must be exhaustive. Add the 'is CodeBlock', 'is Diagram', 'is Heading', 'is Output', 'is Paragraph', 'is Practice', 'is Steps', ... branches or an 'else' branch.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ReviewScheduler.kt:79:58 Unresolved reference 'answer'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:5:27 Unresolved reference 'asLiveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:6:27 Unresolved reference 'liveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:16:34 Unresolved reference 'asLiveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:16:55 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:23:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:32:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:37:17 Operator '==' cannot be applied to 'kotlin.Long' and 'kotlin.Int'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:47:17 Incompatible types 'kotlin.Long' and 'kotlin.Int'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:48:17 Incompatible types 'kotlin.Long' and 'kotlin.Int'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:61:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:76:13 Suspend function 'suspend fun setBadges(badges: String): Unit' should be called only from a coroutine or another suspend function.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:87:91 Unresolved reference 'asLiveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:87:102 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:90:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:105:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:116:36 Unresolved reference 'asLiveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:116:47 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:118:67 Unresolved reference 'asLiveData'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:118:78 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:130:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:148:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/data/ViewModels.kt:152:9 Unresolved reference 'viewModelScope'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:67:33 Unresolved reference 'fillMaxWidth'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:164:57 Unresolved reference 'progressDao'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:165:40 Unresolved reference 'getAllLessons'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:167:58 Unresolved reference 'size'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:168:37 Unresolved reference 'xp'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:168:39 Unresolved reference 'it'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:169:50 Overload resolution ambiguity between candidates:
+fun CharSequence.sumOf(selector: (Char) -> Int): Int
+fun CharSequence.sumOf(selector: (Char) -> Long): Long
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:170:28 Unresolved reference 'it'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:170:43 Unresolved reference 'xp'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:226:67 Unresolved reference 'size'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/CertificatePoster.kt:291:65 Argument type mismatch: actual type is 'java.io.OutputStream?', but 'java.io.OutputStream' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/LessonDetailScreen.kt:260:45 No parameter with name 'expectedOutput' found.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/LessonDetailScreen.kt:261:45 No parameter with name 'actualOutput' found.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/LessonDetailScreen.kt:263:45 No value passed for parameter 'expected'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/LessonDetailScreen.kt:263:45 No value passed for parameter 'actual'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:38:33 Unresolved reference 'livedata'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:52:41 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:57:38 Unresolved reference 'NeonButton'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:66:21 Not enough information to infer type argument for 'K'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:67:56 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:69:46 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:74:9 'val' cannot be reassigned.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:78:27 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:78:61 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:79:18 Overload resolution ambiguity between candidates:
+fun <T> Array<out T>.filter(predicate: (T) -> Boolean): List<T>
+fun BooleanArray.filter(predicate: (Boolean) -> Boolean): List<Boolean>
+fun ByteArray.filter(predicate: (Byte) -> Boolean): List<Byte>
+fun CharArray.filter(predicate: (Char) -> Boolean): List<Char>
+fun DoubleArray.filter(predicate: (Double) -> Boolean): List<Double>
+fun FloatArray.filter(predicate: (Float) -> Boolean): List<Float>
+fun IntArray.filter(predicate: (Int) -> Boolean): List<Int>
+fun LongArray.filter(predicate: (Long) -> Boolean): List<Long>
+fun ShortArray.filter(predicate: (Short) -> Boolean): List<Short>
+fun <T> Iterable<T>.filter(predicate: (T) -> Boolean): List<T>
+fun <K, V> Map<out K, V>.filter(predicate: (Map.Entry<K, V>) -> Boolean): Map<K, V>
+fun UByteArray.filter(predicate: (UByte) -> Boolean): List<UByte>
+fun UIntArray.filter(predicate: (UInt) -> Boolean): List<UInt>
+fun ULongArray.filter(predicate: (ULong) -> Boolean): List<ULong>
+fun UShortArray.filter(predicate: (UShort) -> Boolean): List<UShort>
+fun <T> Sequence<T>.filter(predicate: (T) -> Boolean): Sequence<T>
+fun CharSequence.filter(predicate: (Char) -> Boolean): CharSequence
+fun String.filter(predicate: (Char) -> Boolean): String
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:79:27 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:80:40 Unresolved reference 'conceptTags'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:101:41 Overload resolution ambiguity between candidates:
+fun <T> Array<out T>.isNotEmpty(): Boolean
+fun BooleanArray.isNotEmpty(): Boolean
+fun ByteArray.isNotEmpty(): Boolean
+fun CharArray.isNotEmpty(): Boolean
+fun DoubleArray.isNotEmpty(): Boolean
+fun FloatArray.isNotEmpty(): Boolean
+fun IntArray.isNotEmpty(): Boolean
+fun LongArray.isNotEmpty(): Boolean
+fun ShortArray.isNotEmpty(): Boolean
+fun <T> Collection<T>.isNotEmpty(): Boolean
+fun <K, V> Map<out K, V>.isNotEmpty(): Boolean
+fun CharSequence.isNotEmpty(): Boolean
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:116:44 Unresolved reference 'ScrollingTabRow'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:118:36 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:119:49 'operator' modifier is required on 'FirNamedFunctionSymbol kotlin/compareTo' in 'compareTo'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:124:35 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:125:60 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:129:34 Unresolved reference 'graphicsLayer'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:129:50 Unresolved reference 'translationX'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:129:78 Unresolved reference 'it'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:129:82 Unresolved reference 'left'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:136:48 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:137:32 Argument type mismatch: actual type is 'kotlin.String', but '@Composable() androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>?' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:144:52 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:145:36 Argument type mismatch: actual type is 'kotlin.String', but '@Composable() androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>?' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:155:33 Overload resolution ambiguity between candidates:
+fun <T> Array<out T>.isEmpty(): Boolean
+fun BooleanArray.isEmpty(): Boolean
+fun ByteArray.isEmpty(): Boolean
+fun CharArray.isEmpty(): Boolean
+fun DoubleArray.isEmpty(): Boolean
+fun FloatArray.isEmpty(): Boolean
+fun IntArray.isEmpty(): Boolean
+fun LongArray.isEmpty(): Boolean
+fun ShortArray.isEmpty(): Boolean
+fun CharSequence.isEmpty(): Boolean
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:160:21 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:161:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:167:29 None of the following candidates is applicable:
+fun Text(text: AnnotatedString, modifier: Modifier = ..., color: Color = ..., fontSize: TextUnit = ..., fontStyle: FontStyle? = ..., fontWeight: FontWeight? = ..., fontFamily: FontFamily? = ..., letterSpacing: TextUnit = ..., textDecoration: TextDecoration? = ..., textAlign: TextAlign? = ..., lineHeight: TextUnit = ..., overflow: TextOverflow = ..., softWrap: Boolean = ..., maxLines: Int = ..., minLines: Int = ..., inlineContent: Map<String, InlineTextContent> = ..., onTextLayout: (TextLayoutResult) -> Unit = ..., style: TextStyle = ...): Unit
+fun Text(text: String, modifier: Modifier = ..., color: Color = ..., fontSize: TextUnit = ..., fontStyle: FontStyle? = ..., fontWeight: FontWeight? = ..., fontFamily: FontFamily? = ..., letterSpacing: TextUnit = ..., textDecoration: TextDecoration? = ..., textAlign: TextAlign? = ..., lineHeight: TextUnit = ..., overflow: TextOverflow = ..., softWrap: Boolean = ..., maxLines: Int = ..., minLines: Int = ..., onTextLayout: ((TextLayoutResult) -> Unit)? = ..., style: TextStyle = ...): Unit
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:168:50 Syntax error: Expecting ')'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:168:52 Syntax error: Unexpected tokens (use ';' to separate expressions on the same line).
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:169:33 Unresolved reference 'style'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:169:64 Syntax error: Unexpected tokens (use ';' to separate expressions on the same line).
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:170:33 Unresolved reference 'color'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:171:29 Syntax error: Expecting an element.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:184:37 Argument type mismatch: actual type is 'kotlin.Int', but 'com.pyneon.academy.data.MistakeEntity' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:186:73 Unresolved reference 'id'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:200:5 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:204:9 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:205:13 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:210:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:215:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:234:13 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:239:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:240:21 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:241:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:242:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:252:13 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:256:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:257:21 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:258:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:265:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:266:21 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:267:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:278:17 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:279:21 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:280:25 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:281:29 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:282:29 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:292:13 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:295:15 Unresolved reference 'NeonButton'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:296:17 Unresolved reference 'NeonButton'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:297:52 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/MistakeScreen.kt:298:17 Unresolved reference 'NeonButton'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:185:124 Argument type mismatch: actual type is 'kotlin.Function0<kotlin.Unit>', but 'androidx.compose.ui.graphics.vector.ImageVector?' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:186:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:188:127 Argument type mismatch: actual type is 'kotlin.Function0<kotlin.Unit>', but 'androidx.compose.ui.graphics.vector.ImageVector?' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:189:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:193:124 Argument type mismatch: actual type is 'kotlin.Function0<kotlin.Unit>', but 'androidx.compose.ui.graphics.vector.ImageVector?' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/ProfileScreen.kt:194:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:36:33 Unresolved reference 'livedata'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:56:41 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:60:38 Unresolved reference 'NeonButton'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:73:9 'val' cannot be reassigned.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:101:13 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:107:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:119:35 Unresolved reference 'currentStreak'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:129:21 Unresolved reference 'Row'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:133:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:133:50 Unresolved reference 'longestStreak'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:134:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:134:50 Unresolved reference 'totalActiveDays'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:134:85 Unresolved reference 'CalendarToday'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:135:25 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:135:70 Unresolved reference 'Refresh'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:143:13 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:149:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:152:47 Unresolved reference 'badgesUnlocked'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:159:13 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:165:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:169:71 Unresolved reference 'badgesUnlocked'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:179:89 Unresolved reference 'Icon'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:181:28 Unresolved reference 'TrendingUp'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:192:9 No parameter with name 'horizontalArrangement' found.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:205:25 Function 'component1()' is ambiguous for this expression: 
+fun <T> Array<out T>.component1(): T
+fun BooleanArray.component1(): Boolean
+fun ByteArray.component1(): Byte
+fun CharArray.component1(): Char
+fun DoubleArray.component1(): Double
+fun FloatArray.component1(): Float
+fun IntArray.component1(): Int
+fun LongArray.component1(): Long
+fun ShortArray.component1(): Short
+fun <T> List<T>.component1(): T
+fun <K, V> Map.Entry<K, V>.component1(): K
+fun UByteArray.component1(): UByte
+fun UIntArray.component1(): UInt
+fun ULongArray.component1(): ULong
+fun UShortArray.component1(): UShort.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:205:25 Function 'component2()' is ambiguous for this expression: 
+fun <T> Array<out T>.component2(): T
+fun BooleanArray.component2(): Boolean
+fun ByteArray.component2(): Byte
+fun CharArray.component2(): Char
+fun DoubleArray.component2(): Double
+fun FloatArray.component2(): Float
+fun IntArray.component2(): Int
+fun LongArray.component2(): Long
+fun ShortArray.component2(): Short
+fun <T> List<T>.component2(): T
+fun <K, V> Map.Entry<K, V>.component2(): V
+fun UByteArray.component2(): UByte
+fun UIntArray.component2(): UInt
+fun ULongArray.component2(): ULong
+fun UShortArray.component2(): UShort.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:206:9 Argument type mismatch: actual type is 'kotlin.Pair<A, B>', but 'K' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:206:23 Unresolved reference 'Lock'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:206:28 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:208:9 Argument type mismatch: actual type is 'kotlin.Pair<A, B>', but 'K' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:208:18 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:208:18 Unresolved reference. None of the following candidates is applicable because of a receiver type mismatch:
+fun <A, B> A.to(that: B): Pair<A, B>
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:210:5 Unresolved reference 'NeonCard'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:218:9 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:233:54 Unresolved reference 'Icon'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:239:50 Unresolved reference 'TrendingUp'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:241:49 Unresolved reference 'Star'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:242:52 Unresolved reference 'Diamond'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/screens/StreakScreen.kt:243:49 Unresolved reference 'MilitaryTech'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:46:33 Unresolved reference 'px'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:70:23 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:70:32 Cannot infer type for this parameter. Please specify it explicitly.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:70:62 Unresolved reference 'TextFieldScrollState'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:88:14 Unresolved reference 'height'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:91:14 Unresolved reference 'shadow'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:91:67 Argument type mismatch: actual type is 'androidx.compose.ui.unit.Dp', but 'androidx.compose.ui.geometry.Offset' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:91:73 Argument type mismatch: actual type is 'androidx.compose.ui.unit.Dp', but 'kotlin.Float' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:94:47 Unresolved reference 'BorderStroke'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:98:13 No parameter with name 'verticalArrangement' found.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:102:17 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:106:40 @Composable invocations can only happen from the context of a @Composable function
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:108:28 Argument type mismatch: actual type is 'androidx.compose.ui.text.AnnotatedString', but 'kotlin.String' was expected.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:119:56 Unresolved reference 'selectionStart'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:120:54 Unresolved reference 'selectionEnd'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:126:35 Unresolved reference 'key'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:126:61 Unresolved reference 'type'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:126:78 Unresolved reference 'Type'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:135:66 Unresolved reference 'KeyboardOptions'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:139:66 Unresolved reference 'KeyboardActions'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:145:71 Unresolved reference 'textFieldColors'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/CodeEditor.kt:158:65 Return type of 'filter' is not a subtype of the return type of the overridden member 'fun filter(text: AnnotatedString): TransformedText' defined in 'androidx/compose/ui/text/input/VisualTransformation'.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/NeonColors.kt:35:30 Variable 'TextHi' must be initialized.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/NeonColors.kt:36:25 Variable 'TextHi' must be initialized.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/NeonColors.kt:37:32 Variable 'TextDim' must be initialized.
+e: file:///D:/00000/app/app/src/main/java/com/pyneon/academy/ui/components/NeonColors.kt:38:26 Variable 'TextDim' must be initialized.
+
+> Task :app:compileDebugKotlin FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 6m 14s
+18 actionable tasks: 1 executed, 17 up-to-date

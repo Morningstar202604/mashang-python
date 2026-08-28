@@ -9,6 +9,12 @@ DEFAULT_TIMEOUT = 8.0
 EXERCISE_TEST_TIMEOUT = 2.0
 MAX_VARS = 40
 MAX_REPR = 200
+# W3: cap captured stdout/stderr so a runaway print loop cannot blow up the
+# JSON payload or exhaust memory. 1 MiB is plenty for terminal output.
+MAX_OUTPUT = 1_048_576
+# W2: coarse byte-size guard applied *before* calling repr() on a user value,
+# so a gigantic object (or a repr that would allocate massively) is skipped.
+MAX_VAR_BYTES = 1_000_000
 
 
 class SandboxTimeout(Exception):
@@ -53,6 +59,14 @@ def _error_payload(etype, evalue, tb):
         "message": str(evalue),
         "traceback": text,
     }
+
+
+def _truncate(text):
+    """W3: keep stdout/stderr bounded. When too long, drop the head and keep the
+    tail so the most recent output (and the error) stays visible."""
+    if text and len(text) > MAX_OUTPUT:
+        return "[输出过长已截断]\n" + text[-MAX_OUTPUT:]
+    return text
 
 
 def _run_protected(code, namespace, stdin_lines, timeout):
@@ -117,8 +131,8 @@ def _run_protected(code, namespace, stdin_lines, timeout):
         )
     )
     return {
-        "stdout": out_buf.getvalue(),
-        "stderr": err_buf.getvalue(),
+        "stdout": _truncate(out_buf.getvalue()),
+        "stderr": _truncate(err_buf.getvalue()),
         "error": error,
         "duration_ms": duration_ms,
     }
@@ -132,9 +146,14 @@ def _snapshot(namespace):
         if callable(value) and getattr(value, "__module__", None) == "builtins":
             continue
         try:
-            rendered = repr(value)
+            if sys.getsizeof(value, 0) > MAX_VAR_BYTES:
+                rendered = "<对象过大>"
+            else:
+                rendered = repr(value)
         except BaseException:
-            rendered = "<无法显示>"
+            # W2: a custom __repr__ that raises (or recurses into RecursionError)
+            # must never crash the snapshot of the caller's session.
+            rendered = "<unrepresentable>"
         if len(rendered) > MAX_REPR:
             rendered = rendered[:MAX_REPR] + "…"
         items.append({"name": key, "type": type(value).__name__, "value": rendered})
@@ -161,12 +180,14 @@ def check_exercise(code, tests, stdin_lines=None):
             "passed": False,
             "stdout": core["stdout"],
             "stderr": core["stderr"],
+            "test_output": "",
             "error": core["error"],
             "duration_ms": core["duration_ms"],
             "variables": [],
         }
 
     failures = []
+    test_outputs = []
     for index, test in enumerate(tests, start=1):
         test_state = {"finished": False, "error": None}
         test_out = io.StringIO()
@@ -196,6 +217,9 @@ def check_exercise(code, tests, stdin_lines=None):
         worker.join(EXERCISE_TEST_TIMEOUT + 1.0)
         if not test_state["finished"]:
             test_state["error"] = "测试执行超时"
+        # G3b: collect whatever the test printed (both for passing and failing
+        # cases) so diagnostic print() calls inside a test are visible.
+        test_outputs.append(test_out.getvalue())
         if test_state["error"] is not None:
             failures.append(
                 {"index": index, "test": test.strip(), "reason": test_state["error"]}
@@ -213,6 +237,7 @@ def check_exercise(code, tests, stdin_lines=None):
         "passed": passed,
         "stdout": core["stdout"],
         "stderr": core["stderr"],
+        "test_output": _truncate("".join(test_outputs)),
         "error": None
         if passed
         else {"type": "TestFailed", "message": message, "traceback": ""},

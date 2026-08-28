@@ -45,6 +45,7 @@ import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextDim
 import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
+import com.pyneon.academy.screens.CertificatePoster
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -119,6 +120,12 @@ fun CertificateScreen(onBack: () -> Unit) {
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(Modifier.height(12.dp))
+        CertificatePoster.GenerateCertificatePosterButton { success, msg ->
+            // Toast or snackbar would be better, but keeping it simple
+            // TODO: Show feedback
+        }
     }
 }
 

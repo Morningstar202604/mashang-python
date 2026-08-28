@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -167,11 +168,13 @@ fun NeonCard(
     modifier: Modifier = Modifier,
     accent: Color = NeonCyan,
     filled: Boolean = false,
+    elevation: Dp = 0.dp,
+    shape: Shape = androidx.compose.foundation.shape.CutCornerShape(14.dp),
+    backgroundColor: Color? = null,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ): Unit {
-    val shape: Shape = androidx.compose.foundation.shape.CutCornerShape(14.dp)
-    val bg = if (filled) accent.copy(alpha = 0.10f) else SurfaceDark
+    val bg = backgroundColor ?: (if (filled) accent.copy(alpha = 0.10f) else SurfaceDark)
     val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
     val interaction = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
@@ -182,6 +185,7 @@ fun NeonCard(
     )
     var base = Modifier
         .graphicsLayer { scaleX = scale; scaleY = scale }
+        .shadow(elevation, shape)
         .clip(shape)
         .background(bg)
         .border(neonBorder(accent), shape)

@@ -1,15 +1,9 @@
-import java.util.Properties
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.chaquo.python")
-}
-
-val keystoreProps = Properties().apply {
-    val f = rootProject.file("keystore.properties")
-    if (f.exists()) f.inputStream().use { load(it) }
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.21"
 }
 
 android {
@@ -20,20 +14,25 @@ android {
         applicationId = "com.pyneon.academy"
         minSdk = 24
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.3.2"
+        versionCode = 9
+        versionName = "0.3.3"
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
     }
 
     signingConfigs {
-        if (keystoreProps.isNotEmpty()) {
+        // D1: 签名凭据改由环境变量注入；任一缺失则不创建 release 签名（不硬编码失败）
+        val ksPath = System.getenv("KEYSTORE_PATH")
+        val ksPass = System.getenv("KEYSTORE_PASSWORD")
+        val keyPass = System.getenv("KEY_PASSWORD")
+        val ksAlias = System.getenv("KEY_ALIAS")
+        if (!ksPath.isNullOrBlank() && !ksPass.isNullOrBlank() && !keyPass.isNullOrBlank() && !ksAlias.isNullOrBlank()) {
             create("release") {
-                storeFile = file(keystoreProps["storeFile"] as String)
-                storePassword = keystoreProps["storePassword"] as String
-                keyAlias = keystoreProps["keyAlias"] as String
-                keyPassword = keystoreProps["keyPassword"] as String
+                storeFile = file(ksPath)
+                storePassword = ksPass
+                keyAlias = ksAlias
+                keyPassword = keyPass
             }
         }
     }
@@ -42,9 +41,8 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            if (keystoreProps.isNotEmpty()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            // D1: 仅当环境变量齐备、release 签名已创建时才挂载，否则保持未签名
+            signingConfigs.findByName("release")?.let { signingConfig = it }
         }
     }
     compileOptions {
@@ -83,4 +81,15 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.5")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+
+    // 缺失依赖补充：viewModelScope / asLiveData / liveData 来自 lifecycle-ktx
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    // LiveData → Compose State 桥接（observeAsState，来自 androidx.compose.runtime.livedata）
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.6")
+    // kotlinx-serialization：BackupUtil 备份 JSON 序列化所需
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+
+    // QR code for certificate poster
+    implementation("com.google.zxing:core:3.5.3")
 }

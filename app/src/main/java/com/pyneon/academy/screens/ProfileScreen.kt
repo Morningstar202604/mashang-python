@@ -19,6 +19,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.LocalFireDepartment
+import androidx.compose.material.icons.outlined.BugReport
+import androidx.compose.material.icons.outlined.Backup
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -60,7 +63,13 @@ import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(onOpenContentHub: () -> Unit = {}, onOpenCertificate: () -> Unit = {}) {
+fun ProfileScreen(
+    onOpenContentHub: () -> Unit = {},
+    onOpenCertificate: () -> Unit = {},
+    onOpenStreak: () -> Unit = {},
+    onOpenMistakes: () -> Unit = {},
+    onOpenBackup: () -> Unit = {}
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val progress by ProgressStore.flow(context).collectAsState(initial = Progress())
@@ -160,12 +169,25 @@ fun ProfileScreen(onOpenContentHub: () -> Unit = {}, onOpenCertificate: () -> Un
         SectionHeader("系统信息", accent = NeonGreen)
         NeonCard(accent = NeonGreen) {
             InfoRow("运行时", "CPython $pythonVersion · Chaquopy 嵌入")
-            InfoRow("版本", "码上Python v0.3.0")
+            InfoRow("版本", "码上Python v0.3.3")
             InfoRow("网络", "离线优先 · 联网仅拉取新课程")
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 NeonButton(label = "内容中心", accent = NeonCyan, onClick = onOpenContentHub, modifier = Modifier.weight(1f))
                 NeonButton(label = "重置全部进度", accent = NeonMagenta, onClick = { confirmReset = true }, modifier = Modifier.weight(1f))
+            }
+        }
+
+        SectionHeader("进阶工具", accent = NeonMagenta)
+        NeonCard(accent = NeonMagenta) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(label = "连击台", accent = NeonYellow, leadingIcon = Icons.Outlined.LocalFireDepartment, onClick = onOpenStreak, modifier = Modifier.weight(1f))
+                    NeonButton(label = "错题本", accent = NeonMagenta, leadingIcon = Icons.Outlined.BugReport, onClick = onOpenMistakes, modifier = Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(label = "备份/恢复", accent = NeonCyan, leadingIcon = Icons.Outlined.Backup, onClick = onOpenBackup, modifier = Modifier.weight(1f))
+                }
             }
         }
         Spacer(Modifier.height(80.dp))
