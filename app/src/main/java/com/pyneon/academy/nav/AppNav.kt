@@ -69,7 +69,8 @@ fun AppRoot() {
     val showBar = TOP_DESTS.any { it.route == currentRoute }
     
     // Track if welcome tutorial has been shown in this session
-    val showWelcome = remember { mutableStateOf(AppPrefs.isFirstLaunch(LocalContext.current)) }
+    val context = LocalContext.current
+    val showWelcome = remember { mutableStateOf(AppPrefs.isFirstLaunch(context)) }
 
     Scaffold(
         containerColor = Bg0,
@@ -138,7 +139,7 @@ fun AppRoot() {
             
             composable("welcome") {
                 WelcomeTutorial(onComplete = {
-                    AppPrefs.markFirstLaunchComplete(LocalContext.current)
+                    AppPrefs.markFirstLaunchComplete(context)
                     navController.navigate("home") {
                         popUpTo("welcome") { inclusive = true }
                     }
