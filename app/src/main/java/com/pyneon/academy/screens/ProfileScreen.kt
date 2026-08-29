@@ -59,6 +59,7 @@ import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.SurfaceDark
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.utils.ShareHelper
 import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.launch
 
@@ -187,6 +188,9 @@ fun ProfileScreen(
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     NeonButton(label = "备份/恢复", accent = NeonCyan, leadingIcon = Icons.Outlined.Backup, onClick = onOpenBackup, modifier = Modifier.weight(1f))
+                    NeonButton(label = "分享成就", accent = NeonGreen, leadingIcon = Icons.Outlined.Share, onClick = {
+                        ShareHelper.shareAchievement(context, progress.xpTotal, progress.streakDays, Ranks.forXp(progress.xpTotal).name)
+                    }, modifier = Modifier.weight(1f))
                 }
             }
         }
