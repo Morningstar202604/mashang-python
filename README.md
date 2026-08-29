@@ -1,170 +1,172 @@
 <div align="center">
 
-<img src="docs/logo.svg" alt="码上Python · PY//NOW" width="720"/>
+<img src="docs/logo.svg" alt="PY//NOW · Mashang Python" width="720"/>
 
-**码上，就是马上。Learn Python instantly — on your phone, fully offline.**
+**Code now, master Python instantly. Learn offline, anywhere.**
 
-一台装进口袋的赛博朋克 Python 学习终端：内嵌真·CPython 解释器，
-30 讲闯关课程、assert 自动判题、变量可视化、六段位成长体系。
+A cyberpunk-styled Python learning terminal that fits in your pocket: embedded real CPython interpreter, 30-level gamified curriculum, auto-grading with assert, variable visualization, and six-tier progression system.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-neon.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
-[![Lessons](https://img.shields.io/badge/%E8%AF%BE%E7%A8%8B-30%E8%AE%B2-F7FF00.svg)](#-课程体系-30-讲--四幕)
+[![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
+[![Stars](https://img.shields.io/github/stars/Morningstar202604/mashang-python?style=social)](../../stargazers)
 
-[下载 APK](#-下载安装) · [课程体系](#-课程体系-30-讲--四幕) · [参与贡献](#-参与贡献) · [⭐ 点个 Star](../../stargazers)
+🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
+
+[Download APK](#download-install) · [Curriculum](#curriculum-30-lessons--4-acts) · [Contributing](#contributing) · [Roadmap](#roadmap)
 
 </div>
 
 ---
 
-## 🖥 它长什么样
+## 🖥 What It Looks Like
 
 ```text
 ╔══════════════════════════════════╗
-║  PY//NOW · 码上Python   ● CPython 3.13 在线
+║  PY//NOW · Mashang Python   ● CPython 3.13 Online
 ╠══════════════════════════════════╣
-║  ▍实战演练 · 权限门卫
+║  ▍Practice · Access Guard
 ║  ┌────────────────────────────┐
-║  │ def access(level):         │  ← 霓虹语法高亮
+║  │ def access(level):         │  ← Neon syntax highlighting
 ║  │     if level >= 100:       │
 ║  └────────────────────────────┘
-║  [▶ 运行判题]  [💡提示]
+║  [▶ Run & Grade]  [💡 Hint]
 ║  ────────────────────────────
-║  ROOT                    ← 打字机输出
-║  // 变量快照                    ← 全App独有
+║  ROOT                    ← Typewriter output
+║  // Variable Snapshot            ← App-exclusive feature
 ║  (level:int) 120   (r:str) 'ROOT'
 ╚══════════════════════════════════╝
 ```
-> 真机截图陆续补充中；上面的终端框就是 App 内的实际信息结构。
+> Real device screenshots coming soon; the terminal frame above shows the actual in-app information structure.
 
-## 👤 适合谁
+## 👤 Who Is This For
 
-| 你是 | 你会得到 |
+| You Are | You Get |
 |---|---|
-| 零基础学生 / 转行者 | 30 讲中文剧情课，从 print 一路打到装饰器 |
-| 通勤碎片时间学习者 | 全离线，地铁隧道里也能跑代码 |
-| 教师 / 家长 | 无广告、无账号、零数据上传，可放心推给学生 |
-| 开发者 | Compose + Chaquopy 完整参考实现，MIT 可商用 |
+| Beginner / Career Changer | 30 Chinese narrative lessons, from `print` to decorators |
+| Commuter / Fragmented Learner | Fully offline, code even in subway tunnels |
+| Teacher / Parent | No ads, no account, zero data upload — safe for students |
+| Developer | Complete Compose + Chaquopy reference implementation, MIT commercial use |
 
-## 为什么是码上？
+## Why PY//NOW?
 
-市面上的编程学习 App 要么联网依赖云执行，要么白净得像说明书。
-**码上Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
-没有网络也能写代码、跑代码、判题通关；再配一套 CRT 扫描线与霓虹故障字的赛博 HUD，
-让「学编程」第一次有了打游戏的感觉。
+Most programming learning apps either rely on cloud execution or look like dry manuals.
+**PY//NOW** embeds a complete **CPython 3.13 interpreter** directly into the APK—
+code, run, and pass challenges without internet; paired with CRT scanlines and neon glitch typography for a cyberpunk HUD,
+making "learning to code" feel like playing a game for the first time.
 
-| | 别人的 | 码上Python |
+| | Others | PY//NOW |
 |---|---|---|
-| 代码执行 | ☁️ 云端，断网即瘫 | 📱 本机 CPython 3.13 |
-| 教学风格 | 干瘪文档 | 赛博剧情 + 生活化比喻 + 随堂一问 |
-| 运行反馈 | 黑框 print | 打字机流式输出 + **变量快照面板** |
-| 成长激励 | 打卡日历 | XP / 六段位 / 每日任务 / 成就徽章墙 |
+| Code Execution | ☁️ Cloud-based, dead without net | 📱 On-device CPython 3.13 |
+| Teaching Style | Dry documentation | Cyber narrative + life analogies + pop quizzes |
+| Runtime Feedback | Black-box print | Typewriter streaming + **Variable Snapshot Panel** |
+| Growth Motivation | Check-in calendar | XP / Six Tiers / Daily Quests / Achievement Wall |
 
-## ✨ 特性一览
+## ✨ Features
 
-- 🔌 **全离线引擎** —— Chaquopy 内嵌 CPython，联网仅用于内容中心下载课程包（应用本身不收集/上传任何个人数据）
-- 🔌 **离线打底，联网增强** —— 断网照常学；有网时「内容中心」一键拉取新课程包（Gitee/GitCode/GitHub 三镜像自动回退）
-- 🛡 **安全沙箱** —— 死循环看门狗强制中断、输入队列接管 `input()`、异常友好汉化
-- 🎹 **代码编辑器** —— Python 语法霓虹高亮、智能缩进（`:` 自动进一层）、Tab 补空格
-- 🖥 **神经接口 REPL** —— 有状态会话、↑↓ 历史、多行块、一键重置
-- 🔬 **变量快照** —— 每次运行后展示命名空间里每个变量的名字/类型/值
-- ✅ **assert 判题** —— 通过测试用例才算过关，防止"看懂了但不会写"
-- ✍️ **填空题 + 🧩 代码排序** —— 对标 Mimo 的低门槛题型：只敲缺失片段 / 把打乱的代码行排成正确程序
-- 🎓 **毕业证书** —— 通关全部课程解锁霓虹认证页，截图即分享
-- 🧭 **手把手引导** —— 每课标配：生活化比喻 → ASCII 图解 → TASK 跟改 → PRACTICE 跟练 → STEPS 思路卡
-- 🏆 **游戏化** —— 脚本小子 → 数据幽灵 → 网络浪人 → 义体黑客 → 街头传奇 → 系统架构师
+- 🔌 **Fully Offline Engine** — Chaquopy-embedded CPython; network only for Content Hub course downloads (zero personal data collection/upload)
+- 🔌 **Offline First, Online Enhanced** — Learn without internet; one-tap pull of new course packs via Content Hub (Gitee/GitCode/GitHub triple-mirror fallback)
+- 🛡 **Sandbox Security** — Dead-loop watchdog force-interrupt, input queue takeover for `input()`, friendly localized exceptions
+- 🎹 **Code Editor** — Neon Python syntax highlighting, smart indentation (`:` auto-indent), Tab-to-space
+- 🖥 **Neural Interface REPL** — Stateful session, ↑↓ history, multi-line blocks, one-tap reset
+- 🔬 **Variable Snapshot** — Post-run display of every variable's name/type/value in namespace
+- ✅ **Assert Grading** — Must pass test cases to advance, preventing "understood but can't code"
+- ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier题型: type missing fragments / sort shuffled lines into correct program
+- 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
+- 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
+- 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
 
-## 📥 下载安装
+## 📥 Download & Install
 
-> Android 7.0+（minSdk 24），arm64-v8a / x86_64 双架构，APK 约 43MB。
+> Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture, APK ~43MB.
 
-- ⭐ 推荐：从 [GitHub Releases](../../releases) 下载 `app-release.apk`
-- 国内直连：[Gitee 仓库](https://gitee.com/badhope/mashang-python) 同步发布
-- 开发者自行构建：
+- ⭐ Recommended: Download `app-release.apk` from [GitHub Releases](../../releases)
+- China Direct: [Gitee Repository](https://gitee.com/badhope/mashang-python) synchronized release
+- Build yourself:
 
-```powershell
-gradle :app:assembleDebug        # Debug 包
-gradle :app:bundleRelease        # 商店用 AAB（需配置 keystore.properties）
-python tests/test_engine_desktop.py   # 引擎单测
-python tests/validate_content.py      # 课程×参考答案 全量校验
+```bash
+./gradlew :app:assembleDebug        # Debug build
+./gradlew :app:bundleRelease        # Store AAB (requires keystore.properties)
+python tests/test_engine_desktop.py   # Engine unit tests
+python tests/validate_content.py      # Full curriculum × answer key validation
 ```
 
 ## ❓ FAQ
 
-**Q: 真的完全离线？联网权限用来干嘛？**
-学习、写码、判题 100% 离线。联网仅在「内容中心」手动检查/下载新课程包时发生，且不携带任何个人数据。
+**Q: Is it really fully offline? What's the network permission for?**
+Learning, coding, and grading are 100% offline. Network is only used when manually checking/downloading new course packs in "Content Hub", with zero personal data transmitted.
 
-**Q: 和 Pydroid3 这类 IDE 有什么区别？**
-Pydroid 是开发工具；我们是"课程即代码"的学习终端——每讲配判题实战与成长体系，目标是教会你，而不是给你一个空白编辑器。
+**Q: How is this different from Pydroid3 or other IDEs?**
+Pydroid is a development tool; we're a "curriculum-as-code" learning terminal—each lesson comes with graded challenges and a growth system. Our goal is to teach you, not just give you a blank editor.
 
-**Q: 会出 iOS 版吗？**
-技术栈（Chaquopy）仅支持 Android；iOS 需另选型，在 Roadmap 远期观察中。
+**Q: Will there be an iOS version?**
+The tech stack (Chaquopy) only supports Android; iOS would require a different approach and is on the long-term roadmap.
 
-**Q: 课程内容可以商用吗？**
-可以。仓库 MIT 协议，课程 JSON 结构文档化，欢迎做成你自己的品牌分支。
+**Q: Can I use the curriculum commercially?**
+Yes. The repository is under MIT license, course JSON is well-documented, and you're welcome to create your own branded fork.
 
-## 📚 课程体系（30 讲 · 四幕）
+## 📚 Curriculum (30 Lessons · 4 Acts)
 
 <details open>
-<summary><b>第一幕 · 基础协议</b>（点击折叠）</summary>
+<summary><b>Act I · Foundation Protocol</b> (click to collapse)</summary>
 
-`01 第一次握手` · `02 变量与数据类型` · `03 字符串行动` · `04 数字运算协议` · `05 输入信号` · `06 条件分支矩阵` · `07 循环引擎` · `08 列表仓库` · `09 字典密钥库` · `10 基础篇毕业式`
-
-</details>
-
-<details>
-<summary><b>第二幕 · 进阶装备</b></summary>
-
-`11 字符串百宝箱` · `12 元组与集合` · `13 函数进化论(*args/**kwargs)` · `14 推导式风暴` · `15 异常护盾` · `16 数据持久化(文件/JSON)` · `17 模块召唤术` · `18 类与对象觉醒`
+`01 First Handshake` · `02 Variables & Types` · `03 String Operations` · `04 Numeric Protocols` · `05 Input Signals` · `06 Conditional Branching Matrix` · `07 Loop Engines` · `08 List Warehouses` · `09 Dictionary Key Vaults` · `10 Foundation Graduation`
 
 </details>
 
 <details>
-<summary><b>第三幕 · 高阶义体</b></summary>
+<summary><b>Act II · Advanced Gear</b></summary>
 
-`19 继承与魔法方法` · `20 综合项目·赛博银行` · `21 生成器引擎` · `22 装饰器战衣` · `23 lambda三剑客` · `24 标准库实战(Counter/re)` · `25 时间与随机宇宙` · `26 毕业项目·日志分析器` · `27 彩蛋·内置函数巡礼(内容中心首发)`
-
-**终幕 · 边界之外** —— Python 核心在此通关：
-`28 文件读写协议` · `29 自定义异常` · `30 模块与主守卫(__main__)`
+`11 String Toolbox` · `12 Tuples & Sets` · `13 Function Evolution (*args/**kwargs)` · `14 Comprehension Storm` · `15 Exception Shields` · `16 Data Persistence (Files/JSON)` · `17 Module Summoning` · `18 Class & Object Awakening`
 
 </details>
 
-每讲均含：**可运行示例 + OUTPUT 结果预览 + 图示/表格 + QUIZ 随堂一问 + assert 判题实战**
-另有角斗场 6 大挑战：霓虹计数器 / 回文侦测器 / 密码强度防火墙 / 括号防火墙 / 游程压缩器 / 库存管家。
+<details>
+<summary><b>Act III · High-Tier Implants</b></summary>
 
-## 🧱 技术架构
+`19 Inheritance & Magic Methods` · `20 Capstone Project · Cyber Bank` · `21 Generator Engines` · `22 Decorator Suits` · `23 Lambda Trio` · `24 Standard Library Combat (Counter/re)` · `25 Time & Random Universe` · `26 Graduation Project · Log Analyzer` · `27 Easter Egg · Built-in Function Tour (Content Hub Exclusive)`
+
+**Final Act · Beyond the Boundary** — Master Python core here:
+`28 File I/O Protocols` · `29 Custom Exceptions` · `30 Modules & Main Guard (__main__)`
+
+</details>
+
+Each lesson includes: **Runnable Example + OUTPUT Preview + Diagram/Table + QUIZ Pop Question + Assert Grading Challenge**
+Plus Arena 6 Major Challenges: Neon Counter / Palindrome Detector / Password Strength Firewall / Bracket Firewall / Run-Length Compressor / Inventory Manager.
+
+## 🧱 Tech Stack
 
 ```
-Kotlin + Jetpack Compose (Material3 赛博定制主题)
-        │  JSON 协议桥 PyBridge
-Chaquopy 16.0 ──► CPython 3.13 (runner.py 沙箱 / repl.py 会话)
-DataStore 进度存档 │ Navigation 单Activity五Tab │ 自研语法高亮器
+Kotlin + Jetpack Compose (Material3 Cyber Custom Theme)
+        │  JSON Bridge PyBridge
+Chaquopy 16.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
+DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Highlighter
 ```
 
 ## 🗺 Roadmap
 
-- [x] v0.1 MVP：引擎闭环 + 7 界面 + 判题
-- [x] v0.2 内容大爆炸：26 讲 + 4 种新内容块（表格/图示/随堂问/输出预览）
-- [x] v0.2.1 内容中心：在线课程包下载（端云协同），首发包「内置函数巡礼」
-- [ ] v0.3 turtle 海龟画布 · matplotlib 图表输出 · 执行过程变量动画
-- [ ] v0.4 端侧 AI 助教 · 错题本
-- [ ] v1.0 多语言 · 平板适配 · 应用商店全渠道上架
+- [x] v0.1 MVP: Engine loop + 7 screens + grading
+- [x] v0.2 Content Explosion: 26 lessons + 4 new content blocks (tables/diagrams/pop questions/output preview)
+- [x] v0.2.1 Content Hub: Online course pack download (device-cloud synergy), debut pack "Built-in Function Tour"
+- [ ] v0.3 Turtle Canvas · matplotlib Chart Output · Execution Process Variable Animation
+- [ ] v0.4 On-device AI Tutor · Mistake Notebook
+- [ ] v1.0 Multi-language · Tablet Adaptation · Full-channel App Store Launch
 
-## 🤝 参与贡献
+## 🤝 Contributing
 
-欢迎一切形式：新课程内容、Bug 反馈、UI 打磨、多语言翻译。
-Fork → 新建分支 → 提交 PR；课程内容请同步更新 `tests/validate_content.py` 的参考答案并保证全部 PASS。
+All forms welcome: new lesson content, bug reports, UI polish, multi-language translations.
+Fork → New branch → Submit PR; for course content, please update answer keys in `tests/validate_content.py` and ensure all PASS.
 
-## 📄 许可
+## 📄 License
 
-[MIT](LICENSE) —— 可自由商用，请保留版权声明。
-第三方组件：[Chaquopy](https://github.com/chaquo/chaquopy) (MIT)、Jetpack Compose (Apache-2.0)。
+[MIT](LICENSE) — Free for commercial use, please retain copyright notice.
+Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
 
 <div align="center">
 
-**如果这个项目对你有帮助，点一个 ⭐ 让更多学习者看到它！**
+**If this project helps you, give it a ⭐ to help more learners discover it!**
 
 </div>
