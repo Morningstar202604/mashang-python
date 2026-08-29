@@ -7,7 +7,7 @@
 一台装进口袋的赛博朋克 Python 学习终端：内嵌真·CPython 解释器，
 30 讲闯关课程、assert 自动判题、变量可视化、六段位成长体系。
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-neon.svg)](LICENSE)
+[![License: 源码可见·非商业](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
@@ -49,7 +49,7 @@
 | 零基础学生 / 转行者 | 30 讲中文剧情课，从 print 一路打到装饰器 |
 | 通勤碎片时间学习者 | 全离线，地铁隧道里也能跑代码 |
 | 教师 / 家长 | 无广告、无账号、零数据上传，可放心推给学生 |
-| 开发者 | Compose + Chaquopy 完整参考实现，MIT 可商用 |
+| 开发者 | Compose + Chaquopy 完整参考实现，源码可见·非商业（商用需授权） |
 
 ## 为什么是码上？
 
@@ -106,7 +106,7 @@ Pydroid 是开发工具；我们是"课程即代码"的学习终端——每讲�
 技术栈（Chaquopy）仅支持 Android；iOS 需另选型，在 Roadmap 远期观察中。
 
 **Q: 课程内容可以商用吗？**
-可以。仓库 MIT 协议，课程 JSON 结构文档化，欢迎做成你自己的品牌分支。
+源码以「源码可见·非商业」协议开放，供学习研究。欢迎基于此做你自己的学习分支并回馈，但**任何商业使用（付费分发、内购、广告、集成进商业产品等）须事先获得版权方书面授权**。
 
 ## 📚 课程体系（30 讲 · 四幕）
 
@@ -160,10 +160,17 @@ DataStore 进度存档 │ Navigation 单Activity五Tab │ 自研语法高亮�
 欢迎一切形式：新课程内容、Bug 反馈、UI 打磨、多语言翻译。
 Fork → 新建分支 → 提交 PR；课程内容请同步更新 `tests/validate_content.py` 的参考答案并保证全部 PASS。
 
-## 📄 许可
+## 📄 许可与隐私
 
-[MIT](LICENSE) —— 可自由商用，请保留版权声明。
+本仓库以「源码可见·非商业」协议开源：开放供学习、研究与交流以宣示项目主权，版权方保留全部商业化权利。
+
+- ✅ 可查看、学习、修改、为非商业教育目的再分发（须保留许可声明）。
+- ❌ **未经书面授权禁止商业使用**（付费分发、内购、广告、集成进商业产品等）。
+- ™ "PY//NOW" / "码上Python" 名称与标识为保留商标。
+
 第三方组件：[Chaquopy](https://github.com/chaquo/chaquopy) (MIT)、Jetpack Compose (Apache-2.0)。
+
+📄 [隐私政策](PRIVACY_POLICY.md) · [用户协议](TERMS_OF_SERVICE.md)
 
 <div align="center">
 

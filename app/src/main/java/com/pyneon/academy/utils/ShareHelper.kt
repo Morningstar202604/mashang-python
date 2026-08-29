@@ -3,10 +3,30 @@ package com.pyneon.academy.utils
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 
 object ShareHelper {
 
-    
+    /**
+     * 打开外部链接（隐私政策、用户协议、仓库等）
+     */
+    fun openUrl(context: Context, url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+    }
+
+    /**
+     * 发送邮件（隐私咨询/联系我们）
+     */
+    fun sendEmail(context: Context, email: String, subject: String = "") {
+        val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email")).apply {
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+        }
+        context.startActivity(Intent.createChooser(intent, "选择邮件应用"))
+    }
+
+
     /**
      * 分享学习成就
      */

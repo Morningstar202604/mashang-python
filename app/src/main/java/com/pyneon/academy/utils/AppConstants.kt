@@ -14,7 +14,23 @@ object AppConstants {
     
     // GitHub 仓库地址
     const val GITHUB_REPO = "https://github.com/Morningstar202604/mashang-python"
-    
+
     // 分享标签
     const val SHARE_HASHTAG = "#PY_NOW #Python学习"
+
+    // ===== 法律主体与合规信息（上架前请将占位符替换为实名信息）=====
+    // TODO(上架): 替换为开发者/公司全称（与软著、应用市场主体一致）
+    const val DEV_NAME = "【开发者/公司全称】"
+
+    // TODO(上架): 替换为隐私事务联系邮箱
+    const val CONTACT_EMAIL = "privacy@【your-domain】"
+
+    // TODO(上架): 替换为注册地址或所在地区
+    const val REGISTERED_ADDRESS = "【注册地址/所在地区】"
+
+    // 隐私政策与用户协议（托管于公开仓库，可作为应用市场隐私政策 URL）
+    const val PRIVACY_POLICY_URL =
+        "https://github.com/Morningstar202604/mashang-python/blob/main/PRIVACY_POLICY.md"
+    const val TERMS_URL =
+        "https://github.com/Morningstar202604/mashang-python/blob/main/TERMS_OF_SERVICE.md"
 }

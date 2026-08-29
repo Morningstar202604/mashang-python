@@ -24,6 +24,8 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.BugReport
 import androidx.compose.material.icons.outlined.Backup
+import androidx.compose.material.icons.outlined.Help
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -72,6 +74,9 @@ fun ProfileScreen(
     onOpenCertificate: () -> Unit = {},
     onOpenStreak: () -> Unit = {},
     onOpenMistakes: () -> Unit = {},
+    onOpenPrivacy: () -> Unit = {},
+    onOpenHelp: () -> Unit = {},
+    onOpenAbout: () -> Unit = {},
     onOpenBackup: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -195,6 +200,15 @@ fun ProfileScreen(
                         ShareHelper.shareAchievement(context, progress.xpTotal, progress.streakDays, Ranks.forXp(progress.xpTotal).name)
                     }, modifier = Modifier.weight(1f))
                 }
+            }
+        SectionHeader("法律与关于", accent = NeonCyan)
+        NeonCard(accent = NeonCyan) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(label = "隐私政策", accent = NeonCyan, leadingIcon = Icons.Outlined.Lock, onClick = onOpenPrivacy, modifier = Modifier.weight(1f))
+                    NeonButton(label = "帮助中心", accent = NeonCyan, leadingIcon = Icons.Outlined.Help, onClick = onOpenHelp, modifier = Modifier.weight(1f))
+                }
+                NeonButton(label = "关于本应用", accent = NeonCyan, leadingIcon = Icons.Outlined.Info, onClick = onOpenAbout, modifier = Modifier.fillMaxWidth())
             }
         }
         Spacer(Modifier.height(80.dp))

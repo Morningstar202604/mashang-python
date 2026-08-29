@@ -18,3 +18,12 @@ __pycache__/
 
 # Room 导出的数据库 schema（由 exportSchema=true 生成，用于手写迁移时 diff）
 app/schemas/
+
+# 运行/调试日志与临时笔记（不入库）
+*.log
+boot.log
+diary.txt
+neon_log.txt
+note.txt
+opencode.json
+

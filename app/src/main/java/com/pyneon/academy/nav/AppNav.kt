@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -45,6 +46,11 @@ import com.pyneon.academy.screens.MistakeScreen
 import com.pyneon.academy.screens.ProfileScreen
 import com.pyneon.academy.screens.StreakScreen
 import com.pyneon.academy.screens.TerminalScreen
+import com.pyneon.academy.screens.AboutScreen
+import com.pyneon.academy.screens.HelpScreen
+import com.pyneon.academy.screens.PrivacyConsentDialog
+import com.pyneon.academy.screens.PrivacyPolicyScreen
+import com.pyneon.academy.screens.finishApp
 import com.pyneon.academy.ui.theme.Bg1
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
@@ -72,6 +78,8 @@ fun AppRoot() {
     // Track if welcome tutorial has been shown in this session
     val context = LocalContext.current
     val showWelcome = remember { mutableStateOf(AppPrefs.isFirstLaunch(context)) }
+    // 首次启动必须明示同意隐私政策（华为/工信部合规）
+    var showConsent by remember { mutableStateOf(!AppPrefs.isPrivacyConsented(context)) }
 
     Scaffold(
         containerColor = Bg0,
@@ -179,6 +187,9 @@ fun AppRoot() {
                 onOpenCertificate = { navController.navigate("certificate") },
                 onOpenStreak = { navController.navigate("streak") },
                 onOpenMistakes = { navController.navigate("mistakes") },
+                onOpenPrivacy = { navController.navigate("privacy") },
+                onOpenHelp = { navController.navigate("help") },
+                onOpenAbout = { navController.navigate("about") },
                 onOpenBackup = { /* TODO: open backup dialog */ }
             ) }
             composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
@@ -189,6 +200,19 @@ composable("certificate") { CertificateScreen(onBack = { navController.popBackSt
                 val id = entry.arguments?.getString("lessonId").orEmpty()
                 MistakeScreen(onBack = { navController.popBackStack() }, lessonId = id)
             }
+            composable("privacy") { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
+            composable("help") { HelpScreen(onBack = { navController.popBackStack() }) }
+            composable("about") { AboutScreen(onBack = { navController.popBackStack() }) }
+        }
+
+        if (showConsent) {
+            PrivacyConsentDialog(
+                onConsent = {
+                    AppPrefs.setPrivacyConsented(context, true)
+                    showConsent = false
+                },
+                onDecline = { finishApp(context) }
+            )
         }
 }
 }

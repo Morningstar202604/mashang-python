@@ -6,7 +6,7 @@
 
 A cyberpunk-styled Python learning terminal that fits in your pocket: embedded real CPython interpreter, 30-level gamified curriculum, auto-grading with assert, variable visualization, and six-tier progression system.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-neon.svg)](LICENSE)
+[![License: Source-Available NC](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
@@ -106,7 +106,7 @@ Pydroid is a development tool; we're a "curriculum-as-code" learning terminal—
 The tech stack (Chaquopy) only supports Android; iOS would require a different approach and is on the long-term roadmap.
 
 **Q: Can I use the curriculum commercially?**
-Yes. The repository is under MIT license, course JSON is well-documented, and you're welcome to create your own branded fork.
+The source is open-sourced under the **Source-Available Non-Commercial License** for learning and study. You're welcome to build your own learning fork and contribute back, but **commercial use (paid distribution, in-app purchase, ads, embedding in commercial products) requires prior written permission** from the copyright holder.
 
 ## 📚 Curriculum (30 Lessons · 4 Acts)
 
@@ -160,10 +160,17 @@ DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Hig
 All forms welcome: new lesson content, bug reports, UI polish, multi-language translations.
 Fork → New branch → Submit PR; for course content, please update answer keys in `tests/validate_content.py` and ensure all PASS.
 
-## 📄 License
+## 📄 License &amp; Privacy
 
-[MIT](LICENSE) — Free for commercial use, please retain copyright notice.
+This repository is published under the **Source-Available Non-Commercial License** — open for learning, study, and exchange to assert project sovereignty, while the copyright holder reserves all commercialization rights.
+
+- ✅ You may view, study, modify, and redistribute the source for **non-commercial, educational** purposes (keep the license notice).
+- ❌ **Commercial use is prohibited without prior written permission** (paid distribution, IAP, ads, embedding in commercial products, etc.).
+- ™ "PY//NOW" / "码上Python" names and logos are reserved trademarks.
+
 Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
+
+📄 [Privacy Policy](PRIVACY_POLICY.md) · [Terms of Service](TERMS_OF_SERVICE.md)
 
 <div align="center">
 
