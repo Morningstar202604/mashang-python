@@ -1,9 +1,11 @@
 package com.pyneon.academy.utils
 
+
 import android.content.Context
 import android.content.Intent
 
 object ShareHelper {
+
     
     /**
      * 分享学习成就
@@ -17,7 +19,7 @@ object ShareHelper {
             appendLine("🏆 段位: $rank")
             appendLine()
             appendLine("完全离线学 Python，你也来试试！")
-            appendLine("https://github.com/Morningstar202604/mashang-python")
+            appendLine(AppConstants.GITHUB_REPO)
         }
         
         shareText(context, text, "分享我的学习成就")
@@ -31,7 +33,7 @@ object ShareHelper {
             appendLine("✅ 完成了 \"$lessonTitle\"")
             appendLine("+${xpEarned} XP")
             appendLine()
-            appendLine("#PY_NOW #Python学习")
+            appendLine(AppConstants.SHARE_HASHTAG)
         }
         
         shareText(context, text, "分享课程完成")

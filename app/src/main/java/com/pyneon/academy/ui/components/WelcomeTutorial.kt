@@ -33,6 +33,7 @@ import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
+import com.pyneon.academy.ui.components.NeonButton
 import kotlinx.coroutines.launch
 
 data class WelcomePage(
@@ -115,7 +116,7 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
-                repeat(4) { index ->
+                repeat(pages.size) { index ->
                     val isSelected = pagerState.currentPage == index
                     Box(
                         Modifier

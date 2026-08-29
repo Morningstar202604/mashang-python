@@ -43,7 +43,7 @@ fun BootScreen(onDone: () -> Unit) {
     var pyStatus by remember { mutableStateOf("RUN") }
     
     // Use current release version
-    val appVersion = "v0.3.3"
+    val appVersion = "v${com.pyneon.academy.utils.AppConstants.VERSION_NAME}"
     
     val bootLines = remember(pyStatus) {
         listOf(

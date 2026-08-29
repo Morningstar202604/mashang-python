@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -138,8 +139,13 @@ fun AppRoot() {
             }
             
             composable("welcome") {
-                WelcomeTutorial(onComplete = {
+                // Mark as seen immediately when entering welcome screen
+                // This prevents showing it again if user presses back button
+                LaunchedEffect(Unit) {
                     AppPrefs.markFirstLaunchComplete(context)
+                }
+                
+                WelcomeTutorial(onComplete = {
                     navController.navigate("home") {
                         popUpTo("welcome") { inclusive = true }
                     }

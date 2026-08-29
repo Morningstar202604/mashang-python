@@ -100,14 +100,14 @@ fun ConsoleResult(
                         }
                     }
                 }
-            
-                    // Smart error message with user-friendly explanation
-                    Spacer(Modifier.height(10.dp))
-                    SmartErrorMessage(
-                        errorText = "${errType}: ${r.errorMessage ?: ""}",
-                        suggestion = null
-                    )
-} else if (!running && r.stdout.isEmpty() && r.passed == null) {
+                
+                // Smart error message with user-friendly explanation
+                Spacer(Modifier.height(10.dp))
+                SmartErrorMessage(
+                    errorText = "${errType}: ${r.errorMessage ?: ""}",
+                    suggestion = null
+                )
+            } else if (!running && r.stdout.isEmpty() && r.passed == null) {
                 Text("(无输出)", style = MaterialTheme.typography.bodySmall, color = TextDim)
             }
             if (r.durationMs > 0 && !running) {
