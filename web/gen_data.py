@@ -51,7 +51,7 @@ def repl_exec_json(payload_json):
     res = _run_protected(code, _REPL_NS, p.get("stdin") or [], float(p.get("timeout", DEFAULT_TIMEOUT)))
     r = dict(res)
     r["ok"] = res["error"] is None
-    r["variables"] = _snapshot(_repl_ns)
+    r["variables"] = _snapshot(_REPL_NS)
     return _json.dumps(r, ensure_ascii=False)
 
 def repl_reset_json(payload_json=""):

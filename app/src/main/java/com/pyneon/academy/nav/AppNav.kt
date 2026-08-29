@@ -44,7 +44,9 @@ import com.pyneon.academy.screens.TerminalScreen
 import com.pyneon.academy.ui.theme.Bg1
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
+import com.pyneon.academy.ui.components.WelcomeTutorial
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.utils.AppPrefs
 
 private data class TopDest(val route: String, val label: String, val icon: ImageVector)
 
@@ -62,6 +64,9 @@ fun AppRoot() {
     val backStack by navController.currentBackStackEntryAsState()
     val currentRoute = backStack?.destination?.route ?: "boot"
     val showBar = TOP_DESTS.any { it.route == currentRoute }
+    
+    // Track if welcome tutorial has been shown in this session
+    val showWelcome = remember { mutableStateOf(AppPrefs.isFirstLaunch(LocalContext.current)) }
 
     Scaffold(
         containerColor = Bg0,
@@ -116,8 +121,23 @@ fun AppRoot() {
         ) {
             composable("boot") {
                 BootScreen(onDone = {
+                    if (showWelcome.value) {
+                        navController.navigate("welcome") {
+                            popUpTo("boot") { inclusive = true }
+                        }
+                    } else {
+                        navController.navigate("home") {
+                            popUpTo("boot") { inclusive = true }
+                        }
+                    }
+                })
+            }
+            
+            composable("welcome") {
+                WelcomeTutorial(onComplete = {
+                    AppPrefs.markFirstLaunchComplete(LocalContext.current)
                     navController.navigate("home") {
-                        popUpTo("boot") { inclusive = true }
+                        popUpTo("welcome") { inclusive = true }
                     }
                 })
             }

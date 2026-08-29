@@ -39,14 +39,18 @@
       line.textContent = "> 正在下载 CPython 内核 (Pyodide)…";
       pyodide = await loadPyodide();
       line.textContent = "> 注入执行引擎 (runner.py)…";
-      if (typeof window.loadEngine === "function") {
+      if (window.ENGINE_PY) {
+        // 优先用内联引擎（gen_data.py 已把 runner.py 全文塞进 window.ENGINE_PY），
+        // 这样 file:// 双击打开也能跑，无需同目录存在 runner.py。
+        pyodide.runPython(window.ENGINE_PY);
+        if (window.REPL_HELPER_PY) pyodide.runPython(window.REPL_HELPER_PY);
+      } else if (typeof window.loadEngine === "function") {
         await window.loadEngine(pyodide);
       } else {
-        // Fallback: inline load if engine.js not loaded
+        // 兜底：从同目录 fetch runner.py（需经 http 服务，file:// 会被浏览器拦截）
         const response = await fetch('runner.py');
         if (!response.ok) throw new Error("Failed to load runner.py");
-        const runnerSrc = await response.text();
-        pyodide.runPython(runnerSrc);
+        pyodide.runPython(await response.text());
       }
       lessons.sort(function (a, b) {
         return (a.chapter || 0) - (b.chapter || 0) || (a.order || 0) - (b.order || 0);

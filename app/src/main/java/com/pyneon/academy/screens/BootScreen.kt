@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.pyneon.academy.BuildConfig
 import com.pyneon.academy.data.Clock
 import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.py.PyBridge
@@ -41,19 +42,23 @@ import kotlinx.coroutines.delay
 fun BootScreen(onDone: () -> Unit) {
     val context = LocalContext.current
     var pyStatus by remember { mutableStateOf("RUN") }
+    
+    // Use actual version from BuildConfig
+    val appVersion = "v${BuildConfig.VERSION_NAME}"
+    
     val bootLines = remember(pyStatus) {
         listOf(
-            "MASHANG BIOS v0.3.1 ........... OK",
-            "神经接口驱动加载 .............. OK",
+            "PY//NOW $appVersion .............. OK",
+            "初始化 Python 引擎 ............ OK",
             when (pyStatus) {
-                "RUN" -> "挂载 CPython 运行时 .......... 校验中"
-                "OK" -> "挂载 CPython 运行时 .......... OK"
-                else -> "挂载 CPython 运行时 .......... FAIL"
+                "RUN" -> "加载 CPython 3.13 运行时 ..... 校验中"
+                "OK" -> "加载 CPython 3.13 运行时 ..... OK"
+                else -> "加载 CPython 3.13 运行时 ..... FAIL"
             },
-            "同步课程数据流 ................ OK",
-            "建立加密信道 .................. 完成",
+            "同步课程数据 .................. OK",
+            "准备离线学习环境 .............. 完成",
             "",
-            "> 欢迎回来，赛博学徒_"
+            "> 欢迎回来，编程学徒_"
         )
     }
     var shown by remember { mutableIntStateOf(0) }
@@ -89,7 +94,7 @@ fun BootScreen(onDone: () -> Unit) {
         Column(Modifier.align(Alignment.Center)) {
             GlitchText("PY//NOW", style = MaterialTheme.typography.headlineLarge, color = NeonCyan)
             Text(
-                "码上 Python · 赛博编程学院",
+                "码上 Python · 编程学院",
                 style = MaterialTheme.typography.labelMedium,
                 color = NeonMagenta,
                 modifier = Modifier.padding(top = 6.dp)
@@ -119,7 +124,7 @@ fun BootScreen(onDone: () -> Unit) {
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 12.dp)
         ) {
-            Text("OFFLINE READY · NO CLOUD REQUIRED", style = MaterialTheme.typography.labelSmall, color = TextDim)
+            Text("完全离线 · 无需网络 · 随时学习", style = MaterialTheme.typography.labelSmall, color = TextDim)
         }
     }
 }
