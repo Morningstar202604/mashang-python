@@ -25,8 +25,7 @@ object AppConstants {
     // TODO(上架): 替换为隐私事务联系邮箱
     const val CONTACT_EMAIL = "privacy@【your-domain】"
 
-    // TODO(上架): 替换为注册地址或所在地区
-    const val REGISTERED_ADDRESS = "【注册地址/所在地区】"
+    // 注：开发者地址/客服信息在华为开发者后台填写并公开展示，无需在本仓库硬编码。
 
     // 隐私政策与用户协议（托管于公开仓库，可作为应用市场隐私政策 URL）
     const val PRIVACY_POLICY_URL =

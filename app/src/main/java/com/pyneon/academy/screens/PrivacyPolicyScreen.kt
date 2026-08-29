@@ -42,7 +42,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
     ) {
         GlitchText("隐私政策 // PRIVACY", style = MaterialTheme.typography.headlineSmall, color = NeonCyan)
         Text(
-            "生效日期：生效日期待填\n开发者/运营者：${AppConstants.DEV_NAME}\n隐私联系：${AppConstants.CONTACT_EMAIL}",
+            "开发者/运营者：${AppConstants.DEV_NAME}\n隐私联系：${AppConstants.CONTACT_EMAIL}",
             style = MaterialTheme.typography.bodySmall,
             color = TextMid
         )
