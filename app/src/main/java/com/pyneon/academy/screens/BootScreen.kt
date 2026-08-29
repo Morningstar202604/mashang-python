@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.pyneon.academy.BuildConfig
 import com.pyneon.academy.data.Clock
 import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.py.PyBridge
@@ -43,8 +42,8 @@ fun BootScreen(onDone: () -> Unit) {
     val context = LocalContext.current
     var pyStatus by remember { mutableStateOf("RUN") }
     
-    // Use actual version from BuildConfig
-    val appVersion = "v${BuildConfig.VERSION_NAME}"
+    // Use current release version
+    val appVersion = "v0.3.3"
     
     val bootLines = remember(pyStatus) {
         listOf(
