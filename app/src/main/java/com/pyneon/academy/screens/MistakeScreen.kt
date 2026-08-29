@@ -207,8 +207,9 @@ fun MistakeItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val blockLabel = if (mistake.blockIndex >= 0) "l${mistake.blockIndex + 1}" else "练习"
                 Text(
-                    "l${mistake.blockIndex + 1} · ${mistake.blockType.uppercase()}",
+                    "$blockLabel · ${mistake.blockType.uppercase()}",
                     style = NeonTextStyles.NeonSubtitle,
                     color = NeonColors.Primary
                 )

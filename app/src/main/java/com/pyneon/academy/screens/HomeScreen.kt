@@ -1,5 +1,7 @@
 package com.pyneon.academy.screens
 
+import com.pyneon.academy.utils.AppConstants
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -85,7 +87,7 @@ fun HomeScreen(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
                 GlitchText("PY//NOW", style = MaterialTheme.typography.headlineMedium, color = NeonCyan)
-                Text("码上 Python · 编程学院 v0.2", style = MaterialTheme.typography.labelSmall, color = TextDim)
+                Text("码上 Python · 编程学院 v${AppConstants.VERSION_NAME}", style = MaterialTheme.typography.labelSmall, color = TextDim)
             }
             Text(
                 "CPython $pythonVersion 在线",

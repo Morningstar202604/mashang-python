@@ -1,5 +1,7 @@
 package com.pyneon.academy.screens
 
+import com.pyneon.academy.utils.AppConstants
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -128,7 +130,7 @@ fun ProfileScreen(
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Icon(Icons.Outlined.EmojiEvents, contentDescription = null, tint = if (allDone) NeonYellow else Color(0xFF3A4A63), modifier = Modifier.size(28.dp))
                 Column {
-                    Text("GRADUATION · 城市毕业证书", style = MaterialTheme.typography.titleSmall, color = if (allDone) Color(0xFFE6F1FF) else TextDim)
+                    Text("GRADUATION · 毕业证书", style = MaterialTheme.typography.titleSmall, color = if (allDone) Color(0xFFE6F1FF) else TextDim)
                     Text(
                         if (allDone) "已达成！点击查看并分享你的证书" else "通关全部 ${lessons.size} 讲后解锁（${progress.completedLessons.size}/${lessons.size}）",
                         style = MaterialTheme.typography.bodySmall,
@@ -171,7 +173,7 @@ fun ProfileScreen(
         SectionHeader("系统信息", accent = NeonGreen)
         NeonCard(accent = NeonGreen) {
             InfoRow("运行时", "CPython $pythonVersion · Chaquopy 嵌入")
-            InfoRow("版本", "码上Python v0.3.3")
+            InfoRow("版本", "码上Python v${AppConstants.VERSION_NAME}")
             InfoRow("网络", "离线优先 · 联网仅拉取新课程")
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {

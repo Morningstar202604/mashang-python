@@ -22,7 +22,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import com.google.zxing.BarcodeFormat
@@ -224,7 +223,7 @@ object CertificatePoster {
             typeface = Typeface.create(Typeface.SERIF, Typeface.BOLD)
             textAlign = Paint.Align.CENTER
         }
-        canvas.drawText("Neon Runner #${progress.completedLessons.size.toString().padStart(4, '0')}", WIDTH / 2f, (barY + 180).toFloat(), namePaint)
+        canvas.drawText("NEO", WIDTH / 2f, (barY + 180).toFloat(), namePaint)
 
         // QR Code
         val qrData = "https://github.com/Morningstar202604/mashang-python\n完成度: $percent% | XP: $earnedXp"

@@ -97,7 +97,7 @@ fun CertificateScreen(onBack: () -> Unit) {
                 Spacer(Modifier.height(4.dp))
                 Text("兹证明 接入者「NEO」", style = MaterialTheme.typography.bodyLarge, color = TextMid)
                 Text("已完成全部课程闯关并通过判题实战", style = MaterialTheme.typography.bodyLarge, color = TextHi)
-                Text("特此授予 城市毕业认证", style = MaterialTheme.typography.bodyLarge, color = TextMid)
+                Text("特此授予 毕业成就认证", style = MaterialTheme.typography.bodyLarge, color = TextMid)
                 Spacer(Modifier.height(6.dp))
                 Text("段位 · ${rank.name}", style = MaterialTheme.typography.labelLarge, color = rank.color)
                 Spacer(Modifier.height(10.dp))

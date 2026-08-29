@@ -1,5 +1,7 @@
 package com.pyneon.academy.screens
 
+import com.pyneon.academy.utils.AppConstants
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -80,7 +82,7 @@ fun TerminalScreen() {
         PyBridge.ensureStarted(context)
         withContext(Dispatchers.Default) { PyBridge.replStart() }
         lines.clear()
-        lines.add(TermLine("sys", "码上 · 神经接口 v0.2 · CPython ${PyBridge.pythonVersion()}"))
+        lines.add(TermLine("sys", "码上 · 神经接口 v${AppConstants.VERSION_NAME} · CPython ${PyBridge.pythonVersion()}"))
         lines.add(TermLine("sys", "逐行输入 Python 语句；多行块以空行结束。"))
     }
 

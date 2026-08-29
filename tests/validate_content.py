@@ -297,6 +297,20 @@ SOLUTIONS = {
         "print(analyze(sample))"
     ),
     "l27": (
+        "class Gate:\n"
+        "    def __init__(self):\n"
+        "        self.inside = False\n"
+        "    def __enter__(self):\n"
+        "        self.inside = True\n"
+        "        return self\n"
+        "    def __exit__(self, exc_type, exc, tb):\n"
+        "        self.inside = False\n"
+        "\n"
+        "gate = Gate()\n"
+        "with gate as g:\n"
+        "    print('进入:', g.inside)"
+    ),
+    "bonus-27": (
         "def safe_len(x):\n"
         "    return len(x) if hasattr(x, '__len__') else None\n"
         "\n"

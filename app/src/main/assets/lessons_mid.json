@@ -210,7 +210,7 @@
       {
         "type": "practice",
         "title": "标签去重",
-        "code": "tags = ['python', 'rust', 'python', 'go', 'rust']\nunique = list(set(tags))\nprint(unique)\nprint('去重前:', len(tags), '去重后:', len(unique))",
+        "code": "tags = ['python', 'rust', 'python', 'go', 'rust']\nunique = sorted(set(tags))\nprint(unique)\nprint('去重前:', len(tags), '去重后:', len(unique))",
         "output": "['go', 'python', 'rust']\n去重前: 5 去重后: 3",
         "hint": "set() 自动去重但不保顺序，list() 转回列表方便打印。"
       },
@@ -372,7 +372,7 @@
       },
       {
         "type": "diagram",
-        "text": "[ 表达式   for 变量 in 可迭代   if 条件 ]\n   ▲            ▲                ▲\n  加工          遍历             筛选(可省略)\n\n[x*x for x in range(5) if x > 1]\n      →  x取0~4 → 过滤出1,2,3,4 → 平方 → [1,4,9,16]"
+        "text": "[ 表达式   for 变量 in 可迭代   if 条件 ]\n   ▲            ▲                ▲\n  加工          遍历             筛选(可省略)\n\n[x*x for x in range(5) if x > 1]\n      →  x取0~4 → 过滤出2,3,4 → 平方 → [4,9,16]"
       },
       {
         "type": "code",
@@ -479,7 +479,7 @@
       {
         "type": "code",
         "runnable": true,
-        "code": "try:\n    value = int(input('输入数字: '))\nexcept ValueError:\n    value = -1\n    print('信号无效，已切换备用协议')\nfinally:\n    print(f'最终 value = {value}')"
+        "code": "try:\n    value = int('abc')\nexcept ValueError:\n    value = -1\n    print('信号无效，已切换备用协议')\nfinally:\n    print(f'最终 value = {value}')"
       },
       {
         "type": "diagram",
@@ -704,7 +704,7 @@
       },
       {
         "type": "diagram",
-        "text": "  random.seed(7)      <- 固定种子\n  random.randint(1,6) -> 4   (第一次)\n  random.randint(1,6) -> 1   (第二次)\n\n  再 seed(7) 重来一遍：\n  random.randint(1,6) -> 4   (一模一样)\n  random.randint(1,6) -> 1   (一模一样)"
+        "text": "  random.seed(7)      <- 固定种子\n  random.randint(1,6) -> 3   (第一次)\n  random.randint(1,6) -> 2   (第二次)\n\n  再 seed(7) 重来一遍：\n  random.randint(1,6) -> 3   (一模一样)\n  random.randint(1,6) -> 2   (一模一样)"
       },
       {
         "type": "table",
@@ -742,6 +742,10 @@
         "code": "import math\nimport random\n\nprint(math.pi, math.sqrt(144))\nrandom.seed(42)\nprint([random.randint(1, 6) for _ in range(3)])\nprint('我的名字是', __name__)"
       },
       {
+        "type": "output",
+        "text": "3.141592653589793 12.0\n[6, 1, 1]\n我的名字是 __main__"
+      },
+      {
         "type": "task",
         "text": "把种子换成 random.seed(1) 连跑两次程序，确认两次结果完全一致。"
       },
@@ -776,7 +780,7 @@
         "type": "practice",
         "title": "洗牌模拟器",
         "code": "import random\nrandom.seed(99)\ncards = ['A', 'K', 'Q', 'J', '10']\nrandom.shuffle(cards)\nprint('洗牌后:', cards)\nprint('抽一张:', cards[0])",
-        "output": "洗牌后: ['Q', '10', 'A', 'J', 'K']\n抽一张: Q",
+        "output": "洗牌后: ['K', 'Q', 'A', '10', 'J']\n抽一张: K",
         "hint": "shuffle() 直接修改原列表（就地洗牌）；seed(99) 保证每次洗出来的顺序一样。"
       },
       {
@@ -794,7 +798,7 @@
       },
       {
         "type": "output",
-        "text": "[2, 5, 1, 1, 4]\n失败"
+        "text": "[6, 1, 1, 6, 3]\n胜利"
       }
     ],
     "exercise": {
@@ -832,12 +836,12 @@
       },
       {
         "type": "diagram",
-        "text": "class 图纸: Robot           对象实例:\n┌──────────────────┐      ┌──────────────┐\n│ 属性: name, hp   │ 制造 ►│ name='V'     │\n│ 方法: report()   │      │ hp=88        │\n└──────────────────┘      └──────────────┘\n                          ┌──────────────┐\n              同一图纸再造 ►│ name='Judy'  │\n                          └──────────────┘"
+        "text": "class 图纸: NeonBot           对象实例:\n┌──────────────────┐      ┌──────────────┐\n│ 属性: name, hp   │ 制造 ►│ name='V'     │\n│ 方法: report()   │      │ hp=88        │\n└──────────────────┘      └──────────────┘\n                          ┌──────────────┐\n              同一图纸再造 ►│ name='Judy'  │\n                          └──────────────┘"
       },
       {
         "type": "code",
         "runnable": true,
-        "code": "class Robot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\n    def report(self):\n        return f'{self.name}: HP {self.hp}'\n\nv = Robot('V')\njudy = Robot('Judy', 88)\nprint(v.report())\nprint(judy.report())"
+        "code": "class NeonBot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\n    def report(self):\n        return f'{self.name}: HP {self.hp}'\n\nv = NeonBot('V')\njudy = NeonBot('Judy', 88)\nprint(v.report())\nprint(judy.report())"
       },
       {
         "type": "diagram",
@@ -859,7 +863,7 @@
         "type": "quiz",
         "question": "调用 v.report() 时，self 指的是？",
         "options": [
-          "Robot 类本身",
+          "NeonBot 类本身",
           "对象 v 自己",
           "全局变量"
         ],
