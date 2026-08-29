@@ -1,56 +1,47 @@
 name: CI
 
-# Gate that turns the previously manual desktop verification into a mandatory
-# checkpoint for every push and pull request. Any step that fails exits
-# non-zero and blocks the PR/push.
+# Automated CI pipeline: desktop tests + Android build + release APK upload
 on:
   push:
+    branches: [main]
+    tags: ['v*']
   pull_request:
+    branches: [main]
 
 jobs:
-  desktop-engine-gate:
+  # Job 1: Desktop engine tests (fast, no Android SDK needed)
+  desktop-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
 
-      # Pin pytest so "it is green on my machine" cannot be caused by a silently
-      # different pytest major version.
-      - name: Install pinned pytest
+      - name: Install dependencies
         run: pip install "pytest==8.*"
         shell: bash
 
-      # Existing manual gate #1: engine round-trip tests (16 passed locally).
-      - name: Run engine desktop tests
-        run: python -m pytest tests/test_engine_desktop.py -q
+      - name: Run engine tests
+        run: python -m pytest tests/test_engine_desktop.py -v
         shell: bash
 
-      # New mandatory gate (audit K1 desktop equivalent): the JSON contract the
-      # Android/Kotlin bridge depends on. If a field is dropped or re-typed,
-      # this fails and blocks the push/PR.
-      - name: Run engine JSON contract tests
-        run: python -m pytest tests/test_pybridge_contract.py -q
+      - name: Run JSON contract tests
+        run: python -m pytest tests/test_pybridge_contract.py -v
         shell: bash
 
-      # Existing manual gate #2: content-pack validation (30 lessons / 130 cases).
       - name: Validate content pack
         run: python tests/validate_content.py
         shell: bash
 
-      # NOTE (non-blocking informational comment):
-      # The Kotlin/Android build (`./gradlew assembleDebug`) and its tests
-      # require the Android SDK + Gradle toolchain, which is not available in
-      # this Linux CI runner. The Kotlin layer currently has zero automated
-      # tests (audit finding K1). We intentionally do NOT run gradle here so it
-      # cannot break the gate; adding Android CI is a separate follow-up.
-
-  android-build-gate:
+  # Job 2: Android build (only on main branch or tags)
+  android-build:
+    needs: desktop-tests
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -64,23 +55,52 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Cache Gradle packages
+      - name: Cache Gradle
         uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Assemble Debug APK
-        run: ./gradlew :app:assembleDebug
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon
         shell: bash
 
-      - name: Upload Debug APK
+      - name: Upload Debug APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pyneon-debug-apk
+          name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
+
+  # Job 3: Create Release with APK (only on version tags)
+  create-release:
+    needs: android-build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Debug APK
+        uses: actions/download-artifact@v4
+        with:
+          name: app-debug
+          path: artifacts/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/app-debug.apk
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
