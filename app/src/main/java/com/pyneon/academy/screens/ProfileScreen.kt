@@ -201,6 +201,7 @@ fun ProfileScreen(
                     }, modifier = Modifier.weight(1f))
                 }
             }
+        }
         SectionHeader("法律与关于", accent = NeonCyan)
         NeonCard(accent = NeonCyan) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

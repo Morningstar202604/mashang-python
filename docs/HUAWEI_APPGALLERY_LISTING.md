@@ -1,7 +1,7 @@
 # 华为应用市场（AppGallery）上架指南
 
 > 本文件为 PY//NOW（码上 Python）提交华为应用市场的材料清单与文案模板。
-> 上架前请将所有 `【占位符】` 替换为真实信息（与 `AppConstants.kt` 中一致）。
+> 开发者信息已填写：**bigbad** / **bigbad338@outlook.com**（与 `AppConstants.kt` 一致）。仅「生效日期」留待你设定发布日。
 
 ## 一、基础信息
 
@@ -31,7 +31,7 @@
 - ✅ 隐私政策完整说明数据收集、本地存储、权限、未成年人保护、用户权利。
 - ✅ `AndroidManifest` 中 `allowBackup="false"`，避免用户数据被云备份外泄。
 - ✅ 无第三方统计/广告 SDK；CPython 在设备端本地执行。
-- ⚠️ **本仓库只需你填两处占位符**：`AppConstants.DEV_NAME`（开发者/公司全称）与 `AppConstants.CONTACT_EMAIL`（联系邮箱），见 `PRIVACY_POLICY.md`/`TERMS_OF_SERVICE.md`。开发者地址、客服电话等工商信息在**华为开发者后台**填写并随应用公开展示，不在此仓库维护。
+- ✅ **本仓库开发者信息已填**：`AppConstants.DEV_NAME`=bigbad、`AppConstants.CONTACT_EMAIL`=bigbad338@outlook.com（见 `PRIVACY_POLICY.md`/`TERMS_OF_SERVICE.md`）。开发者地址、客服电话等工商信息在**华为开发者后台**填写并随应用公开展示，不在此仓库维护。
 - ℹ️ **软著（软件著作权）**：非游戏类应用**不强制**，属可选。建议申请以加快审核并确权，但缺失不会阻断上架。
 
 ## 四、商店文案（可直接粘贴）
