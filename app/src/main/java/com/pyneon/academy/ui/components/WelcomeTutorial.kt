@@ -137,7 +137,7 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
             ) {
                 if (pagerState.currentPage < 3) {
                     NeonButton(
-                        text = "下一步",
+                        label = "下一步",
                         onClick = {
                             scope.launch {
                                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
@@ -146,14 +146,14 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
                         modifier = Modifier.weight(1f)
                     )
                     NeonButton(
-                        text = "跳过",
+                        label = "跳过",
                         onClick = onComplete,
                         modifier = Modifier.weight(1f),
-                        filled = false
+                        enabled = true
                     )
                 } else {
                     NeonButton(
-                        text = "开始学习",
+                        label = "开始学习",
                         onClick = onComplete,
                         modifier = Modifier.fillMaxWidth()
                     )
