@@ -167,7 +167,8 @@ fun AppRoot() {
                     onOpenTerminal = { navController.navigate("terminal") },
                     onOpenArena = { navController.navigate("arena") },
                     onOpenLessons = { navController.navigate("lessons") },
-                    onOpenTracks = { navController.navigate("tracks") }
+                    onOpenTracks = { navController.navigate("tracks") },
+                    onOpenTrack = { id -> navController.navigate("track/$id") }
                 )
             }
             composable("tracks") {
