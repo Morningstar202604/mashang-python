@@ -3,14 +3,18 @@ package com.pyneon.academy.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -25,12 +29,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.pyneon.academy.data.Track
 import com.pyneon.academy.data.TrackRepository
+import com.pyneon.academy.data.TrackStatus
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.cyberGrid
 import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
+import com.pyneon.academy.ui.theme.SurfaceHigh
 import com.pyneon.academy.ui.theme.TextDim
 import com.pyneon.academy.ui.theme.TextMid
 
@@ -104,12 +110,26 @@ fun TrackDevelopingScreen(
         Text(track.subtitle, style = MaterialTheme.typography.bodyMedium, color = TextMid)
 
         NeonCard(accent = accent) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Outlined.Construction, contentDescription = null, tint = accent, modifier = Modifier.size(22.dp))
-                Spacer(Modifier.size(10.dp))
-                Column {
-                    Text("建设计划进行中", style = MaterialTheme.typography.bodyLarge, color = accent)
-                    Text("该技术栈课程正在填充内容，敬请期待", style = MaterialTheme.typography.bodySmall, color = TextDim)
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Outlined.Construction, contentDescription = null, tint = accent, modifier = Modifier.size(22.dp))
+                    Spacer(Modifier.size(10.dp))
+                    Column {
+                        Text("建设计划进行中", style = MaterialTheme.typography.bodyLarge, color = accent)
+                        Text(
+                            if (track.status == TrackStatus.READY) "已上线，点击进入学习"
+                            else "该技术栈课程正在填充内容，敬请期待",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = TextDim
+                        )
+                    }
+                }
+                if (track.status != TrackStatus.READY) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        BuildProgressBar(percent = track.progressPercent, accent = accent, modifier = Modifier.weight(1f))
+                        Spacer(Modifier.size(10.dp))
+                        Text("${track.progressPercent}%", style = MaterialTheme.typography.labelLarge, color = accent)
+                    }
                 }
             }
         }
@@ -119,12 +139,14 @@ fun TrackDevelopingScreen(
             Text("▍ 规划路线", style = MaterialTheme.typography.titleMedium, color = NeonCyan)
             NeonCard(accent = TextDim) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    val total = plan.size
                     plan.forEachIndexed { index, step ->
+                        val stepPercent = if (track.status == TrackStatus.READY) 100 else ((index + 1) * 100 / total).coerceAtMost(track.progressPercent)
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
                                 "0${index + 1}",
                                 style = MaterialTheme.typography.labelLarge,
-                                color = accent,
+                                color = if (stepPercent >= track.progressPercent || track.status == TrackStatus.READY) accent else TextDim,
                                 modifier = Modifier.size(28.dp)
                             )
                             Text(step, style = MaterialTheme.typography.bodyMedium, color = TextMid)
@@ -135,5 +157,23 @@ fun TrackDevelopingScreen(
         }
 
         Spacer(Modifier.size(8.dp))
+    }
+}
+
+@Composable
+private fun BuildProgressBar(percent: Int, accent: Color, modifier: Modifier = Modifier) {
+    val fraction = (percent.coerceIn(0, 100)) / 100f
+    Box(
+        modifier
+            .fillMaxWidth()
+            .height(8.dp)
+            .background(SurfaceHigh, CutCornerShape(4.dp))
+    ) {
+        Box(
+            Modifier
+                .fillMaxWidth(fraction)
+                .height(8.dp)
+                .background(accent, CutCornerShape(4.dp))
+        )
     }
 }

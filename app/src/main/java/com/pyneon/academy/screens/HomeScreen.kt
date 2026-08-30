@@ -259,7 +259,12 @@ private fun MiniTrackCard(track: Track, onClick: () -> Unit, modifier: Modifier 
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Column(Modifier.weight(1f)) {
                 Text(track.title, style = MaterialTheme.typography.titleSmall, color = accent)
-                Text(track.category, style = MaterialTheme.typography.labelSmall, color = TextDim)
+                Text(
+                    if (track.status == TrackStatus.READY) track.category
+                    else "${track.category} ${track.progressPercent}%",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = TextDim
+                )
             }
             if (track.status == TrackStatus.READY) {
                 Icon(Icons.Outlined.PlayArrow, contentDescription = null, tint = NeonGreen, modifier = Modifier.size(16.dp))

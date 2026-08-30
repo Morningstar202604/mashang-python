@@ -10,7 +10,8 @@ data class Track(
     val status: TrackStatus,
     val accentArgb: Long,
     val lessonCount: Int = 0,
-    val progressHint: String = ""
+    val progressHint: String = "",
+    val progressPercent: Int = 0
 )
 
 data class TrackCategory(
@@ -34,7 +35,8 @@ object TrackRepository {
         status = TrackStatus.READY,
         accentArgb = CYAN,
         lessonCount = 30,
-        progressHint = "30 讲 · 判题实战 · REPL 终端"
+        progressHint = "30 讲 · 判题实战 · REPL 终端",
+        progressPercent = 100
     )
 
     val categories: List<TrackCategory> = listOf(
@@ -42,51 +44,51 @@ object TrackRepository {
             name = "编程语言",
             tracks = listOf(
                 python,
-                Track("java", "Java", "企业级后端主力语言", "编程语言", TrackStatus.DEVELOPING, MAGENTA),
-                Track("kotlin", "Kotlin", "安卓与多平台新宠", "编程语言", TrackStatus.DEVELOPING, PURPLE),
-                Track("typescript", "TypeScript", "带类型的 JavaScript", "编程语言", TrackStatus.DEVELOPING, YELLOW)
+                Track("java", "Java", "企业级后端主力语言", "编程语言", TrackStatus.DEVELOPING, MAGENTA, progressPercent = 20),
+                Track("kotlin", "Kotlin", "安卓与多平台新宠", "编程语言", TrackStatus.DEVELOPING, PURPLE, progressPercent = 8),
+                Track("typescript", "TypeScript", "带类型的 JavaScript", "编程语言", TrackStatus.DEVELOPING, YELLOW, progressPercent = 15)
             )
         ),
         TrackCategory(
             name = "前端开发",
             tracks = listOf(
-                Track("html_css", "HTML/CSS", "网页结构与样式", "前端开发", TrackStatus.DEVELOPING, MAGENTA),
-                Track("javascript", "JavaScript", "网页交互脚本", "前端开发", TrackStatus.DEVELOPING, YELLOW),
-                Track("react", "React", "组件化前端框架", "前端开发", TrackStatus.DEVELOPING, CYAN),
-                Track("vue", "Vue", "渐进式前端框架", "前端开发", TrackStatus.DEVELOPING, GREEN)
+                Track("html_css", "HTML/CSS", "网页结构与样式", "前端开发", TrackStatus.DEVELOPING, MAGENTA, progressPercent = 30),
+                Track("javascript", "JavaScript", "网页交互脚本", "前端开发", TrackStatus.DEVELOPING, YELLOW, progressPercent = 12),
+                Track("react", "React", "组件化前端框架", "前端开发", TrackStatus.DEVELOPING, CYAN, progressPercent = 5),
+                Track("vue", "Vue", "渐进式前端框架", "前端开发", TrackStatus.DEVELOPING, GREEN, progressPercent = 5)
             )
         ),
         TrackCategory(
             name = "后端开发",
             tracks = listOf(
-                Track("flask", "Flask/Django", "Python Web 后端", "后端开发", TrackStatus.DEVELOPING, GREEN),
-                Track("springboot", "Spring Boot", "Java 全家桶后端", "后端开发", TrackStatus.DEVELOPING, CYAN),
-                Track("nodejs", "Node.js", "JavaScript 后端运行时", "后端开发", TrackStatus.DEVELOPING, GREEN),
-                Track("go", "Go", "高并发后端语言", "后端开发", TrackStatus.DEVELOPING, YELLOW)
+                Track("flask", "Flask/Django", "Python Web 后端", "后端开发", TrackStatus.DEVELOPING, GREEN, progressPercent = 10),
+                Track("springboot", "Spring Boot", "Java 全家桶后端", "后端开发", TrackStatus.DEVELOPING, CYAN, progressPercent = 5),
+                Track("nodejs", "Node.js", "JavaScript 后端运行时", "后端开发", TrackStatus.DEVELOPING, GREEN, progressPercent = 10),
+                Track("go", "Go", "高并发后端语言", "后端开发", TrackStatus.DEVELOPING, YELLOW, progressPercent = 8)
             )
         ),
         TrackCategory(
             name = "数据库",
             tracks = listOf(
-                Track("sql", "SQL", "关系型查询语言", "数据库", TrackStatus.DEVELOPING, MAGENTA),
-                Track("mysql", "MySQL", "最流行的关系型数据库", "数据库", TrackStatus.DEVELOPING, YELLOW),
-                Track("redis", "Redis", "高速内存缓存", "数据库", TrackStatus.DEVELOPING, GREEN)
+                Track("sql", "SQL", "关系型查询语言", "数据库", TrackStatus.DEVELOPING, MAGENTA, progressPercent = 25),
+                Track("mysql", "MySQL", "最流行的关系型数据库", "数据库", TrackStatus.DEVELOPING, YELLOW, progressPercent = 10),
+                Track("redis", "Redis", "高速内存缓存", "数据库", TrackStatus.DEVELOPING, GREEN, progressPercent = 10)
             )
         ),
         TrackCategory(
             name = "人工智能",
             tracks = listOf(
-                Track("ml", "机器学习", "让程序从数据中学习", "人工智能", TrackStatus.DEVELOPING, PURPLE),
-                Track("dl", "深度学习", "神经网络与图像识别", "人工智能", TrackStatus.DEVELOPING, MAGENTA),
-                Track("data_analysis", "数据分析", "数据结构化总结与洞察", "人工智能", TrackStatus.DEVELOPING, CYAN)
+                Track("ml", "机器学习", "让程序从数据中学习", "人工智能", TrackStatus.DEVELOPING, PURPLE, progressPercent = 5),
+                Track("dl", "深度学习", "神经网络与图像识别", "人工智能", TrackStatus.DEVELOPING, MAGENTA, progressPercent = 5),
+                Track("data_analysis", "数据分析", "数据结构化总结与洞察", "人工智能", TrackStatus.DEVELOPING, CYAN, progressPercent = 15)
             )
         ),
         TrackCategory(
             name = "工程与运维",
             tracks = listOf(
-                Track("git", "Git", "版本控制与协作", "工程与运维", TrackStatus.DEVELOPING, MAGENTA),
-                Track("docker", "Docker", "容器化部署", "工程与运维", TrackStatus.DEVELOPING, CYAN),
-                Track("linux", "Linux", "服务器操作系统", "工程与运维", TrackStatus.DEVELOPING, YELLOW)
+                Track("git", "Git", "版本控制与协作", "工程与运维", TrackStatus.DEVELOPING, MAGENTA, progressPercent = 40),
+                Track("docker", "Docker", "容器化部署", "工程与运维", TrackStatus.DEVELOPING, CYAN, progressPercent = 12),
+                Track("linux", "Linux", "服务器操作系统", "工程与运维", TrackStatus.DEVELOPING, YELLOW, progressPercent = 18)
             )
         )
     )

@@ -38,6 +38,7 @@ import com.pyneon.academy.ui.effects.cyberGrid
 import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
+import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.TextDim
 import com.pyneon.academy.ui.theme.TextMid
 
@@ -106,7 +107,11 @@ private fun TrackCategorySection(
     onOpenTrack: (String) -> Unit,
     onOpenLessons: () -> Unit
 ) {
-    SectionHeader(category.name, accent = NeonCyan)
+    val readyCount = category.tracks.count { it.status == TrackStatus.READY }
+    SectionHeader(
+        "${category.name} · ${category.tracks.size} 轨道",
+        accent = if (readyCount > 0) NeonGreen else NeonCyan
+    )
     category.tracks.forEach { track ->
         TrackRow(
             track = track,
