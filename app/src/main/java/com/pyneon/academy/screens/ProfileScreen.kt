@@ -1,6 +1,7 @@
 package com.pyneon.academy.screens
 
 import com.pyneon.academy.utils.AppConstants
+import com.pyneon.academy.utils.ShareHelper
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -66,7 +67,7 @@ import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.SurfaceDark
 import com.pyneon.academy.ui.theme.TextDim
-import com.pyneon.academy.utils.ShareHelper
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.launch
 
@@ -81,6 +82,7 @@ fun ProfileScreen(
     onOpenAbout: () -> Unit = {},
     onOpenBackup: () -> Unit = {},
     onOpenHistory: () -> Unit = {},
+    onOpenReview: () -> Unit = {},
     onOpenSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -133,13 +135,13 @@ fun ProfileScreen(
         SectionHeader("毕业认证", accent = NeonYellow)
         val allDone = progress.completedLessons.size >= lessons.size
         NeonCard(
-            accent = if (allDone) NeonYellow else Color(0xFF2A3547),
+            accent = if (allDone) NeonYellow else TextDim,
             onClick = if (allDone) onOpenCertificate else null
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Icon(Icons.Outlined.EmojiEvents, contentDescription = null, tint = if (allDone) NeonYellow else Color(0xFF3A4A63), modifier = Modifier.size(28.dp))
+                Icon(Icons.Outlined.EmojiEvents, contentDescription = null, tint = if (allDone) NeonYellow else TextDim, modifier = Modifier.size(28.dp))
                 Column {
-                    Text("GRADUATION · 毕业证书", style = MaterialTheme.typography.titleSmall, color = if (allDone) Color(0xFFE6F1FF) else TextDim)
+                    Text("GRADUATION · 毕业证书", style = MaterialTheme.typography.titleSmall, color = if (allDone) TextHi else TextDim)
                     Text(
                         if (allDone) "已达成！点击查看并分享你的证书" else "通关全部 ${lessons.size} 讲后解锁（${progress.completedLessons.size}/${lessons.size}）",
                         style = MaterialTheme.typography.bodySmall,
@@ -157,18 +159,18 @@ fun ProfileScreen(
                         val got = ach in unlocked
                         NeonCard(
                             modifier = Modifier.weight(1f),
-                            accent = if (got) NeonYellow else Color(0xFF2A3547)
+                            accent = if (got) NeonYellow else TextDim
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     Icons.Outlined.EmojiEvents,
                                     contentDescription = null,
-                                    tint = if (got) NeonYellow else Color(0xFF3A4A63),
+                                    tint = if (got) NeonYellow else TextDim,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(Modifier.size(8.dp))
                                 Column {
-                                    Text(ach.title, style = MaterialTheme.typography.labelLarge, color = if (got) Color(0xFFE6F1FF) else TextDim)
+                                    Text(ach.title, style = MaterialTheme.typography.labelLarge, color = if (got) TextHi else TextDim)
                                     Text(ach.desc, style = MaterialTheme.typography.bodySmall, color = TextDim)
                                 }
                             }
@@ -205,8 +207,12 @@ fun ProfileScreen(
                     }, modifier = Modifier.weight(1f))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(label = "复习台", accent = NeonGreen, onClick = onOpenReview, modifier = Modifier.weight(1f))
                     NeonButton(label = "学习历史", accent = NeonCyan, leadingIcon = Icons.Outlined.History, onClick = onOpenHistory, modifier = Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     NeonButton(label = "系统设置", accent = NeonGreen, leadingIcon = Icons.Outlined.Settings, onClick = onOpenSettings, modifier = Modifier.weight(1f))
+                    Spacer(Modifier.weight(1f))
                 }
             }
         }

@@ -69,10 +69,8 @@ object ProgressStore {
     fun flow(context: Context): Flow<Progress> =
         context.applicationContext.progressDataStore.data.map { p -> p.toProgress() }
 
-    suspend fun snapshot(context: Context): Progress {
-        context.applicationContext.progressDataStore.data.first()
-        return flow(context).first()
-    }
+    suspend fun snapshot(context: Context): Progress =
+        context.applicationContext.progressDataStore.data.first().toProgress()
 
     private fun Preferences.toProgress(): Progress = Progress(
         xpTotal = this[KEY_XP] ?: 0,
@@ -130,13 +128,6 @@ object ProgressStore {
             }
             p[KEY_STREAK] = next
             p[KEY_LAST_ACTIVE] = todayEpochDay
-        }
-    }
-
-    suspend fun awardXp(context: Context, amount: Int) {
-        if (amount <= 0) return
-        context.applicationContext.progressDataStore.edit { p ->
-            p[KEY_XP] = (p[KEY_XP] ?: 0) + amount
         }
     }
 

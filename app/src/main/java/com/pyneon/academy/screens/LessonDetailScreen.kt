@@ -58,6 +58,8 @@ import com.pyneon.academy.ui.effects.SectionHeader
 import com.pyneon.academy.ui.effects.cyberGrid
 import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
+import com.pyneon.academy.ui.theme.Bg1
+import com.pyneon.academy.ui.theme.SurfaceDark
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
@@ -107,6 +109,11 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
         if (alreadySolved) {
             reviewVm.generateCardsForLesson(lesson)
         }
+    }
+
+    // 打开课程即记录到学习历史（LESSON_OPEN）
+    androidx.compose.runtime.LaunchedEffect(lesson.id) {
+        com.pyneon.academy.data.ProgressStore.markLessonOpened(context, lesson.id)
     }
 
     Column(
@@ -171,7 +178,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     is Block.Paragraph -> Text(
                         block.text,
                         style = MaterialTheme.typography.bodyLarge,
-                        color = androidx.compose.ui.graphics.Color(0xFFC9D7EA)
+                        color = TextHi
                     )
                     is Block.Tip -> TipBox(block.text, NeonCyan, "TIP")
                     is Block.Warn -> TipBox(block.text, NeonMagenta, "WARN")
@@ -313,7 +320,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
             confirmButton = {
                 TextButton(onClick = { rewardXp = null }) { Text("继续", color = NeonCyan) }
             },
-            containerColor = androidx.compose.ui.graphics.Color(0xFF10161F)
+            containerColor = SurfaceDark
         )
     }
 }
@@ -382,7 +389,7 @@ private fun OutputPreview(text: String) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(androidx.compose.ui.graphics.Color(0xFF060A0E), MaterialTheme.shapes.medium)
+            .background(Bg1, MaterialTheme.shapes.medium)
             .border(1.dp, NeonGreen.copy(alpha = 0.35f), MaterialTheme.shapes.medium)
             .padding(14.dp)
     ) {
@@ -410,7 +417,7 @@ private fun DiagramBox(text: String) {
         Text(
             text,
             style = MaterialTheme.typography.bodyMedium,
-            color = androidx.compose.ui.graphics.Color(0xFFBFE9FF)
+            color = TextHi.copy(alpha = 0.9f)
         )
     }
 }
@@ -451,7 +458,7 @@ private fun QuizCard(quiz: Block.Quiz) {
         Text(
             quiz.question,
             style = MaterialTheme.typography.bodyLarge,
-            color = androidx.compose.ui.graphics.Color(0xFFE6F1FF),
+            color = TextHi,
             modifier = Modifier.padding(top = 6.dp, bottom = 12.dp)
         )
         quiz.options.forEachIndexed { i, opt ->
@@ -653,11 +660,6 @@ private fun OrderPuzzleCard(order: Block.Order) {
     val selection = remember(order.title) { mutableStateListOf<Int>() }
     val solved = selection.size == order.lines.size &&
         selection.map { shuffled[it] } == order.lines
-    val done = remember(solved) { mutableStateOf(false) }
-    if (solved && selection.isNotEmpty() && !done.value && selection.size == order.lines.size) {
-        done.value = true
-    }
-    if (!solved) done.value = false
     val verdict: Boolean? = if (selection.size == order.lines.size) solved else null
     NeonCard(accent = when (verdict) { true -> NeonGreen; false -> NeonMagenta; null -> NeonCyan }, filled = true) {
         Text("ORDER · 代码排序", style = MaterialTheme.typography.labelSmall, color = NeonCyan)

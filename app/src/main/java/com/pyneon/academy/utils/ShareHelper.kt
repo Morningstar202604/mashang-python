@@ -46,37 +46,6 @@ object ShareHelper {
     }
     
     /**
-     * 分享课程完成
-     */
-    fun shareLessonComplete(context: Context, lessonTitle: String, xpEarned: Int) {
-        val text = buildString {
-            appendLine("✅ 完成了 \"$lessonTitle\"")
-            appendLine("+${xpEarned} XP")
-            appendLine()
-            appendLine(AppConstants.SHARE_HASHTAG)
-        }
-        
-        shareText(context, text, "分享课程完成")
-    }
-    
-    /**
-     * 分享代码片段
-     */
-    fun shareCode(context: Context, code: String, title: String = "我的 Python 代码") {
-        val text = buildString {
-            appendLine("$title")
-            appendLine()
-            appendLine("```python")
-            appendLine(code)
-            appendLine("```")
-            appendLine()
-            appendLine("在 PY//NOW 上编写和运行")
-        }
-        
-        shareText(context, text, "分享代码")
-    }
-    
-    /**
      * 通用文本分享
      */
     private fun shareText(context: Context, text: String, title: String) {

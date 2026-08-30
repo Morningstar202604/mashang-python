@@ -88,7 +88,7 @@ class ContentCenter {
                         )
                     )
                 }
-                return ContentCatalog(obj.optString("updated_at"), packs) to url.substringBefore("/raw/").substringBefore("/main/")
+                return ContentCatalog(obj.optString("updated_at"), packs) to url.removeSuffix("/catalog.json")
             } catch (e: Exception) {
                 lastError = e
             }
@@ -109,7 +109,7 @@ class ContentCenter {
                 "拒绝写入越界路径: $canon"
             }
         }
-        val text = httpGet("$baseUrl/raw/main/content_packs/${pack.id}.json")
+        val text = httpGet("$baseUrl/content_packs/${pack.id}.json")
         // C1: pack 强制 sha256 校验（必须提供，缺失即拒绝）
         val expected = pack.sha256 ?: throw SecurityException("pack ${pack.id} 缺少 sha256 字段，拒绝下载")
         if (sha256Hex(text) != expected) {

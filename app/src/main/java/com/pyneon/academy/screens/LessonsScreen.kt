@@ -43,6 +43,7 @@ import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 
 @Composable

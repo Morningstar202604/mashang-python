@@ -60,6 +60,7 @@ import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.SurfaceHigh
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 
 @Composable
@@ -145,7 +146,7 @@ fun HomeScreen(
                 )
                 Spacer(Modifier.size(10.dp))
                 Column(Modifier.weight(1f)) {
-                    Text("今日通过 1 个练习或挑战", style = MaterialTheme.typography.bodyLarge, color = androidx.compose.ui.graphics.Color(0xFFE6F1FF))
+                    Text("今日通过 1 个练习或挑战", style = MaterialTheme.typography.bodyLarge, color = TextHi)
                     Text("奖励：+30 XP 燃烧神经", style = MaterialTheme.typography.bodySmall, color = TextMid)
                 }
                 if (dailyMissionDone(progress)) {

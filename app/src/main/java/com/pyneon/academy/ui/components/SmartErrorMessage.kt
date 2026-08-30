@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.pyneon.academy.ui.theme.DangerRed
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.SurfaceHigh
@@ -60,7 +61,7 @@ fun SmartErrorMessage(
             Text(
                 text = friendlyMessage,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color(0xFFFFE6E6)
+                color = DangerRed
             )
         }
         

@@ -60,6 +60,7 @@ import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -202,7 +203,7 @@ fun TerminalScreen() {
                 androidx.compose.foundation.text.BasicTextField(
                     value = input,
                     onValueChange = { input = it },
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color(0xFFE6F1FF)),
+                    textStyle = MaterialTheme.typography.bodyLarge.copy(color = TextHi),
                     cursorBrush = Brush.verticalGradient(listOf(NeonGreen, NeonGreen)),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

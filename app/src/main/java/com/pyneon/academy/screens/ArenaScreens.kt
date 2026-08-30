@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.pyneon.academy.ui.theme.TextHi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -93,7 +94,7 @@ fun ArenaScreen(openChallenge: (String) -> Unit) {
                 NeonCard(accent = accent, onClick = { openChallenge(c.id) }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
-                            Text(c.title, style = MaterialTheme.typography.titleMedium, color = Color(0xFFE6F1FF))
+                            Text(c.title, style = MaterialTheme.typography.titleMedium, color = TextHi)
                             Text(
                                 "难度 ${c.difficulty} · ${c.xp} XP",
                                 style = MaterialTheme.typography.bodySmall,

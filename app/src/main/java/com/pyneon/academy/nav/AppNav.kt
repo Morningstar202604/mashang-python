@@ -8,10 +8,6 @@ import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.SpaceDashboard
 import androidx.compose.material.icons.outlined.Terminal
-import androidx.compose.material.icons.outlined.BugReport
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Backup
-import androidx.compose.material.icons.outlined.FlashOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -49,8 +45,10 @@ import com.pyneon.academy.screens.TerminalScreen
 import com.pyneon.academy.screens.TracksScreen
 import com.pyneon.academy.screens.TrackDevelopingScreen
 import com.pyneon.academy.screens.AboutScreen
+import com.pyneon.academy.screens.BackupScreen
 import com.pyneon.academy.screens.HelpScreen
 import com.pyneon.academy.screens.HistoryScreen
+import com.pyneon.academy.screens.ReviewScreen
 import com.pyneon.academy.screens.SettingsScreen
 import com.pyneon.academy.screens.PrivacyConsentDialog
 import com.pyneon.academy.screens.PrivacyPolicyScreen
@@ -207,19 +205,35 @@ fun AppRoot() {
                 onOpenPrivacy = { navController.navigate("privacy") },
                 onOpenHelp = { navController.navigate("help") },
                 onOpenAbout = { navController.navigate("about") },
-                onOpenBackup = { /* 备份/恢复入口（本期保留） */ },
+                onOpenBackup = { navController.navigate("backup") },
                 onOpenHistory = { navController.navigate("history") },
+                onOpenReview = { navController.navigate("review") },
                 onOpenSettings = { navController.navigate("settings") }
             ) }
             composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
-composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
-            composable("streak") { StreakScreen(onBack = { navController.popBackStack() }) }
+            composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
+            composable("streak") {
+                StreakScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenReview = { navController.navigate("review") }
+                )
+            }
+            composable("review") { ReviewScreen(onBack = { navController.popBackStack() }) }
             composable("history") { HistoryScreen(onBack = { navController.popBackStack() }) }
             composable("settings") { SettingsScreen(onBack = { navController.popBackStack() }) }
-            composable("mistakes") { MistakeScreen(onBack = { navController.popBackStack() }) }
+            composable("mistakes") {
+                MistakeScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenLesson = { id -> navController.navigate("lesson/$id") }
+                )
+            }
             composable("mistakes/{lessonId}") { entry ->
                 val id = entry.arguments?.getString("lessonId").orEmpty()
-                MistakeScreen(onBack = { navController.popBackStack() }, lessonId = id)
+                MistakeScreen(
+                    onBack = { navController.popBackStack() },
+                    onOpenLesson = { lid -> navController.navigate("lesson/$lid") },
+                    lessonId = id
+                )
             }
             composable("privacy") { PrivacyPolicyScreen(onBack = { navController.popBackStack() }) }
             composable("help") { HelpScreen(onBack = { navController.popBackStack() }) }

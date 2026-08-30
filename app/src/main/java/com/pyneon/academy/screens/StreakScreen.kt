@@ -73,6 +73,7 @@ import com.pyneon.academy.ui.components.NeonButton
 @Composable
 fun StreakScreen(
     onBack: () -> Unit,
+    onOpenReview: () -> Unit = {},
     viewModel: StreakViewModel = viewModel()
 ) {
     val streak by viewModel.streak.collectAsState()
@@ -144,6 +145,15 @@ fun StreakScreen(
                         StatItem("累计", "${streak.totalActiveDays} 天", Icons.Default.CalendarToday)
                         StatItem("待复习", "$dueCount 道", Icons.Default.Refresh)
                     }
+                    if (dueCount > 0) {
+                        androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(14.dp))
+                        NeonButton(
+                            label = "开始复习 $dueCount 张",
+                            accent = NeonColors.Primary,
+                            onClick = onOpenReview,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                 }
             }
 
@@ -188,7 +198,7 @@ fun StreakScreen(
 @Composable
 fun StatItem(label: String, value: String, icon: ImageVector) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(Icons.Default.TrendingUp, contentDescription = "", tint = NeonColors.Primary, modifier = Modifier.size(20.dp))
+        Icon(icon, contentDescription = "", tint = NeonColors.Primary, modifier = Modifier.size(20.dp))
         androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
         Text(value, style = NeonTextStyles.NeonBody.copy(fontWeight = FontWeight.Bold), color = NeonColors.Primary)
         Text(label, style = NeonTextStyles.NeonCaption, color = NeonColors.TextDim)

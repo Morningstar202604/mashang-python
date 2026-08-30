@@ -41,6 +41,7 @@ import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -100,7 +101,7 @@ fun ContentHubScreen(onBack: () -> Unit) {
                 Text(
                     "已装载 $packCount 讲 · 全部离线可用",
                     style = MaterialTheme.typography.bodyLarge,
-                    color = androidx.compose.ui.graphics.Color(0xFFE6F1FF),
+                    color = TextHi,
                     modifier = Modifier.padding(top = 2.dp)
                 )
                 Text(
@@ -134,7 +135,7 @@ fun ContentHubScreen(onBack: () -> Unit) {
                         else -> null
                     }
                     NeonCard(accent = if (state == null) NeonGreen else NeonYellow) {
-                        Text(pack.name, style = MaterialTheme.typography.titleMedium, color = androidx.compose.ui.graphics.Color(0xFFE6F1FF))
+                        Text(pack.name, style = MaterialTheme.typography.titleMedium, color = TextHi)
                         Text(pack.description, style = MaterialTheme.typography.bodySmall, color = TextMid, modifier = Modifier.padding(top = 2.dp))
                         Spacer(Modifier.height(10.dp))
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {

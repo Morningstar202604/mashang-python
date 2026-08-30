@@ -63,6 +63,7 @@ import com.pyneon.academy.ui.components.NeonButton
 @Composable
 fun MistakeScreen(
     onBack: () -> Unit,
+    onOpenLesson: (String) -> Unit = {},
     lessonId: String? = null,
     viewModel: MistakeViewModel = viewModel()
 ) {
@@ -181,9 +182,7 @@ fun MistakeScreen(
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(displayMistakes) { mistake ->
-                        MistakeItem(mistake, onRetry = {
-                            // TODO: Navigate to lesson with this mistake highlighted
-                        }, onDelete = { viewModel.deleteMistake(mistake.id) })
+                        MistakeItem(mistake, onRetry = { onOpenLesson(mistake.lessonId) }, onDelete = { viewModel.deleteMistake(mistake.id) })
                     }
                 }
             }

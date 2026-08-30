@@ -24,8 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.pyneon.academy.data.Clock
-import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.py.PyBridge
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.cyberGrid
@@ -40,6 +38,8 @@ import kotlinx.coroutines.delay
 @Composable
 fun BootScreen(onDone: () -> Unit) {
     val context = LocalContext.current
+    val streakVm: com.pyneon.academy.data.StreakViewModel =
+        androidx.lifecycle.viewmodel.compose.viewModel()
     var pyStatus by remember { mutableStateOf("RUN") }
     
     // Use current release version
@@ -73,7 +73,7 @@ fun BootScreen(onDone: () -> Unit) {
         }
         pyStatus = if (ok) "OK" else "FAIL"
         shown = 3
-        ProgressStore.touchStreak(context, Clock.todayEpochDay())
+        streakVm.onAppOpen()
         for (i in 3 until bootLines.size) {
             shown = i + 1
             delay(190L)

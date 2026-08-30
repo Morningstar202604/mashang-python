@@ -47,6 +47,7 @@ import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextDim
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.theme.TextMid
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -145,7 +146,7 @@ private fun HistoryRow(
             Icon(icon, contentDescription = null, tint = accent, modifier = Modifier.size(22.dp))
             Spacer(Modifier.size(12.dp))
             Column(Modifier.weight(1f)) {
-                Text(label, style = MaterialTheme.typography.bodyLarge, color = Color(0xFFE6F1FF))
+                Text(label, style = MaterialTheme.typography.bodyLarge, color = TextHi)
                 Text(formatTime(rec.epochMs), style = MaterialTheme.typography.labelSmall, color = TextDim)
             }
         }

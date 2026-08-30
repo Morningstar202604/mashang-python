@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
@@ -195,9 +197,8 @@ class MistakeViewModel(app: Application) : AndroidViewModel(app) {
         loadMistakes()
     }
 
-    fun getByLesson(lessonId: String): StateFlow<List<MistakeRecord>> {
-        return MutableStateFlow(_allMistakes.value.filter { it.lessonId == lessonId })
-    }
+    fun getByLesson(lessonId: String): Flow<List<MistakeRecord>> =
+        _allMistakes.map { all -> all.filter { it.lessonId == lessonId } }
 
     fun recordMistake(
         lessonId: String,

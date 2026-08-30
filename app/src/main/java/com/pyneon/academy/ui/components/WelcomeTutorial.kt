@@ -33,6 +33,7 @@ import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
 import com.pyneon.academy.ui.theme.NeonYellow
+import com.pyneon.academy.ui.theme.TextHi
 import com.pyneon.academy.ui.components.NeonButton
 import kotlinx.coroutines.launch
 
@@ -194,7 +195,7 @@ fun WelcomePageContent(page: WelcomePage) {
         Text(
             text = page.description,
             style = MaterialTheme.typography.bodyLarge,
-            color = androidx.compose.ui.graphics.Color(0xFFE6F1FF),
+            color = TextHi,
             textAlign = TextAlign.Center,
             lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * 1.5
         )
