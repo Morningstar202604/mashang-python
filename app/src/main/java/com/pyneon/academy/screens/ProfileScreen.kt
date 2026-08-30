@@ -27,6 +27,8 @@ import androidx.compose.material.icons.outlined.Backup
 import androidx.compose.material.icons.outlined.Help
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -77,7 +79,9 @@ fun ProfileScreen(
     onOpenPrivacy: () -> Unit = {},
     onOpenHelp: () -> Unit = {},
     onOpenAbout: () -> Unit = {},
-    onOpenBackup: () -> Unit = {}
+    onOpenBackup: () -> Unit = {},
+    onOpenHistory: () -> Unit = {},
+    onOpenSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -199,6 +203,10 @@ fun ProfileScreen(
                     NeonButton(label = "分享成就", accent = NeonGreen, leadingIcon = Icons.Outlined.Share, onClick = {
                         ShareHelper.shareAchievement(context, progress.xpTotal, progress.streakDays, Ranks.forXp(progress.xpTotal).name)
                     }, modifier = Modifier.weight(1f))
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(label = "学习历史", accent = NeonCyan, leadingIcon = Icons.Outlined.History, onClick = onOpenHistory, modifier = Modifier.weight(1f))
+                    NeonButton(label = "系统设置", accent = NeonGreen, leadingIcon = Icons.Outlined.Settings, onClick = onOpenSettings, modifier = Modifier.weight(1f))
                 }
             }
         }

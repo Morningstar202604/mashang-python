@@ -50,6 +50,8 @@ import com.pyneon.academy.screens.TracksScreen
 import com.pyneon.academy.screens.TrackDevelopingScreen
 import com.pyneon.academy.screens.AboutScreen
 import com.pyneon.academy.screens.HelpScreen
+import com.pyneon.academy.screens.HistoryScreen
+import com.pyneon.academy.screens.SettingsScreen
 import com.pyneon.academy.screens.PrivacyConsentDialog
 import com.pyneon.academy.screens.PrivacyPolicyScreen
 import com.pyneon.academy.screens.finishApp
@@ -205,11 +207,15 @@ fun AppRoot() {
                 onOpenPrivacy = { navController.navigate("privacy") },
                 onOpenHelp = { navController.navigate("help") },
                 onOpenAbout = { navController.navigate("about") },
-                onOpenBackup = { /* TODO: open backup dialog */ }
+                onOpenBackup = { /* 备份/恢复入口（本期保留） */ },
+                onOpenHistory = { navController.navigate("history") },
+                onOpenSettings = { navController.navigate("settings") }
             ) }
             composable("contenthub") { ContentHubScreen(onBack = { navController.popBackStack() }) }
 composable("certificate") { CertificateScreen(onBack = { navController.popBackStack() }) }
             composable("streak") { StreakScreen(onBack = { navController.popBackStack() }) }
+            composable("history") { HistoryScreen(onBack = { navController.popBackStack() }) }
+            composable("settings") { SettingsScreen(onBack = { navController.popBackStack() }) }
             composable("mistakes") { MistakeScreen(onBack = { navController.popBackStack() }) }
             composable("mistakes/{lessonId}") { entry ->
                 val id = entry.arguments?.getString("lessonId").orEmpty()

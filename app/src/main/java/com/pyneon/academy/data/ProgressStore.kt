@@ -16,6 +16,19 @@ import kotlinx.coroutines.flow.map
 
 private val Context.progressDataStore: DataStore<Preferences> by preferencesDataStore(name = "pyneon_progress")
 
+enum class ActivityType(val key: String) {
+    LESSON_OPEN("lesson_open"),
+    LESSON_DONE("lesson_done"),
+    EXERCISE("exercise_solved"),
+    CHALLENGE("challenge_solved")
+}
+
+data class ActivityRecord(
+    val epochMs: Long,
+    val type: ActivityType,
+    val refId: String
+)
+
 data class Progress(
     val xpTotal: Int = 0,
     val completedLessons: Set<String> = emptySet(),
@@ -29,7 +42,8 @@ data class Progress(
     val firstRunDone: Boolean = false,
     val nightOwl: Boolean = false,
     val terminalHead: Boolean = false,
-    val badges: Set<String> = emptySet()
+    val badges: Set<String> = emptySet(),
+    val recentActivities: List<ActivityRecord> = emptyList()
 )
 
 object ProgressStore {
@@ -47,8 +61,10 @@ object ProgressStore {
     private val KEY_LAST_LESSON = stringPreferencesKey("last_lesson_id")
     private val KEY_TERMINAL_HEAD = booleanPreferencesKey("terminal_head")
     private val KEY_BADGES = stringSetPreferencesKey("badges")
+    private val KEY_ACTIVITY_LOG = stringSetPreferencesKey("activity_log")
 
     private const val DAILY_BONUS_XP = 30
+    private const val MAX_ACTIVITY = 50
 
     fun flow(context: Context): Flow<Progress> =
         context.applicationContext.progressDataStore.data.map { p -> p.toProgress() }
@@ -71,8 +87,37 @@ object ProgressStore {
         firstRunDone = this[KEY_FIRST_RUN] ?: false,
         nightOwl = this[KEY_NIGHT_OWL] ?: false,
         terminalHead = this[KEY_TERMINAL_HEAD] ?: false,
-        badges = this[KEY_BADGES] ?: emptySet()
+        badges = this[KEY_BADGES] ?: emptySet(),
+        recentActivities = parseActivities(this[KEY_ACTIVITY_LOG] ?: emptySet())
     )
+
+    private fun parseActivities(raw: Set<String>): List<ActivityRecord> =
+        raw.mapNotNull { line ->
+            val parts = line.split("|")
+            if (parts.size != 3) return@mapNotNull null
+            val type = ActivityType.entries.firstOrNull { it.key == parts[1] } ?: return@mapNotNull null
+            ActivityRecord(
+                epochMs = parts[0].toLongOrNull() ?: return@mapNotNull null,
+                type = type,
+                refId = parts[2]
+            )
+        }.sortedByDescending { it.epochMs }
+
+    private fun appendActivity(
+        log: Set<String>,
+        type: ActivityType,
+        refId: String,
+        epochMs: Long
+    ): Set<String> {
+        val line = "$epochMs|${type.key}|$refId"
+        val next = (log + line)
+            .mapNotNull { raw -> raw.split("|").firstOrNull()?.toLongOrNull()?.let { it to raw } }
+            .sortedByDescending { it.first }
+            .take(MAX_ACTIVITY)
+            .map { it.second }
+            .toSet()
+        return next.ifEmpty { log }
+    }
 
     suspend fun touchStreak(context: Context, todayEpochDay: Long) {
         context.applicationContext.progressDataStore.edit { p ->
@@ -110,6 +155,12 @@ object ProgressStore {
             } else {
                 p[KEY_DAILY_COUNT] = (p[KEY_DAILY_COUNT] ?: 0) + 1
             }
+            p[KEY_ACTIVITY_LOG] = appendActivity(
+                p[KEY_ACTIVITY_LOG] ?: emptySet(),
+                if (key.startsWith("chal_")) ActivityType.CHALLENGE else ActivityType.EXERCISE,
+                key,
+                System.currentTimeMillis()
+            )
         }
     }
 
@@ -121,12 +172,24 @@ object ProgressStore {
                 p[KEY_XP] = (p[KEY_XP] ?: 0) + lessonXp
             }
             if (lastLessonId != null) p[KEY_LAST_LESSON] = lastLessonId
+            p[KEY_ACTIVITY_LOG] = appendActivity(
+                p[KEY_ACTIVITY_LOG] ?: emptySet(),
+                ActivityType.LESSON_DONE,
+                lessonId,
+                System.currentTimeMillis()
+            )
         }
     }
 
     suspend fun markLessonOpened(context: Context, lessonId: String) {
         context.applicationContext.progressDataStore.edit { p ->
             p[KEY_LAST_LESSON] = lessonId
+            p[KEY_ACTIVITY_LOG] = appendActivity(
+                p[KEY_ACTIVITY_LOG] ?: emptySet(),
+                ActivityType.LESSON_OPEN,
+                lessonId,
+                System.currentTimeMillis()
+            )
         }
     }
 
@@ -176,6 +239,12 @@ object ProgressStore {
             prefs[KEY_NIGHT_OWL] = nightOwl
             prefs[KEY_TERMINAL_HEAD] = terminalHead
             prefs[KEY_BADGES] = badges
+        }
+    }
+
+    suspend fun clearActivityLog(context: Context) {
+        context.applicationContext.progressDataStore.edit { p ->
+            p.remove(KEY_ACTIVITY_LOG)
         }
     }
 
