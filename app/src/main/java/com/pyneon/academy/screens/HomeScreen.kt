@@ -38,6 +38,8 @@ import com.pyneon.academy.data.LessonRepository
 import com.pyneon.academy.data.Progress
 import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.data.Ranks
+import com.pyneon.academy.data.TrackRepository
+import com.pyneon.academy.data.TrackStatus
 import com.pyneon.academy.data.dailyMissionDone
 import com.pyneon.academy.py.PyBridge
 import com.pyneon.academy.ui.components.NeonButton
@@ -61,7 +63,8 @@ fun HomeScreen(
     onOpenLesson: (String) -> Unit,
     onOpenTerminal: () -> Unit,
     onOpenArena: () -> Unit,
-    onOpenLessons: () -> Unit
+    onOpenLessons: () -> Unit,
+    onOpenTracks: () -> Unit
 ) {
     val context = LocalContext.current
     val progress by ProgressStore.flow(context).collectAsState(initial = Progress())
@@ -144,6 +147,23 @@ fun HomeScreen(
                     Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = NeonGreen)
                 } else {
                     Text("待完成", style = MaterialTheme.typography.labelMedium, color = TextDim)
+                }
+            }
+        }
+
+        SectionHeader("课程体系 · 多轨道")
+        NeonCard(accent = NeonCyan, onClick = onOpenTracks) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("按技术栈划分的全部课程轨道", style = MaterialTheme.typography.labelMedium, color = TextDim)
+                Text("Python 已上线 · 另有 前端 / 后端 / 数据库 / AI / 运维 等 20+ 轨道规划中", style = MaterialTheme.typography.bodyMedium, color = TextMid)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Icon(
+                        Icons.AutoMirrored.Outlined.MenuBook,
+                        contentDescription = null,
+                        tint = NeonCyan,
+                        modifier = Modifier.size(16.dp)
+                    )
+                    Text("查看完整课程体系 ▸", style = MaterialTheme.typography.labelMedium, color = NeonCyan)
                 }
             }
         }
