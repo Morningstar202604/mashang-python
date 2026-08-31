@@ -13,6 +13,9 @@ keystore.properties
 *.keystore
 .opencode/
 
+# 工作区产物（审计报告 / 构建日志 / 记忆笔记，不入库）
+.workbuddy/
+
 __pycache__/
 *.pyc
 
