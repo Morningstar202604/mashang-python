@@ -83,7 +83,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.8.1")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
 
     // 缺失依赖补充：viewModelScope / asLiveData / liveData 来自 lifecycle-ktx
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
