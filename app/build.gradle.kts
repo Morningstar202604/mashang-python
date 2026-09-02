@@ -71,16 +71,16 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.9.3")
 
-    implementation(platform("androidx.compose:compose-bom:2026.08.00"))
+    implementation(platform("androidx.compose:compose-bom:2024.09.03"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.foundation:foundation")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
 
-    implementation("androidx.navigation:navigation-compose:2.10.0")
+    implementation("androidx.navigation:navigation-compose:2.8.1")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
 
     // 缺失依赖补充：viewModelScope / asLiveData / liveData 来自 lifecycle-ktx
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
@@ -88,7 +88,7 @@ dependencies {
     // LiveData → Compose State 桥接（observeAsState，来自 androidx.compose.runtime.livedata）
     implementation("androidx.compose.runtime:runtime-livedata:1.7.6")
     // kotlinx-serialization：BackupUtil 备份 JSON 序列化所需
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
 
     // QR code for certificate poster
     implementation("com.google.zxing:core:3.5.4")
