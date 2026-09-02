@@ -146,15 +146,6 @@ Chaquopy 16.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
 DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Highlighter
 ```
 
-## 🗺 Roadmap
-
-- [x] v0.1 MVP: Engine loop + 7 screens + grading
-- [x] v0.2 Content Explosion: 26 lessons + 4 new content blocks (tables/diagrams/pop questions/output preview)
-- [x] v0.2.1 Content Hub: Online course pack download (device-cloud synergy), debut pack "Built-in Function Tour"
-- [ ] v0.3 Turtle Canvas · matplotlib Chart Output · Execution Process Variable Animation
-- [ ] v0.4 On-device AI Tutor · Mistake Notebook
-- [ ] v1.0 Multi-language · Tablet Adaptation · Full-channel App Store Launch
-
 ## 🤝 Contributing
 
 All forms welcome: new lesson content, bug reports, UI polish, multi-language translations.
@@ -177,3 +168,5 @@ Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Je
 **If this project helps you, give it a ⭐ to help more learners discover it!**
 
 </div>
+
+
