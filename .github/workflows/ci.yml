@@ -37,11 +37,10 @@ jobs:
         run: python tests/validate_content.py
         shell: bash
 
-  # Job 2: Android build (only on main branch or tags)
+  # Job 2: Android build（PR 与 main/tags 都运行，保证依赖变更在合并前被验证）
   android-build:
     needs: desktop-tests
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout
         uses: actions/checkout@v7

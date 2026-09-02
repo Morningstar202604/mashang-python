@@ -11,3 +11,15 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 5
 
+    ignore:
+      # AGP 9 需要迁移（移除 org.jetbrains.kotlin.android 改内置 Kotlin），暂不跟进
+      - dependency-name: "com.android.application"
+        versions: [">=9.0.0"]
+      # 需要 compileSdk 37 + AGP 9.1，当前 compileSdk 35 / AGP 8.13.2
+      - dependency-name: "androidx.core:core-ktx"
+        versions: [">=1.19.0"]
+      - dependency-name: "androidx.navigation:navigation-compose"
+        versions: [">=2.10.0"]
+      # compose 1.8+ 需要 compileSdk 36，当前 compileSdk 35
+      - dependency-name: "androidx.compose:compose-bom"
+        versions: [">=2025.05.00"]
