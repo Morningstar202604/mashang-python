@@ -1,0 +1,112 @@
+[
+  {
+    "id": "dc-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "dataclass 入门",
+    "subtitle": "用 @dataclass 自动生成样板代码",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "为什么要 dataclass"
+      },
+      {
+        "type": "text",
+        "text": "普通类要手写 __init__、__repr__、__eq__。@dataclass 装饰器根据类属性自动生成这三样,代码更短、更不容易错。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int\n    y: int = 0\n\np1 = Point(3, 4)\np2 = Point(3, 4)\nprint(p1)            # 自动生成 __repr__\nprint(p1 == p2)      # 自动生成 __eq__"
+      },
+      {
+        "type": "output",
+        "text": "Point(x=3, y=4)\nTrue"
+      },
+      {
+        "type": "quiz",
+        "question": "@dataclass 会自动生成以下哪个方法?",
+        "options": [
+          "__init__",
+          "__len__",
+          "__iter__",
+          "__call__"
+        ],
+        "answer": 0,
+        "explain": "dataclass 自动生成 __init__、__repr__、__eq__ 等,但不会生成 __len__/__iter__"
+      },
+      {
+        "type": "tip",
+        "text": "类型注解(x: int)对 dataclass 是必需的,它靠注解识别字段"
+      }
+    ],
+    "tests": [],
+    "hint": "字段必须带类型注解"
+  },
+  {
+    "id": "dc-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "field 与不可变数据类",
+    "subtitle": "默认值工厂与 frozen 配置",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "field 的两个高频用法"
+      },
+      {
+        "type": "text",
+        "text": "可变默认值(如列表)不能直接写 = [],要用 field(default_factory=list);frozen=True 让实例不可变,可安全作 dict 键。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass Bag:\n    items: list = field(default_factory=list)\n\n@dataclass(frozen=True)\nclass Config:\n    host: str\n    port: int\n\nb = Bag()\nb.items.append('apple')\nc = Config('localhost', 8000)\nprint(b.items, c.host, c.port)"
+      },
+      {
+        "type": "output",
+        "text": "['apple'] localhost 8000"
+      },
+      {
+        "type": "practice",
+        "title": "练习:图书数据类",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Book:\n    title: str\n    tags: list = field(default_factory=list)\n\nb = Book('Python之旅')\nb.tags += ['编程', '入门']\nprint(b.title, b.tags)",
+        "hint": "用 default_factory 给列表安全默认值",
+        "stdout": "Python之旅 ['编程', '入门']"
+      },
+      {
+        "type": "quiz",
+        "question": "想给每个实例一个独立的空列表默认值,正确写法是?",
+        "options": [
+          "items: list = []",
+          "items: list = field(default_factory=list)",
+          "items: list = list()",
+          "items = []"
+        ],
+        "answer": 1,
+        "explain": "直接写 = [] 会让所有实例共享同一个列表;default_factory 每次调用 list() 新建"
+      },
+      {
+        "type": "project",
+        "title": "项目:不可变坐标",
+        "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Pos:\n    x: int\n    y: int\n\np = Pos(2, 3)\nprint(p.x + p.y)\n# p.x = 9  ← 会抛 FrozenInstanceError",
+        "goal": "体会 frozen=True 的不可变语义",
+        "hint": "去掉 frozen 再赋值试试,观察报错"
+      },
+      {
+        "type": "tip",
+        "text": "frozen 数据类实现了 __hash__,可以直接放进 set 或当 dict 键"
+      }
+    ],
+    "tests": [],
+    "hint": "可变默认值必须用 default_factory"
+  }
+]

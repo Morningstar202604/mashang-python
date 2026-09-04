@@ -1,0 +1,48 @@
+[
+  {
+    "id": "proj-01",
+    "order": 1,
+    "chapter": 8,
+    "title": "项目：计算器",
+    "subtitle": "综合运用变量、函数、条件判断",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "项目目标"},
+      {"type": "text", "text": "创建一个命令行计算器，支持加减乘除运算，能处理用户输入和错误情况。"},
+      {"type": "code", "runnable": true, "code": "def calculator():\n    print('=== 简单计算器 ===')\n    try:\n        num1 = float(input('输入第一个数字: '))\n        op = input('输入运算符 (+, -, *, /): ')\n        num2 = float(input('输入第二个数字: '))\n        \n        if op == '+':\n            result = num1 + num2\n        elif op == '-':\n            result = num1 - num2\n        elif op == '*':\n            result = num1 * num2\n        elif op == '/':\n            if num2 == 0:\n                print('错误：除数不能为零')\n                return\n            result = num1 / num2\n        else:\n            print('不支持的运算符')\n            return\n        \n        print(f'结果: {num1} {op} {num2} = {result}')\n    except ValueError:\n        print('错误：请输入有效的数字')", "language": "python"},
+      {"type": "output", "text": "=== 简单计算器 ===\n输入第一个数字: 10\n输入运算符: +\n输入第二个数字: 5\n结果: 10.0 + 5.0 = 15.0"},
+      {"type": "quiz", "question": "这个项目用到了哪些知识点？", "options": ["函数、循环、列表", "变量、函数、条件判断、错误处理", "类、继承、多态"], "answer": 1, "explain": "项目综合运用了变量、函数、if/elif/else、try/except"},
+      {"type": "practice", "title": "练习：扩展计算器", "code": "def calculator_v2():\n    print('=== 计算器v2 ===')\n    num1 = float(input('数字1: '))\n    num2 = float(input('数字2: '))\n    \n    results = {\n        '+': num1 + num2,\n        '-': num1 - num2,\n        '*': num1 * num2,\n        '/': num1 / num2 if num2 != 0 else '错误'\n    }\n    \n    for op, result in results.items():\n        print(f'{num1} {op} {num2} = {result}')", "hint": "使用字典存储所有运算结果", "stdout": "显示四种运算的结果"},
+      {"type": "tip", "text": "可以扩展支持更多运算，如幂运算、取余等"},
+      {"type": "project", "title": "项目扩展：科学计算器", "code": "import math\n\ndef scientific_calc(num, op):\n    if op == 'sqrt':\n        return math.sqrt(num)\n    elif op == 'sin':\n        return math.sin(math.radians(num))\n    elif op == 'cos':\n        return math.cos(math.radians(num))\n    else:\n        return '不支持的运算'\n\nprint(f'sqrt(16) = {scientific_calc(16, \"sqrt\")}')\nprint(f'sin(30) = {scientific_calc(30, \"sin\")}')", "goal": "扩展计算器支持数学函数", "hint": "使用math模块获取数学函数"}
+    ],
+    "tests": ["calculator should handle basic operations", "division by zero should be caught", "invalid input should be handled"],
+    "hint": "将代码组织成函数，添加错误处理"
+  },
+  {
+    "id": "proj-02",
+    "order": 2,
+    "chapter": 8,
+    "title": "项目：文件分析工具",
+    "subtitle": "综合运用文件操作、字符串处理、数据结构",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 350,
+    
+    "blocks": [
+      {"type": "heading", "text": "项目目标"},
+      {"type": "text", "text": "创建一个文件分析工具，读取文本文件并统计行数、单词数、字符数等信息。"},
+      {"type": "code", "runnable": true, "code": "def analyze_file(filename):\n    with open(filename, 'r', encoding='utf-8') as f:\n        content = f.read()\n    \n    lines = content.split('\\n')\n    words = content.split()\n    \n    stats = {\n        '行数': len(lines),\n        '单词数': len(words),\n        '字符数': len(content),\n        '字符数(无空格)': len(content.replace(' ', ''))\n    }\n    \n    return stats\n\nstats = analyze_file('sample.txt')\nfor key, value in stats.items():\n    print(f'{key}: {value}')", "language": "python"},
+      {"type": "output", "text": "行数: 10\n单词数: 50\n字符数: 300\n字符数(无空格): 250"},
+      {"type": "quiz", "question": "为什么使用with open()而不是普通open()？", "options": ["运行更快", "自动关闭文件", "支持更多编码"], "answer": 1, "explain": "with语句确保文件使用后自动关闭，即使发生异常"},
+      {"type": "practice", "title": "练习：统计特定单词", "code": "def count_word(filename, target):\n    with open(filename, 'r') as f:\n        words = f.read().split()\n    count = words.count(target)\n    return count\n\ncount = count_word('article.txt', 'Python')\nprint(f'Python出现{count}次')", "hint": "使用split()分割单词，count()统计次数", "stdout": "Python出现15次"},
+      {"type": "tip", "text": "可以扩展功能：统计词频、找出最长单词等"},
+      {"type": "project", "title": "项目扩展：词频分析器", "code": "def word_frequency(filename):\n    with open(filename, 'r') as f:\n        words = f.read().lower().split()\n    \n    freq = {}\n    for word in words:\n        if word in freq:\n            freq[word] += 1\n        else:\n            freq[word] = 1\n    \n    sorted_freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)\n    return sorted_freq[:10]\n\ntop10 = word_frequency('article.txt')\nprint('TOP 10 高频词:')\nfor word, count in top10:\n    print(f'{word}: {count}')", "goal": "创建词频分析器，找出文章中最高频的10个词", "hint": "使用字典统计词频，sorted()排序"}
+    ],
+    "tests": ["analyze_file should return correct stats", "word count should be accurate", "word_frequency should work correctly"],
+    "hint": "使用with open()读取文件，split()分割文本"
+  }
+]

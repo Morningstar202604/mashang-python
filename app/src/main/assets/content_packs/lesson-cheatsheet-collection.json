@@ -1,0 +1,192 @@
+[
+  {
+    "id": "cheatsheet-collection-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "集合类型方法速查表",
+    "subtitle": "Python 集合类型（list, dict, set, tuple, deque）全部方法速查手册，按类型分组，附带示例和输出。",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "集合类型方法速查表"
+      },
+      {
+        "type": "text",
+        "text": "Python 提供了多种内置集合类型，各有特点和适用场景。本速查表按类型分组，涵盖全部方法。"
+      },
+      {
+        "type": "heading",
+        "text": "列表（List）方法"
+      },
+      {
+        "type": "text",
+        "text": "列表是有序、可变的序列，是最常用的数据结构之一。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# append(x) - 在末尾添加一个元素\nlst = [1, 2, 3]\nlst.append(4)\nprint(lst)  # [1, 2, 3, 4]\n\n# extend(iterable) - 用可迭代对象扩展列表\nlst = [1, 2, 3]\nlst.extend([4, 5, 6])\nprint(lst)  # [1, 2, 3, 4, 5, 6]\n\n# insert(i, x) - 在指定位置插入元素\nlst = [1, 2, 3]\nlst.insert(1, 'a')\nprint(lst)  # [1, 'a', 2, 3]\nlst.insert(0, 'start')\nprint(lst)  # ['start', 1, 'a', 2, 3]\n\n# remove(x) - 删除第一个匹配的元素，不存在则报错\nlst = [1, 2, 3, 2, 1]\nlst.remove(2)\nprint(lst)  # [1, 3, 2, 1]\n# lst.remove(99)  # ValueError\n\n# pop([i]) - 删除并返回指定位置的元素（默认最后一个）\nlst = [1, 2, 3, 4, 5]\nlast = lst.pop()\nprint(last)  # 5\nprint(lst)    # [1, 2, 3, 4]\nfirst = lst.pop(0)\nprint(first)  # 1\nprint(lst)    # [2, 3, 4]\n\n# clear() - 清空列表\nlst = [1, 2, 3]\nlst.clear()\nprint(lst)  # []\n\n# index(x[, start[, end]]) - 查找元素索引\nlst = [10, 20, 30, 20, 10]\nprint(lst.index(20))      # 1\nprint(lst.index(20, 2))   # 3（从索引2开始查找）\n\n# count(x) - 统计元素出现次数\nlst = [1, 2, 2, 3, 3, 3]\nprint(lst.count(2))  # 2\nprint(lst.count(4))  # 0\n\n# sort(*, key=None, reverse=False) - 原地排序\nlst = [3, 1, 4, 1, 5, 9, 2, 6]\nlst.sort()\nprint(lst)  # [1, 1, 2, 3, 4, 5, 6, 9]\n\nlst = ['banana', 'apple', 'cherry']\nlst.sort(key=len)\nprint(lst)  # ['apple', 'banana', 'cherry']\n\n# reverse() - 原地反转\nlst = [1, 2, 3, 4, 5]\nlst.reverse()\nprint(lst)  # [5, 4, 3, 2, 1]\n\n# copy() - 浅拷贝\nlst1 = [1, 2, [3, 4]]\nlst2 = lst1.copy()\nlst2[0] = 99\nprint(lst1)  # [1, 2, [3, 4]]（不受影响）\nlst2[2][0] = 99\nprint(lst1)  # [1, 2, [99, 4]]（嵌套对象仍共享）"
+      },
+      {
+        "type": "tip",
+        "text": "append() 添加单个元素，extend() 添加多个元素。pop() 可用于实现栈（后进先出）和队列（先进先出）。sort() 是原地排序，sorted() 返回新列表。"
+      },
+      {
+        "type": "heading",
+        "text": "列表操作技巧"
+      },
+      {
+        "type": "text",
+        "text": "列表的高级操作和常见模式。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 列表推导式\nsquares = [x**2 for x in range(10)]\nprint(squares)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]\n\n# 带条件的推导式\nevens = [x for x in range(20) if x % 2 == 0]\nprint(evens)  # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]\n\n# 嵌套推导式\nmatrix = [[i*3+j+1 for j in range(3)] for i in range(3)]\nprint(matrix)  # [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n\n# 展平嵌套列表\nnested = [[1, 2], [3, 4], [5, 6]]\nflat = [x for sub in nested for x in sub]\nprint(flat)  # [1, 2, 3, 4, 5, 6]\n\n# 列表切片\nlst = list(range(10))\nprint(lst[2:8])      # [2, 3, 4, 5, 6, 7]\nprint(lst[::2])      # [0, 2, 4, 6, 8]（每隔一个）\nprint(lst[::-1])     # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]（反转）\n\n# 解包\nfirst, *middle, last = [1, 2, 3, 4, 5]\nprint(first)   # 1\nprint(middle)  # [2, 3, 4]\nprint(last)    # 5\n\n# 列表去重（保序）\nlst = [3, 1, 4, 1, 5, 9, 2, 6, 5]\nunique = list(dict.fromkeys(lst))\nprint(unique)  # [3, 1, 4, 5, 9, 2, 6]\n\n# 交集、并集、差集（列表版本）\na = [1, 2, 3, 4]\nb = [3, 4, 5, 6]\nprint(list(set(a) & set(b)))  # [3, 4]（交集）\nprint(list(set(a) | set(b)))  # [1, 2, 3, 4, 5, 6]（并集）\nprint(list(set(a) - set(b)))  # [1, 2]（差集）"
+      },
+      {
+        "type": "tip",
+        "text": "列表推导式比等效的 for 循环快约 20-30%。dict.fromkeys() 去重是保持顺序最快的方式。切片赋值可以批量修改列表：lst[1:3] = [10, 20]。"
+      },
+      {
+        "type": "heading",
+        "text": "字典（Dict）方法"
+      },
+      {
+        "type": "text",
+        "text": "字典是键值对的无序映射（Python 3.7+ 保持插入顺序）。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# get(key, default=None) - 获取值，不存在返回默认值\nd = {'a': 1, 'b': 2}\nprint(d.get('a'))      # 1\nprint(d.get('c'))      # None\nprint(d.get('c', 0))   # 0\n\n# setdefault(key, default=None) - 获取值，不存在则设置并返回\nd = {'a': 1}\nval = d.setdefault('b', 2)\nprint(d)    # {'a': 1, 'b': 2}\nprint(val)  # 2\nval = d.setdefault('a', 99)\nprint(val)  # 1（已存在，返回原值）\nprint(d)    # {'a': 1, 'b': 2}（不改变）\n\n# update([other]) - 更新字典\nd = {'a': 1, 'b': 2}\nd.update({'b': 20, 'c': 30})\nprint(d)  # {'a': 1, 'b': 20, 'c': 30}\nd.update(d=40, e=50)\nprint(d)  # {'a': 1, 'b': 20, 'c': 30, 'd': 40, 'e': 50}\n\n# pop(key[, default]) - 删除并返回指定键的值\nd = {'a': 1, 'b': 2, 'c': 3}\nval = d.pop('b')\nprint(val)  # 2\nprint(d)    # {'a': 1, 'c': 3}\nval = d.pop('x', '不存在')\nprint(val)  # '不存在'\n\n# popitem() - 删除并返回最后一个键值对\nd = {'a': 1, 'b': 2, 'c': 3}\nitem = d.popitem()\nprint(item)  # ('c', 3)\nprint(d)     # {'a': 1, 'b': 2}\n\n# clear() - 清空字典\nd = {'a': 1, 'b': 2}\nd.clear()\nprint(d)  # {}\n\n# copy() - 浅拷贝\nd1 = {'a': 1, 'b': [2, 3]}\nd2 = d1.copy()\nd2['b'][0] = 99\nprint(d1)  # {'a': 1, 'b': [99, 3]}（嵌套对象共享）\n\n# keys() - 返回所有键\nprint(d1.keys())  # dict_keys(['a', 'b'])\n\n# values() - 返回所有值\nprint(d1.values())  # dict_values([1, [99, 3]])\n\n# items() - 返回所有键值对\nprint(d1.items())  # dict_items([('a', 1), ('b', [99, 3])])\n\n# fromkeys(iterable, value=None) - 创建新字典\nd = dict.fromkeys(['x', 'y', 'z'], 0)\nprint(d)  # {'x': 0, 'y': 0, 'z': 0}\n\n# 清晰度语法（Python 3.9+）\nd1 = {'a': 1, 'b': 2}\nd2 = {'b': 3, 'c': 4}\nmerged = d1 | d2\nprint(merged)  # {'a': 1, 'b': 3, 'c': 4}"
+      },
+      {
+        "type": "tip",
+        "text": "get() 是安全的访问方式，避免 KeyError。setdefault() 适合初始化嵌套字典。Python 3.9+ 推荐用 | 合并字典，比 update() 更清晰。"
+      },
+      {
+        "type": "heading",
+        "text": "字典推导式与高级操作"
+      },
+      {
+        "type": "text",
+        "text": "字典的高级操作模式和推导式。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 字典推导式\nsquares = {x: x**2 for x in range(6)}\nprint(squares)  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# 带条件的推导式\nevens = {x: x**2 for x in range(10) if x % 2 == 0}\nprint(evens)  # {0: 0, 2: 4, 4: 16, 6: 36, 8: 64}\n\n# 键值互换\noriginal = {'a': 1, 'b': 2, 'c': 3}\ninverted = {v: k for k, v in original.items()}\nprint(inverted)  # {1: 'a', 2: 'b', 3: 'c'}\n\n# 过滤字典\nprices = {'apple': 5, 'banana': 3, 'cherry': 8, 'date': 2}\nexpensive = {k: v for k, v in prices.items() if v > 4}\nprint(expensive)  # {'apple': 5, 'cherry': 8}\n\n# 按值排序\nd = {'c': 3, 'a': 1, 'b': 2}\nsorted_by_value = dict(sorted(d.items(), key=lambda item: item[1]))\nprint(sorted_by_value)  # {'a': 1, 'b': 2, 'c': 3}\n\n# Counter 统计频率\nfrom collections import Counter\nwords = 'hello world hello python world hello'.split()\nword_count = Counter(words)\nprint(word_count)  # Counter({'hello': 3, 'world': 2, 'python': 1})\nprint(word_count.most_common(2))  # [('hello', 3), ('world', 2)]\n\n# defaultdict 设置默认值\nfrom collections import defaultdict\ndd = defaultdict(list)\nfor k, v in [('a', 1), ('a', 2), ('b', 3)]:\n    dd[k].append(v)\nprint(dict(dd))  # {'a': [1, 2], 'b': [3]}\n\n# 字典遍历技巧\nd = {'name': 'Alice', 'age': 25, 'city': 'Beijing'}\nfor key in d:           # 遍历键\n    print(key)\nfor value in d.values():  # 遍历值\n    print(value)\nfor k, v in d.items():   # 遍历键值对\n    print(f'{k}: {v}')"
+      },
+      {
+        "type": "tip",
+        "text": "Counter 是统计频率的最佳工具。defaultdict 比 setdefault() 更简洁。字典在 Python 3.7+ 保持插入顺序，无需使用 OrderedDict（除非需要额外功能）。"
+      },
+      {
+        "type": "heading",
+        "text": "集合（Set）方法"
+      },
+      {
+        "type": "text",
+        "text": "集合是无序、不重复的元素集合，支持数学集合运算。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# add(elem) - 添加元素\ns = {1, 2, 3}\ns.add(4)\nprint(s)  # {1, 2, 3, 4}\ns.add(2)  # 已存在，不变\nprint(s)  # {1, 2, 3, 4}\n\n# remove(elem) - 删除元素，不存在抛 KeyError\ns = {1, 2, 3}\ns.remove(2)\nprint(s)  # {1, 3}\n# s.remove(99)  # KeyError\n\n# discard(elem) - 删除元素，不存在不报错\ns = {1, 2, 3}\ns.discard(2)\nprint(s)  # {1, 3}\ns.discard(99)  # 不报错\nprint(s)  # {1, 3}\n\n# pop() - 删除并返回任意元素\ns = {1, 2, 3}\nelem = s.pop()\nprint(elem)  # 1（或 2 或 3）\n\n# clear() - 清空集合\ns = {1, 2, 3}\ns.clear()\nprint(s)  # set()\n\n# 集合运算\na = {1, 2, 3, 4}\nb = {3, 4, 5, 6}\n\n# union() 或 | - 并集\nprint(a | b)              # {1, 2, 3, 4, 5, 6}\nprint(a.union(b))         # {1, 2, 3, 4, 5, 6}\n\n# intersection() 或 & - 交集\nprint(a & b)              # {3, 4}\nprint(a.intersection(b))  # {3, 4}\n\n# difference() 或 - - 差集\nprint(a - b)              # {1, 2}\nprint(a.difference(b))    # {1, 2}\n\n# symmetric_difference() 或 ^ - 对称差集\nprint(a ^ b)                        # {1, 2, 5, 6}\nprint(a.symmetric_difference(b))    # {1, 2, 5, 6}\n\n# 子集与超集判断\na = {1, 2}\nb = {1, 2, 3, 4}\nprint(a.issubset(b))       # True（a 是 b 的子集）\nprint(a.issuperset({1}))   # True（a 是 {1} 的超集）\nprint(a.isdisjoint({5, 6}))  # True（没有交集）\n\n# 原地更新运算\na = {1, 2, 3}\na.update({4, 5})         # a |= {4, 5}\nprint(a)  # {1, 2, 3, 4, 5}\n\na.intersection_update({3, 4, 5})  # a &= {3, 4, 5}\nprint(a)  # {3, 4, 5}\n\na.difference_update({5})  # a -= {5}\nprint(a)  # {3, 4}\n\na.symmetric_difference_update({3, 6})  # a ^= {3, 6}\nprint(a)  # {4, 6}"
+      },
+      {
+        "type": "tip",
+        "text": "remove() 找不到元素会报错，discard() 不会——不确定元素是否存在时用 discard()。集合推导式：{x**2 for x in range(10)}。frozenset 是不可变集合，可以作为字典的键。"
+      },
+      {
+        "type": "heading",
+        "text": "元组（Tuple）方法"
+      },
+      {
+        "type": "text",
+        "text": "元组是有序、不可变的序列。由于不可变，方法非常有限。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# count(x) - 统计元素出现次数\nt = (1, 2, 3, 2, 1, 2)\nprint(t.count(2))  # 3\nprint(t.count(4))  # 0\n\n# index(x[, start[, end]]) - 查找元素索引\nt = (10, 20, 30, 20, 10)\nprint(t.index(20))      # 1\nprint(t.index(20, 2))   # 3（从索引2开始查找）\n# t.index(99)  # ValueError\n\n# 元组创建方式\nt1 = (1, 2, 3)        # 标准创建\nt2 = tuple([1, 2, 3])  # 从列表创建\nt3 = 1, 2, 3           # 省略括号\nt4 = tuple(range(5))   # 从迭代器创建\nt5 = (0,) * 5          # (0, 0, 0, 0, 0)\nprint(t1, t2, t3, t4, t5)\n\n# 元组解包\npoint = (3, 4)\nx, y = point\nprint(f'x={x}, y={y}')  # x=3, y=4\n\n# 交换变量（利用元组解包）\na, b = 1, 2\na, b = b, a\nprint(a, b)  # 2 1\n\n# 元组作为字典键\nlocations = {\n    (40.7128, -74.0060): 'New York',\n    (34.0522, -118.2437): 'Los Angeles',\n}\n\n# 命名元组（更清晰的元组）\nfrom collections import namedtuple\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(3, 4)\nprint(p.x, p.y)  # 3 4\nprint(p[0], p[1])  # 3 4（也支持索引访问）\n\n# 元组 vs 列表\n# 元组：不可变、可哈希（可做字典键）、略快\n# 列表：可变、不可哈希、适合频繁修改"
+      },
+      {
+        "type": "tip",
+        "text": "元组的不可变性意味着不能添加/删除/修改元素，但可以修改内部的可变对象（如列表）。namedtuple 比字典更节省内存，比普通元组更具可读性。"
+      },
+      {
+        "type": "heading",
+        "text": "双端队列（deque）方法"
+      },
+      {
+        "type": "text",
+        "text": "collections.deque 是双端队列，两端操作时间复杂度为 O(1)，适合频繁在两端添加/删除的场景。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from collections import deque\n\n# 创建 deque\nd = deque([1, 2, 3])\nprint(d)  # deque([1, 2, 3])\n\n# append(x) - 在右端添加\nd = deque([1, 2, 3])\nd.append(4)\nprint(d)  # deque([1, 2, 3, 4])\n\n# appendleft(x) - 在左端添加\nd = deque([2, 3, 4])\nd.appendleft(1)\nprint(d)  # deque([1, 2, 3, 4])\n\n# pop() - 从右端删除\nd = deque([1, 2, 3, 4])\nright = d.pop()\nprint(right)  # 4\nprint(d)      # deque([1, 2, 3])\n\n# popleft() - 从左端删除\nd = deque([1, 2, 3, 4])\nleft = d.popleft()\nprint(left)   # 1\nprint(d)      # deque([2, 3, 4])\n\n# clear() - 清空\nd = deque([1, 2, 3])\nd.clear()\nprint(d)  # deque([])\n\n# rotate(n) - 旋转（n>0 右移，n<0 左移）\nd = deque([1, 2, 3, 4, 5])\nd.rotate(2)\nprint(d)  # deque([4, 5, 1, 2, 3])\n\nd = deque([1, 2, 3, 4, 5])\nd.rotate(-2)\nprint(d)  # deque([3, 4, 5, 1, 2])\n\n# extend(iterable) - 在右端扩展\nd = deque([1, 2])\nd.extend([3, 4, 5])\nprint(d)  # deque([1, 2, 3, 4, 5])\n\n# extendleft(iterable) - 在左端扩展（注意顺序）\nd = deque([3, 4])\nd.extendleft([2, 1])  # 先添加 2，再添加 1\nprint(d)  # deque([1, 2, 3, 4])\n\n# 创建固定长度队列（自动丢弃旧元素）\nd = deque(maxlen=3)\nd.extend([1, 2, 3])\nprint(d)  # deque([1, 2, 3])\nd.append(4)\nprint(d)  # deque([2, 3, 4])（自动丢弃 1）\n\n# 用 deque 实现滑动窗口\ndef sliding_window(lst, size):\n    window = deque(maxlen=size)\n    for item in lst:\n        window.append(item)\n        if len(window) == size:\n            yield tuple(window)\n\nprint(list(sliding_window([1, 2, 3, 4, 5], 3)))\n# [(1, 2, 3), (2, 3, 4), (3, 4, 5)]"
+      },
+      {
+        "type": "tip",
+        "text": "deque 的 append/pop 操作是 O(1)，而 list 的 insert(0, x) 和 pop(0) 是 O(n)。需要频繁在两端操作时，deque 性能远优于 list。maxlen 参数可创建固定长度队列。"
+      },
+      {
+        "type": "heading",
+        "text": "集合类型选择指南"
+      },
+      {
+        "type": "text",
+        "text": "根据使用场景选择合适的集合类型。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 场景对比\n\n# 1. 需要有序 + 可变 → list\nitems = [1, 2, 3]  # 支持索引、切片、append、sort\n\n# 2. 需要键值对 → dict\nconfig = {'host': 'localhost', 'port': 8080}  # 快速查找\n\n# 3. 需要去重 → set\nunique = {1, 2, 2, 3, 3}  # 自动去重，O(1) 查找\n\n# 4. 需要不可变 + 可哈希 → tuple\ncoord = (3, 4)  # 可作为字典键\n\n# 5. 需要高效两端操作 → deque\nqueue = deque()  # O(1) 两端操作\n\n# 6. 需要有序唯一 → dict.fromkeys() 或 set + sorted\nunique_ordered = list(dict.fromkeys([3, 1, 4, 1, 5, 9, 2, 6, 5]))\nprint(unique_ordered)  # [3, 1, 4, 5, 9, 2, 6]\n\n# 7. 需要默认值 → defaultdict\ndefault_dict = defaultdict(int)  # 不存在的键返回 0\n\n# 8. 需要计数 → Counter\ncounter = Counter('hello world')\nprint(counter)  # Counter({'l': 3, 'o': 2, 'h': 1, ...})\n\n# 9. 需要栈 → list 或 deque\nstack = []\nstack.append(1)    # push\nstack.append(2)\nval = stack.pop()  # pop: 2\n\n# 10. 需要队列 → deque（list 的 pop(0) 太慢）\nqueue = deque()\nqueue.append(1)      # enqueue\nqueue.append(2)\nval = queue.popleft()  # dequeue: 1"
+      },
+      {
+        "type": "tip",
+        "text": "时间复杂度参考：list 的 append/pop(-1) 是 O(1)，insert(0) 是 O(n)。dict/set 的查找是 O(1)。deque 两端操作都是 O(1)。根据操作频率选择合适的数据结构。"
+      },
+      {
+        "type": "heading",
+        "text": "practice_time"
+      },
+      {
+        "type": "text",
+        "text": "练习：集合类型应用"
+      },
+      {
+        "type": "text",
+        "text": "给定一个列表，找出其中所有重复的元素并返回列表。提示：使用 Counter 或集合操作。"
+      },
+      {
+        "type": "text",
+        "text": "实现一个LRU缓存类，支持 get 和 put 操作，容量为 k。提示：使用 OrderedDict 或 deque + dict。"
+      },
+      {
+        "type": "text",
+        "text": "合并两个有序列表为一个有序列表，不使用 sorted()。提示：使用双指针或 heapq 模块。"
+      },
+      {
+        "type": "heading",
+        "text": "project_time"
+      },
+      {
+        "type": "text",
+        "text": "综合项目：学生成绩管理系统"
+      },
+      {
+        "type": "text",
+        "text": "使用字典和集合构建学生成绩管理系统：1) 用字典存储学生信息：{学号: {姓名, 各科成绩}}；2) 实现功能：添加学生、查询成绩、修改成绩、删除学生；3) 统计功能：计算每个学生的平均分、总分，找出最高分/最低分学生；4) 排序功能：按平均分排序、按某科成绩排序；5) 筛选功能：找出所有不及格的学生、找出所有科目都优秀的学生。要求：创建 StudentManager 类，使用 try-except 处理错误输入，使用 f-string 格式化输出报表。"
+      }
+    ],
+    "tests": [],
+    "hint": "速查手册无需作答,阅读即完成。"
+  }
+]

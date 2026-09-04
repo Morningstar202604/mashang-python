@@ -1,0 +1,48 @@
+[
+  {
+    "id": "test-01",
+    "order": 1,
+    "chapter": 10,
+    "title": "单元测试基础",
+    "subtitle": "学习使用unittest编写测试",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 400,
+    
+    "blocks": [
+      {"type": "heading", "text": "为什么需要测试"},
+      {"type": "text", "text": "单元测试用于验证代码的正确性，确保函数和模块按预期工作。Python使用unittest库编写测试。"},
+      {"type": "code", "runnable": true, "code": "import unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAdd(unittest.TestCase):\n    def test_add_positive(self):\n        self.assertEqual(add(2, 3), 5)\n    \n    def test_add_negative(self):\n        self.assertEqual(add(-1, -1), -2)\n\nif __name__ == '__main__':\n    unittest.main()", "language": "python"},
+      {"type": "output", "text": "..\nRan 2 tests in 0.001s\nOK"},
+      {"type": "quiz", "question": "unittest.TestCase的作用是什么？", "options": ["定义测试用例", "运行程序", "导入模块", "定义函数"], "answer": 0, "explain": "TestCase类用于定义和组织测试用例"},
+      {"type": "practice", "title": "练习：测试减法函数", "code": "import unittest\n\ndef subtract(a, b):\n    return a - b\n\nclass TestSubtract(unittest.TestCase):\n    def test_subtract(self):\n        self.assertEqual(subtract(5, 3), 2)\n\nif __name__ == '__main__':\n    unittest.main()", "hint": "使用self.assertEqual()验证结果", "stdout": "测试通过"},
+      {"type": "tip", "text": "测试方法必须以test_开头"},
+      {"type": "project", "title": "项目：测试计算器函数", "code": "import unittest\n\ndef multiply(a, b):\n    return a * b\n\ndef divide(a, b):\n    if b == 0:\n        raise ValueError('除数不能为零')\n    return a / b\n\nclass TestCalculator(unittest.TestCase):\n    def test_multiply(self):\n        self.assertEqual(multiply(3, 4), 12)\n    \n    def test_divide(self):\n        self.assertEqual(divide(10, 2), 5)\n    \n    def test_divide_by_zero(self):\n        with self.assertRaises(ValueError):\n            divide(1, 0)\n\nif __name__ == '__main__':\n    unittest.main()", "goal": "为计算器函数编写完整的单元测试", "hint": "使用assertRaises()测试异常情况"}
+    ],
+    "tests": ["test cases should pass", "error cases should be tested"],
+    "hint": "import unittest，测试类继承unittest.TestCase"
+  },
+  {
+    "id": "test-02",
+    "order": 2,
+    "chapter": 10,
+    "title": "高级测试技巧",
+    "subtitle": "学习mock、fixture等高级测试技巧",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 400,
+    
+    "blocks": [
+      {"type": "heading", "text": "Mock对象"},
+      {"type": "text", "text": "Mock对象用于模拟外部依赖，如网络请求、数据库操作等，使测试更独立。"},
+      {"type": "code", "runnable": true, "code": "from unittest.mock import patch, MagicMock\n\n# 被测试的函数\ndef get_user_data(user_id):\n    # 模拟数据库查询\n    db = connect_to_db()\n    return db.query(user_id)\n\n# 测试时使用mock\n@patch('__main__.connect_to_db')\ndef test_get_user_data(mock_db):\n    mock_db.return_value.query.return_value = {'name': 'Alice'}\n    result = get_user_data(1)\n    assert result['name'] == 'Alice'", "language": "python"},
+      {"type": "output", "text": "测试通过"},
+      {"type": "quiz", "question": "@patch的作用是什么？", "options": ["定义装饰器", "模拟对象", "导入模块", "运行测试"], "answer": 1, "explain": "@patch用于在测试中替换真实对象为mock对象"},
+      {"type": "practice", "title": "练习：Mock网络请求", "code": "from unittest.mock import patch, MagicMock\nimport requests\n\ndef get_weather(city):\n    response = requests.get(f'https://api.weather.com/{city}')\n    return response.json()\n\n@patch('requests.get')\ndef test_get_weather(mock_get):\n    mock_get.return_value.json.return_value = {'temp': 25}\n    result = get_weather('Beijing')\n    assert result['temp'] == 25", "hint": "使用@patch模拟requests.get", "stdout": "测试通过"},
+      {"type": "tip", "text": "使用MagicMock()创建模拟对象"},
+      {"type": "project", "title": "项目：测试完整应用", "code": "import unittest\nfrom unittest.mock import patch\n\ndef fetch_data(url):\n    import requests\n    return requests.get(url).json()\n\ndef process_data(data):\n    return [item * 2 for item in data]\n\nclass TestApp(unittest.TestCase):\n    @patch('requests.get')\n    def test_fetch_data(self, mock_get):\n        mock_get.return_value.json.return_value = [1, 2, 3]\n        result = fetch_data('https://api.example.com')\n        self.assertEqual(result, [1, 2, 3])\n    \n    def test_process_data(self):\n        self.assertEqual(process_data([1, 2, 3]), [2, 4, 6])\n\nif __name__ == '__main__':\n    unittest.main()", "goal": "编写完整应用的测试套件", "hint": "结合mock和真实单元测试"}
+    ],
+    "tests": ["mock should replace real objects", "test should verify mocked behavior"],
+    "hint": "@patch装饰器用于模拟外部依赖"
+  }
+]

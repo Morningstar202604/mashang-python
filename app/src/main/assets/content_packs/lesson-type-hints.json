@@ -1,0 +1,112 @@
+[
+  {
+    "id": "typing-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "类型注解基础",
+    "subtitle": "给函数签名装上说明书",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "注解是文档,也是工具的抓手"
+      },
+      {
+        "type": "text",
+        "text": "类型注解(list[int]、str -> bool)默认不影响运行,但能让 IDE 补全、mypy 静态检查和团队协作受益。运行时可用 __annotations__ 查看。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "def repeat(text: str, times: int = 2) -> list[str]:\n    return [text] * times\n\ndef is_adult(age: int) -> bool:\n    return age >= 18\n\nprint(repeat('py'))\nprint(is_adult(20))\nprint(repeat.__annotations__)"
+      },
+      {
+        "type": "output",
+        "text": "['py', 'py']\nTrue\n{'text': <class 'str'>, 'times': 2, 'return': list[str]}"
+      },
+      {
+        "type": "quiz",
+        "question": "Python 运行时对注解的处理方式是?",
+        "options": [
+          "自动做类型转换",
+          "强制类型检查报错",
+          "仅存储元数据,默认不校验",
+          "忽略并删除"
+        ],
+        "answer": 2,
+        "explain": "注解默认只存进 __annotations__,不加检查;静态检查靠 mypy 等工具"
+      },
+      {
+        "type": "tip",
+        "text": "3.9+ 直接写 list[int]/dict[str, int],不必再从 typing 导入 List/Dict"
+      }
+    ],
+    "tests": [],
+    "hint": "注解不影响运行,别怕写错影响执行"
+  },
+  {
+    "id": "typing-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "Optional 与泛型",
+    "subtitle": "表达『可能是 None』与容器类型",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "Optional/Union 与泛型容器"
+      },
+      {
+        "type": "text",
+        "text": "Optional[str] 表示 str 或 None;dict[str, int] 精确描述键值类型。自定义泛型用 TypeVar,让『输入输出同类型』这类关系可被检查。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from typing import Optional, TypeVar\n\nT = TypeVar('T')\n\ndef find(lst: list[T], pred) -> Optional[T]:\n    for x in lst:\n        if pred(x):\n            return x\n    return None\n\nscores: dict[str, int] = {'Alice': 92}\nfirst = find([1, 3, 5], lambda x: x > 2)\nprint(scores['Alice'], first)\nprint(find([1, 2], lambda x: x > 9))"
+      },
+      {
+        "type": "output",
+        "text": "92 3\nNone"
+      },
+      {
+        "type": "practice",
+        "title": "练习:函数注解补全",
+        "code": "def average(nums: list[float]) -> float:\n    return sum(nums) / len(nums)\n\nprint(average([1.5, 2.5]))",
+        "hint": "给参数与返回值都补上注解",
+        "stdout": "2.0"
+      },
+      {
+        "type": "quiz",
+        "question": "Optional[int] 等价于?",
+        "options": [
+          "int",
+          "Union[int, None]",
+          "List[int]",
+          "Any"
+        ],
+        "answer": 1,
+        "explain": "Optional[X] 就是 X 或 None 的联合类型"
+      },
+      {
+        "type": "project",
+        "title": "项目:泛型栈",
+        "code": "from typing import TypeVar, Generic\n\nT = TypeVar('T')\n\nclass Stack(Generic[T]):\n    def __init__(self) -> None:\n        self._items: list[T] = []\n\n    def push(self, item: T) -> None:\n        self._items.append(item)\n\n    def pop(self) -> T:\n        return self._items.pop()\n\ns = Stack[int]()\ns.push(1)\ns.push(2)\nprint(s.pop(), s.pop())",
+        "goal": "用 Generic[T] 实现类型安全的栈",
+        "hint": "Stack[str]() 也能复用同一实现"
+      },
+      {
+        "type": "tip",
+        "text": "mypy --strict 是检验注解完整性的最好教练"
+      }
+    ],
+    "tests": [],
+    "hint": "容器注解要写到元素级才有价值"
+  }
+]

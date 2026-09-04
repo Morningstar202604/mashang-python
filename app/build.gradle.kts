@@ -1,98 +1,63 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.chaquo.python")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.4.10"
+    id("kotlinx-parcelize")
 }
 
 android {
-    namespace = "com.pyneon.academy"
+    namespace = "com.mashang.python"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.pyneon.academy"
+        applicationId = "com.mashang.python"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 10
-        versionName = "0.3.4"
-        ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
-        }
-    }
+        targetSdk = 34
+        versionCode = 4
+        versionName = "2.1.1"
 
-    signingConfigs {
-        // D1: 签名凭据改由环境变量注入；任一缺失则不创建 release 签名（不硬编码失败）
-        val ksPath = System.getenv("KEYSTORE_PATH")
-        val ksPass = System.getenv("KEYSTORE_PASSWORD")
-        val keyPass = System.getenv("KEY_PASSWORD")
-        val ksAlias = System.getenv("KEY_ALIAS")
-        if (!ksPath.isNullOrBlank() && !ksPass.isNullOrBlank() && !keyPass.isNullOrBlank() && !ksAlias.isNullOrBlank()) {
-            create("release") {
-                storeFile = file(ksPath)
-                storePassword = ksPass
-                keyAlias = ksAlias
-                keyPassword = keyPass
-            }
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
         }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            // D1: 仅当环境变量齐备、release 签名已创建时才挂载，否则保持未签名
-            signingConfigs.findByName("release")?.let { signingConfig = it }
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildFeatures {
-        compose = true
+        viewBinding = true
     }
     packaging {
-        resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
-    }
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-    }
-}
-
-chaquopy {
-    defaultConfig {
-        version = "3.13"
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.15.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
-    implementation("androidx.activity:activity-compose:1.9.3")
-
-    implementation(platform("androidx.compose:compose-bom:2024.09.03"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
-
-    implementation("androidx.navigation:navigation-compose:2.8.1")
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.11.0")
-
-    // 缺失依赖补充：viewModelScope / asLiveData / liveData 来自 lifecycle-ktx
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
-    // LiveData → Compose State 桥接（observeAsState，来自 androidx.compose.runtime.livedata）
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.6")
-    // kotlinx-serialization：BackupUtil 备份 JSON 序列化所需
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-
-    // QR code for certificate poster
-    implementation("com.google.zxing:core:3.5.4")
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

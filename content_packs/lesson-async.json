@@ -1,0 +1,48 @@
+[
+  {
+    "id": "async-01",
+    "order": 1,
+    "chapter": 9,
+    "title": "异步编程基础",
+    "subtitle": "了解asyncio和协程",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 450,
+    
+    "blocks": [
+      {"type": "heading", "text": "什么是异步编程"},
+      {"type": "text", "text": "异步编程允许程序在等待I/O操作时执行其他任务，提高效率。Python使用asyncio库实现异步编程。"},
+      {"type": "code", "runnable": true, "code": "import asyncio\n\nasync def hello():\n    print('Hello')\n    await asyncio.sleep(1)\n    print('World')\n\nasyncio.run(hello())", "language": "python"},
+      {"type": "output", "text": "Hello\n(等待1秒)\nWorld"},
+      {"type": "quiz", "question": "async/await的作用是什么？", "options": ["定义同步函数", "定义异步函数", "导入模块", "循环执行"], "answer": 1, "explain": "async定义异步函数，await等待异步操作完成"},
+      {"type": "practice", "title": "练习：异步延时", "code": "import asyncio\n\nasync def delayed_print(msg, delay):\n    print(f'等待{delay}秒...')\n    await asyncio.sleep(delay)\n    print(msg)\n\nasyncio.run(delayed_print('完成!', 2))", "hint": "await asyncio.sleep()实现异步等待", "stdout": "等待2秒...\n完成!"},
+      {"type": "tip", "text": "异步函数不能直接调用，需要使用asyncio.run()"},
+      {"type": "project", "title": "项目：异步任务管理器", "code": "import asyncio\n\nasync def download(url, time):\n    print(f'开始下载{url}')\n    await asyncio.sleep(time)\n    print(f'完成下载{url}')\n    return f'{url}完成'\n\nasync def main():\n    tasks = [\n        download('file1.zip', 2),\n        download('file2.zip', 3),\n        download('file3.zip', 1)\n    ]\n    results = await asyncio.gather(*tasks)\n    print(f'所有任务: {results}')\n\nasyncio.run(main())", "goal": "创建异步下载管理器，并行执行多个下载任务", "hint": "asyncio.gather()可以并行执行多个协程"}
+    ],
+    "tests": ["async function should work", "await should pause execution", "asyncio.gather should run tasks in parallel"],
+    "hint": "async def 定义协程，await等待异步操作"
+  },
+  {
+    "id": "async-02",
+    "order": 2,
+    "chapter": 9,
+    "title": "异步IO操作",
+    "subtitle": "学习异步文件和网络操作",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 450,
+    
+    "blocks": [
+      {"type": "heading", "text": "异步文件操作"},
+      {"type": "text", "text": "使用aiofiles库可以进行异步文件操作，避免阻塞主线程。"},
+      {"type": "code", "runnable": true, "code": "import asyncio\nimport aiofiles\n\nasync def async_read(filename):\n    async with aiofiles.open(filename, 'r') as f:\n        content = await f.read()\n    return content\n\n# 注意：需要安装aiofiles: pip install aiofiles", "language": "python"},
+      {"type": "output", "text": "文件内容将异步读取"},
+      {"type": "quiz", "question": "为什么需要异步文件操作？", "options": ["运行更快", "避免阻塞", "节省内存", "更安全"], "answer": 1, "explain": "异步文件操作避免在读写时阻塞主线程，提高并发性能"},
+      {"type": "practice", "title": "练习：异步写入", "code": "import asyncio\nimport aiofiles\n\nasync def async_write(filename, content):\n    async with aiofiles.open(filename, 'w') as f:\n        await f.write(content)\n    print(f'已写入{filename}')\n\nasyncio.run(async_write('test.txt', '异步写入测试'))", "hint": "async with aiofiles.open()异步打开文件", "stdout": "已写入test.txt"},
+      {"type": "tip", "text": "aiofiles需要单独安装: pip install aiofiles"},
+      {"type": "project", "title": "项目：异步文件处理器", "code": "import asyncio\nimport aiofiles\n\nasync def process_file(input_file, output_file):\n    async with aiofiles.open(input_file, 'r') as f:\n        content = await f.read()\n    \n    processed = content.upper()\n    \n    async with aiofiles.open(output_file, 'w') as f:\n        await f.write(processed)\n    print(f'处理完成: {output_file}')\n\nasyncio.run(process_file('input.txt', 'output.txt'))", "goal": "创建异步文件处理器，读取文件并转换为大写后写入新文件", "hint": "使用aiofiles进行异步读写操作"}
+    ],
+    "tests": ["aiofiles should be used for async operations", "file content should be processed correctly"],
+    "hint": "使用aiofiles进行异步文件操作，需要pip install aiofiles"
+  }
+]

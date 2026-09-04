@@ -1,0 +1,54 @@
+[
+  {
+    "id": "ts-01",
+    "order": 1,
+    "chapter": 8,
+    "title": "元组详解",
+    "subtitle": "学习元组的特点和使用场景",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "元组的特点"},
+      {"type": "text", "text": "元组与列表类似，但元组是不可变的，创建后不能修改。适合存储不需要修改的数据。"},
+      {"type": "code", "runnable": true, "code": "# 创建元组\nt1 = (1, 2, 3)\nt2 = ('a', 'b', 'c')\nt3 = (1, 'hello', 3.14, True)  # 混合类型\nt4 = tuple([1, 2, 3])  # 从列表创建\n\nprint(f't1: {t1}')\nprint(f'类型: {type(t1)}')\nprint(f'长度: {len(t1)}')", "language": "python"},
+      {"type": "output", "text": "t1: (1, 2, 3)\n类型: <class 'tuple'>\n长度: 3"},
+      {"type": "heading", "text": "元组操作"},
+      {"type": "code", "runnable": true, "code": "colors = ('red', 'green', 'blue', 'yellow')\n\n# 索引和切片\nprint(f'第一个: {colors[0]}')\nprint(f'最后一个: {colors[-1]}')\nprint(f'前两个: {colors[:2]}')\n\n# 遍历\nfor color in colors:\n    print(color)\n\n# 解包\nx, y, z, w = colors\nprint(f'解包: x={x}, y={y}')\n\n# 元组拼接\nnew_colors = colors + ('purple',)\nprint(f'拼接: {new_colors}')", "language": "python"},
+      {"type": "output", "text": "第一个: red\n最后一个: yellow\n前两个: ('red', 'green')\nred\ngreen\nblue\nyellow\n解包: x=red, y=green\n拼接: ('red', 'green', 'blue', 'yellow', 'purple')"},
+      {"type": "quiz", "question": "元组和列表的主要区别是什么？", "options": ["元组更快", "元组不可变", "元组可以存储更多数据", "元组更节省内存"], "answer": 1, "explain": "元组是不可变的，创建后不能修改"},
+      {"type": "practice", "title": "练习：函数返回多个值", "code": "def get_stats(numbers):\n    return min(numbers), max(numbers), sum(numbers)/len(numbers)\n\ndata = [10, 20, 30, 40, 50]\nminimum, maximum, average = get_stats(data)\nprint(f'最小值: {minimum}, 最大值: {maximum}, 平均值: {average}')", "hint": "函数可以返回元组，支持解包", "stdout": "最小值: 10, 最大值: 50, 平均值: 30.0"},
+      {"type": "tip", "text": "元组比列表更节省内存，适合作为字典的键"},
+      {"type": "project", "title": "项目：坐标系统", "code": "# 使用元组表示坐标\ndef distance(p1, p2):\n    return ((p2[0]-p1[0])**2 + (p2[1]-p1[1])**2) ** 0.5\n\npoint_a = (0, 0)\npoint_b = (3, 4)\n\nd = distance(point_a, point_b)\nprint(f'点A{point_a}到点B{point_b}的距离是: {d}')", "goal": "用元组表示坐标并计算两点距离", "hint": "使用勾股定理计算距离"}
+    ],
+    "tests": ["tuple creation works", "tuple unpacking works"],
+    "hint": "元组用()创建，不可变，支持解包"
+  },
+  {
+    "id": "ts-02",
+    "order": 2,
+    "chapter": 8,
+    "title": "集合详解",
+    "subtitle": "学习集合的特点和运算",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "集合的特点"},
+      {"type": "text", "text": "集合是无序、不重复的元素集，支持数学集合运算（交集、并集、差集）。"},
+      {"type": "code", "runnable": true, "code": "# 创建集合\ns1 = {1, 2, 3, 4, 5}\ns2 = set([3, 4, 5, 6, 7])  # 从列表创建\ns3 = set()  # 空集合\n\nprint(f's1: {s1}')\nprint(f's2: {s2}')\nprint(f'类型: {type(s1)}')\n\n# 自动去重\ndata = [1, 2, 2, 3, 3, 3]\nunique = set(data)\nprint(f'去重: {unique}')", "language": "python"},
+      {"type": "output", "text": "s1: {1, 2, 3, 4, 5}\ns2: {3, 4, 5, 6, 7}\n类型: <class 'set'>\n去重: {1, 2, 3}"},
+      {"type": "heading", "text": "集合运算"},
+      {"type": "code", "runnable": true, "code": "a = {1, 2, 3, 4, 5}\nb = {4, 5, 6, 7, 8}\n\n# 交集 (共同元素)\nprint(f'交集: {a & b}')\nprint(f'交集: {a.intersection(b)}')\n\n# 并集 (所有元素)\nprint(f'并集: {a | b}')\nprint(f'并集: {a.union(b)}')\n\n# 差集 (a有b没有)\nprint(f'差集: {a - b}')\nprint(f'差集: {a.difference(b)}')\n\n# 对称差集 (不共同的元素)\nprint(f'对称差集: {a ^ b}')", "language": "python"},
+      {"type": "output", "text": "交集: {4, 5}\n交集: {4, 5}\n并集: {1, 2, 3, 4, 5, 6, 7, 8}\n并集: {1, 2, 3, 4, 5, 6, 7, 8}\n差集: {1, 2, 3}\n差集: {1, 2, 3}\n对称差集: {1, 2, 3, 6, 7, 8}"},
+      {"type": "quiz", "question": " {1,2,3} & {2,3,4} 的结果是什么？", "options": ["{1,2,3,4}", "{2,3}", "{1,4}", "{}"], "answer": 1, "explain": "& 是交集运算，返回共同元素"},
+      {"type": "practice", "title": "练习：找出共同好友", "code": "alice_friends = {'Bob', 'Charlie', 'David', 'Eve'}\nbob_friends = {'Charlie', 'David', 'Frank', 'George'}\n\ncommon = alice_friends & bob_friends\nprint(f'Alice和Bob的共同好友: {common}')\nprint(f'人数: {len(common)}')", "hint": "使用 & 运算符求交集", "stdout": "Alice和Bob的共同好友: {'Charlie', 'David'}\n人数: 2"},
+      {"type": "tip", "text": "集合元素必须是不可变类型（数字、字符串、元组）"},
+      {"type": "project", "title": "项目：标签系统", "code": "post1_tags = {'python', 'programming', 'tutorial', 'beginner'}\npost2_tags = {'python', 'data', 'programming', 'advanced'}\n\n# 找出共同标签\ncommon = post1_tags & post2_tags\n\n# 所有标签\nall_tags = post1_tags | post2_tags\n\n# 只在一篇文章中出现的标签\nonly_post1 = post1_tags - post2_tags\nonly_post2 = post2_tags - post1_tags\n\nprint(f'共同标签: {common}')\nprint(f'所有标签: {all_tags}')\nprint(f'只在Post1: {only_post1}')\nprint(f'只在Post2: {only_post2}')", "goal": "使用集合运算管理文章标签", "hint": "使用交集找共同标签，差集找独有标签"}
+    ],
+    "tests": ["set creation works", "set operations work"],
+    "hint": "集合用{}或set()创建，支持交集(&)、并集(|)、差集(-)"
+  }
+]

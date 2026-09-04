@@ -1,0 +1,112 @@
+[
+  {
+    "id": "err-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "语法与缩进错误",
+    "subtitle": "程序还没跑就报错?",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "SyntaxError 与 IndentationError"
+      },
+      {
+        "type": "text",
+        "text": "语法错误在解析阶段发生:少冒号、中文引号、括号不匹配都会触发;缩进不一致报 IndentationError。提示符 ^ 指向出错点,从那里向上看。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "# 错误示例(勿直接运行):\n# if True\n#     print('hi')     ← SyntaxError: 缺少冒号\n#\n# def f():\n# print('x')          ← IndentationError\n\ntry:\n    exec(\"if True\\n    print('hi')\")\nexcept SyntaxError as e:\n    print('捕获:', type(e).__name__, '行', e.lineno)"
+      },
+      {
+        "type": "output",
+        "text": "捕获: SyntaxError 行 1"
+      },
+      {
+        "type": "quiz",
+        "question": "出现 SyntaxError: invalid syntax 时应首先检查?",
+        "options": [
+          "电脑是否联网",
+          "^ 指示位置附近的代码",
+          "Python 版本",
+          "文件名"
+        ],
+        "answer": 1,
+        "explain": "插入符 ^ 一般指向错误附近(有时指向上一行末尾,如漏了冒号/逗号)"
+      },
+      {
+        "type": "tip",
+        "text": "中文全角引号/冒号是新手第一大坑,编辑器开着语法高亮能立刻看出来"
+      }
+    ],
+    "tests": [],
+    "hint": "报错行号是起点,不一定是根因"
+  },
+  {
+    "id": "err-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "运行时错误与 traceback",
+    "subtitle": "把异常信息当地图读",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "读懂 Traceback"
+      },
+      {
+        "type": "text",
+        "text": "运行时错误自下而上读:最后一行是异常类型+消息,往上是调用链。TypeError(类型不符)、KeyError、IndexError、AttributeError 占日常大头。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "try:\n    d = {'a': 1}\n    d['b']\nexcept KeyError as e:\n    print(type(e).__name__, e)\n\ntry:\n    'abc' + 1\nexcept TypeError as e:\n    print(type(e).__name__)"
+      },
+      {
+        "type": "output",
+        "text": "KeyError 'b'\nTypeError"
+      },
+      {
+        "type": "practice",
+        "title": "练习:定位 AttributeError",
+        "code": "class User:\n    def __init__(self):\n        self.name = 'Alice'\n\nu = User()\ntry:\n    u.nmae\nexcept AttributeError as e:\n    print('字段写错:', e)",
+        "hint": "属性名拼错会触发 AttributeError",
+        "stdout": "字段写错: 'User' object has no attribute 'nmae'"
+      },
+      {
+        "type": "quiz",
+        "question": "lst = [1,2,3]; lst[3] 会抛出?",
+        "options": [
+          "KeyError",
+          "IndexError",
+          "ValueError",
+          "不报错"
+        ],
+        "answer": 1,
+        "explain": "下标越界是 IndexError;字典里不存在的键才是 KeyError"
+      },
+      {
+        "type": "project",
+        "title": "项目:错误分类器",
+        "code": "def classify(fn):\n    try:\n        fn()\n        return 'ok'\n    except IndexError:\n        return 'IndexError'\n    except KeyError:\n        return 'KeyError'\n    except Exception as e:\n        return type(e).__name__\n\nprint(classify(lambda: [][0]))\nprint(classify(lambda: {}['x']))",
+        "goal": "用 except 链分类处理不同异常",
+        "hint": "越具体的异常放前面"
+      },
+      {
+        "type": "tip",
+        "text": "贴日志先贴完整 traceback,不要只贴最后一句话"
+      }
+    ],
+    "tests": [],
+    "hint": "从 traceback 最后一行往上读"
+  }
+]

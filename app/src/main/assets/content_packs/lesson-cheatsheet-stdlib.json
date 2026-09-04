@@ -1,0 +1,260 @@
+[
+  {
+    "id": "cheatsheet-stdlib-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "标准库速查表",
+    "subtitle": "Python 标准库最常用 30+ 模块速查手册，按功能分类，每个模块附带核心函数示例。",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "标准库速查表"
+      },
+      {
+        "type": "text",
+        "text": "Python 标准库提供了大量开箱即用的模块，无需安装第三方包即可使用。本速查表按功能分类，涵盖 30+ 最常用模块。"
+      },
+      {
+        "type": "heading",
+        "text": "OS 与文件系统"
+      },
+      {
+        "type": "text",
+        "text": "os、os.path、pathlib、shutil 模块用于文件和目录操作。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== os 模块 ==========\nimport os\n\n# 当前工作目录\nprint(os.getcwd())  # D:\\opencode\\python\n\n# 列出目录内容\nprint(os.listdir('.'))  # 当前目录文件列表\n\n# 创建/删除目录\nos.makedirs('test_dir/sub_dir', exist_ok=True)  # 递归创建\nos.rmdir('test_dir/sub_dir')  # 删除空目录\n\n# 文件操作\nos.rename('old.txt', 'new.txt')  # 重命名\nos.remove('file.txt')            # 删除文件\n\n# 环境变量\nprint(os.environ.get('PATH', ''))\n\n# 系统信息\nprint(os.name)         # 'nt'（Windows）\nprint(os.sep)          # '\\\\'（Windows）\n\n# ========== os.path 模块 ==========\nimport os.path\n\npath = 'D:/opencode/python/test.txt'\nprint(os.path.exists(path))    # True/False\nprint(os.path.isfile(path))    # 是否是文件\nprint(os.path.isdir(path))     # 是否是目录\nprint(os.path.getsize(path))   # 文件大小（字节）\nprint(os.path.dirname(path))   # 目录部分\nprint(os.path.basename(path))  # 文件名部分\nprint(os.path.splitext(path))  # 分离扩展名 ('test', '.txt')\nprint(os.path.join('dir', 'sub', 'file.txt'))  # 路径拼接\n\n# ========== pathlib 模块（推荐） ==========\nfrom pathlib import Path\n\np = Path('.')\nprint(p)           # Path('.')\nprint(p.resolve()) # 完整路径\n\n# 遍历目录\nfor file in Path('.').glob('*.py'):\n    print(file.name)\n\n# 递归遍历\nfor file in Path('.').rglob('*.json'):\n    print(file)\n\n# 读写文件\nPath('test.txt').write_text('Hello', encoding='utf-8')\nprint(Path('test.txt').read_text(encoding='utf-8'))\n\n# 文件操作\nPath('test.txt').rename('renamed.txt')\nPath('renamed.txt').unlink()  # 删除\n\n# 创建目录\nPath('new_dir').mkdir(parents=True, exist_ok=True)\n\n# 路径操作\np = Path('/home/user/file.txt')\nprint(p.parent)   # Path('/home/user')\nprint(p.name)     # 'file.txt'\nprint(p.suffix)   # '.txt'\nprint(p.stem)     # 'file'\n\n# ========== shutil 模块 ==========\nimport shutil\n\n# 复制文件\nshutil.copy('src.txt', 'dst.txt')        # 复制文件\nshutil.copy2('src.txt', 'dst.txt')       # 保留元数据\nshutil.copytree('src_dir', 'dst_dir')    # 递归复制目录\n\n# 移动/删除\nshutil.move('file.txt', 'new_location/')\nshutil.rmtree('dir_to_delete')           # 递归删除目录\n\n# 创建压缩包\nshutil.make_archive('archive', 'zip', 'dir_to_zip')\n\n# 解压\nshutil.unpack_archive('archive.zip', 'extract_dir')"
+      },
+      {
+        "type": "tip",
+        "text": "推荐使用 pathlib 替代 os.path，它是面向对象的 API，代码更简洁。shutil.make_archive 的第三个参数是要压缩的目录路径。"
+      },
+      {
+        "type": "heading",
+        "text": "数据处理模块"
+      },
+      {
+        "type": "text",
+        "text": "json、csv、sqlite3、pickle 模块用于数据读写和存储。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== json 模块 ==========\nimport json\n\n# Python 对象 → JSON 字符串\ndata = {'name': 'Alice', 'age': 25, 'scores': [90, 85, 92]}\njson_str = json.dumps(data, ensure_ascii=False, indent=2)\nprint(json_str)\n# {\n#   \"name\": \"Alice\",\n#   \"age\": 25,\n#   \"scores\": [90, 85, 92]\n# }\n\n# JSON 字符串 → Python 对象\nparsed = json.loads(json_str)\nprint(parsed['name'])  # Alice\n\n# 写入/读取文件\nwith open('data.json', 'w', encoding='utf-8') as f:\n    json.dump(data, f, ensure_ascii=False, indent=2)\n\nwith open('data.json', 'r', encoding='utf-8') as f:\n    loaded = json.load(f)\n\n# ========== csv 模块 ==========\nimport csv\n\n# 写入 CSV\nwith open('data.csv', 'w', newline='', encoding='utf-8') as f:\n    writer = csv.writer(f)\n    writer.writerow(['Name', 'Age', 'City'])\n    writer.writerow(['Alice', 25, 'Beijing'])\n    writer.writerow(['Bob', 30, 'Shanghai'])\n\n# 使用 DictWriter\nwith open('data.csv', 'w', newline='', encoding='utf-8') as f:\n    fieldnames = ['Name', 'Age', 'City']\n    writer = csv.DictWriter(f, fieldnames=fieldnames)\n    writer.writeheader()\n    writer.writerow({'Name': 'Alice', 'Age': 25, 'City': 'Beijing'})\n\n# 读取 CSV\nwith open('data.csv', 'r', encoding='utf-8') as f:\n    reader = csv.reader(f)\n    header = next(reader)\n    for row in reader:\n        print(row)  # ['Alice', '25', 'Beijing']\n\n# 使用 DictReader\nwith open('data.csv', 'r', encoding='utf-8') as f:\n    reader = csv.DictReader(f)\n    for row in reader:\n        print(row['Name'], row['Age'])\n\n# ========== sqlite3 模块 ==========\nimport sqlite3\n\n# 连接数据库（文件不存在则创建）\nconn = sqlite3.connect('example.db')\ncursor = conn.cursor()\n\n# 创建表\ncursor.execute('''\n    CREATE TABLE IF NOT EXISTS users (\n        id INTEGER PRIMARY KEY,\n        name TEXT NOT NULL,\n        age INTEGER\n    )\n''')\n\n# 插入数据\ncursor.execute('INSERT INTO users (name, age) VALUES (?, ?)', ('Alice', 25))\nconn.commit()\n\n# 批量插入\ncursor.executemany(\n    'INSERT INTO users (name, age) VALUES (?, ?)',\n    [('Bob', 30), ('Charlie', 35)]\n)\nconn.commit()\n\n# 查询\ncursor.execute('SELECT * FROM users WHERE age > ?', (20,))\nfor row in cursor.fetchall():\n    print(row)  # (1, 'Alice', 25)\n\n# 上下文管理\nwith sqlite3.connect('example.db') as conn:\n    conn.execute('INSERT INTO users (name, age) VALUES (?, ?)', ('Dave', 28))\n\nconn.close()\n\n# ========== pickle 模块 ==========\nimport pickle\n\n# 序列化（Python 对象 → 字节）\ndata = {'key': 'value', 'numbers': [1, 2, 3]}\nblob = pickle.dumps(data)\nprint(type(blob))  # <class 'bytes'>\n\n# 反序列化\nloaded = pickle.loads(blob)\nprint(loaded)  # {'key': 'value', 'numbers': [1, 2, 3]}\n\n# 写入/读取文件\nwith open('data.pkl', 'wb') as f:\n    pickle.dump(data, f)\n\nwith open('data.pkl', 'rb') as f:\n    loaded = pickle.load(f)\n\n# 注意：pickle 不安全，不要加载不受信任的数据"
+      },
+      {
+        "type": "tip",
+        "text": "json 用于跨语言数据交换，pickle 用于 Python 内部序列化。csv 的 newline='' 参数在 Windows 上防止空行。sqlite3 使用 ? 占位符防止 SQL 注入。"
+      },
+      {
+        "type": "heading",
+        "text": "日期与时间模块"
+      },
+      {
+        "type": "text",
+        "text": "datetime、time、calendar 模块用于日期时间处理。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== datetime 模块 ==========\nfrom datetime import datetime, date, time, timedelta\n\n# 当前时间\nnow = datetime.now()\nprint(now)  # 2024-01-15 10:30:00.123456\nprint(now.year, now.month, now.day)  # 2024 1 15\nprint(now.hour, now.minute, now.second)  # 10 30 0\n\n# 创建指定日期时间\ndt = datetime(2024, 7, 4, 12, 30, 0)\nprint(dt)  # 2024-07-04 12:30:00\n\n# 日期对象\ntoday = date.today()\nprint(today)  # 2024-01-15\nprint(today.weekday())  # 0=Monday\n\n# 时间对象\nt = time(14, 30, 0)\nprint(t)  # 14:30:00\n\n# 时间差\ndelta = timedelta(days=7, hours=3)\nfuture = now + delta\nprint(future)\npast = now - timedelta(days=30)\nprint(past)\n\n# 格式化\nprint(now.strftime('%Y-%m-%d %H:%M:%S'))  # '2024-01-15 10:30:00'\nprint(now.strftime('%Y年%m月%d日'))  # '2024年01月15日'\nprint(now.strftime('%A'))  # 'Monday'\n\n# 解析字符串\ndt = datetime.strptime('2024-01-15 10:30', '%Y-%m-%d %H:%M')\nprint(dt)  # 2024-01-15 10:30:00\n\n# 时间戳\nts = now.timestamp()\nprint(ts)  # 1705312200.123456\ndt_from_ts = datetime.fromtimestamp(ts)\nprint(dt_from_ts)\n\n# ========== time 模块 ==========\nimport time\n\n# 当前时间戳\nprint(time.time())  # 1705312200.123\n\n# 暂停执行\ntime.sleep(1)  # 暂停 1 秒\n\n# 性能计时\nstart = time.perf_counter()\n# ... 执行代码 ...\nend = time.perf_counter()\nprint(f'耗时: {end - start:.4f}秒')\n\n# ========== calendar 模块 ==========\nimport calendar\n\n# 打印日历\ncalendar.prmonth(2024, 1)  # 打印2024年1月日历\n\n# 判断闰年\nprint(calendar.isleap(2024))  # True\nprint(calendar.isleap(2023))  # False\n\n# 获取星期数\nprint(calendar.weekday(2024, 1, 15))  # 0=Monday"
+      },
+      {
+        "type": "tip",
+        "text": "datetime 是最常用的日期时间模块。time.sleep() 用于暂停，time.perf_counter() 用于精确计时。strftime 的格式符：%Y=年, %m=月, %d=日, %H=时, %M=分, %S=秒。"
+      },
+      {
+        "type": "heading",
+        "text": "数学模块"
+      },
+      {
+        "type": "text",
+        "text": "math、random、statistics、decimal、fractions 模块提供数学计算功能。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== math 模块 ==========\nimport math\n\nprint(math.pi)       # 3.141592653589793\nprint(math.e)        # 2.718281828459045\nprint(math.inf)      # inf（无穷大）\n\nprint(math.sqrt(16))    # 4.0\nprint(math.pow(2, 10))  # 1024.0\nprint(math.ceil(3.2))   # 4（向上取整）\nprint(math.floor(3.8))  # 3（向下取整）\n\nprint(math.log(100, 10))  # 2.0\nprint(math.log(8, 2))     # 3.0\nprint(math.log(2.71828))  # 约 1.0\n\nprint(math.factorial(5))  # 120\nprint(math.gcd(12, 8))    # 4\nprint(math.radians(180))  # π\nprint(math.degrees(math.pi))  # 180.0\n\nprint(math.sin(math.pi/2))  # 1.0\nprint(math.cos(0))           # 1.0\n\n# ========== random 模块 ==========\nimport random\n\nprint(random.random())        # [0, 1) 随机浮点数\nprint(random.uniform(1, 10))  # [1, 10) 随机浮点数\nprint(random.randint(1, 10))  # [1, 10] 随机整数\nprint(random.randrange(0, 10, 2))  # 0-10 随机偶数\n\n# 从序列中随机选择\nprint(random.choice(['a', 'b', 'c']))  # 随机选择一个\nprint(random.choices('ABC', k=3))  # 有放回选择 3 个\nprint(random.sample(range(100), 5))  # 无放回选择 5 个\n\n# 打乱列表\nlst = [1, 2, 3, 4, 5]\nrandom.shuffle(lst)\nprint(lst)  # [3, 1, 5, 2, 4]\n\n# 设置随机种子（可复现）\nrandom.seed(42)\nprint(random.random())  # 每次运行结果相同\n\n# ========== statistics 模块 ==========\nimport statistics\n\ndata = [2, 4, 4, 4, 5, 5, 7, 9]\nprint(statistics.mean(data))     # 5.0（平均值）\nprint(statistics.median(data))   # 4.5（中位数）\nprint(statistics.mode(data))     # 4（众数）\nprint(statistics.stdev(data))    # 约 2.0（标准差）\nprint(statistics.variance(data)) # 约 4.0（方差）\n\n# ========== decimal 模块（精确十进制运算）==========\nfrom decimal import Decimal, getcontext\n\ngetcontext().prec = 6  # 设置精度\nprint(Decimal('0.1') + Decimal('0.2'))  # 0.3（精确）\nprint(0.1 + 0.2)                         # 0.30000000000000004（浮点误差）\n\n# ========== fractions 模块（分数运算）==========\nfrom fractions import Fraction\n\nf1 = Fraction(1, 3)\nf2 = Fraction(1, 6)\nprint(f1 + f2)  # 1/2\nprint(f1 * f2)  # 1/18\nprint(float(f1))  # 0.333..."
+      },
+      {
+        "type": "tip",
+        "text": "浮点数运算有精度问题，涉及金钱计算时用 Decimal。random.seed() 可确保随机结果可复现，适合测试。statistics 模块适合简单统计，复杂统计用 scipy。"
+      },
+      {
+        "type": "heading",
+        "text": "文本处理模块"
+      },
+      {
+        "type": "text",
+        "text": "re、string、textwrap、difflib 模块用于文本处理。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== re 模块（正则表达式）==========\nimport re\n\n# 搜索\nmatch = re.search(r'\\d+', 'abc123def')\nprint(match.group())  # '123'\n\n# 完全匹配\nmatch = re.fullmatch(r'\\d+', '12345')\nprint(match.group())  # '12345'\nmatch = re.fullmatch(r'\\d+', '123ab')\nprint(match)  # None\n\n# 查找所有\nresult = re.findall(r'\\d+', 'a1b2c3')\nprint(result)  # ['1', '2', '3']\n\n# 替换\nresult = re.sub(r'\\d+', '*', 'a1b2c3')\nprint(result)  # 'a*b*c*'\n\n# 分组\nmatch = re.search(r'(\\w+)@(\\w+)\\.\\w+', 'email@test.com')\nif match:\n    print(match.group(1))  # 'email'（用户名）\n    print(match.group(2))  # 'test'（域名）\n\n# 编译正则（重复使用时提高效率）\npattern = re.compile(r'\\d+')\nprint(pattern.findall('a1b2c3'))  # ['1', '2', '3']\n\n# ========== string 模块 ==========\nimport string\n\nprint(string.ascii_letters)   # abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\nprint(string.digits)          # 0123456789\nprint(string.punctuation)     # !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\nprint(string.whitespace)      # 空格、\\t、\\n 等\n\n# Template 模板\nfrom string import Template\nt = Template('$name is $age years old')\nprint(t.substitute(name='Alice', age=25))  # Alice is 25 years old\n\n# ========== textwrap 模块 ==========\nimport textwrap\n\n# 文本换行\nlong_text = '这是一段很长的文本，需要进行换行处理，以便更好地显示在终端或文件中。'\nwrapped = textwrap.fill(long_text, width=20)\nprint(wrapped)\n\n# 去除缩进\ncode = '''\n    def hello():\n        print('hello')\n'''\nprint(textwrap.dedent(code))\n\n# ========== difflib 模块（文本比较）==========\nimport difflib\n\n# 比较两个字符串\ns1 = 'hello world'\ns2 = 'hello earth'\nresult = difflib.unified_diff(s1.split(), s2.split(), lineterm='')\nprint('\\n'.join(result))\n\n# 获取相似度\nratio = difflib.SequenceMatcher(None, 'hello', 'hallo').ratio()\nprint(ratio)  # 0.8\n\n# 查找最接近的匹配\nchoices = ['hello', 'hallo', 'hullo', 'helloo']\nresult = difflib.get_close_matches('hello', choices)\nprint(result)  # ['hello', 'hallo']"
+      },
+      {
+        "type": "tip",
+        "text": "re 模块是正则表达式的核心，r'' 原始字符串避免转义问题。difflib 可用于实现简单的模糊匹配和文件比较功能。"
+      },
+      {
+        "type": "heading",
+        "text": "系统与调试模块"
+      },
+      {
+        "type": "text",
+        "text": "sys、io、traceback、warnings、logging 模块用于系统操作和调试。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== sys 模块 ==========\nimport sys\n\n# 命令行参数\nprint(sys.argv)  # ['script.py']\n\n# Python 版本\nprint(sys.version)\nprint(sys.version_info)  # (3, 11, 0, 'final', 0)\n\n# 模块搜索路径\nprint(sys.path[:3])\n\n# 退出程序\n# sys.exit(0)  # 正常退出\n# sys.exit(1)  # 错误退出\n\n# ========== io 模块 ==========\nimport io\n\n# StringIO（内存中的文件对象）\nbuffer = io.StringIO()\nbuffer.write('Hello ')\nbuffer.write('World')\nprint(buffer.getvalue())  # 'Hello World'\nbuffer.close()\n\n# BytesIO（内存中的二进制文件）\nb = io.BytesIO(b'Hello')\nprint(b.read())  # b'Hello'\n\n# ========== traceback 模块 ==========\nimport traceback\n\ntry:\n    1 / 0\nexcept Exception:\n    traceback.print_exc()  # 打印完整堆栈\n    # 或获取字符串\n    tb_str = traceback.format_exc()\n\n# ========== warnings 模块 ==========\nimport warnings\n\n# 发出警告\nwarnings.warn('这是一个警告', UserWarning)\n\n# 过滤警告\nwarnings.filterwarnings('ignore', category=DeprecationWarning)\n\n# 上下文管理器\nwith warnings.catch_warnings():\n    warnings.simplefilter('always')\n    warnings.warn('这条警告会被捕获')\n\n# ========== logging 模块 ==========\nimport logging\n\n# 基本配置\nlogging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')\n\n# 使用日志\ndebug('调试信息')     # 不显示（级别太低）\nlogging.info('普通信息')\nlogging.warning('警告信息')\nlogging.error('错误信息')\nlogging.critical('严重错误')\n\n# 创建自定义 logger\nlogger = logging.getLogger(__name__)\nlogger.info('使用自定义 logger')"
+      },
+      {
+        "type": "tip",
+        "text": "logging 比 print 更专业，支持日志级别、输出到文件、格式化。sys.exit() 会引发 SystemExit 异常。warnings 用于不推荐使用的代码警告。"
+      },
+      {
+        "type": "heading",
+        "text": "collections 模块"
+      },
+      {
+        "type": "text",
+        "text": "collections 模块提供高性能的容器数据类型。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "from collections import Counter, defaultdict, deque, namedtuple, OrderedDict\n\n# ========== Counter（计数器）==========\nc = Counter('hello world')\nprint(c)  # Counter({'l': 3, 'o': 2, 'h': 1, ...})\nprint(c.most_common(2))  # [('l', 3), ('o', 2)]\nprint(c['l'])  # 3\n\n# 从列表计数\nwords = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple']\nc = Counter(words)\nprint(c.most_common(1))  # [('apple', 3)]\n\n# 数学运算\nprint(Counter(a=3, b=1) - Counter(a=1, b=0))  # Counter({'a': 2})\n\n# ========== defaultdict（默认字典）==========\ndd = defaultdict(int)  # 默认值为 0\ndd['a'] += 1\ndd['b'] += 2\nprint(dict(dd))  # {'a': 1, 'b': 2}\n\ndd_list = defaultdict(list)  # 默认值为空列表\nfor k, v in [('a', 1), ('a', 2), ('b', 3)]:\n    dd_list[k].append(v)\nprint(dict(dd_list))  # {'a': [1, 2], 'b': [3]}\n\n# ========== deque（双端队列）==========\nd = deque([1, 2, 3])\nd.appendleft(0)\nd.append(4)\nprint(d)  # deque([0, 1, 2, 3, 4])\nd.rotate(1)\nprint(d)  # deque([4, 0, 1, 2, 3])\n\n# ========== namedtuple（命名元组）==========\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(3, 4)\nprint(p.x, p.y)  # 3 4\nprint(p[0], p[1])  # 3 4\n\n# 带默认值\nStudent = namedtuple('Student', ['name', 'age'], defaults=['Unknown', 0])\ns = Student('Alice')\nprint(s)  # Student(name='Alice', age=0)\n\n# ========== OrderedDict（有序字典）==========\nod = OrderedDict()\nod['first'] = 1\nod['second'] = 2\nod.move_to_end('first')\nprint(list(od.keys()))  # ['second', 'first']"
+      },
+      {
+        "type": "tip",
+        "text": "Counter 是统计频率的利器。defaultdict 避免了 KeyError 和 setdefault() 的冗余代码。deque 在需要频繁两端操作时比 list 快得多。Python 3.7+ 的 dict 已经有序，大多数情况不需要 OrderedDict。"
+      },
+      {
+        "type": "heading",
+        "text": "迭代与函数工具"
+      },
+      {
+        "type": "text",
+        "text": "itertools、functools 模块提供迭代器工具和函数增强。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== itertools 模块 ==========\nimport itertools\n\n# 无限计数器\ncounter = itertools.count(1, 2)  # 从1开始，步长2\nprint(next(counter))  # 1\nprint(next(counter))  # 3\nprint(next(counter))  # 5\n\n# 无限循环迭代器\ncycle = itertools.cycle(['A', 'B', 'C'])\nprint(next(cycle))  # A\nprint(next(cycle))  # B\nprint(next(cycle))  # C\nprint(next(cycle))  # A\n\n# 重复\nfor x in itertools.repeat('hello', 3):\n    print(x)  # hello hello hello\n\n# 排列组合\nprint(list(itertools.permutations('ABC', 2)))\n# [('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]\n\nprint(list(itertools.combinations('ABC', 2)))\n# [('A', 'B'), ('A', 'C'), ('B', 'C')]\n\nprint(list(itertools.combinations_with_replacement('ABC', 2)))\n# [('A', 'A'), ('A', 'B'), ('A', 'C'), ('B', 'B'), ('B', 'C'), ('C', 'C')]\n\n# 链接迭代器\nlist1 = [1, 2, 3]\nlist2 = [4, 5, 6]\nprint(list(itertools.chain(list1, list2)))  # [1, 2, 3, 4, 5, 6]\n\n# 分组\ndata = [('A', 1), ('A', 2), ('B', 3), ('B', 4), ('A', 5)]\nfor key, group in itertools.groupby(sorted(data, key=lambda x: x[0])):\n    print(key, list(group))\n# A [('A', 1), ('A', 2), ('A', 5)]\n# B [('B', 3), ('B', 4)]\n\n# ========== functools 模块 ==========\nfrom functools import reduce, lru_cache, partial, wraps\n\n# reduce（累积运算）\nresult = reduce(lambda x, y: x + y, [1, 2, 3, 4, 5])\nprint(result)  # 15\n\n# lru_cache（缓存装饰器）\n@lru_cache(maxsize=128)\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint(fibonacci(50))  # 立即返回，无需重复计算\nprint(fibonacci.cache_info())  # 缓存命中信息\n\n# partial（部分应用）\ndef power(base, exponent):\n    return base ** exponent\nsquare = partial(power, exponent=2)\ncube = partial(power, exponent=3)\nprint(square(5))  # 25\nprint(cube(5))    # 125\n\n# wraps（保留装饰函数的元数据）\ndef my_decorator(func):\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        return func(*args, **kwargs)\n    return wrapper\n\n@my_decorator\ndef hello():\n    '''这是一个打招呼函数'''\n    print('Hello!')\n\nprint(hello.__name__)  # 'hello'（不是 'wrapper'）\nprint(hello.__doc__)   # '这是一个打招呼函数'"
+      },
+      {
+        "type": "tip",
+        "text": "itertools 的组合函数是算法题的利器。lru_cache 可以将递归的时间复杂度从指数级降为线性级。partial 适合创建特定参数的函数变体。"
+      },
+      {
+        "type": "heading",
+        "text": "网络模块"
+      },
+      {
+        "type": "text",
+        "text": "urllib、http、email、smtplib 模块用于网络请求和邮件处理。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== urllib 模块 ==========\nfrom urllib.request import urlopen, Request\nfrom urllib.parse import urlencode, urlparse, quote\n\n# 发送 GET 请求\nresponse = urlopen('https://httpbin.org/get')\ndata = response.read().decode('utf-8')\nprint(data[:100])\n\n# URL 解析\nparsed = urlparse('https://example.com:8080/path?query=1#fragment')\nprint(parsed.scheme)   # 'https'\nprint(parsed.netloc)   # 'example.com:8080'\nprint(parsed.path)     # '/path'\nprint(parsed.query)    # 'query=1'\n\n# URL 编码\nencoded = urlencode({'q': 'Python 编程', 'page': 1})\nprint(encoded)  # 'q=Python+%E7%BC%96%E7%A8%8B&page=1'\n\n# URL 安全编码\nprint(quote('hello world'))  # 'hello%20world'\n\n# ========== http 模块 ==========\nimport http.server\nimport http.client\n\n# 简单 HTTP 服务器（一行命令启动）\n# python -m http.server 8000\n\n# HTTP 客户端\nconn = http.client.HTTPSConnection('httpbin.org')\nconn.request('GET', '/get')\nresponse = conn.getresponse()\nprint(response.status)  # 200\nprint(response.read()[:100])\nconn.close()\n\n# ========== smtplib 模块（发送邮件）==========\nimport smtplib\nfrom email.mime.text import MIMEText\n\n# 创建邮件\nmsg = MIMEText('这是一封测试邮件')\nmsg['Subject'] = '测试邮件'\nmsg['From'] = 'sender@example.com'\nmsg['To'] = 'receiver@example.com'\n\n# 发送（需要真实邮箱配置）\n# with smtplib.SMTP('smtp.example.com', 587) as server:\n#     server.starttls()\n#     server.login('user', 'password')\n#     server.send_message(msg)"
+      },
+      {
+        "type": "tip",
+        "text": "urllib 是标准库的 HTTP 客户端，但推荐使用第三方 requests 库。http.server 适合快速搭建临时服务器。发送邮件时注意使用 TLS 加密。"
+      },
+      {
+        "type": "heading",
+        "text": "并发编程模块"
+      },
+      {
+        "type": "text",
+        "text": "threading、multiprocessing、asyncio、subprocess 模块用于并发和进程管理。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== threading 模块（多线程）==========\nimport threading\nimport time\n\ndef worker(name, duration):\n    print(f'线程 {name} 开始')\n    time.sleep(duration)\n    print(f'线程 {name} 结束')\n\n# 创建线程\nt1 = threading.Thread(target=worker, args=('A', 2))\nt2 = threading.Thread(target=worker, args=('B', 1))\n\nt1.start()\nt2.start()\n\nt1.join()  # 等待线程结束\nt2.join()\nprint('所有线程完成')\n\n# 线程锁\nlock = threading.Lock()\ncounter = 0\n\ndef safe_increment():\n    global counter\n    with lock:\n        counter += 1\n\n# ========== multiprocessing 模块（多进程）==========\nfrom multiprocessing import Process, Pool\n\ndef square(x):\n    return x * x\n\n# 进程池\nwith Pool(4) as pool:\n    results = pool.map(square, range(10))\n    print(results)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]\n\n# ========== asyncio 模块（异步编程）==========\nimport asyncio\n\nasync def fetch_data(name, delay):\n    print(f'{name} 开始获取数据')\n    await asyncio.sleep(delay)  # 模拟异步 I/O\n    print(f'{name} 完成')\n    return f'{name} 的数据'\n\nasync def main():\n    # 并发执行多个协程\n    tasks = [\n        fetch_data('A', 2),\n        fetch_data('B', 1),\n        fetch_data('C', 3),\n    ]\n    results = await asyncio.gather(*tasks)\n    print(results)\n\nasyncio.run(main())\n\n# ========== subprocess 模块 ==========\nimport subprocess\n\n# 执行命令\nresult = subprocess.run(['dir'], capture_output=True, text=True, shell=True)\nprint(result.stdout[:100])\n\n# 管道\nresult = subprocess.run('echo Hello', shell=True, capture_output=True, text=True)\nprint(result.stdout.strip())  # 'Hello'\n\n# Popen（更灵活的控制）\nprocess = subprocess.Popen(['python', '--version'],\n                           stdout=subprocess.PIPE,\n                           text=True)\nstdout, _ = process.communicate()\nprint(stdout.strip())"
+      },
+      {
+        "type": "tip",
+        "text": "I/O 密集型任务用 threading 或 asyncio，CPU 密集型任务用 multiprocessing（避免 GIL 限制）。asyncio 在 Python 3.4+ 成为异步编程的标准方式。subprocess.run() 是执行系统命令的推荐方式。"
+      },
+      {
+        "type": "heading",
+        "text": "安全与工具模块"
+      },
+      {
+        "type": "text",
+        "text": "hashlib、secrets、uuid、argparse、unittest 模块用于安全和工具。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# ========== hashlib 模块（哈希）==========\nimport hashlib\n\n# SHA-256 哈希\nh = hashlib.sha256(b'Hello, World!')\nprint(h.hexdigest())  # 64位十六进制字符串\n\n# MD5（不推荐用于安全场景）\nh = hashlib.md5(b'Hello, World!')\nprint(h.hexdigest())\n\n# 增量哈希\nh = hashlib.sha256()\nh.update(b'Hello, ')\nh.update(b'World!')\nprint(h.hexdigest())  # 与一次性计算相同\n\n# ========== secrets 模块（安全随机数）==========\nimport secrets\n\n# 生成安全令牌\ntoken = secrets.token_hex(16)  # 32位十六进制字符串\nprint(token)  # 如: 'a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6'\n\n# 生成 URL 安全令牌\ntoken = secrets.token_urlsafe(16)\nprint(token)\n\n# 随机整数\nprint(secrets.randbelow(100))  # [0, 100)\n\n# ========== uuid 模块 ==========\nimport uuid\n\n# 生成 UUID\nprint(uuid.uuid1())  # 基于时间戳\nprint(uuid.uuid4())  # 随机生成（最常用）\n\n# UUID 转字符串\nu = uuid.uuid4()\nprint(str(u))  # 如: '550e8400-e29b-41d4-a716-446655440000'\n\n# ========== argparse 模块（命令行参数）==========\nimport argparse\n\n# 创建解析器（示例，实际使用时取消注释）\n# parser = argparse.ArgumentParser(description='处理文件')\n# parser.add_argument('filename', help='输入文件名')\n# parser.add_argument('-o', '--output', default='out.txt', help='输出文件名')\n# parser.add_argument('-v', '--verbose', action='store_true', help='详细模式')\n# parser.add_argument('-n', '--number', type=int, default=1, help='重复次数')\n# args = parser.parse_args()\n\n# ========== unittest 模块（单元测试）==========\nimport unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAdd(unittest.TestCase):\n    def test_positive(self):\n        self.assertEqual(add(2, 3), 5)\n    \n    def test_negative(self):\n        self.assertEqual(add(-1, -1), -2)\n    \n    def test_zero(self):\n        self.assertEqual(add(0, 0), 0)\n\n# 运行测试\n# unittest.main()  # 取消注释运行测试\n\n# 快速运行\nloader = unittest.TestLoader()\nsuite = loader.loadTestsFromTestCase(TestAdd)\nrunner = unittest.TextTestRunner(verbosity=2)\nrunner.run(suite)"
+      },
+      {
+        "type": "tip",
+        "text": "secrets 比 random 更安全，用于密码、令牌等安全场景。argparse 是构建命令行工具的标准方式。unittest 是 Python 内置的测试框架，也推荐使用 pytest。"
+      },
+      {
+        "type": "heading",
+        "text": "标准库模块速查总结"
+      },
+      {
+        "type": "text",
+        "text": "以下表格总结了最常用的标准库模块及其核心用途。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 标准库模块速查表（按用途分类）\n\n# 文件与目录\n# os, os.path - 跨平台文件操作\n# pathlib - 面向对象的路径操作（推荐）\n# shutil - 高级文件操作（复制、移动、压缩）\n# glob - 文件模式匹配\n# tempfile - 临时文件和目录\n\n# 数据处理\n# json - JSON 编解码\n# csv - CSV 文件读写\n# sqlite3 - SQLite 数据库\n# pickle - Python 对象序列化\n# struct - 二进制数据打包\n\n# 日期时间\n# datetime - 日期和时间处理\n# time - 时间相关函数\n# calendar - 日历功能\n\n# 数学\n# math - 数学函数\n# random - 随机数生成\n# statistics - 统计函数\n# decimal - 精确十进制运算\n# fractions - 分数运算\n\n# 文本处理\n# re - 正则表达式\n# string - 字符串常量和模板\n# textwrap - 文本换行\n# difflib - 文本差异比较\n\n# 系统与调试\n# sys - 系统相关\n# io - 内存文件对象\n# traceback - 堆栈跟踪\n# warnings - 警告处理\n# logging - 日志记录\n\n# 集合\n# collections - 高级容器（Counter, deque 等）\n# array - 数组\n\n# 迭代与函数\n# itertools - 迭代器工具\n# functools - 函数工具\n\n# 网络\n# urllib - URL 处理\n# http - HTTP 协议\n# smtplib - SMTP 邮件\n# email - 邮件处理\n\n# 并发\n# threading - 多线程\n# multiprocessing - 多进程\n# asyncio - 异步编程\n# subprocess - 子进程管理\n\n# 安全\n# hashlib - 哈希算法\n# secrets - 安全随机数\n\n# 工具\n# uuid - 唯一标识符\n# argparse - 命令行参数解析\n# unittest - 单元测试\n# test - 测试框架"
+      },
+      {
+        "type": "tip",
+        "text": "Python 标准库有 200+ 模块，本速查表涵盖了最常用的 30+ 模块。完整文档请参考 https://docs.python.org/zh-cn/3/library/"
+      },
+      {
+        "type": "heading",
+        "text": "practice_time"
+      },
+      {
+        "type": "text",
+        "text": "练习：标准库应用"
+      },
+      {
+        "type": "text",
+        "text": "使用 pathlib 模块递归遍历一个目录，统计其中 .py 文件的数量和总行数。"
+      },
+      {
+        "type": "text",
+        "text": "使用 json 模块和 datetime 模块，创建一个简单的日志系统，将带有时间戳的日志写入 JSON 文件。"
+      },
+      {
+        "type": "text",
+        "text": "使用 collections.Counter 和 re 模块，分析一段英文文本，统计每个单词的出现频率并输出 Top 5。"
+      },
+      {
+        "type": "heading",
+        "text": "project_time"
+      },
+      {
+        "type": "text",
+        "text": "综合项目：文件管理工具"
+      },
+      {
+        "type": "text",
+        "text": "构建一个命令行文件管理工具，综合运用标准库模块：1) 使用 argparse 处理命令行参数，支持以下命令：list（列出文件）、search（搜索文件）、info（显示文件信息）、backup（备份目录）；2) 使用 pathlib 进行路径操作和文件遍历；3) 使用 os.path 或 pathlib 获取文件元数据（大小、修改时间等）；4) 使用 shutil 实现目录备份功能，创建带时间戳的压缩包；5) 使用 json 将文件索引信息保存到 JSON 文件；6) 使用 hashlib 计算文件的 MD5 校验和。要求：创建 FileManager 类，包含所有功能方法，使用 logging 记录操作日志。"
+      }
+    ],
+    "tests": [],
+    "hint": "速查手册无需作答,阅读即完成。"
+  }
+]

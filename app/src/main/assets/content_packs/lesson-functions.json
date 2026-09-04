@@ -1,0 +1,48 @@
+[
+  {
+    "id": "fun-01",
+    "order": 1,
+    "chapter": 3,
+    "title": "函数基础",
+    "subtitle": "学习如何定义和调用函数",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    
+    "blocks": [
+      {"type": "heading", "text": "什么是函数？"},
+      {"type": "text", "text": "函数是一段可重用的代码块，执行特定任务。使用函数可以避免代码重复。"},
+      {"type": "code", "runnable": true, "code": "def greet():\n    print('Hello!')\ngreet()\ngreet()", "language": "python"},
+      {"type": "output", "text": "Hello!\nHello!"},
+      {"type": "quiz", "question": "以下哪个是正确的函数定义？", "options": ["def my_func():", "function my_func():"], "answer": 0, "explain": "Python使用def关键字定义函数"},
+      {"type": "practice", "title": "练习：创建问候函数", "code": "def say_hello(name):\n    print(f'Hello, {name}!')\nsay_hello('Alice')\nsay_hello('Bob')", "hint": "函数可以接受参数", "stdout": "Hello, Alice!\nHello, Bob!"},
+      {"type": "tip", "text": "函数名用下划线连接单词，如calculate_sum"},
+      {"type": "project", "title": "项目：求最大值函数", "code": "def max_of_three(a, b, c):\n    if a >= b and a >= c:\n        return a\n    elif b >= a and b >= c:\n        return b\n    else:\n        return c\nprint(max_of_three(3, 7, 5))", "goal": "创建一个返回三个数中最大值的函数", "hint": "使用if/elif/else比较三个值"}
+    ],
+    "tests": ["max_of_three(1, 5, 3) == 5", "greet() should print Hello!"],
+    "hint": "def 函数名(参数): 定义函数"
+  },
+  {
+    "id": "fun-02",
+    "order": 2,
+    "chapter": 3,
+    "title": "函数返回值",
+    "subtitle": "学习如何从函数返回结果",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    
+    "blocks": [
+      {"type": "heading", "text": "返回值"},
+      {"type": "text", "text": "函数使用return语句返回一个值。调用函数时可以接收返回的值。"},
+      {"type": "code", "runnable": true, "code": "def add(x, y):\n    return x + y\nresult = add(3, 5)\nprint(result)", "language": "python"},
+      {"type": "output", "text": "8"},
+      {"type": "quiz", "question": "double(5)的输出是什么？\ndef double(x): return x * 2", "options": ["5", "10"], "answer": 1, "explain": "返回5的2倍，即10"},
+      {"type": "practice", "title": "练习：求平均值函数", "code": "def average(a, b, c):\n    return (a + b + c) / 3\nresult = average(2, 4, 6)\nprint(f'平均值: {result}')", "hint": "使用return返回计算结果", "stdout": "平均值: 4.0"},
+      {"type": "tip", "text": "如果没有return语句，函数返回None"},
+      {"type": "project", "title": "项目：简单计算器", "code": "def add(x, y): return x + y\ndef subtract(x, y): return x - y\nprint('相加:', add(10, 5))\nprint('相减:', subtract(10, 5))", "goal": "创建加法和减法两个函数", "hint": "每个函数都有两个参数和一个return语句"}
+    ],
+    "tests": ["add(2, 3) == 5", "subtract(10, 4) == 6"],
+    "hint": "return将值发回给调用者"
+  }
+]

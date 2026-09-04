@@ -1,0 +1,48 @@
+[
+  {
+    "id": "io-01",
+    "order": 1,
+    "chapter": 3,
+    "title": "用户输入基础",
+    "subtitle": "学习使用input()获取用户输入",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "input()函数基础"},
+      {"type": "text", "text": "Python中使用input()函数从用户获取输入。它会暂停程序，等待用户输入后返回字符串。"},
+      {"type": "code", "runnable": true, "code": "name = input('请输入你的名字: ')\nprint(f'你好, {name}!')", "language": "python"},
+      {"type": "output", "text": "请输入你的名字: Alice\n你好, Alice!"},
+      {"type": "quiz", "question": "input()函数返回的数据类型是什么？", "options": ["整数", "字符串", "浮点数", "布尔值"], "answer": 1, "explain": "input()总是返回字符串类型，即使用户输入数字"},
+      {"type": "practice", "title": "练习：获取年龄", "code": "age_str = input('请输入你的年龄: ')\nage = int(age_str)\nprint(f'明年你 {age + 1} 岁')", "hint": "使用int()将字符串转换为整数", "stdout": "[预期输出：输入25后显示 明年你 26 岁]"},
+      {"type": "tip", "text": "input()的参数是提示文本，会显示给用户"},
+      {"type": "project", "title": "项目：个人资料收集器", "code": "name = input('姓名: ')\nage = int(input('年龄: '))\ncity = input('城市: ')\nprint(f'\\n--- 个人资料 ---')\nprint(f'姓名: {name}')\nprint(f'年龄: {age}')\nprint(f'城市: {city}')", "goal": "创建一个收集用户个人信息并显示的程序", "hint": "使用多个input()分别获取不同信息，注意int()转换"}
+    ],
+    "tests": ["name should be a string", "age + 1 should calculate correctly", "print output should include all three fields"],
+    "hint": "input()总是返回字符串，需要int()转换为数字"
+  },
+  {
+    "id": "io-02",
+    "order": 2,
+    "chapter": 3,
+    "title": "格式化输出",
+    "subtitle": "掌握f-string和格式化输出技巧",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "f-string格式化"},
+      {"type": "text", "text": "f-string是Python最常用的字符串格式化方式，在字符串前加f，用{}嵌入变量或表达式。"},
+      {"type": "code", "runnable": true, "code": "name = 'Bob'\nage = 25\nheight = 1.75\nprint(f'姓名: {name}, 年龄: {age}, 身高: {height}m')", "language": "python"},
+      {"type": "output", "text": "姓名: Bob, 年龄: 25, 身高: 1.75m"},
+      {"type": "quiz", "question": "f-string中嵌入变量使用什么符号？", "options": ["()", "[]", "{}", "<>"], "answer": 2, "explain": "f-string使用花括号{}来嵌入变量或表达式"},
+      {"type": "practice", "title": "练习：计算并格式化", "code": "price = 99.9\nquantity = 3\ntotal = price * quantity\nprint(f'单价: ¥{price}, 数量: {quantity}, 总价: ¥{total:.2f}')", "hint": "使用:.2f可以保留两位小数", "stdout": "[预期输出：单价: ¥99.9, 数量: 3, 总价: ¥299.70]"},
+      {"type": "tip", "text": "f-string中的{expression}会自动计算表达式的值"},
+      {"type": "project", "title": "项目：购物小票", "code": "item1 = '咖啡'\nprice1 = 28.0\nitem2 = '蛋糕'\nprice2 = 35.5\ntotal = price1 + price2\nprint(f'=== 购物小票 ===')\nprint(f'{item1}: ¥{price1}')\nprint(f'{item2}: ¥{price2}')\nprint(f'总计: ¥{total}')", "goal": "创建一个格式化的购物小票显示程序", "hint": "使用f-string格式化价格和商品名称"}
+    ],
+    "tests": ["f-string syntax should be correct", "price calculation should be accurate", "formatted output should match expected"],
+    "hint": "在字符串前加f，用{}嵌入变量"
+  }
+]

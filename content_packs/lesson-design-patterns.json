@@ -1,0 +1,112 @@
+[
+  {
+    "id": "pattern-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "单例与简单工厂",
+    "subtitle": "全局唯一实例与统一创建入口",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "单例模式"
+      },
+      {
+        "type": "text",
+        "text": "单例保证一个类全局只有一个实例,常用 __new__ 配合类属性实现。简单工厂则把对象创建集中到一个函数,调用方无需知道具体类名。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "class Config:\n    _instance = None\n\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n\na = Config()\nb = Config()\nprint(a is b)\n\ndef shape_factory(kind):\n    if kind == 'circle':\n        return lambda r: 3.14 * r * r\n    if kind == 'square':\n        return lambda a: a * a\n    raise ValueError(kind)\n\narea = shape_factory('square')\nprint(area(5))"
+      },
+      {
+        "type": "output",
+        "text": "True\n25"
+      },
+      {
+        "type": "quiz",
+        "question": "单例模式中 a is b 为 True 的关键是?",
+        "options": [
+          "重写了 __eq__",
+          "__new__ 总是返回同一实例",
+          "用了全局变量",
+          "类很小"
+        ],
+        "answer": 1,
+        "explain": "在 __new__ 中首次创建后缓存到类属性,之后都返回缓存实例"
+      },
+      {
+        "type": "tip",
+        "text": "多线程环境的单例需要加锁,模块级对象(模块天然单例)往往更简单"
+      }
+    ],
+    "tests": [],
+    "hint": "记住缓存实例要放在类属性上"
+  },
+  {
+    "id": "pattern-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "策略与观察者",
+    "subtitle": "用回调解耦变化点",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "策略模式与观察者模式"
+      },
+      {
+        "type": "text",
+        "text": "策略:把可替换算法作为参数传入。观察者:维护订阅者列表,状态变化时逐一通知。二者都能用普通函数/回调轻量实现。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "def sort_desc(data):\n    return sorted(data, reverse=True)\n\ndef sort_by_len(data):\n    return sorted(data, key=len)\n\ndef process(data, strategy):\n    return strategy(data)\n\nprint(process([3,1,2], sort_desc))\nprint(process(['bb','a','ccc'], sort_by_len))\n\nclass Event:\n    def __init__(self):\n        self.subs = []\n\n    def subscribe(self, fn):\n        self.subs.append(fn)\n\n    def fire(self, msg):\n        for fn in self.subs:\n            fn(msg)\n\nev = Event()\nev.subscribe(lambda m: print('邮件:', m))\nev.subscribe(lambda m: print('短信:', m))\nev.fire('服务器重启')"
+      },
+      {
+        "type": "output",
+        "text": "[3, 2, 1]\n['a', 'bb', 'ccc']\n邮件: 服务器重启\n短信: 服务器重启"
+      },
+      {
+        "type": "practice",
+        "title": "练习:折扣策略",
+        "code": "def vip(price):\n    return price * 0.8\n\ndef normal(price):\n    return price\n\ndef checkout(price, policy):\n    return policy(price)\n\nprint(checkout(100, vip))\nprint(checkout(100, normal))",
+        "hint": "策略就是可传入的函数",
+        "stdout": "80.0\\n100"
+      },
+      {
+        "type": "quiz",
+        "question": "观察者模式中 fire 时发生了什么?",
+        "options": [
+          "删除所有订阅者",
+          "遍历订阅者并逐个调用",
+          "只通知第一个订阅者",
+          "重新订阅"
+        ],
+        "answer": 1,
+        "explain": "fire 遍历订阅者列表,依次以消息为参数调用"
+      },
+      {
+        "type": "project",
+        "title": "项目:温度报警器",
+        "code": "class Alarm:\n    def __init__(self):\n        self.listeners = []\n\n    def on(self, fn):\n        self.listeners.append(fn)\n\n    def check(self, temp):\n        if temp > 30:\n            for fn in self.listeners:\n                fn(temp)\n\na = Alarm()\na.on(lambda t: print(f'高温{t}°C!'))\na.check(35)",
+        "goal": "温度超阈值时通知所有监听者",
+        "hint": "监听者签名统一收 temp 参数"
+      },
+      {
+        "type": "tip",
+        "text": "策略传函数即可,不必为每个策略建类;Python 里模式常常很轻"
+      }
+    ],
+    "tests": [],
+    "hint": "先识别『会变化的部分』再选模式"
+  }
+]

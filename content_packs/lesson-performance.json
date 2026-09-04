@@ -1,0 +1,112 @@
+[
+  {
+    "id": "perf-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "推导式与生成器",
+    "subtitle": "省内存的惰性求值",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "生成器按需产出"
+      },
+      {
+        "type": "text",
+        "text": "列表推导一次性构建全部元素;生成器表达式用 () 包裹,只在迭代时逐个产出,处理海量数据时内存占用是天壤之别。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import sys\n\nlst = [x * x for x in range(10000)]\ngen = (x * x for x in range(10000))\n\nprint(lst[3], next(gen))\nprint('list bytes:', sys.getsizeof(lst))\nprint('gen  bytes:', sys.getsizeof(gen))"
+      },
+      {
+        "type": "output",
+        "text": "9 0\nlist bytes: 87536\ngen  bytes: 112"
+      },
+      {
+        "type": "quiz",
+        "question": "处理 10GB 日志文件逐行统计,应优先使用?",
+        "options": [
+          "列表推导收集所有行",
+          "生成器逐行处理",
+          "先 split 成大列表",
+          "递归读取"
+        ],
+        "answer": 1,
+        "explain": "生成器惰性求值,任意时刻只持有一行,内存占用恒定"
+      },
+      {
+        "type": "tip",
+        "text": "sum(x*x for x in data) 比先建列表再求和更快更省内存"
+      }
+    ],
+    "tests": [],
+    "hint": "把 [] 换成 () 就成了生成器"
+  },
+  {
+    "id": "perf-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "选对数据结构",
+    "subtitle": "deque、集合与复杂度",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "复杂度决定性能"
+      },
+      {
+        "type": "text",
+        "text": "list.pop(0) 要整体前移 O(n),collections.deque.popleft() 是 O(1);in 判断对 list 是 O(n),对 set 是 O(1)。数据量大时差距是数量级的。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from collections import deque\n\nd = deque([1, 2, 3])\nd.append(4)\nd.popleft()\nprint(list(d))\n\ndata = list(range(100000))\nnums = set(data)\nprint(99999 in nums, 99999 in data)"
+      },
+      {
+        "type": "output",
+        "text": "[2, 3, 4]\nTrue True"
+      },
+      {
+        "type": "practice",
+        "title": "练习:timeit 计时",
+        "code": "import timeit\n\nt1 = timeit.timeit('sum([i for i in range(100)])', number=1000)\nt2 = timeit.timeit('sum(range(100))', number=1000)\nprint(t2 < t1)",
+        "hint": "内置 sum(range()) 少建一个列表",
+        "stdout": "True"
+      },
+      {
+        "type": "quiz",
+        "question": "需要频繁在头部插入/删除,应选择?",
+        "options": [
+          "list.insert(0, x)",
+          "collections.deque",
+          "tuple",
+          "str"
+        ],
+        "answer": 1,
+        "explain": "deque 是双向链表实现,两端操作 O(1);list 头部操作要整体搬移"
+      },
+      {
+        "type": "project",
+        "title": "项目:词频统计",
+        "code": "from collections import Counter\n\ntext = 'python fast python simple fast fast'\nwords = Counter(text.split())\nprint(words.most_common(2))",
+        "goal": "用 Counter 一行完成词频统计",
+        "hint": "most_common(n) 直接给前 n 名"
+      },
+      {
+        "type": "tip",
+        "text": "先测量后优化:timeit/cProfile 找到热点,别凭感觉改代码"
+      }
+    ],
+    "tests": [],
+    "hint": "set/dict 的 in 是 O(1)"
+  }
+]

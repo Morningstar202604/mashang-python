@@ -1,0 +1,48 @@
+[
+  {
+    "id": "loop-01",
+    "order": 1,
+    "chapter": 4,
+    "title": "for循环基础",
+    "subtitle": "学习使用for循环遍历序列",
+    "version": 1,
+    "difficulty": "beginner+",
+    "xp": 120,
+    
+    "blocks": [
+      {"type": "heading", "text": "for循环入门"},
+      {"type": "text", "text": "for循环用于遍历序列（如列表、字符串、范围）。每次循环，变量依次取序列中的下一个值。"},
+      {"type": "code", "runnable": true, "code": "for i in range(5):\n    print(i)", "language": "python"},
+      {"type": "output", "text": "0\n1\n2\n3\n4"},
+      {"type": "quiz", "question": "range(5)会生成哪些数字？", "options": ["1-5", "0-4", "0-5", "1-4"], "answer": 1, "explain": "range(5)生成0到4的整数，共5个数字"},
+      {"type": "practice", "title": "练习：打印偶数", "code": "for i in range(0, 10, 2):\n    print(i)", "hint": "range(0, 10, 2)从0开始，步长为2", "stdout": "0\n2\n4\n6\n8"},
+      {"type": "tip", "text": "range(start, stop, step)可以设置起始、结束和步长"},
+      {"type": "project", "title": "项目：乘法表", "code": "for i in range(1, 10):\n    for j in range(1, 10):\n        print(f'{i}×{j}={i*j:2d}', end=' ')\n    print()  # 换行", "goal": "使用嵌套for循环打印9x9乘法表", "hint": "外层循环控制行，内层循环控制列，end=' '防止换行"}
+    ],
+    "tests": ["for loop should iterate correct number of times", "multiplication table should be 9x9"],
+    "hint": "for i in range(n) 循环n次，i从0开始"
+  },
+  {
+    "id": "loop-02",
+    "order": 2,
+    "chapter": 4,
+    "title": "if条件判断",
+    "subtitle": "学习使用if/elif/else进行条件判断",
+    "version": 1,
+    "difficulty": "beginner+",
+    "xp": 120,
+    
+    "blocks": [
+      {"type": "heading", "text": "条件判断基础"},
+      {"type": "text", "text": "if语句根据条件决定执行哪段代码。条件为True执行if块，否则执行else块。"},
+      {"type": "code", "runnable": true, "code": "score = 85\nif score >= 90:\n    print('优秀')\nelif score >= 80:\n    print('良好')\nelif score >= 60:\n    print('及格')\nelse:\n    print('不及格')", "language": "python"},
+      {"type": "output", "text": "良好"},
+      {"type": "quiz", "question": "score=85时输出什么？", "options": ["优秀", "良好", "及格", "不及格"], "answer": 1, "explain": "85>=80且<90，所以输出良好"},
+      {"type": "practice", "title": "练习：成绩等级", "code": "grade = 'B'\nif grade == 'A':\n    print('90-100分')\nelif grade == 'B':\n    print('80-89分')\nelse:\n    print('其他')", "hint": "使用==比较字符串", "stdout": "80-89分"},
+      {"type": "tip", "text": "elif可以有多个，else是可选的"},
+      {"type": "project", "title": "项目：简单计算器", "code": "num1 = 10\nnum2 = 5\nop = '+'\nif op == '+':\n    result = num1 + num2\nelif op == '-':\n    result = num1 - num2\nelse:\n    result = '不支持的运算'\nprint(f'{num1} {op} {num2} = {result}')", "goal": "根据运算符执行不同的计算", "hint": "使用if/elif/else判断运算符类型"}
+    ],
+    "tests": ["condition evaluation should be correct", "output should match grade level"],
+    "hint": "if condition: 后面要缩进，elif可以有多个"
+  }
+]

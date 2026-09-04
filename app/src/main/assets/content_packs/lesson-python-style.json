@@ -1,0 +1,112 @@
+[
+  {
+    "id": "style-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "PEP 8 基础",
+    "subtitle": "命名、缩进与导入",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "PEP 8 常用规则"
+      },
+      {
+        "type": "text",
+        "text": "模块/函数/变量用 snake_case,类用 PascalCase,常量用 UPPER_CASE;缩进统一 4 空格;导入按 标准库→第三方→本地 分组,每组之间空一行。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import os\nimport sys\n\nMAX_RETRY = 3\n\nclass HttpClient:\n    def get_body(self, url):\n        return f'GET {url}'\n\ndef send_request(client, url):\n    return client.get_body(url)\n\nprint(send_request(HttpClient(), '/index'))\nprint(os.name, sys.platform != '')"
+      },
+      {
+        "type": "output",
+        "text": "GET /index\nTrue True"
+      },
+      {
+        "type": "quiz",
+        "question": "Python 社区推荐的函数命名风格是?",
+        "options": [
+          "camelCase",
+          "PascalCase",
+          "snake_case",
+          "kebab-case"
+        ],
+        "answer": 2,
+        "explain": "函数与变量用 snake_case(小写+下划线),类才用 PascalCase"
+      },
+      {
+        "type": "tip",
+        "text": "团队项目直接上 black/isort 自动格式化,少争论多干活"
+      }
+    ],
+    "tests": [],
+    "hint": "4 空格缩进,别用 Tab 混用"
+  },
+  {
+    "id": "style-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "Pythonic 写法",
+    "subtitle": "像 Python 程序员一样思考",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "惯用法让代码更短更清晰"
+      },
+      {
+        "type": "text",
+        "text": "用 enumerate 代替手动下标、zip 并行遍历、直接以对象真值做条件、f-string 格式化,是最高频的几个 Pythonic 改造点。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "names = ['Alice', 'Bob']\nscores = [92, 87]\n\nfor i, (n, s) in enumerate(zip(names, scores), start=1):\n    print(f'{i}. {n}: {s}')\n\nitems = []\nif not items:\n    print('空列表直接判假')"
+      },
+      {
+        "type": "output",
+        "text": "1. Alice: 92\n2. Bob: 87\n空列表直接判假"
+      },
+      {
+        "type": "practice",
+        "title": "练习:重构下标循环",
+        "code": "old = ['a', 'b', 'c']\nfor i in range(len(old)):\n    print(i, old[i])\n\nfor i, ch in enumerate(old):\n    print(i, ch)",
+        "hint": "enumerate 一次拿到下标和值",
+        "stdout": "两种输出一致,后者更清晰"
+      },
+      {
+        "type": "quiz",
+        "question": "下面哪句最 Pythonic?",
+        "options": [
+          "if len(lst) == 0:",
+          "if lst == []:",
+          "if not lst:",
+          "if lst.count() == 0:"
+        ],
+        "answer": 2,
+        "explain": "空容器为假值,直接 if not lst 更简洁且适用于任意容器"
+      },
+      {
+        "type": "project",
+        "title": "项目:成绩单美化",
+        "code": "students = [('Alice', 92), ('Bob', 87)]\nfor name, score in students:\n    grade = '优秀' if score >= 90 else '良好'\n    print(f'{name:<8}{score:>4}{grade}')",
+        "goal": "用解构、条件表达式与 f-string 对齐输出",
+        "hint": "{:>4} 让分数右对齐"
+      },
+      {
+        "type": "tip",
+        "text": "列表推导优先于 map/filter+lambda,可读性更好"
+      }
+    ],
+    "tests": [],
+    "hint": "先写对,再写漂亮;有测试再重构"
+  }
+]

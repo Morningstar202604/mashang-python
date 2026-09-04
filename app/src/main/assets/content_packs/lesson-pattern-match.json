@@ -1,0 +1,112 @@
+[
+  {
+    "id": "match-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "match-case 基础",
+    "subtitle": "结构化分支比 if-elif 更清晰",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "match 语句(Python 3.10+)"
+      },
+      {
+        "type": "text",
+        "text": "match-case 依次尝试各模式,命中即执行对应分支;_ 是必匹配的通配分支,等价于 default。字面量、多个取值(用 |)都能做模式。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "def http_label(status):\n    match status:\n        case 200 | 201:\n            return '成功'\n        case 404:\n            return '未找到'\n        case 500:\n            return '服务器错误'\n        case _:\n            return '其他'\n\nprint(http_label(201))\nprint(http_label(404))\nprint(http_label(302))"
+      },
+      {
+        "type": "output",
+        "text": "成功\n未找到\n其他"
+      },
+      {
+        "type": "quiz",
+        "question": "match 中充当『其他所有情况』的写法是?",
+        "options": [
+          "case else:",
+          "case default:",
+          "case _:",
+          "case *:"
+        ],
+        "answer": 2,
+        "explain": "下划线 _ 模式永远匹配成功,惯例放在最后一个分支"
+      },
+      {
+        "type": "tip",
+        "text": "裸变量名是『捕获模式』会绑定值;想匹配常量请写点路径如 Color.RED 或加字面量"
+      }
+    ],
+    "tests": [],
+    "hint": "记得放一个 case _ 兜底"
+  },
+  {
+    "id": "match-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "解构与守卫",
+    "subtitle": "序列/字典解构与 if 条件",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "解构模式与守卫"
+      },
+      {
+        "type": "text",
+        "text": "模式可以直接解构序列和字典:(x, y) 捕获两项、{'op': op} 要求键存在并可绑定值;模式后可加 if 守卫做进一步过滤。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "def handle(cmd):\n    match cmd.split():\n        case ['go', direction]:\n            return f'向 {direction} 走'\n        case ['drop', *items]:\n            return f'丢弃 {len(items)} 件物品'\n        case ['say', msg] if msg != '':\n            return f'说: {msg}'\n        case _:\n            return '未知命令'\n\nprint(handle('go north'))\nprint(handle('drop sword ring'))\nprint(handle('say hi'))"
+      },
+      {
+        "type": "output",
+        "text": "向 north 走\n丢弃 2 件物品\n说: hi"
+      },
+      {
+        "type": "practice",
+        "title": "练习:解析坐标点",
+        "code": "def where(point):\n    match point:\n        case (0, 0):\n            return '原点'\n        case (0, y):\n            return f'Y轴, y={y}'\n        case (x, 0):\n            return f'X轴, x={x}'\n        case (x, y):\n            return f'({x}, {y})'\n\nprint(where((0, 5)))\nprint(where((3, 4)))",
+        "hint": "注意分支顺序,越具体的越靠前",
+        "stdout": "Y轴, y=5\\n(3, 4)"
+      },
+      {
+        "type": "quiz",
+        "question": "case ['drop', *items] 中 *items 的作用是?",
+        "options": [
+          "只能匹配一个元素",
+          "捕获剩余所有元素为列表",
+          "要求元素是数字",
+          "忽略所有元素"
+        ],
+        "answer": 1,
+        "explain": "星号模式把剩余序列元素收集进 items 列表,类似函数可变参数"
+      },
+      {
+        "type": "project",
+        "title": "项目:计算器命令",
+        "code": "def calc(expr):\n    match expr.split():\n        case [a, '+', b]:\n            return int(a) + int(b)\n        case [a, '-', b]:\n            return int(a) - int(b)\n        case [a, '*', b]:\n            return int(a) * int(b)\n        case _:\n            return None\n\nprint(calc('3 + 4'))\nprint(calc('9 * 9'))",
+        "goal": "用序列解构实现四则运算解析",
+        "hint": "可以先转 int 再运算,或守卫校验数字"
+      },
+      {
+        "type": "tip",
+        "text": "类模式 Point(x=0, y=0) 还能按属性解构自定义类"
+      }
+    ],
+    "tests": [],
+    "hint": "守卫 if 写在模式之后、冒号之前"
+  }
+]

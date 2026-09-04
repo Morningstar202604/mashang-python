@@ -1,0 +1,112 @@
+[
+  {
+    "id": "web-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "HTTP 与 Flask 入门",
+    "subtitle": "路由、请求与响应",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "五行的 Web 服务"
+      },
+      {
+        "type": "text",
+        "text": "Web 框架把 HTTP 请求映射到函数:装饰器声明路径(methods 限定 GET/POST),返回值就是响应体。Flask 最小应用只需 app = Flask() + 路由。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "# pip install flask 后运行本文件,浏览器访问 /\nfrom flask import Flask\n\napp = Flask(__name__)\n\n@app.route('/', methods=['GET'])\ndef index():\n    return 'Hello, Flask'\n\n@app.route('/user/<name>')\ndef user(name):\n    return f'用户: {name}'\n\nif __name__ == '__main__':\n    # app.run(debug=True)  ← 本地演示用\n    with app.test_client() as c:\n        print(c.get('/').data.decode())\n        print(c.get('/user/Alice').data.decode())"
+      },
+      {
+        "type": "output",
+        "text": "Hello, Flask\n用户: Alice"
+      },
+      {
+        "type": "quiz",
+        "question": "@app.route('/user/<name>') 中 <name> 的作用是?",
+        "options": [
+          "HTML 转义",
+          "URL 路径参数传入函数",
+          "定义 POST",
+          "声明静态文件"
+        ],
+        "answer": 1,
+        "explain": "尖括号是路由变量,匹配到的路径段作为参数传给视图函数"
+      },
+      {
+        "type": "tip",
+        "text": "生产环境别用 flask 内置服务器,用 gunicorn/uvicorn 托管"
+      }
+    ],
+    "tests": [],
+    "hint": "路由路径可以带 <参数>"
+  },
+  {
+    "id": "web-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "JSON API 实战",
+    "subtitle": "返回结构化数据与状态码",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "用 Flask 提供 JSON 接口"
+      },
+      {
+        "type": "text",
+        "text": " jsonify 把字典转成 JSON 响应;request.get_json() 解析请求体;元组 (body, status) 自定义状态码,REST 风格用 201 表示创建成功。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from flask import Flask, jsonify, request\n\napp = Flask(__name__)\ntodos = []\n\n@app.post('/todos')\ndef create():\n    data = request.get_json()\n    todos.append(data['title'])\n    return jsonify({'title': data['title']}), 201\n\n@app.get('/todos')\ndef listing():\n    return jsonify(todos)\n\nwith app.test_client() as c:\n    print(c.post('/todos', json={'title': '学Flask'}).status_code)\n    print(c.get('/todos').data.decode())"
+      },
+      {
+        "type": "output",
+        "text": "201\n[\"学Flask\"]"
+      },
+      {
+        "type": "practice",
+        "title": "练习:查询参数",
+        "code": "from flask import Flask, request\n\napp = Flask(__name__)\n\n@app.get('/search')\ndef search():\n    kw = request.args.get('kw', '')\n    return f'searching {kw}'\n\nwith app.test_client() as c:\n    print(c.get('/search?kw=python').data.decode())",
+        "hint": "request.args 取 URL 查询参数",
+        "stdout": "searching python"
+      },
+      {
+        "type": "quiz",
+        "question": "POST 创建资源成功,惯例返回的状态码是?",
+        "options": [
+          "200",
+          "201",
+          "204",
+          "404"
+        ],
+        "answer": 1,
+        "explain": "201 Created 表示新资源已创建;200 是通用成功"
+      },
+      {
+        "type": "project",
+        "title": "项目:待办 API",
+        "code": "# 在上一页代码基础上扩展:\n# @app.delete('/todos/<int:index>')\n# def remove(index):\n#     todos.pop(index)\n#     return '', 204\nprint('GET/POST/DELETE 组成迷你 REST API')",
+        "goal": "补全删除接口,形成完整 CRUD",
+        "hint": "204 No Content 无响应体"
+      },
+      {
+        "type": "tip",
+        "text": "调试 API 用 curl 或 httpie:curl -X POST -H 'Content-Type: application/json' -d '{...}'"
+      }
+    ],
+    "tests": [],
+    "hint": "request.args 是 GET 参数,json 体用 get_json"
+  }
+]

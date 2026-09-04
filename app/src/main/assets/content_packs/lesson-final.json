@@ -1,0 +1,48 @@
+[
+  {
+    "id": "context-01",
+    "order": 1,
+    "chapter": 16,
+    "title": "上下文管理器",
+    "subtitle": "学习使用with语句和contextmanager",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 450,
+    
+    "blocks": [
+      {"type": "heading", "text": "上下文管理器基础"},
+      {"type": "text", "text": "上下文管理器使用with语句管理资源的获取和释放，如文件、网络连接等。"},
+      {"type": "code", "runnable": true, "code": "class Timer:\n    def __enter__(self):\n        import time\n        self.start = time.time()\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        import time\n        self.end = time.time()\n        print(f'耗时: {self.end - self.start:.4f}秒')\n        return False\n\nwith Timer():\n    total = sum(range(1000000))\n    print(f'计算结果: {total}')", "language": "python"},
+      {"type": "output", "text": "计算结果: 499999500000\n耗时: 0.0312秒"},
+      {"type": "quiz", "question": "__enter__和__exit__的作用是什么？", "options": ["定义函数", "管理资源获取和释放", "创建对象", "导入模块"], "answer": 1, "explain": "__enter__在with开始时调用，__exit__在with结束时调用"},
+      {"type": "practice", "title": "练习：文件上下文管理器", "code": "class FileManager:\n    def __init__(self, filename, mode):\n        self.filename = filename\n        self.mode = mode\n        self.file = None\n    \n    def __enter__(self):\n        self.file = open(self.filename, self.mode)\n        return self.file\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if self.file:\n            self.file.close()\n        return False\n\nwith FileManager('test.txt', 'w') as f:\n    f.write('Hello, Context Manager!')", "hint": "实现__enter__和__exit__方法", "stdout": "文件已写入"},
+      {"type": "tip", "text": "使用contextlib库可以更简单地创建上下文管理器"},
+      {"type": "project", "title": "项目：数据库连接管理器", "code": "import sqlite3\n\nclass DatabaseConnection:\n    def __init__(self, db_name):\n        self.db_name = db_name\n        self.conn = None\n    \n    def __enter__(self):\n        self.conn = sqlite3.connect(self.db_name)\n        return self.conn\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if self.conn:\n            if exc_type is None:\n                self.conn.commit()\n            else:\n                self.conn.rollback()\n            self.conn.close()\n        return False\n\nwith DatabaseConnection('app.db') as conn:\n    conn.execute('CREATE TABLE IF NOT EXISTS test (id INTEGER)')\n    conn.execute('INSERT INTO test VALUES (1)')", "goal": "创建数据库连接上下文管理器，自动处理提交和回滚", "hint": "__exit__中根据是否有异常决定提交还是回滚"}
+    ],
+    "tests": ["Timer should measure execution time", "FileManager should open and close file", "DatabaseConnection should commit or rollback"],
+    "hint": "class 类名: def __enter__(self): ... def __exit__(self, ...): ..."
+  },
+  {
+    "id": "comprehensive-01",
+    "order": 1,
+    "chapter": 17,
+    "title": "综合项目实战",
+    "subtitle": "综合运用所有知识完成完整项目",
+    "version": 1,
+    "difficulty": "expert",
+    "xp": 600,
+    
+    "blocks": [
+      {"type": "heading", "text": "项目：个人学习追踪系统"},
+      {"type": "text", "text": "综合运用变量、函数、类、文件操作、数据库、错误处理等知识，创建一个完整的学习追踪系统。"},
+      {"type": "code", "runnable": true, "code": "import json\nimport sqlite3\nfrom datetime import datetime\n\nclass LearningTracker:\n    def __init__(self, username):\n        self.username = username\n        self.db_name = f'{username}_learning.db'\n        self.init_db()\n    \n    def init_db(self):\n        with sqlite3.connect(self.db_name) as conn:\n            conn.execute('''\n                CREATE TABLE IF NOT EXISTS lessons (\n                    id INTEGER PRIMARY KEY,\n                    name TEXT,\n                    completed BOOLEAN,\n                    score INTEGER,\n                    date TEXT\n                )\n            ''')\n    \n    def complete_lesson(self, name, score):\n        with sqlite3.connect(self.db_name) as conn:\n            conn.execute(\n                'INSERT INTO lessons (name, completed, score, date) VALUES (?, ?, ?, ?)',\n                (name, True, score, datetime.now().strftime('%Y-%m-%d'))\n            )\n    \n    def get_stats(self):\n        with sqlite3.connect(self.db_name) as conn:\n            cursor = conn.execute('SELECT COUNT(*), AVG(score) FROM lessons WHERE completed=True')\n            count, avg_score = cursor.fetchone()\n            return {'completed': count, 'avg_score': avg_score or 0}\n\ntracker = LearningTracker('student1')\ntracker.complete_lesson('Python基础', 95)\ntracker.complete_lesson('文件操作', 88)\nprint(tracker.get_stats())", "language": "python"},
+      {"type": "output", "text": "{'completed': 2, 'avg_score': 91.5}"},
+      {"type": "quiz", "question": "这个项目用到了哪些知识点？", "options": ["仅变量和函数", "类、文件操作、数据库、错误处理", "仅数据库", "仅类"], "answer": 1, "explain": "综合运用了类、sqlite3数据库、with上下文管理器、datetime模块等"},
+      {"type": "practice", "title": "练习：添加更多功能", "code": "def export_to_json(self):\n    with sqlite3.connect(self.db_name) as conn:\n        cursor = conn.execute('SELECT * FROM lessons')\n        lessons = [{'id': r[0], 'name': r[1], 'score': r[3]} for r in cursor.fetchall()]\n    \n    filename = f'{self.username}_report.json'\n    with open(filename, 'w', encoding='utf-8') as f:\n        json.dump(lessons, f, ensure_ascii=False, indent=2)\n    print(f'报告已导出到{filename}')", "hint": "将数据库数据导出为JSON文件", "stdout": "报告已导出到student1_report.json"},
+      {"type": "tip", "text": "可以扩展功能：添加删除、修改、统计图表等"},
+      {"type": "project", "title": "项目扩展：完整学习系统", "code": "class FullLearningSystem(LearningTracker):\n    def __init__(self, username):\n        super().__init__(username)\n        self.streak = 0\n        self.last_study_date = None\n    \n    def daily_checkin(self):\n        today = datetime.now().strftime('%Y-%m-%d')\n        if self.last_study_date == today:\n            print('今天已签到')\n            return\n        \n        if self.last_study_date:\n            last = datetime.strptime(self.last_study_date, '%Y-%m-%d')\n            today_dt = datetime.strptime(today, '%Y-%m-%d')\n            if (today_dt - last).days == 1:\n                self.streak += 1\n            else:\n                self.streak = 1\n        else:\n            self.streak = 1\n        \n        self.last_study_date = today\n        print(f'签到成功！连续{self.streak}天')\n    \n    def get_level(self):\n        stats = self.get_stats()\n        if stats['completed'] >= 10:\n            return '大师'\n        elif stats['completed'] >= 5:\n            return '进阶'\n        else:\n            return '初学者'\n\nsystem = FullLearningSystem('pro_student')\nsystem.daily_checkin()\nsystem.complete_lesson('高级主题', 92)\nprint(f'等级: {system.get_level()}')", "goal": "创建完整的学习系统，包含每日签到、等级、统计等功能", "hint": "继承现有类，添加新功能"}
+    ],
+    "tests": ["LearningTracker should save lessons", "get_stats should calculate correctly", "daily_checkin should track streak"],
+    "hint": "综合运用类、数据库、文件操作、错误处理等所有知识"
+  }
+]

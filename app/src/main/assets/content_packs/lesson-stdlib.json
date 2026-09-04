@@ -1,0 +1,54 @@
+[
+  {
+    "id": "std-01",
+    "order": 1,
+    "chapter": 9,
+    "title": "os与sys模块",
+    "subtitle": "学习操作系统和系统相关功能",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "os模块"},
+      {"type": "text", "text": "os模块提供了与操作系统交互的功能，如文件操作、目录管理等。"},
+      {"type": "code", "runnable": true, "code": "import os\n\n# 获取当前工作目录\nprint(f'当前目录: {os.getcwd()}')\n\n# 列出目录内容\nfiles = os.listdir('.')\nprint(f'文件: {files[:5]}')\n\n# 创建目录\nos.makedirs('test_dir', exist_ok=True)\nprint('目录创建成功')\n\n# 检查路径\nprint(f'是否存在: {os.path.exists(\"test_dir\")}')\nprint(f'是否是目录: {os.path.isdir(\"test_dir\")}')\n\n# 路径操作\npath = '/home/user/file.txt'\nprint(f'文件名: {os.path.basename(path)}')\nprint(f'目录名: {os.path.dirname(path)}')", "language": "python"},
+      {"type": "output", "text": "当前目录: /home/user/project\n文件: ['main.py', 'utils.py', 'test_dir']\n目录创建成功\n是否存在: True\n是否是目录: True\n文件名: file.txt\n目录名: /home/user"},
+      {"type": "heading", "text": "sys模块"},
+      {"type": "code", "runnable": true, "code": "import sys\n\n# Python版本\nprint(f'Python版本: {sys.version}')\n\n# 命令行参数\nprint(f'参数: {sys.argv}')\n\n# 退出程序\n# sys.exit(0)  # 正常退出\n\n# 模块搜索路径\nprint(f'模块路径: {sys.path[:3]}')", "language": "python"},
+      {"type": "output", "text": "Python版本: 3.13.0 (main, Oct 15 2024)\n参数: ['script.py']\n模块路径: ['', '/usr/lib/python3.13', '/usr/lib/python3.13/lib-dynload']"},
+      {"type": "quiz", "question": "os.getcwd()返回什么？", "options": ["当前文件路径", "当前工作目录", "Python安装路径", "用户主目录"], "answer": 1, "explain": "getcwd()返回当前工作目录的路径"},
+      {"type": "practice", "title": "练习：遍历目录", "code": "import os\n\n# 列出当前目录的所有.py文件\npy_files = [f for f in os.listdir('.') if f.endswith('.py')]\nprint(f'Python文件: {py_files}')\n\n# 获取文件大小\nfor f in py_files[:3]:\n    size = os.path.getsize(f)\n    print(f'{f}: {size} bytes')", "hint": "使用endswith()过滤文件扩展名", "stdout": "Python文件: ['main.py', 'utils.py']\nmain.py: 1024 bytes\nutils.py: 512 bytes"},
+      {"type": "tip", "text": "os模块是跨平台的，可以在Windows/Mac/Linux使用"},
+      {"type": "project", "title": "项目：文件整理工具", "code": "import os\nimport shutil\n\ndef organize_files(directory):\n    # 定义文件类型映射\n    types = {\n        'Images': ['.jpg', '.jpeg', '.png', '.gif'],\n        'Documents': ['.pdf', '.doc', '.txt'],\n        'Code': ['.py', '.js', '.html'],\n    }\n    \n    for filename in os.listdir(directory):\n        filepath = os.path.join(directory, filename)\n        if os.path.isfile(filepath):\n            ext = os.path.splitext(filename)[1].lower()\n            for folder, extensions in types.items():\n                if ext in extensions:\n                    os.makedirs(os.path.join(directory, folder), exist_ok=True)\n                    shutil.move(filepath, os.path.join(directory, folder, filename))\n                    print(f'移动 {filename} -> {folder}/')\n                    break\n\n# organize_files('/path/to/downloads')", "goal": "根据文件类型自动整理文件", "hint": "使用os和shutil模块操作文件"}
+    ],
+    "tests": ["os module functions work", "sys module provides system info"],
+    "hint": "os处理文件系统，sys处理Python运行环境"
+  },
+  {
+    "id": "std-02",
+    "order": 2,
+    "chapter": 9,
+    "title": "json与datetime模块",
+    "subtitle": "学习JSON处理和日期时间操作",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "json模块"},
+      {"type": "text", "text": "json模块用于处理JSON格式数据，常用于网络API和配置文件。"},
+      {"type": "code", "runnable": true, "code": "import json\n\n# Python对象转JSON\nuser = {\n    'name': 'Alice',\n    'age': 25,\n    'hobbies': ['reading', 'coding']\n}\n\njson_str = json.dumps(user, indent=2)\nprint(f'JSON字符串:\\n{json_str}')\n\n# JSON转Python对象\ndata = json.loads(json_str)\nprint(f'\\n解析后: {data[\"name\"]}')", "language": "python"},
+      {"type": "output", "text": "JSON字符串:\n{\n  \"name\": \"Alice\",\n  \"age\": 25,\n  \"hobbies\": [\"reading\", \"coding\"]\n}\n\n解析后: Alice"},
+      {"type": "heading", "text": "datetime模块"},
+      {"type": "code", "runnable": true, "code": "from datetime import datetime, timedelta\n\n# 获取当前时间\nnow = datetime.now()\nprint(f'当前时间: {now}')\nprint(f'年: {now.year}, 月: {now.month}, 日: {now.day}')\n\n# 格式化时间\nformatted = now.strftime('%Y-%m-%d %H:%M:%S')\nprint(f'格式化: {formatted}')\n\n# 解析时间字符串\nparsed = datetime.strptime('2024-01-15', '%Y-%m-%d')\nprint(f'解析: {parsed}')\n\n# 时间计算\nfuture = now + timedelta(days=7)\nprint(f'一周后: {future.strftime(\"%Y-%m-%d\")}')", "language": "python"},
+      {"type": "output", "text": "当前时间: 2024-01-15 10:30:00.123456\n年: 2024, 月: 1, 日: 15\n格式化: 2024-01-15 10:30:00\n解析: 2024-01-15 00:00:00\n一周后: 2024-01-22"},
+      {"type": "quiz", "question": "json.dumps()的作用是什么？", "options": ["读取JSON文件", "Python对象转JSON字符串", "解析JSON字符串", "写入JSON文件"], "answer": 1, "explain": "dumps()将Python对象转换为JSON格式字符串"},
+      {"type": "practice", "title": "练习：读写JSON文件", "code": "import json\n\n# 写入JSON文件\ndata = {'users': [{'name': 'Alice'}, {'name': 'Bob'}]}\nwith open('data.json', 'w', encoding='utf-8') as f:\n    json.dump(data, f, indent=2, ensure_ascii=False)\nprint('JSON文件写入成功')\n\n# 读取JSON文件\nwith open('data.json', 'r', encoding='utf-8') as f:\n    loaded = json.load(f)\nprint(f'读取的用户: {loaded[\"users\"][0][\"name\"]}')", "hint": "dump()写入文件，load()从文件读取", "stdout": "JSON文件写入成功\n读取的用户: Alice"},
+      {"type": "tip", "text": "处理中文JSON时使用ensure_ascii=False"},
+      {"type": "project", "title": "项目：配置文件管理器", "code": "import json\nimport os\n\ndef load_config(config_file='config.json'):\n    default_config = {\n        'debug': False,\n        'port': 8080,\n        'host': 'localhost'\n    }\n    \n    if os.path.exists(config_file):\n        with open(config_file, 'r') as f:\n            return json.load(f)\n    else:\n        save_config(default_config, config_file)\n        return default_config\n\ndef save_config(config, config_file='config.json'):\n    with open(config_file, 'w') as f:\n        json.dump(config, f, indent=2)\n    print(f'配置已保存到 {config_file}')\n\nconfig = load_config()\nprint(f'当前配置: {config}')", "goal": "实现配置文件的加载和保存", "hint": "使用json处理配置，os.path.exists检查文件"}
+    ],
+    "tests": ["json parsing works", "datetime operations work"],
+    "hint": "json处理JSON数据，datetime处理日期时间"
+  }
+]

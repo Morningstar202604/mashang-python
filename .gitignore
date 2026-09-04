@@ -1,32 +1,21 @@
 *.iml
-.gradle/
-.idea/
-.kotlin/
-build/
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
 local.properties
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk.idsig
-keystore.properties
-*.jks
-*.keystore
-.opencode/
 
-# 工作区产物（审计报告 / 构建日志 / 记忆笔记，不入库）
-.workbuddy/
-
-__pycache__/
-*.pyc
-
-# Room 导出的数据库 schema（由 exportSchema=true 生成，用于手写迁移时 diff）
-app/schemas/
-
-# 运行/调试日志与临时笔记（不入库）
-*.log
-boot.log
-diary.txt
-neon_log.txt
-note.txt
-opencode.json
-
+# 工具/审计产物
+/.mimosa/
+/.v2c/
+/out/
+/progress_tracker.json

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "db-01",
+    "order": 1,
+    "chapter": 15,
+    "title": "SQLite数据库基础",
+    "subtitle": "学习使用sqlite3操作数据库",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 450,
+    
+    "blocks": [
+      {"type": "heading", "text": "SQLite入门"},
+      {"type": "text", "text": "SQLite是Python内置的轻量级数据库，无需安装即可使用。使用sqlite3模块操作。"},
+      {"type": "code", "runnable": true, "code": "import sqlite3\n\n# 连接数据库（不存在则创建）\nconn = sqlite3.connect('mydb.db')\ncursor = conn.cursor()\n\n# 创建表\ncursor.execute('''\n    CREATE TABLE IF NOT EXISTS users (\n        id INTEGER PRIMARY KEY,\n        name TEXT NOT NULL,\n        age INTEGER\n    )\n''')\n\n# 插入数据\ncursor.execute('INSERT INTO users (name, age) VALUES (?, ?)', ('Alice', 25))\nconn.commit()\n\n# 查询数据\ncursor.execute('SELECT * FROM users')\nfor row in cursor.fetchall():\n    print(row)\n\nconn.close()", "language": "python"},
+      {"type": "output", "text": "(1, 'Alice', 25)"},
+      {"type": "quiz", "question": "commit()的作用是什么？", "options": ["关闭连接", "提交事务", "查询数据", "创建表"], "answer": 1, "explain": "commit()提交事务，保存对数据库的更改"},
+      {"type": "practice", "title": "练习：CRUD操作", "code": "import sqlite3\n\nconn = sqlite3.connect('test.db')\nc = conn.cursor()\n\nc.execute('CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, price REAL)')\n\nc.execute('INSERT INTO products VALUES (1, \"iPhone\", 999.99)')\nconn.commit()\n\nc.execute('SELECT * FROM products')\nprint(c.fetchall())\n\nconn.close()", "hint": "CRUD代表Create、Read、Update、Delete", "stdout": "[(1, 'iPhone', 999.99)]"},
+      {"type": "tip", "text": "使用参数化查询(?)防止SQL注入"},
+      {"type": "project", "title": "项目：学生管理系统", "code": "import sqlite3\n\nclass StudentDB:\n    def __init__(self, db_name='students.db'):\n        self.conn = sqlite3.connect(db_name)\n        self.c = self.conn.cursor()\n        self.c.execute('''\n            CREATE TABLE IF NOT EXISTS students (\n                id INTEGER PRIMARY KEY,\n                name TEXT,\n                grade INTEGER\n            )\n        ''')\n    \n    def add_student(self, name, grade):\n        self.c.execute('INSERT INTO students (name, grade) VALUES (?, ?)', (name, grade))\n        self.conn.commit()\n    \n    def get_all(self):\n        self.c.execute('SELECT * FROM students')\n        return self.c.fetchall()\n    \n    def close(self):\n        self.conn.close()\n\ndb = StudentDB()\ndb.add_student('Alice', 90)\ndb.add_student('Bob', 85)\nprint(db.get_all())\ndb.close()", "goal": "创建学生管理数据库系统，支持添加和查询", "hint": "使用类封装数据库操作"}
+    ],
+    "tests": ["database should be created", "data should be inserted correctly", "query should return results"],
+    "hint": "import sqlite3; connect()连接数据库"
+  }
+]

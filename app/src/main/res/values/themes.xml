@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.PyNeon" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@color/bg0</item>
-        <item name="android:statusBarColor">@color/bg0</item>
-        <item name="android:navigationBarColor">@color/bg0</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <style name="Theme.MashangPython" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#E94560</item>
+        <item name="colorPrimaryVariant">#C62828</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#0F3460</item>
+        <item name="colorSecondaryVariant">#1A1A2E</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="android:statusBarColor">#0F3460</item>
+        <item name="android:navigationBarColor">#1A1A2E</item>
     </style>
 </resources>

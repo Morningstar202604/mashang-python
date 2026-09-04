@@ -1,0 +1,112 @@
+[
+  {
+    "id": "cli-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "argparse 构建命令行",
+    "subtitle": "参数、选项与帮助",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "标准库 argparse"
+      },
+      {
+        "type": "text",
+        "text": "argparse 解析 sys.argv:位置参数必填,选项参数带 -- 前缀可给默认值;-h 自动生成帮助。type/choices/default 覆盖日常九成需求。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import argparse\n\nparser = argparse.ArgumentParser(prog='greet')\nparser.add_argument('name')\nparser.add_argument('--times', type=int, default=1)\nparser.add_argument('--upper', action='store_true')\nargs = parser.parse_args(['Alice', '--times', '2', '--upper'])\n\nmsg = f'你好, {args.name}' * args.times\nprint(msg.upper() if args.upper else msg)"
+      },
+      {
+        "type": "output",
+        "text": "你好, ALICE你好, ALICE"
+      },
+      {
+        "type": "quiz",
+        "question": "action='store_true' 的选项 --upper 传入后 args.upper 的值是?",
+        "options": [
+          "字符串 'true'",
+          "True",
+          "None",
+          "必须再赋值"
+        ],
+        "answer": 1,
+        "explain": "store_true 不需要值,出现开关即置 True"
+      },
+      {
+        "type": "tip",
+        "text": "把 parse_args() 的参数留空即自动读取 sys.argv,方便测试时注入列表"
+      }
+    ],
+    "tests": [],
+    "hint": "先定义 parser 再 parse_args"
+  },
+  {
+    "id": "cli-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "pyproject.toml 与打包",
+    "subtitle": "让 pip 能安装你的项目",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "现代打包:pyproject.toml"
+      },
+      {
+        "type": "text",
+        "text": "pyproject.toml 是标准打包配置:声明元数据与依赖后,pip install -e . 以可编辑方式安装,console_scripts 入口点把函数注册成终端命令。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "# pyproject.toml 关键段:\n# [project]\n# name = \"mytool\"\n# version = \"0.1.0\"\n# dependencies = [\"rich\"]\n# [project.scripts]\n# mytool = \"mytool.cli:main\"\n#\n# pip install -e .   ← 可编辑安装\n# mytool             ← 直接运行命令\nprint('入口点 = 包名.模块:函数')"
+      },
+      {
+        "type": "output",
+        "text": "入口点 = 包名.模块:函数"
+      },
+      {
+        "type": "practice",
+        "title": "练习:__main__.py",
+        "code": "# mytool/__main__.py\ndef main():\n    print('running mytool')\n\nif __name__ == '__main__':\n    main()\nprint('python -m mytool 可直接运行')",
+        "hint": "包里放 __main__.py 支持 python -m 运行",
+        "stdout": "python -m mytool 可直接运行"
+      },
+      {
+        "type": "quiz",
+        "question": "pip install -e . 的 -e 含义是?",
+        "options": [
+          "静默安装",
+          "可编辑模式,改代码即生效",
+          "强制重装",
+          "导出依赖"
+        ],
+        "answer": 1,
+        "explain": "-e = editable,源码改动立即生效,适合开发期"
+      },
+      {
+        "type": "project",
+        "title": "项目:发布检查清单",
+        "code": "# 构建与上传\n# pip install build\n# python -m build        ← 生成 wheel/sdist\n# twine upload dist/*    ← 上传 PyPI(需账号)\nprint('build → twine 两步上 PyPI')",
+        "goal": "走通 build+twine 发布流程",
+        "hint": "先在 testpypi 演练更安全"
+      },
+      {
+        "type": "tip",
+        "text": "锁版本写 dependencies 的范围,别用不带版本的任意依赖"
+      }
+    ],
+    "tests": [],
+    "hint": "console_scripts 的格式是 模块:函数"
+  }
+]

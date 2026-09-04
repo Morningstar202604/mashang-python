@@ -1,0 +1,25 @@
+[
+  {
+    "id": "unit-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "Python基础入门",
+    "subtitle": "了解Python的基本概念和环境",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "欢迎来到Python世界！"},
+      {"type": "text", "text": "Python是一门解释型、面向对象的编程语言，以其简洁明了的语法而闻名。它是初学者最受欢迎的编程语言之一。"},
+      {"type": "code", "runnable": true, "code": "print('Hello, Python!')\nprint('Welcome to programming.')", "language": "python"},
+      {"type": "output", "text": "Hello, Python!\nWelcome to programming."},
+      {"type": "quiz", "question": "Python是一门什么类型的编程语言？", "options": ["编译型", "解释型", "汇编型"], "answer": 1, "explain": "Python是解释型语言，代码在运行时被逐行执行"},
+      {"type": "practice", "title": "练习：输出两行问候", "code": "print('Hello!')\nprint('How are you?')", "hint": "使用两个print()语句输出两行", "stdout": "Hello!\nHow are you?"},
+      {"type": "tip", "text": "每个print()语句会自动换行"},
+      {"type": "project", "title": "小项目：个人问候卡", "code": "name = 'Alice'\nprint(f'Hello, {name}! Welcome to Python!')", "goal": "使用变量和f-string输出个人化问候", "hint": "f-string可以在字符串中嵌入变量值"}
+    ],
+    "tests": ["print_hello() should output Hello, Python!", "name variable should be 'Alice'"],
+    "hint": "从print('Hello, Python!')开始你的第一行代码"
+  }
+]

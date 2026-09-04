@@ -1,0 +1,54 @@
+[
+  {
+    "id": "lib-01",
+    "order": 1,
+    "chapter": 15,
+    "title": "collections模块",
+    "subtitle": "学习高级数据结构",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 400,
+    
+    "blocks": [
+      {"type": "heading", "text": "Counter计数器"},
+      {"type": "text", "text": "Counter是字典的子类，用于计数可哈希对象。"},
+      {"type": "code", "runnable": true, "code": "from collections import Counter\n\n# 统计字符频率\ntext = 'hello world'\ncount = Counter(text)\nprint(f'字符计数: {count}')\nprint(f'最常见的3个: {count.most_common(3)}')\n\n# 统计列表元素\nwords = ['apple', 'banana', 'apple', 'cherry', 'apple']\nword_count = Counter(words)\nprint(f'单词计数: {word_count}')", "language": "python"},
+      {"type": "output", "text": "字符计数: Counter({'l': 3, 'o': 2, 'h': 1, 'e': 1, ' ': 1, 'w': 1, 'r': 1, 'd': 1})\n最常见的3个: [('l', 3), ('o', 2), ('h', 1)]\n单词计数: Counter({'apple': 3, 'banana': 1, 'cherry': 1})"},
+      {"type": "heading", "text": "defaultdict和namedtuple"},
+      {"type": "code", "runnable": true, "code": "from collections import defaultdict, namedtuple\n\n# defaultdict: 带默认值的字典\ndd = defaultdict(list)\ndd['fruits'].append('apple')\ndd['fruits'].append('banana')\ndd['vegs'].append('carrot')\nprint(f'defaultdict: {dict(dd)}')\n\n# namedtuple: 有名字的元组\nPoint = namedtuple('Point', ['x', 'y'])\np = Point(3, 4)\nprint(f'Point: x={p.x}, y={p.y}')", "language": "python"},
+      {"type": "output", "text": "defaultdict: {'fruits': ['apple', 'banana'], 'vegs': ['carrot']}\nPoint: x=3, y=4"},
+      {"type": "quiz", "question": "Counter的主要用途是什么？", "options": ["排序", "计数", "过滤", "映射"], "answer": 1, "explain": "Counter用于统计元素出现的次数"},
+      {"type": "practice", "title": "练习：统计文章词频", "code": "from collections import Counter\n\narticle = '''Python is a programming language.\nPython is used for web development.\nPython is easy to learn.'''\n\nwords = article.lower().split()\nword_freq = Counter(words)\n\nprint('词频统计:')\nfor word, count in word_freq.most_common(5):\n    print(f'  {word}: {count}')", "hint": "使用Counter和most_common()方法", "stdout": "词频统计:\n  python: 3\n  is: 3\n  a: 1\n  programming: 1\n  language: 1"},
+      {"type": "tip", "text": "Counter支持数学运算，可以相加或相减"},
+      {"type": "project", "title": "项目：日志分析器", "code": "from collections import Counter, defaultdict\n\n# 模拟日志数据\nlogs = [\n    '2024-01-15 ERROR: Connection failed',\n    '2024-01-15 INFO: User logged in',\n    '2024-01-15 ERROR: Timeout',\n    '2024-01-15 INFO: Data saved',\n    '2024-01-15 WARNING: Low memory',\n]\n\n# 统计日志级别\nlevels = Counter()\nfor log in logs:\n    level = log.split()[1]\n    levels[level] += 1\n\nprint(f'日志统计: {dict(levels)}')\nprint(f'错误数量: {levels[\"ERROR\"]}')", "goal": "使用Counter分析日志数据", "hint": "Counter适合统计各类事件出现次数"}
+    ],
+    "tests": ["Counter works correctly", "defaultdict works"],
+    "hint": "Counter计数，defaultdict带默认值，namedtuple命名元组"
+  },
+  {
+    "id": "lib-02",
+    "order": 2,
+    "chapter": 15,
+    "title": "itertools与functools",
+    "subtitle": "学习函数式编程工具",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 400,
+    
+    "blocks": [
+      {"type": "heading", "text": "itertools迭代器工具"},
+      {"type": "text", "text": "itertools提供了创建和操作迭代器的高效函数。"},
+      {"type": "code", "runnable": true, "code": "import itertools\n\n# 无限计数器\ncounter = itertools.count(1, 2)  # 从1开始，步长2\nprint('前5个偶数:', [next(counter) for _ in range(5)])\n\n# 组合\nitems = ['A', 'B', 'C']\ncombos = list(itertools.combinations(items, 2))\nprint(f'两两组合: {combos}')\n\n# 排列\nperms = list(itertools.permutations(items, 2))\nprint(f'两两排列: {perms}')\n\n# 链接多个迭代器\nlist1 = [1, 2, 3]\nlist2 = [4, 5, 6]\ncombined = list(itertools.chain(list1, list2))\nprint(f'链接: {combined}')", "language": "python"},
+      {"type": "output", "text": "前5个偶数: [1, 3, 5, 7, 9]\n两两组合: [('A', 'B'), ('A', 'C'), ('B', 'C')]\n两两排列: [('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]\n链接: [1, 2, 3, 4, 5, 6]"},
+      {"type": "heading", "text": "functools函数工具"},
+      {"type": "code", "runnable": true, "code": "from functools import reduce, lru_cache, partial\n\n# reduce: 累积计算\nnumbers = [1, 2, 3, 4, 5]\nproduct = reduce(lambda x, y: x * y, numbers)\nprint(f'累乘: {product}')\n\n# lru_cache: 缓存函数结果\n@lru_cache(maxsize=128)\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint(f'fib(10): {fibonacci(10)}')\n\n# partial: 固定部分参数\ndef power(base, exponent):\n    return base ** exponent\n\nsquare = partial(power, exponent=2)\nprint(f'5的平方: {square(5)}')", "language": "python"},
+      {"type": "output", "text": "累乘: 120\nfib(10): 55\n5的平方: 25"},
+      {"type": "quiz", "question": "lru_cache的作用是什么？", "options": ["排序", "缓存函数结果", "过滤", "映射"], "answer": 1, "explain": "lru_cache缓存函数的返回结果，避免重复计算"},
+      {"type": "practice", "title": "练习：使用itertools分组", "code": "from itertools import groupby\n\n# 按首字母分组\nwords = ['apple', 'banana', 'avocado', 'blueberry', 'cherry']\nsorted_words = sorted(words)  # 必须先排序\n\nfor letter, group in groupby(sorted_words, key=lambda x: x[0]):\n    print(f'{letter}: {list(group)}')", "hint": "groupby需要先排序才能正确分组", "stdout": "a: ['apple', 'avocado']\nb: ['banana', 'blueberry']\nc: ['cherry']"},
+      {"type": "tip", "text": "lru_cache特别适合递归函数和重复计算的场景"},
+      {"type": "project", "title": "项目：数据管道", "code": "from functools import reduce\nfrom itertools import filterfalse\n\n# 数据处理管道\ndef process_data(data):\n    # 步骤1: 过滤负数\n    positive = list(filter(lambda x: x > 0, data))\n    \n    # 步骤2: 平方\n    squared = list(map(lambda x: x ** 2, positive))\n    \n    # 步骤3: 求和\n    total = reduce(lambda x, y: x + y, squared)\n    \n    return total\n\nresult = process_data([-2, -1, 0, 1, 2, 3, 4])\nprint(f'处理结果: {result}')\nprint(f'预期: {1**2 + 2**2 + 3**2 + 4**2}')", "goal": "实现数据处理管道", "hint": "结合filter、map、reduce实现管道"}
+    ],
+    "tests": ["itertools functions work", "functools functions work"],
+    "hint": "itertools提供迭代器工具，functools提供函数工具"
+  }
+]

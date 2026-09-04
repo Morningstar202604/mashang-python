@@ -1,0 +1,112 @@
+[
+  {
+    "id": "log-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "logging 基础",
+    "subtitle": "级别、Logger 与基本配置",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "别再用 print 调试生产代码"
+      },
+      {
+        "type": "text",
+        "text": "logging 提供分级(DEBUG/INFO/WARNING/ERROR/CRITICAL)、时间戳与模块名。basicConfig 一行配置;低于设定级别的日志不会输出,默认级别是 WARNING。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import logging\n\nlogging.basicConfig(level=logging.INFO,\n                    format='%(levelname)s %(message)s')\nlog = logging.getLogger('app')\n\nlog.debug('调试信息,默认看不到')\nlog.info('服务启动')\nlog.warning('磁盘使用 80%%')\nlog.error('连接失败')"
+      },
+      {
+        "type": "output",
+        "text": "INFO 服务启动\nWARNING 磁盘使用 80%\nERROR 连接失败"
+      },
+      {
+        "type": "quiz",
+        "question": "logging 的默认输出级别是?",
+        "options": [
+          "DEBUG",
+          "INFO",
+          "WARNING",
+          "ERROR"
+        ],
+        "answer": 2,
+        "explain": "默认 root logger 级别为 WARNING,所以 debug/info 被过滤"
+      },
+      {
+        "type": "tip",
+        "text": "每个模块用 getLogger(__name__) 取独立 logger,别用 root"
+      }
+    ],
+    "tests": [],
+    "hint": "级别从低到高:DEBUG<INFO<WARNING<ERROR<CRITICAL"
+  },
+  {
+    "id": "log-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "Handler 与格式化",
+    "subtitle": "输出到文件与自定义格式",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "Handler 决定日志去哪儿"
+      },
+      {
+        "type": "text",
+        "text": "Logger 只负责产生记录,Handler 负责输出:FileHandler 写文件、StreamHandler 打终端;Formatter 定制格式。异常排查日志记得 exc_info=True。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import logging\n\nlogger = logging.getLogger('shop')\nlogger.setLevel(logging.DEBUG)\nfh = logging.FileHandler('shop.log', encoding='utf-8')\nfh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))\nlogger.addHandler(fh)\n\nlogger.info('订单创建')\ntry:\n    1 / 0\nexcept ZeroDivisionError:\n    logger.exception('计算出错')\nprint(open('shop.log', encoding='utf-8').read().count('订单'))"
+      },
+      {
+        "type": "output",
+        "text": "1"
+      },
+      {
+        "type": "practice",
+        "title": "练习:滚动日志",
+        "code": "import logging\nfrom logging.handlers import RotatingFileHandler\n\nh = RotatingFileHandler('app.log', maxBytes=1024, backupCount=2)\nlog = logging.getLogger('rot')\nlog.addHandler(h)\nlog.warning('大小超限自动轮换')",
+        "hint": "RotatingFileHandler 按大小滚动,防止日志无限膨胀",
+        "stdout": "True"
+      },
+      {
+        "type": "quiz",
+        "question": "想在日志里附带完整异常堆栈,应使用?",
+        "options": [
+          "log.error(str(e))",
+          "logger.exception(msg) 在 except 内",
+          "print(e)",
+          "log.debug(e)"
+        ],
+        "answer": 1,
+        "explain": "exception() 等价 error()+exc_info=True,自动附带 traceback"
+      },
+      {
+        "type": "project",
+        "title": "项目:模块化日志",
+        "code": "import logging\n\nlogging.basicConfig(level=logging.INFO)\na = logging.getLogger('service.a')\nb = logging.getLogger('service.b')\na.info('A 就绪')\nb.warning('B 慢查询')",
+        "goal": "按模块分层命名 logger",
+        "hint": "点号命名形成层级,可统一控制"
+      },
+      {
+        "type": "tip",
+        "text": " propagate=True 时子 logger 会向父级冒泡,注意别重复输出"
+      }
+    ],
+    "tests": [],
+    "hint": "Formatter 占位符:asctime/levelname/name/message"
+  }
+]

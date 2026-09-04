@@ -1,0 +1,48 @@
+[
+  {
+    "id": "var-01",
+    "order": 1,
+    "chapter": 2,
+    "title": "变量与赋值",
+    "subtitle": "学习如何声明和使用变量",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "变量的基础知识"},
+      {"type": "text", "text": "在Python中，变量用于存储数据值。你不需要声明变量的类型，Python会根据赋值自动推断。"},
+      {"type": "code", "runnable": true, "code": "name = 'Alice'\nage = 25\npi = 3.14\nprint(name)\nprint(age)\nprint(pi)", "language": "python"},
+      {"type": "output", "text": "Alice\n25\n3.14"},
+      {"type": "quiz", "question": "以下哪个变量名是有效的？", "options": ["123abc", "age", "my-age"], "answer": 1, "explain": "变量名只能包含字母、数字和下划线，不能以数字开头"},
+      {"type": "practice", "title": "练习：声明三个变量", "code": "score = 100\nlevel = 5\nis_unlocked = True\nprint(f'分数: {score}, 等级: {level}')", "hint": "使用f-string嵌入变量值", "stdout": "分数: 100, 等级: 5"},
+      {"type": "tip", "text": "变量名应该具有描述性，如user_count比uc更易读"},
+      {"type": "project", "title": "项目：个人简介卡", "code": "name = 'Bob'\nage = 30\ncity = 'New York'\nprint(f'姓名: {name}, 年龄: {age}, 城市: {city}')", "goal": "使用三个变量显示个人简介", "hint": "使用三个不同类型的变量和f-string"}
+    ],
+    "tests": ["name should be 'Alice'", "age should be 25"],
+    "hint": "使用等号赋值：x = 42"
+  },
+  {
+    "id": "var-02",
+    "order": 2,
+    "chapter": 2,
+    "title": "数据类型与运算",
+    "subtitle": "了解整数、浮点数和字符串的基本运算",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "数字类型"},
+      {"type": "text", "text": "Python支持整数(int)和小数(float)两种数字类型。"},
+      {"type": "code", "runnable": true, "code": "age = 25\nheight = 1.75\nprint(type(age))\nprint(type(height))", "language": "python"},
+      {"type": "output", "text": "<class 'int'>\n<class 'float'>"},
+      {"type": "quiz", "question": "以下哪项是浮点数？", "options": ["25", "3.14", "True"], "answer": 1, "explain": "3.14包含小数点，是float类型"},
+      {"type": "practice", "title": "练习：计算圆的面积", "code": "radius = 5\narea = 3.14 * radius ** 2\nprint(f'半径为{radius}的圆面积: {area}')", "hint": "**表示幂次方", "stdout": "半径为5的圆面积: 78.5"},
+      {"type": "tip", "text": "使用type()检查变量类型"},
+      {"type": "project", "title": "项目：温度转换器", "code": "celsius = 25\nfahrenheit = celsius * 9/5 + 32\nprint(f'{celsius}°C = {fahrenheit}°F')", "goal": "将摄氏度转换为华氏度", "hint": "华氏度公式：F = C × 9/5 + 32"}
+    ],
+    "tests": ["area > 0", "fahrenheit > 70"],
+    "hint": "先乘除，后加减"
+  }
+]

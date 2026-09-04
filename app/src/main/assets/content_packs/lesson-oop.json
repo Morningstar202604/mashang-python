@@ -1,0 +1,48 @@
+[
+  {
+    "id": "oop-01",
+    "order": 1,
+    "chapter": 7,
+    "title": "类与对象",
+    "subtitle": "学习面向对象编程基础",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "类的定义"},
+      {"type": "text", "text": "类是对象的蓝图，定义了对象的属性和方法。使用class关键字定义类。"},
+      {"type": "code", "runnable": true, "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def bark(self):\n        return f'{self.name} says Woof!'\n\ndog = Dog('Rex', 3)\nprint(dog.bark())\nprint(f'{dog.name} is {dog.age} years old')", "language": "python"},
+      {"type": "output", "text": "Rex says Woof!\nRex is 3 years old"},
+      {"type": "quiz", "question": "__init__方法的作用是什么？", "options": ["初始化对象属性", "定义方法", "创建类", "销毁对象"], "answer": 0, "explain": "__init__是构造函数，在创建对象时初始化属性"},
+      {"type": "practice", "title": "练习：创建学生类", "code": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n    \n    def is_passing(self):\n        return self.grade >= 60\n\ns = Student('Alice', 85)\nprint(f'{s.name}: {\"及格\" if s.is_passing() else \"不及格\"}')", "hint": "使用self访问对象属性", "stdout": "Alice: 及格"},
+      {"type": "tip", "text": "类名使用大驼峰命名法，如StudentInfo"},
+      {"type": "project", "title": "项目：银行账户类", "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n        return f'存入{amount}元，余额{self.balance}元'\n    \n    def withdraw(self, amount):\n        if amount > self.balance:\n            return '余额不足'\n        self.balance -= amount\n        return f'取出{amount}元，余额{self.balance}元'\n\naccount = BankAccount('Alice', 1000)\nprint(account.deposit(500))\nprint(account.withdraw(200))", "goal": "创建一个银行账户类，支持存款和取款", "hint": "使用__init__初始化余额，方法操作余额"}
+    ],
+    "tests": ["Dog instance should have name and age", "bark() should return correct string", "Student.is_passing() should work correctly"],
+    "hint": "class 类名: 定义类，__init__初始化属性"
+  },
+  {
+    "id": "oop-02",
+    "order": 2,
+    "chapter": 7,
+    "title": "继承与多态",
+    "subtitle": "学习类的继承和多态特性",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "继承"},
+      {"type": "text", "text": "继承允许子类复用父类的属性和方法，子类可以添加或重写方法。"},
+      {"type": "code", "runnable": true, "code": "class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return '...'\n\nclass Cat(Animal):\n    def speak(self):\n        return f'{self.name} says Meow!'\n\nclass Dog(Animal):\n    def speak(self):\n        return f'{self.name} says Woof!'\n\nfor animal in [Cat('Kitty'), Dog('Rex')]:\n    print(animal.speak())", "language": "python"},
+      {"type": "output", "text": "Kitty says Meow!\nRex says Woof!"},
+      {"type": "quiz", "question": "Cat(Animal)表示什么？", "options": ["Cat继承Animal", "Animal继承Cat", "创建对象", "调用方法"], "answer": 0, "explain": "Cat(Animal)表示Cat类继承Animal类"},
+      {"type": "practice", "title": "练习：形状类", "code": "class Shape:\n    def area(self):\n        return 0\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    \n    def area(self):\n        return 3.14 * self.radius ** 2\n\nc = Circle(5)\nprint(f'圆形面积: {c.area()}')", "hint": "重写area方法计算圆形面积", "stdout": "圆形面积: 78.5"},
+      {"type": "tip", "text": "子类可以重写父类的方法来实现不同行为"},
+      {"type": "project", "title": "项目：员工类体系", "code": "class Employee:\n    def __init__(self, name, salary):\n        self.name = name\n        self.salary = salary\n    \n    def bonus(self):\n        return self.salary * 0.1\n\nclass Manager(Employee):\n    def bonus(self):\n        return self.salary * 0.2\n\ndef print_bonus(emp):\n    print(f'{emp.name}的奖金: {emp.bonus()}')\n\nprint_bonus(Employee('Alice', 10000))\nprint_bonus(Manager('Bob', 15000))", "goal": "创建员工类和经理类，经理有更高的奖金比例", "hint": "Manager继承Employee，重写bonus方法"}
+    ],
+    "tests": ["Cat should inherit from Animal", "Manager.bonus() should return 20%"],
+    "hint": "class 子类(父类): 继承，重写方法实现多态"
+  }
+]

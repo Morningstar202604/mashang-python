@@ -1,0 +1,112 @@
+[
+  {
+    "id": "git-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "Git 三区与首次提交",
+    "subtitle": "工作区、暂存区与仓库",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "把文件交给 Git 管理"
+      },
+      {
+        "type": "text",
+        "text": "Git 有三个区域:工作区(编辑中)、暂存区(git add 后)、仓库(git commit 后)。git status 随时查看文件处于哪个区域。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "# 初始化与首次提交\n# git init\n# echo 'print(1)' > main.py\n# git add main.py     # 工作区 → 暂存区\n# git commit -m 'init'\n# git log --oneline\nprint('示例:命令见注释,本练习展示概念')"
+      },
+      {
+        "type": "output",
+        "text": "示例:命令见注释,本练习展示概念"
+      },
+      {
+        "type": "quiz",
+        "question": "git add 的作用是?",
+        "options": [
+          "提交到远程仓库",
+          "把改动放入暂存区",
+          "创建新分支",
+          "撤销修改"
+        ],
+        "answer": 1,
+        "explain": "add 只是把改动放进暂存区,commit 才写入本地仓库历史"
+      },
+      {
+        "type": "tip",
+        "text": "git commit -am 'msg' 可一步完成已跟踪文件的 add+commit"
+      }
+    ],
+    "tests": [],
+    "hint": "每天开工先 git status 看状态"
+  },
+  {
+    "id": "git-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "分支与撤销",
+    "subtitle": "并行开发与安全回退",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "分支操作与撤销命令"
+      },
+      {
+        "type": "text",
+        "text": "git branch 创建分支、git switch 切换分支,让实验性改动互不干扰;git restore 撤销工作区修改,git revert 生成『反向提交』安全回退已推送的代码。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "# git switch -c feature-x    # 新建并切换分支\n# git switch main            # 切回主分支\n# git merge feature-x        # 合并\n# git restore main.py        # 撤销工作区改动\n# git revert HEAD            # 用新提交抵消上一提交\nprint('分支 = 可切换的平行时间线')"
+      },
+      {
+        "type": "output",
+        "text": "分支 = 可切换的平行时间线"
+      },
+      {
+        "type": "practice",
+        "title": "练习:记住工作流",
+        "code": "# feature 分支开发\n# git switch -c feature-login\n# ...修改并提交...\n# git switch main\n# git merge feature-login\nprint('feature → merge → delete')",
+        "hint": "口诀:切分支、提交、合并、删分支",
+        "stdout": "feature → merge → delete"
+      },
+      {
+        "type": "quiz",
+        "question": "已 push 的错误提交,最安全的撤销方式是?",
+        "options": [
+          "git reset --hard",
+          "删除仓库",
+          "git revert 生成反向提交",
+          "手改文件不提交"
+        ],
+        "answer": 2,
+        "explain": "revert 不改写历史,适合多人协作;reset --hard 会重写历史且丢数据"
+      },
+      {
+        "type": "project",
+        "title": "项目:模拟发布流程",
+        "code": "# git switch -c release-1.0\n# git tag v1.0\n# git push origin v1.0\nprint('tag 标记发布版本')",
+        "goal": "用 tag 固定发布节点",
+        "hint": "tag 是指向提交的永久书签"
+      },
+      {
+        "type": "tip",
+        "text": ".gitignore 提交前就建好,别把临时文件带进历史"
+      }
+    ],
+    "tests": [],
+    "hint": "撤销分三层:restore / reset / revert"
+  }
+]

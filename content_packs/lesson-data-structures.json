@@ -1,0 +1,48 @@
+[
+  {
+    "id": "ds-01",
+    "order": 1,
+    "chapter": 5,
+    "title": "列表基础",
+    "subtitle": "学习使用列表存储多个值",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 130,
+    
+    "blocks": [
+      {"type": "heading", "text": "列表的创建与访问"},
+      {"type": "text", "text": "列表是Python中最常用的数据结构，用方括号[]创建，可以存储多个值，支持索引访问。"},
+      {"type": "code", "runnable": true, "code": "fruits = ['苹果', '香蕉', '橙子']\nprint(fruits[0])  # 第一个元素\nprint(fruits[-1]) # 最后一个元素\nprint(len(fruits)) # 列表长度", "language": "python"},
+      {"type": "output", "text": "苹果\n橙子\n3"},
+      {"type": "quiz", "question": "列表索引从几开始？", "options": ["0", "1", "-1", "任意"], "answer": 0, "explain": "Python列表索引从0开始"},
+      {"type": "practice", "title": "练习：添加和删除", "code": "colors = ['红', '绿']\ncolors.append('蓝')  # 添加\nprint(colors)\ncolors.remove('绿')  # 删除\nprint(colors)", "hint": "append()添加到末尾，remove()删除指定值", "stdout": "['红', '绿', '蓝']\n['红', '蓝']"},
+      {"type": "tip", "text": "负索引：-1是最后一个，-2是倒数第二个"},
+      {"type": "project", "title": "项目：待办事项", "code": "todos = []\ntodos.append('买菜')\ntodos.append('做饭')\ntodos.append('洗碗')\nprint('待办事项:')\nfor i, todo in enumerate(todos, 1):\n    print(f'{i}. {todo}')\nprint(f'共{len(todos)}项')", "goal": "创建一个简单的待办事项列表程序", "hint": "使用append()添加，len()计数，enumerate()带索引遍历"}
+    ],
+    "tests": ["list creation should work", "append should add element", "remove should delete element"],
+    "hint": "列表用[]创建，索引从0开始"
+  },
+  {
+    "id": "ds-02",
+    "order": 2,
+    "chapter": 5,
+    "title": "字典基础",
+    "subtitle": "学习使用字典存储键值对",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 130,
+    
+    "blocks": [
+      {"type": "heading", "text": "字典的创建与访问"},
+      {"type": "text", "text": "字典用花括号{}创建，存储键值对(key:value)，通过键访问值。"},
+      {"type": "code", "runnable": true, "code": "person = {\n    'name': 'Alice',\n    'age': 25,\n    'city': 'Beijing'\n}\nprint(person['name'])\nprint(person.get('age', 0))", "language": "python"},
+      {"type": "output", "text": "Alice\n25"},
+      {"type": "quiz", "question": "访问字典不存在的键会怎样？", "options": ["返回None", "报错", "返回空字符串", "返回0"], "answer": 1, "explain": "直接访问不存在的键会报KeyError，用get()可以返回默认值"},
+      {"type": "practice", "title": "练习：更新字典", "code": "student = {'name': 'Bob', 'score': 85}\nstudent['score'] = 90  # 更新\nstudent['grade'] = 'A'  # 新增\nprint(student)", "hint": "直接赋值可以更新或新增键值对", "stdout": "{'name': 'Bob', 'score': 90, 'grade': 'A'}"},
+      {"type": "tip", "text": "字典的键必须是不可变类型（字符串、数字、元组）"},
+      {"type": "project", "title": "项目：通讯录", "code": "contacts = {}\ncontacts['Alice'] = '13800138000'\ncontacts['Bob'] = '13900139000'\nname = 'Alice'\nif name in contacts:\n    print(f'{name}的电话: {contacts[name]}')\nelse:\n    print(f'未找到{name}')", "goal": "创建一个简单的通讯录查询程序", "hint": "用in检查键是否存在，避免报错"}
+    ],
+    "tests": ["dictionary creation should work", "get() should return default for missing key", "update should change value"],
+    "hint": "字典用{}创建，键值对用冒号分隔"
+  }
+]

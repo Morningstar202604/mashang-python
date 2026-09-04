@@ -1,0 +1,48 @@
+[
+  {
+    "id": "err-01",
+    "order": 1,
+    "chapter": 6,
+    "title": "try/except基础",
+    "subtitle": "学习处理程序错误",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 140,
+    
+    "blocks": [
+      {"type": "heading", "text": "错误处理入门"},
+      {"type": "text", "text": "try/except用于捕获和处理错误，防止程序崩溃。try块中放可能出错的代码，except块处理错误。"},
+      {"type": "code", "runnable": true, "code": "try:\n    num = int('abc')\nexcept ValueError:\n    print('转换失败：不是有效数字')", "language": "python"},
+      {"type": "output", "text": "转换失败：不是有效数字"},
+      {"type": "quiz", "question": "try/except的作用是什么？", "options": ["创建变量", "循环遍历", "处理错误", "定义函数"], "answer": 2, "explain": "try/except专门用于捕获和处理程序运行时的错误"},
+      {"type": "practice", "title": "练习：安全除法", "code": "try:\n    a = 10\n    b = 0\n    result = a / b\nexcept ZeroDivisionError:\n    print('错误：除数不能为零')", "hint": "ZeroDivisionError处理除以零的情况", "stdout": "错误：除数不能为零"},
+      {"type": "tip", "text": "可以捕获多种错误：ValueError, TypeError, ZeroDivisionError等"},
+      {"type": "project", "title": "项目：安全计算器", "code": "def safe_divide(a, b):\n    try:\n        return a / b\n    except ZeroDivisionError:\n        return '错误：除数不能为零'\n    except TypeError:\n        return '错误：参数必须是数字'\n\nprint(safe_divide(10, 2))\nprint(safe_divide(10, 0))\nprint(safe_divide('10', 2))", "goal": "创建一个能处理各种错误的安全除法函数", "hint": "用多个except分别处理不同类型的错误"}
+    ],
+    "tests": ["try/except should catch ValueError", "ZeroDivisionError should be handled", "function should return error message on failure"],
+    "hint": "try: 可能出错的代码 except 错误类型: 处理代码"
+  },
+  {
+    "id": "err-02",
+    "order": 2,
+    "chapter": 6,
+    "title": "文件操作完整",
+    "subtitle": "使用with open()安全读写文件",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    
+    "blocks": [
+      {"type": "heading", "text": "with open()上下文管理"},
+      {"type": "text", "text": "with open()会自动关闭文件，即使发生异常也能正确关闭，是最推荐的文件操作方式。"},
+      {"type": "code", "runnable": true, "code": "with open('demo.txt', 'w') as f:\n    f.write('第一行\\n')\n    f.write('第二行\\n')\n\nwith open('demo.txt', 'r') as f:\n    content = f.read()\n    print(content)", "language": "python"},
+      {"type": "output", "text": "第一行\n第二行"},
+      {"type": "quiz", "question": "with open()的主要优势是什么？", "options": ["运行更快", "自动关闭文件", "占用更少内存", "支持更多编码"], "answer": 1, "explain": "with语句确保文件在使用后自动关闭，即使发生异常"},
+      {"type": "practice", "title": "练习：逐行读取", "code": "with open('data.txt', 'r') as f:\n    for line_num, line in enumerate(f, 1):\n        print(f'{line_num}: {line.rstrip()}')", "hint": "rstrip()去除行尾的换行符", "stdout": "1: 第一行内容\n2: 第二行内容"},
+      {"type": "tip", "text": "'w'模式会覆盖文件，'a'模式追加到文件末尾"},
+      {"type": "project", "title": "项目：日志记录器", "code": "import datetime\n\ndef log_message(msg):\n    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')\n    with open('app.log', 'a') as f:\n        f.write(f'[{timestamp}] {msg}\\n')\n\nlog_message('应用启动')\nlog_message('用户登录')\n\nwith open('app.log', 'r') as f:\n    print(f.read())", "goal": "创建一个带时间戳的日志记录函数", "hint": "用'a'模式追加，不会覆盖之前的内容"}
+    ],
+    "tests": ["with open() should auto-close file", "write mode should create/overwrite file", "append mode should add to end"],
+    "hint": "with open() as f: 确保文件自动关闭"
+  }
+]

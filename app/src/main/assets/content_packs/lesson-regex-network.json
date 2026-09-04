@@ -1,0 +1,48 @@
+[
+  {
+    "id": "regex-01",
+    "order": 1,
+    "chapter": 13,
+    "title": "正则表达式基础",
+    "subtitle": "学习使用re模块进行文本匹配",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 400,
+    
+    "blocks": [
+      {"type": "heading", "text": "什么是正则表达式"},
+      {"type": "text", "text": "正则表达式用于匹配文本模式，Python使用re模块提供正则表达式支持。"},
+      {"type": "code", "runnable": true, "code": "import re\n\ntext = '我的电话是13800138000，邮箱是test@example.com'\n\n# 查找手机号\nphone = re.search(r'1[3-9]\\d{9}', text)\nif phone:\n    print(f'找到手机号: {phone.group()}')\n\n# 查找邮箱\nemail = re.search(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', text)\nif email:\n    print(f'找到邮箱: {email.group()}')", "language": "python"},
+      {"type": "output", "text": "找到手机号: 13800138000\n找到邮箱: test@example.com"},
+      {"type": "quiz", "question": "r前缀的作用是什么？", "options": ["定义正则表达式", "原始字符串，不转义", "定义变量", "导入模块"], "answer": 1, "explain": "r前缀表示原始字符串，反斜杠不会被转义"},
+      {"type": "practice", "title": "练习：匹配日期格式", "code": "import re\n\ntext = '日期：2026-09-03，时间：10:30'\ndates = re.findall(r'\\d{4}-\\d{2}-\\d{2}', text)\nprint(f'找到日期: {dates}')", "hint": "findall()返回所有匹配项", "stdout": "找到日期: ['2026-09-03']"},
+      {"type": "tip", "text": "\\d匹配数字，+表示一个或多个，{n}表示恰好n个"},
+      {"type": "project", "title": "项目：文本提取器", "code": "import re\n\ndef extract_info(text):\n    result = {}\n    \n    # 提取手机号\n    phone = re.search(r'1[3-9]\\d{9}', text)\n    result['phone'] = phone.group() if phone else None\n    \n    # 提取邮箱\n    email = re.search(r'[\\w.]+@[\\w.]+\\.\\w+', text)\n    result['email'] = email.group() if email else None\n    \n    # 提取日期\n    date = re.search(r'\\d{4}-\\d{2}-\\d{2}', text)\n    result['date'] = date.group() if date else None\n    \n    return result\n\ntext = '联系张三：13912345678，邮箱zhangsan@test.com，日期2026-01-01'\ninfo = extract_info(text)\nprint(info)", "goal": "创建文本信息提取器，从文本中提取手机号、邮箱、日期", "hint": "使用re.search()查找单个匹配，re.findall()查找所有匹配"}
+    ],
+    "tests": ["phone pattern should match correctly", "email pattern should work", "date extraction should work"],
+    "hint": "import re; re.search(pattern, text)"
+  },
+  {
+    "id": "network-01",
+    "order": 1,
+    "chapter": 14,
+    "title": "网络编程基础",
+    "subtitle": "学习使用socket进行网络通信",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 450,
+    
+    "blocks": [
+      {"type": "heading", "text": "socket编程入门"},
+      {"type": "text", "text": "socket是网络通信的基础，Python使用socket库创建网络连接。"},
+      {"type": "code", "runnable": true, "code": "import socket\n\n# 创建TCP服务器\nserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nserver.bind(('localhost', 8888))\nserver.listen(1)\nprint('服务器启动，等待连接...')\n\nclient, addr = server.accept()\nprint(f'连接来自: {addr}')\n\nclient.send('Hello, Client!'.encode())\ndata = client.recv(1024).decode()\nprint(f'收到: {data}')\n\nclient.close()\nserver.close()", "language": "python"},
+      {"type": "output", "text": "服务器启动，等待连接...\n连接来自: ('127.0.0.1', 12345)\n收到: Hello, Server!"},
+      {"type": "quiz", "question": "AF_INET表示什么？", "options": ["IPv4地址族", "IPv6地址族", "蓝牙协议", "串口通信"], "answer": 0, "explain": "AF_INET表示IPv4地址族，SOCK_STREAM表示TCP协议"},
+      {"type": "practice", "title": "练习：简单聊天", "code": "import socket\n\n# 服务器端\nserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\nserver.bind(('localhost', 9999))\nserver.listen(1)\nclient, _ = server.accept()\n\nmsg = client.recv(1024).decode()\nclient.send(f'收到你的消息: {msg}'.encode())\n\nclient.close()\nserver.close()", "hint": "recv()接收数据，send()发送数据", "stdout": "收到你的消息: 你好"},
+      {"type": "tip", "text": "数据传输需要encode()编码和decode()解码"},
+      {"type": "project", "title": "项目：HTTP服务器", "code": "import socket\n\ndef start_server(port=8080):\n    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)\n    server.bind(('localhost', port))\n    server.listen(1)\n    print(f'HTTP服务器启动在端口{port}')\n    \n    while True:\n        client, addr = server.accept()\n        request = client.recv(1024).decode()\n        \n        # 构建HTTP响应\n        response = 'HTTP/1.1 200 OK\\r\\n\\r\\nHello, World!'\n        client.send(response.encode())\n        client.close()", "goal": "创建一个简单的HTTP服务器", "hint": "HTTP响应需要包含状态头和空行"}
+    ],
+    "tests": ["socket creation should work", "data should be sent and received correctly"],
+    "hint": "import socket; socket.socket()创建连接"
+  }
+]

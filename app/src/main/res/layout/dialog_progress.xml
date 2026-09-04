@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="vertical" android:background="#1A1A2E" android:padding="16dp">
+    <TextView android:id="@+id/tvTitle" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/title_progress_dialog" android:textSize="20sp" android:textColor="#FFFFFF" android:textStyle="bold"/>
+    <TextView android:id="@+id/tvUserId" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_user_default" android:textSize="14sp" android:textColor="#FFFFFF" android:layout_marginTop="16dp"/>
+    <TextView android:id="@+id/tvCompletedLessons" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_completed_default" android:textSize="14sp" android:textColor="#FFFFFF" android:layout_marginTop="8dp"/>
+    <TextView android:id="@+id/tvDailyStreak" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_streak_days_default" android:textSize="14sp" android:textColor="#FFC107" android:layout_marginTop="8dp"/>
+    <TextView android:id="@+id/tvTotalXp" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_total_xp_default" android:textSize="14sp" android:textColor="#E94560" android:layout_marginTop="8dp"/>
+    <ProgressBar android:id="@+id/progressBar" style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="16dp" android:max="100"/>
+    <TextView android:id="@+id/tvProgressPercent" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_percent_default" android:textSize="12sp" android:textColor="#AAAAAA" android:layout_marginTop="4dp"/>
+    <TextView android:id="@+id/tvToday" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_today_default" android:textSize="14sp" android:textColor="#4CAF50" android:layout_marginTop="12dp"/>
+    <TextView android:id="@+id/tvWeekly" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/label_week_default" android:textSize="12sp" android:textColor="#AAAAAA" android:layout_marginTop="4dp"/>
+    <Button android:id="@+id/btnClose" android:layout_width="match_parent" android:layout_height="48dp"
+        android:text="@string/btn_close" android:layout_marginTop="16dp" android:backgroundTint="#666666"/>
+</LinearLayout>

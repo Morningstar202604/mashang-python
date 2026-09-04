@@ -1,0 +1,112 @@
+[
+  {
+    "id": "dsa-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "栈与队列",
+    "subtitle": "LIFO 与 FIFO 的标准姿势",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "用 list 作栈,用 deque 作队列"
+      },
+      {
+        "type": "text",
+        "text": "栈(后进先出)用 list.append()/pop() 即可;队列(先进先出)用 collections.deque 的 append()/popleft(),两端都是 O(1)。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from collections import deque\n\nstack = []\nstack.append(1); stack.append(2)\nprint(stack.pop(), stack)\n\nqueue = deque(['a', 'b'])\nqueue.append('c')\nprint(queue.popleft(), list(queue))"
+      },
+      {
+        "type": "output",
+        "text": "2 [1]\na ['b', 'c']"
+      },
+      {
+        "type": "quiz",
+        "question": "队列的 popleft 若用 list.pop(0) 代替,代价是?",
+        "options": [
+          "无差别",
+          "O(n) 整体搬移",
+          "O(1)",
+          "数据丢失"
+        ],
+        "answer": 1,
+        "explain": "list 头部删除要移动全部后续元素;deque 两端 O(1)"
+      },
+      {
+        "type": "tip",
+        "text": "栈的经典应用:括号匹配、函数调用栈、DFS"
+      }
+    ],
+    "tests": [],
+    "hint": "队列永远别用 list 头部删除"
+  },
+  {
+    "id": "dsa-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "堆与 defaultdict",
+    "subtitle": "heapq 与带默认值的字典",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "heapq 与 defaultdict"
+      },
+      {
+        "type": "text",
+        "text": "heapq 是小顶堆:heappush/heappop,O(log n) 取最值,适合 Top-K;defaultdict(k) 访问缺失键时自动建默认值,分组统计代码省去判存。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "import heapq\nfrom collections import defaultdict\n\nnums = [5, 1, 8, 3]\nheapq.heapify(nums)\nprint(heapq.heappop(nums))\n\ngroups = defaultdict(list)\nfor name, dept in [('Alice', 'dev'), ('Bob', 'ops'), ('Carol', 'dev')]:\n    groups[dept].append(name)\nprint(dict(groups))"
+      },
+      {
+        "type": "output",
+        "text": "1\n{'dev': ['Alice', 'Carol'], 'ops': ['Bob']}"
+      },
+      {
+        "type": "practice",
+        "title": "练习:Top-K",
+        "code": "import heapq\n\nscores = [88, 95, 70, 99, 60]\nprint(heapq.nlargest(2, scores))",
+        "hint": "nlargest/nsmallest 直接取前 K",
+        "stdout": "[99, 95]"
+      },
+      {
+        "type": "quiz",
+        "question": "defaultdict(list) 访问不存在的键会发生?",
+        "options": [
+          "抛 KeyError",
+          "返回 None",
+          "自动创建空列表并返回",
+          "返回 0"
+        ],
+        "answer": 2,
+        "explain": "defaultdict 用工厂函数建默认值,分组统计因此少写 if key in d"
+      },
+      {
+        "type": "project",
+        "title": "项目:迷你优先级队列",
+        "code": "import heapq\n\ntasks = []\nheapq.heappush(tasks, (2, '低优任务'))\nheapq.heappush(tasks, (1, '高优任务'))\nprint(heapq.heappop(tasks))",
+        "goal": "元组第一个元素做优先级排序",
+        "hint": "(1, '高优任务')"
+      },
+      {
+        "type": "tip",
+        "text": "堆只保证堆顶最小,切片看『已排序』是错的;全排序用 sorted"
+      }
+    ],
+    "tests": [],
+    "hint": "defaultdict 是 Counter 之外另一个统计利器"
+  }
+]

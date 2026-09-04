@@ -1,0 +1,243 @@
+[
+  {
+    "id": "cheatsheet-builtin-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "内置函数速查表",
+    "subtitle": "Python 70+ 内置函数完整速查手册，按功能分类，附带示例和输出，随时查阅。",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "内置函数速查表"
+      },
+      {
+        "type": "text",
+        "text": "本速查表涵盖 Python 3.11+ 全部 70+ 内置函数，按功能分类整理。每个函数附带签名、说明和可运行示例。"
+      },
+      {
+        "type": "heading",
+        "text": "数学运算函数"
+      },
+      {
+        "type": "text",
+        "text": "以下函数用于基本数学计算，无需导入任何模块。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# abs(x) - 返回绝对值\nresult = abs(-42)\nprint(result)  # 42\n\n# round(x, ndigits=None) - 四舍五入\nresult = round(3.14159, 2)\nprint(result)  # 3.14\nresult = round(2.5)\nprint(result)  # 2（银行家舍入，偶数优先）\n\n# min(iterable, *[, default=key]) - 最小值\nresult = min(3, 1, 4, 1, 5, 9)\nprint(result)  # 1\nresult = min([], default=0)\nprint(result)  # 0\n\n# max(iterable, *[, default=key]) - 最大值\nresult = max(3, 1, 4, 1, 5, 9)\nprint(result)  # 9\n\n# sum(iterable, start=0) - 求和\nresult = sum([1, 2, 3, 4, 5])\nprint(result)  # 15\nresult = sum([1, 2, 3], 10)\nprint(result)  # 16\n\n# pow(base, exp, mod=None) - 幂运算\nresult = pow(2, 10)\nprint(result)  # 1024\nresult = pow(2, 10, 1000)\nprint(result)  # 24（模运算更快）\n\n# divmod(a, b) - 返回商和余数的元组\nresult = divmod(17, 5)\nprint(result)  # (3, 2)\n\n# int(x) - 转整数\nresult = int(3.9)\nprint(result)  # 3\nresult = int('42')\nprint(result)  # 42\n\n# float(x) - 转浮点数\nresult = float(42)\nprint(result)  # 42.0\nresult = float('3.14')\nprint(result)  # 3.14\n\n# complex(real, imag) - 创建复数\nresult = complex(3, 4)\nprint(result)  # (3+4j)\nprint(result.real)  # 3.0\nprint(result.imag)  # 4.0"
+      },
+      {
+        "type": "tip",
+        "text": "round() 使用银行家舍入法（四舍六入五取偶），与传统四舍五入不同。pow(x, y) 等价于 x**y，但三参数版本 pow(x, y, z) 更高效。"
+      },
+      {
+        "type": "heading",
+        "text": "类型转换函数"
+      },
+      {
+        "type": "text",
+        "text": "用于在不同数据类型之间进行转换。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# bool(x) - 转布尔值\nprint(bool(1))       # True\nprint(bool(0))       # False\nprint(bool(''))      # False\nprint(bool('hello')) # True\nprint(bool([]))      # False\nprint(bool([1]))     # True\n\n# str(x) - 转字符串\nprint(str(42))       # '42'\nprint(str(3.14))     # '3.14'\nprint(str(True))     # 'True'\nprint(str([1,2,3]))  # '[1, 2, 3]'\n\n# list(iterable) - 转列表\nprint(list('abc'))           # ['a', 'b', 'c']\nprint(list(range(5)))        # [0, 1, 2, 3, 4]\nprint(list((1, 2, 3)))       # [1, 2, 3]\n\n# tuple(iterable) - 转元组\nprint(tuple([1, 2, 3]))      # (1, 2, 3)\nprint(tuple('abc'))          # ('a', 'b', 'c')\n\n# dict(iterable, **kwargs) - 转字典\nprint(dict([('a', 1), ('b', 2)]))  # {'a': 1, 'b': 2}\nprint(dict(x=10, y=20))            # {'x': 10, 'y': 20}\n\n# set(iterable) - 转集合\nprint(set([1, 2, 2, 3, 3]))  # {1, 2, 3}\n\n# frozenset(iterable) - 不可变集合\nfs = frozenset([1, 2, 3])\nprint(fs)              # frozenset({1, 2, 3})\n\n# bytearray(x) - 可变字节数组\nba = bytearray(b'hello')\nprint(ba)              # bytearray(b'hello')\n\n# bytes(x) - 不可变字节串\nprint(bytes([72, 101]))  # b'He'\nprint(bytes('hello', 'utf-8'))  # b'hello'"
+      },
+      {
+        "type": "tip",
+        "text": "int() 可以指定进制：int('ff', 16) 返回 255，int('1010', 2) 返回 10。float('inf') 返回无穷大，float('nan') 返回非数字。"
+      },
+      {
+        "type": "heading",
+        "text": "字符串与表示函数"
+      },
+      {
+        "type": "text",
+        "text": "与字符串处理和对象表示相关的函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# len(s) - 返回长度\nprint(len('hello'))       # 5\nprint(len([1, 2, 3]))     # 3\nprint(len({'a': 1}))      # 1\n\n# ascii(obj) - 返回对象的ASCII表示\nprint(ascii('Hello 世界'))  # 'Hello \\u4e16\\u754c'\nprint(ascii('café'))       # 'caf\\xe9'\n\n# repr(obj) - 返回开发者友好的字符串表示\nprint(repr('Hello\\nWorld'))  # 'Hello\\nWorld'\nprint(repr(42))              # '42'\n\n# format(value, format_spec) - 格式化字符串\nprint(format(3.14159, '.2f'))  # '3.14'\nprint(format(255, '08b'))      # '11111111'\nprint(format(1000000, ','))    # '1,000,000'\nprint(format(0.987, '.1%'))    # '98.7%'\n\n# chr(i) - 整数转字符\nprint(chr(65))    # 'A'\nprint(chr(20013)) # '中'\n\n# ord(c) - 字符转整数\nprint(ord('A'))    # 65\nprint(ord('中'))   # 20013"
+      },
+      {
+        "type": "tip",
+        "text": "repr() 用于调试和开发，str() 用于用户友好输出。format() 的格式规范语法：[[fill]align][sign][#][0][width][grouping][.precision][type]"
+      },
+      {
+        "type": "heading",
+        "text": "序列处理函数"
+      },
+      {
+        "type": "text",
+        "text": "用于处理列表、元组等可迭代对象的高阶函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# enumerate(iterable, start=0) - 带索引遍历\nfor i, val in enumerate(['a', 'b', 'c']):\n    print(f'{i}: {val}')\n# 输出:\n# 0: a\n# 1: b\n# 2: c\n\n# zip(*iterables, strict=False) - 并行遍历\nnames = ['Alice', 'Bob', 'Charlie']\nages = [25, 30, 35]\nfor name, age in zip(names, ages):\n    print(f'{name} is {age}')\n# 输出:\n# Alice is 25\n# Bob is 30\n# Charlie is 35\n\n# sorted(iterable, *, key=None, reverse=False) - 排序\nprint(sorted([3, 1, 4, 1, 5]))  # [1, 1, 3, 4, 5]\nprint(sorted('banana'))          # ['a', 'a', 'a', 'b', 'n', 'n']\nprint(sorted([('b', 2), ('a', 1)]))  # [('a', 1), ('b', 2)]\n\n# reversed(seq) - 反转迭代器\nfor x in reversed([1, 2, 3]):\n    print(x, end=' ')\n# 输出: 3 2 1\n\n# any(iterable) - 任一为True则True\nprint(any([0, 0, 1]))     # True\nprint(any([0, 0, 0]))     # False\n\n# all(iterable) - 全部为True则True\nprint(all([1, 1, 1]))     # True\nprint(all([1, 0, 1]))     # False\nprint(all([]))             # True（空可迭代对象返回True）\n\n# filter(function, iterable) - 过滤\nnums = [1, -2, 3, -4, 5]\nprint(list(filter(lambda x: x > 0, nums)))  # [1, 3, 5]\n\n# map(function, *iterables) - 映射\nnums = [1, 2, 3, 4]\nprint(list(map(lambda x: x**2, nums)))  # [1, 4, 9, 16]\n\n# map 多个可迭代对象\na = [1, 2, 3]\nb = [10, 20, 30]\nprint(list(map(lambda x, y: x+y, a, b)))  # [11, 22, 33]"
+      },
+      {
+        "type": "tip",
+        "text": "sorted() 返回新列表不修改原对象，list.sort() 是原地排序。filter/map 返回惰性迭代器，需要 list() 转换才能看到内容。"
+      },
+      {
+        "type": "heading",
+        "text": "IO 函数"
+      },
+      {
+        "type": "text",
+        "text": "用于输入输出和文件操作的函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# print(*objects, sep=' ', end='\\n', file=sys.stdout, flush=False)\nprint('Hello', 'World')           # Hello World\nprint('a', 'b', 'c', sep='-')     # a-b-c\nprint('hello', end='!\\n')          # hello!\n\n# input(prompt=None) - 读取用户输入（返回字符串）\n# name = input('请输入你的名字: ')\n# print(f'你好, {name}!')\n\n# open(file, mode='r', encoding=None) - 打开文件\n# 常用模式:\n# 'r' - 读取（默认）\n# 'w' - 写入（覆盖）\n# 'a' - 追加\n# 'x' - 创建（文件已存在则报错）\n# 'b' - 二进制模式\n# 't' - 文本模式（默认）\n\n# 文本文件读写\nwith open('example.txt', 'w', encoding='utf-8') as f:\n    f.write('Hello, 世界!\\n')\n    f.write('第二行内容')\n\nwith open('example.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\n    print(content)\n\n# 逐行读取\nwith open('example.txt', 'r', encoding='utf-8') as f:\n    for line in f:\n        print(line.strip())\n\n# print 到文件\nwith open('output.txt', 'w') as f:\n    print('Hello to file', file=f)"
+      },
+      {
+        "type": "tip",
+        "text": "始终使用 with 语句管理文件，确保文件正确关闭。open() 的 encoding 参数在读写中文时非常重要，推荐始终指定 encoding='utf-8'。"
+      },
+      {
+        "type": "heading",
+        "text": "迭代器与生成器函数"
+      },
+      {
+        "type": "text",
+        "text": "用于创建和操作迭代器的函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# iter(object) - 创建迭代器\ndata = [1, 2, 3]\nit = iter(data)\nprint(next(it))  # 1\nprint(next(it))  # 2\nprint(next(it))  # 3\n# print(next(it))  # StopIteration\n\n# next(iterator, default) - 获取下一个值\nit = iter([1, 2, 3])\nprint(next(it))           # 1\nprint(next(it, '默认'))   # 2\nprint(next(it, '默认'))   # 3\nprint(next(it, '默认'))   # '默认'\n\n# range(stop) / range(start, stop, step)\nprint(list(range(5)))        # [0, 1, 2, 3, 4]\nprint(list(range(1, 10, 2))) # [1, 3, 5, 7, 9]\n\n# reversed 返回迭代器\nr = reversed([1, 2, 3])\nprint(list(r))  # [3, 2, 1]\n\n# filter 返回迭代器\ndef is_even(n):\n    return n % 2 == 0\nf = filter(is_even, range(10))\nprint(list(f))  # [0, 2, 4, 6, 8]\n\n# map 返回迭代器\nm = map(str.upper, ['hello', 'world'])\nprint(list(m))  # ['HELLO', 'WORLD']\n\n# 生成器表达式（惰性求值，节省内存）\ngen = (x**2 for x in range(1000000))\nprint(next(gen))  # 0\nprint(next(gen))  # 1\nprint(next(gen))  # 4"
+      },
+      {
+        "type": "tip",
+        "text": "迭代器是一次性消耗的，遍历完后需重新创建。使用 iter() + next() 模式可以手动控制迭代过程。生成器表达式比列表推导式更节省内存。"
+      },
+      {
+        "type": "heading",
+        "text": "对象检查与属性函数"
+      },
+      {
+        "type": "text",
+        "text": "用于检查对象类型和操作对象属性的函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# id(obj) - 返回对象唯一标识符（内存地址）\nprint(id(42))  # 某个整数\nx = [1, 2, 3]\nprint(id(x))   # 列表的内存地址\n\n# type(obj) - 返回对象类型\nprint(type(42))         # <class 'int'>\nprint(type('hello'))    # <class 'str'>\nprint(type([1, 2, 3]))  # <class 'list'>\n\n# isinstance(obj, classinfo) - 检查实例类型\nprint(isinstance(42, int))              # True\nprint(isinstance('hello', (int, str)))  # True（检查多个类型）\nprint(isinstance([1], list))            # True\n\n# issubclass(class, classinfo) - 检查继承关系\nprint(issubclass(bool, int))  # True\nprint(issubclass(int, float)) # False\n\n# callable(obj) - 检查是否可调用\nprint(callable(print))   # True\nprint(callable(42))      # False\nprint(callable(lambda x: x))  # True\n\n# hasattr(obj, name) - 检查属性是否存在\nprint(hasattr('hello', 'upper'))  # True\nprint(hasattr(42, 'bit_length'))  # True\nprint(hasattr(42, 'foo'))         # False\n\n# getattr(obj, name, default=None) - 获取属性值\ns = 'hello'\nprint(getattr(s, 'upper')())  # 'HELLO'\nprint(getattr(s, 'foo', None))  # None\n\n# setattr(obj, name, value) - 设置属性\nclass MyClass:\n    pass\nobj = MyClass()\nsetattr(obj, 'x', 10)\nprint(obj.x)  # 10\n\n# delattr(obj, name) - 删除属性\ndelattr(obj, 'x')\n# print(obj.x)  # AttributeError\n\n# hash(obj) - 返回哈希值\nprint(hash('hello'))   # 某个整数\nprint(hash(42))        # 42\nprint(hash((1, 2, 3))) # 某个整数"
+      },
+      {
+        "type": "tip",
+        "text": "isinstance() 比 type() 更灵活，支持继承检查。hasattr/getattr/setattr/delattr 是面向对象编程中动态操作属性的核心函数。"
+      },
+      {
+        "type": "heading",
+        "text": "面向对象辅助函数"
+      },
+      {
+        "type": "text",
+        "text": "用于面向对象编程的内置函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# super() - 代理父类方法\nclass Animal:\n    def speak(self):\n        return '...'\n\nclass Dog(Animal):\n    def speak(self):\n        return super().speak() + ' 汪!'\n\ndog = Dog()\nprint(dog.speak())  # ... 汪!\n\n# property - 创建托管属性\nclass Circle:\n    def __init__(self, radius):\n        self._radius = radius\n    \n    @property\n    def radius(self):\n        return self._radius\n    \n    @radius.setter\n    def radius(self, value):\n        if value < 0:\n            raise ValueError('半径不能为负')\n        self._radius = value\n    \n    @property\n    def area(self):\n        return 3.14159 * self._radius ** 2\n\nc = Circle(5)\nprint(c.radius)   # 5\nprint(c.area)     # 78.53975\nc.radius = 10\nprint(c.area)     # 314.159\n\n# classmethod - 类方法\nclass Date:\n    def __init__(self, year, month, day):\n        self.year = year\n        self.month = month\n        self.day = day\n    \n    @classmethod\n    def from_string(cls, date_str):\n        y, m, d = map(int, date_str.split('-'))\n        return cls(y, m, d)\n\nd = Date.from_string('2024-01-15')\nprint(d.year, d.month, d.day)  # 2024 1 15\n\n# staticmethod - 静态方法\nclass MathHelper:\n    @staticmethod\n    def add(a, b):\n        return a + b\n\nprint(MathHelper.add(3, 4))  # 7"
+      },
+      {
+        "type": "tip",
+        "text": "super() 在多重继承中遵循 MRO（方法解析顺序）。classmenthod 常用于工厂方法，staticmethod 用于不需要访问类或实例的方法。"
+      },
+      {
+        "type": "heading",
+        "text": "代码执行函数"
+      },
+      {
+        "type": "text",
+        "text": "用于动态执行代码的函数，使用时需注意安全性。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# eval(expression, globals=None, locals=None) - 执行表达式\nresult = eval('2 + 3')\nprint(result)  # 5\nresult = eval('x + y', {'x': 10, 'y': 20})\nprint(result)  # 30\n\n# exec(object, globals=None, locals=None) - 执行代码\ncode = '''\nx = 10\ny = 20\nresult = x + y\n'''\nexec(code)\nprint(result)  # 30\n\n# exec 可以定义函数\ncode = '''\ndef greet(name):\n    return f'你好, {name}!'\n'''\nexec(code)\nprint(greet('世界'))  # 你好, 世界!\n\n# compile(source, filename, mode) - 编译代码\nsource = 'x = 5'\ncode = compile(source, '<string>', 'exec')\nexec(code)\nprint(x)  # 5\n\n# ast.literal_eval - 安全地解析字面量\nimport ast\nresult = ast.literal_eval('[1, 2, 3]')\nprint(result)  # [1, 2, 3]\nresult = ast.literal_eval('{\"a\": 1, \"b\": 2}')\nprint(result)  # {'a': 1, 'b': 2}\n# ast.literal_eval('os.system(\"ls\")')  # ValueError（不执行危险代码）"
+      },
+      {
+        "type": "tip",
+        "text": "eval/exec 会执行任意代码，有安全风险。永远不要对用户输入使用 eval/exec。解析数据时使用 ast.literal_eval() 更安全，它只接受 Python 字面量语法。"
+      },
+      {
+        "type": "heading",
+        "text": "变量作用域与内省函数"
+      },
+      {
+        "type": "text",
+        "text": "用于检查当前作用域和变量信息的函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# vars(object=None) - 返回对象的 __dict__\nclass MyClass:\n    def __init__(self):\n        self.x = 1\n        self.y = 2\n\nobj = MyClass()\nprint(vars(obj))  # {'x': 1, 'y': 2}\n\n# 不带参数时等同于 locals()\nprint(vars() == locals())  # True\n\n# dir(object) - 返回属性名列表\nprint(dir('hello'))  # 字符串的所有方法和属性\nprint(dir(int))      # 整数类的所有方法\n\n# 自定义 dir\nclass MyClass:\n    x = 10\n    y = 20\n    def method(self):\n        pass\n\nprint(dir(MyClass))  # 类的属性和方法\n\n# globals() - 全局命名空间字典\nglobal_var = 'I am global'\nprint('global_var' in globals())  # True\n\n# locals() - 局部命名空间字典\ndef test():\n    local_var = 'I am local'\n    print('local_var' in locals())  # True\n\ntest()\n\n# help(object) - 显示帮助文档\n# help(str.split)  # 取消注释可查看帮助"
+      },
+      {
+        "type": "tip",
+        "text": "dir() 返回的列表是排序的，通常包含属性和方法。vars() 和 locals() 的区别：vars() 可以接受对象参数，locals() 只返回当前局部作用域。"
+      },
+      {
+        "type": "heading",
+        "text": "其他常用内置函数"
+      },
+      {
+        "type": "text",
+        "text": "前面分类未涵盖的其他常用函数。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# type() - 创建新类型\ndef greet(self):\n    return f'你好, {self.name}!'\n\nPerson = type('Person', (), {'name': '', 'greet': greet})\np = Person()\np.name = '小明'\nprint(p.greet())  # 你好, 小明!\n\n# breakpoint() - 设置调试断点\n# 在代码中插入断点，方便调试\n# x = 42\n# breakpoint()  # 会启动调试器\n\n# import() - 动态导入模块\nmath = __import__('math')\nprint(math.pi)  # 3.141592653589793\n\n# memoryview - 创建内存视图\nmv = memoryview(b'hello')\nprint(mv[0])  # 104（h 的 ASCII 值）\nprint(mv[1:3])  # <memory at 0x...>\n\n# bin(x) - 转二进制字符串\nprint(bin(42))     # '0b101010'\nprint(bin(-42))    # '-0b101010'\n\n# oct(x) - 转八进制字符串\nprint(oct(42))     # '0o52'\n\n# hex(x) - 转十六进制字符串\nprint(hex(42))     # '0x2a'\nprint(hex(255))    # '0xff'\n\n# abs, round 已在数学部分介绍\n\n# 下面是完整的内置函数列表（70+）：\n# abs, aiter, anext, any, ascii, bin, bool, breakpoint,\n# bytearray, bytes, callable, chr, classmethod, compile,\n# complex, delattr, dict, dir, divmod, enumerate, eval, exec,\n# filter, float, format, frozenset, getattr, globals, hasattr,\n# hash, help, hex, id, input, int, isinstance, issubclass,\n# iter, len, list, locals, map, max, memoryview, min, next,\n# object, oct, open, ord, pow, print, property, range,\n# repr, reversed, round, set, setattr, slice, sorted,\n# staticmethod, str, sum, super, tuple, type, vars, zip,\n# __import__"
+      },
+      {
+        "type": "tip",
+        "text": "breakpoint() 是 Python 3.7+ 的调试快捷方式，等价于 import pdb; pdb.set_trace()。__import__() 通常不推荐使用，建议用 import 语句。"
+      },
+      {
+        "type": "heading",
+        "text": "practice_time"
+      },
+      {
+        "type": "text",
+        "text": "练习：综合运用内置函数"
+      },
+      {
+        "type": "text",
+        "text": "不使用循环和内置 sum()，计算 1 到 100 所有奇数的和。提示：可以组合使用 range()、filter() 和 sum()。"
+      },
+      {
+        "type": "text",
+        "text": "使用 map() 和 filter()，将一个数字列表中所有偶数转换为字符串，如 [1,2,3,4,5] -> ['2', '4']。"
+      },
+      {
+        "type": "text",
+        "text": "使用 zip() 和 dict()，将 keys = ['name', 'age', 'city'] 和 values = ['Alice', 25, 'Beijing'] 合并为一个字典。"
+      },
+      {
+        "type": "heading",
+        "text": "project_time"
+      },
+      {
+        "type": "text",
+        "text": "综合项目：构建一个简易计算器"
+      },
+      {
+        "type": "text",
+        "text": "使用内置函数构建一个命令行计算器：1) 使用 input() 读取用户输入的表达式；2) 使用 eval() 安全计算结果（注意：实际项目中应使用更安全的方式）；3) 支持基本四则运算：加(+)、减(-)、乘(*)、除(/)；4) 使用 isinstance() 检查输入类型；5) 使用 format() 格式化输出结果，保留 2 位小数。要求：创建 calculate() 函数，循环接收用户输入直到用户输入 'quit' 退出。"
+      }
+    ],
+    "tests": [],
+    "hint": "速查手册无需作答,阅读即完成。"
+  }
+]

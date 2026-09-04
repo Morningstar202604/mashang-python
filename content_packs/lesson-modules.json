@@ -1,0 +1,58 @@
+[
+  {
+    "id": "mod-01",
+    "order": 1,
+    "chapter": 6,
+    "title": "模块与包",
+    "subtitle": "学习如何使用和创建模块",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "什么是模块"},
+      {"type": "text", "text": "模块是包含Python代码的.py文件，可以被其他程序导入使用。使用模块可以组织代码、避免重复。"},
+      {"type": "code", "runnable": true, "code": "# 导入模块的不同方式\n\n# 方式1: 导入整个模块\nimport math\nprint(f'圆周率: {math.pi}')\nprint(f'平方根: {math.sqrt(16)}')\n\n# 方式2: 导入特定函数\nfrom random import randint, choice\nprint(f'随机数: {randint(1, 100)}')\n\n# 方式3: 导入并起别名\nimport datetime as dt\nnow = dt.datetime.now()\nprint(f'当前时间: {now}')", "language": "python"},
+      {"type": "output", "text": "圆周率: 3.141592653589793\n平方根: 4.0\n随机数: 42\n当前时间: 2024-01-15 10:30:00.123456"},
+      {"type": "heading", "text": "创建自己的模块"},
+      {"type": "code", "runnable": true, "code": "# 创建模块: myutils.py\ndef greet(name):\n    return f'你好, {name}!'\n\ndef add(a, b):\n    return a + b\n\nPI = 3.14159\n\n# 在另一个文件中使用:\n# import myutils\n# print(myutils.greet('Alice'))\n# print(myutils.add(1, 2))\n# print(myutils.PI)", "language": "python"},
+      {"type": "output", "text": "(模块创建成功，导入后可用)"},
+      {"type": "quiz", "question": "from math import sqrt 的作用是什么？", "options": ["导入math模块", "只导入sqrt函数", "导入所有函数", "创建math模块"], "answer": 1, "explain": "from...import只导入指定的函数"},
+      {"type": "practice", "title": "练习：使用os模块", "code": "import os\n\n# 获取当前工作目录\nprint(f'当前目录: {os.getcwd()}')\n\n# 列出目录内容\nfiles = os.listdir('.')\nprint(f'文件数量: {len(files)}')\n\n# 检查文件是否存在\nexists = os.path.exists('test.txt')\nprint(f'test.txt是否存在: {exists}')", "hint": "os模块提供操作系统相关功能", "stdout": "当前目录: /home/user/project\n文件数量: 15\ntest.txt是否存在: False"},
+      {"type": "tip", "text": "使用from math import *会导入所有函数，不推荐"},
+      {"type": "project", "title": "项目：创建工具模块", "code": "# 创建一个字符串工具模块\n# 保存为 string_tools.py\n\ndef reverse(s):\n    return s[::-1]\n\ndef is_palindrome(s):\n    return s == s[::-1]\n\ndef word_count(s):\n    return len(s.split())\n\ndef char_frequency(s):\n    freq = {}\n    for char in s:\n        freq[char] = freq.get(char, 0) + 1\n    return freq\n\n# 使用模块\n# import string_tools\n# print(string_tools.is_palindrome('racecar'))\n# print(string_tools.word_count('hello world test'))", "goal": "创建一个可复用的字符串工具模块", "hint": "将相关函数组织在一个.py文件中"}
+    ],
+    "tests": ["import works correctly", "module functions are callable"],
+    "hint": "import导入模块，from...import导入特定函数"
+  },
+  {
+    "id": "mod-02",
+    "order": 2,
+    "chapter": 6,
+    "title": "包与虚拟环境",
+    "subtitle": "学习包管理和虚拟环境",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 300,
+    
+    "blocks": [
+      {"type": "heading", "text": "什么是包"},
+      {"type": "text", "text": "包是包含__init__.py文件的目录，用于组织多个模块。可以理解为模块的文件夹。"},
+      {"type": "code", "runnable": true, "code": "# 包的目录结构:\n# mypackage/\n#   __init__.py\n#   module1.py\n#   module2.py\n#   subpackage/\n#     __init__.py\n#     module3.py\n\n# 导入包中的模块\n# from mypackage import module1\n# from mypackage.subpackage import module3\n\n# __init__.py可以控制导出\n# from mypackage import *", "language": "python"},
+      {"type": "output", "text": "(包结构示例)"},
+      {"type": "heading", "text": "pip包管理"},
+      {"type": "code", "runnable": true, "code": "# pip常用命令\n# pip install requests       # 安装包\n# pip install requests==2.28 # 安装指定版本\n# pip uninstall requests     # 卸载包\n# pip list                   # 查看已安装包\n# pip freeze > requirements.txt  # 导出依赖\n# pip install -r requirements.txt  # 安装依赖\n\n# 在Python中检查包\nimport sys\nprint(f'Python版本: {sys.version}')\nprint(f'已安装的包: {len(sys.modules)}个')", "language": "python"},
+      {"type": "output", "text": "Python版本: 3.13.0\n已安装的包: 150个"},
+      {"type": "heading", "text": "虚拟环境"},
+      {"type": "text", "text": "虚拟环境为每个项目创建独立的Python环境，避免包版本冲突。"},
+      {"type": "code", "runnable": true, "code": "# 创建虚拟环境\n# python -m venv myenv\n\n# 激活虚拟环境\n# Windows: myenv\\Scripts\\activate\n# Mac/Linux: source myenv/bin/activate\n\n# 退出虚拟环境\n# deactivate\n\n# 在虚拟环境中安装包\n# pip install requests\n# pip freeze > requirements.txt", "language": "python"},
+      {"type": "output", "text": "(虚拟环境操作命令)"},
+      {"type": "quiz", "question": "虚拟环境的主要作用是什么？", "options": ["提高运行速度", "隔离项目依赖", "节省磁盘空间", "保护代码安全"], "answer": 1, "explain": "虚拟环境为每个项目创建独立环境，避免包版本冲突"},
+      {"type": "practice", "title": "练习：创建requirements.txt", "code": "# requirements.txt 示例内容:\n# requests==2.31.0\n# flask==3.0.0\n# numpy==1.24.0\n# pandas==2.0.0\n\n# 安装依赖\n# pip install -r requirements.txt\n\nprint('requirements.txt 用于记录项目依赖')\nprint('其他人可以通过它安装相同的环境')", "hint": "使用pip freeze生成requirements.txt", "stdout": "requirements.txt 用于记录项目依赖\n其他人可以通过它安装相同的环境"},
+      {"type": "tip", "text": "永远不要在全局Python环境中安装项目依赖"},
+      {"type": "project", "title": "项目：项目初始化脚本", "code": "import os\n\ndef create_project_structure(project_name):\n    # 创建项目目录\n    os.makedirs(project_name, exist_ok=True)\n    \n    # 创建子目录\n    os.makedirs(f'{project_name}/src', exist_ok=True)\n    os.makedirs(f'{project_name}/tests', exist_ok=True)\n    \n    # 创建文件\n    with open(f'{project_name}/requirements.txt', 'w') as f:\n        f.write('# 项目依赖\\n')\n    \n    with open(f'{project_name}/README.md', 'w') as f:\n        f.write(f'# {project_name}\\n\\n项目描述\\n')\n    \n    print(f'项目 {project_name} 创建成功!')\n\ncreate_project_structure('my_awesome_project')", "goal": "创建自动化项目初始化脚本", "hint": "使用os.makedirs创建目录，open()创建文件"}
+    ],
+    "tests": ["virtual environment commands understood", "pip commands work"],
+    "hint": "pip管理包，venv管理虚拟环境"
+  }
+]

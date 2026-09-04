@@ -1,0 +1,112 @@
+[
+  {
+    "id": "abc-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "抽象基类 ABC",
+    "subtitle": "强制子类实现指定方法",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "抽象基类"
+      },
+      {
+        "type": "text",
+        "text": "abc.ABC + @abstractmethod 定义『必须被实现』的方法,含未实现方法的抽象类不能实例化,适合规定插件/子类的统一接口。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from abc import ABC, abstractmethod\n\nclass Storage(ABC):\n    @abstractmethod\n    def save(self, key, value): ...\n\n    @abstractmethod\n    def load(self, key): ...\n\nclass MemoryStorage(Storage):\n    def __init__(self):\n        self.data = {}\n\n    def save(self, key, value):\n        self.data[key] = value\n\n    def load(self, key):\n        return self.data.get(key)\n\ns = MemoryStorage()\ns.save('name', 'Alice')\nprint(s.load('name'))"
+      },
+      {
+        "type": "output",
+        "text": "Alice"
+      },
+      {
+        "type": "quiz",
+        "question": "直接实例化只含抽象方法的抽象类会怎样?",
+        "options": [
+          "得到一个空对象",
+          "抛出 TypeError",
+          "自动用 None 实现",
+          "抛出 KeyError"
+        ],
+        "answer": 1,
+        "explain": "抽象类含 abstractmethod 时实例化会抛 TypeError: Can't instantiate abstract class"
+      },
+      {
+        "type": "tip",
+        "text": "抽象方法可以有默认实现,子类可用 super().method() 复用"
+      }
+    ],
+    "tests": [],
+    "hint": "实例化前确认所有 @abstractmethod 都被覆盖"
+  },
+  {
+    "id": "abc-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "Protocol 与鸭子类型",
+    "subtitle": "静态检查的结构化接口",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "typing.Protocol"
+      },
+      {
+        "type": "text",
+        "text": "Protocol(结构化子类型)不要求显式继承:只要对象有协议规定的方法签名就算兼容,是『鸭子类型』的静态检查版。@runtime_checkable 让 isinstance 也可用。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from typing import Protocol, runtime_checkable\n\n@runtime_checkable\nclass Greeter(Protocol):\n    def greet(self) -> str: ...\n\nclass Dog:\n    def greet(self) -> str:\n        return '汪汪'\n\nclass Cat:\n    def meow(self) -> str:\n        return '喵'\n\nd: Greeter = Dog()\nprint(d.greet())\nprint(isinstance(Dog(), Greeter))"
+      },
+      {
+        "type": "output",
+        "text": "汪汪\nTrue"
+      },
+      {
+        "type": "practice",
+        "title": "练习:可关闭资源",
+        "code": "from typing import Protocol\n\nclass Closable(Protocol):\n    def close(self) -> None: ...\n\nclass Conn:\n    def close(self) -> None:\n        print('closed')\n\nc: Closable = Conn()\nc.close()",
+        "hint": "只要实现了 close(self) -> None 就符合协议",
+        "stdout": "closed"
+      },
+      {
+        "type": "quiz",
+        "question": "Protocol 与 ABC 最大的区别是?",
+        "options": [
+          "Protocol 运行更快",
+          "Protocol 不要求显式继承",
+          "ABC 不能有抽象方法",
+          "Protocol 不能被 isinstance"
+        ],
+        "answer": 1,
+        "explain": "Protocol 是结构化类型:实现方法签名即兼容,无需继承声明"
+      },
+      {
+        "type": "project",
+        "title": "项目:统一导出接口",
+        "code": "from typing import Protocol\n\nclass Exporter(Protocol):\n    def export(self, data: dict) -> str: ...\n\nclass JsonExporter:\n    def export(self, data: dict) -> str:\n        return str(data)\n\ndef dump(exp: Exporter, data: dict):\n    print(exp.export(data))\n\ndump(JsonExporter(), {'a': 1})",
+        "goal": "面向协议编程,调用方不关心具体类型",
+        "hint": "任何带 export(dict)->str 的类都可用"
+      },
+      {
+        "type": "tip",
+        "text": "isinstance 检查 Protocol 需要 @runtime_checkable,且只检查方法名是否存在"
+      }
+    ],
+    "tests": [],
+    "hint": "协议描述『能做什么』而不是『是谁』"
+  }
+]

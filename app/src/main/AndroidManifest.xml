@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 唯一用途：内容中心（ContentCenter）手动下载课程包。App 不收集/上传任何个人数据。 -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".PyNeonApp"
-        android:allowBackup="false"
-        android:description="@string/app_name"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PyNeon">
-
+        android:theme="@style/Theme.MashangPython"
+        tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.MashangPython">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.MashangPython" />
+
+        <activity android:name=".ui.ProfileActivity" />
+
+        <activity android:name=".ui.SettingsActivity" />
+
+        <activity android:name=".ui.SearchActivity" />
     </application>
 
 </manifest>

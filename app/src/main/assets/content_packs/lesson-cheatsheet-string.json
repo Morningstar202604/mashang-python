@@ -1,0 +1,209 @@
+[
+  {
+    "id": "cheatsheet-string-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "字符串方法速查表",
+    "subtitle": "Python 字符串全部方法速查手册，按功能分类，附带示例和输出，随时查阅。",
+    "version": 1,
+    "difficulty": "intermediate",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "字符串方法速查表"
+      },
+      {
+        "type": "text",
+        "text": "Python 字符串是不可变对象，所有方法都返回新字符串，不修改原字符串。本速查表按功能分组，涵盖全部字符串方法。"
+      },
+      {
+        "type": "heading",
+        "text": "大小写转换方法"
+      },
+      {
+        "type": "text",
+        "text": "用于改变字符串的大小写格式。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# upper() - 全部转大写\ns = 'hello world'\nprint(s.upper())  # HELLO WORLD\n\n# lower() - 全部转小写\ns = 'HELLO WORLD'\nprint(s.lower())  # hello world\n\n# title() - 每个单词首字母大写\ns = 'hello world'\nprint(s.title())  # Hello World\n\n# capitalize() - 仅首字母大写，其余转小写\ns = 'hello WORLD'\nprint(s.capitalize())  # Hello world\n\n# swapcase() - 大小写互换\ns = 'Hello World'\nprint(s.swapcase())  # hELLO wORLD\n\n# casefold() - 更激进的小写转换（支持特殊字符）\ns = 'Straße'  # 德语\nprint(s.casefold())  # strasse\nprint(s.lower())     # straße（lower 不处理 ß）"
+      },
+      {
+        "type": "tip",
+        "text": "casefold() 比 lower() 更强大，专为无大小写比较设计。title() 对撇号处理不佳：\"it's\" -> \"It'S\"，可用 string.capwords() 替代。"
+      },
+      {
+        "type": "heading",
+        "text": "查找与搜索方法"
+      },
+      {
+        "type": "text",
+        "text": "用于在字符串中查找子串的位置。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# find(sub, start=0, end=len(s)) - 查找子串，返回索引，找不到返回-1\ns = 'hello world hello'\nprint(s.find('hello'))      # 0\nprint(s.find('hello', 5))   # 12\nprint(s.find('xyz'))        # -1\n\n# rfind(sub, start=0, end=len(s)) - 从右边开始查找\nprint(s.rfind('hello'))     # 12\nprint(s.rfind('hello', 0, 10))  # 0\n\n# index(sub, start=0, end=len(s)) - 查找子串，找不到抛 ValueError\n# print(s.index('xyz'))  # ValueError: substring not found\n\n# rindex(sub, start=0, end=len(s)) - 从右边查找，找不到抛异常\nprint(s.rindex('hello'))  # 12\n\n# count(sub, start=0, end=len(s)) - 统计出现次数\ns = 'hello world hello'\nprint(s.count('hello'))  # 2\nprint(s.count('l'))      # 5\n\n# startswith(prefix[, start[, end]]) - 是否以指定前缀开头\ns = 'hello world'\nprint(s.startswith('hello'))          # True\nprint(s.startswith('world', 6))       # True\nprint(s.startswith(('hi', 'hello')))  # True（元组匹配）\n\n# endswith(suffix[, start[, end]]) - 是否以指定后缀结尾\ns = 'hello.txt'\nprint(s.endswith('.txt'))           # True\nprint(s.endswith(('.txt', '.csv'))) # True（元组匹配）\nprint(s.endswith('lo', 0, 5))      # True"
+      },
+      {
+        "type": "tip",
+        "text": "find() 和 index() 的区别：find() 找不到返回 -1，index() 抛出 ValueError。建议用 find() 避免异常处理。startswith/endswith 支持元组，一次检查多个前缀/后缀。"
+      },
+      {
+        "type": "heading",
+        "text": "字符串转换方法"
+      },
+      {
+        "type": "text",
+        "text": "用于修改字符串格式、分割和合并。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# strip(chars=None) - 去除两端字符\ns = '  hello  '\nprint(s.strip())       # 'hello'\nprint(s.strip(' '))    # 'hello'\n\ns = '##hello##'\nprint(s.strip('#'))    # 'hello'\n\n# lstrip(chars=None) - 去除左侧字符\ns = '  hello  '\nprint(s.lstrip())      # 'hello  '\n\n# rstrip(chars=None) - 去除右侧字符\ns = '  hello  '\nprint(s.rstrip())      # '  hello'\n\n# replace(old, new, count=-1) - 替换子串\ns = 'hello world hello'\nprint(s.replace('hello', 'hi'))     # 'hi world hi'\nprint(s.replace('hello', 'hi', 1))  # 'hi world hello'\n\n# split(sep=None, maxsplit=-1) - 分割字符串\ns = 'hello world foo bar'\nprint(s.split())       # ['hello', 'world', 'foo', 'bar']\nprint(s.split(' '))    # ['hello', 'world', 'foo', 'bar']\nprint(s.split(' ', 2)) # ['hello', 'world', 'foo bar']\n\ns = 'a,b,,c'\nprint(s.split(','))    # ['a', 'b', '', 'c']\n\n# rsplit(sep=None, maxsplit=-1) - 从右边分割\ns = 'hello world foo'\nprint(s.rsplit(' ', 1))  # ['hello world', 'foo']\n\n# splitlines(keepends=False) - 按行分割\ns = 'line1\\nline2\\nline3'\nprint(s.splitlines())          # ['line1', 'line2', 'line3']\nprint(s.splitlines(True))      # ['line1\\n', 'line2\\n', 'line3']\n\n# join(iterable) - 合并字符串\nprint(' '.join(['hello', 'world']))       # 'hello world'\nprint(', '.join(['a', 'b', 'c']))         # 'a, b, c'\nprint('\\n'.join(['line1', 'line2']))     # 'line1\\nline2'"
+      },
+      {
+        "type": "tip",
+        "text": "split() 不带参数时按所有空白字符分割（空格、制表符、换行符等），会忽略连续空白。join() 是字符串拼接最高效的方式，比 + 拼接快。"
+      },
+      {
+        "type": "heading",
+        "text": "对齐与填充方法"
+      },
+      {
+        "type": "text",
+        "text": "用于字符串的对齐和填充操作。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# center(width, fillchar=' ') - 居中对齐\ns = 'hello'\nprint(s.center(20))        # '       hello        '\nprint(s.center(20, '-'))   # '-------hello--------'\n\n# ljust(width, fillchar=' ') - 左对齐\nprint(s.ljust(20))        # 'hello               '\nprint(s.ljust(20, '*'))   # 'hello***************'\n\n# rjust(width, fillchar=' ') - 右对齐\nprint(s.rjust(20))        # '               hello'\nprint(s.rjust(20, '0'))   # '000000000000000hello'\n\n# zfill(width) - 用0填充左侧\ns = '42'\nprint(s.zfill(5))        # '00042'\ns = '-42'\nprint(s.zfill(5))        # '-0042'\n\n# expandtabs(tabsize=8) - 将制表符替换为空格\ns = 'hello\\tworld'\nprint(s.expandtabs())      # 'hello   world'\nprint(s.expandtabs(4))     # 'hello   world'\ns = 'h\\tw\\te\\tl\\tl\\to'\nprint(s.expandtabs(8))     # 'h\\tw\\te\\tl\\tl\\to'\nprint(s.expandtabs(4))     # 'h\\tw\\te\\tl\\tl\\to'"
+      },
+      {
+        "type": "tip",
+        "text": "center/ljust/rjust 的宽度参数如果小于字符串长度，则返回原字符串。zfill 保留符号位置：'-42'.zfill(5) -> '-0042'。"
+      },
+      {
+        "type": "heading",
+        "text": "类型检查方法"
+      },
+      {
+        "type": "text",
+        "text": "用于判断字符串是否符合某种模式。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# isalpha() - 是否全是字母\nprint('hello'.isalpha())      # True\nprint('hello123'.isalpha())   # False\nprint(''.isalpha())           # False\n\n# isdigit() - 是否全是数字\nprint('123'.isdigit())        # True\nprint('12.3'.isdigit())       # False\nprint('²'.isdigit())          # True（Unicode数字）\nprint(''.isdigit())           # False\n\n# isdecimal() - 是否全是十进制数字\nprint('123'.isdecimal())      # True\nprint('²'.isdecimal())        # False\n\n# isnumeric() - 是否全是数值字符\nprint('123'.isnumeric())      # True\nprint('½'.isnumeric())        # True\nprint('²'.isnumeric())        # True\n\n# isalnum() - 是否全是字母或数字\nprint('hello123'.isalnum())   # True\nprint('hello 123'.isalnum())  # False\n\n# isspace() - 是否全是空白字符\nprint('  '.isspace())        # True\nprint('\\t\\n'.isspace())       # True\nprint('a '.isspace())        # False\n\n# isupper() - 是否全是大写\nprint('HELLO'.isupper())      # True\nprint('Hello'.isupper())      # False\nprint('123'.isupper())        # False\n\n# islower() - 是否全是小写\nprint('hello'.islower())      # True\nprint('Hello'.islower())      # False\n\n# istitle() - 是否是标题格式\nprint('Hello World'.istitle())  # True\nprint('hello world'.istitle())  # False\n\n# isidentifier() - 是否是有效标识符\nprint('hello'.isidentifier())   # True\nprint('123abc'.isidentifier())  # False\nprint('_name'.isidentifier())   # True\nprint('for'.isidentifier())     # True（关键字也是有效标识符）\n\n# isprintable() - 是否全是可打印字符\nprint('hello'.isprintable())   # True\nprint('hello\\n'.isprintable()) # False"
+      },
+      {
+        "type": "tip",
+        "text": "isdigit/isdecimal/isnumeric 的区别：isdigit 接受 Unicode 数字，isdecimal 只接受十进制，isnumeric 还接受分数和汉字数字。isidentifier 不检查是否是关键字，需额外用 keyword.iskeyword() 检查。"
+      },
+      {
+        "type": "heading",
+        "text": "编码与解码方法"
+      },
+      {
+        "type": "text",
+        "text": "用于字符串与字节之间的转换。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# encode(encoding='utf-8', errors='strict') - 编码为字节\ns = 'Hello, 世界!'\nencoded = s.encode('utf-8')\nprint(encoded)          # b'Hello, \\xe4\\xb8\\x96\\xe7\\x95\\x8c!'\nprint(type(encoded))    # <class 'bytes'>\n\nencoded_gbk = s.encode('gbk')\nprint(encoded_gbk)      # b'Hello, \\xc6\\xbd\\xbd\\xe7!'\n\n# bytes.decode(encoding='utf-8') - 解码为字符串\nb = b'Hello, \\xe4\\xb8\\x96\\xe7\\x95\\x8c!'\nprint(b.decode('utf-8'))  # 'Hello, 世界!'\n\n# 编码错误处理\ns = 'café'\nprint(s.encode('ascii', errors='replace'))  # b'caf?'\nprint(s.encode('ascii', errors='ignore'))   # b'caf'\nprint(s.encode('ascii', errors='xmlcharrefreplace'))  # b'caf&#233;'\n\n# maketrans 和 translate - 字符映射替换\ntrans_table = str.maketrans('aeiou', '12345')\ns = 'hello world'\nprint(s.translate(trans_table))  # 'h2ll4 w4rld'\n\n# maketrans 可以接受字典映射\ntrans = str.maketrans({'h': 'H', 'w': 'W'})\nprint(s.translate(trans))  # 'Hello World'\n\n# 使用第三个参数删除字符\ntrans = str.maketrans('aeiou', 'AEIOU', 'l')\nprint(s.translate(trans))  # 'HEo WorD'"
+      },
+      {
+        "type": "tip",
+        "text": "Python 内部使用 Unicode 存储字符串。encode() 用于输出到文件或网络，decode() 用于从外部读取数据。始终注意编码一致性，推荐使用 UTF-8。"
+      },
+      {
+        "type": "heading",
+        "text": "格式化方法"
+      },
+      {
+        "type": "text",
+        "text": "用于字符串格式化输出。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# format() 方法\ns = 'Hello, {}!'.format('World')\nprint(s)  # Hello, World!\n\n# 位置参数\nprint('{0} {1} {0}'.format('hello', 'world'))  # hello world hello\n\n# 关键字参数\nprint('{name} is {age}'.format(name='Alice', age=25))  # Alice is 25\n\n# 格式化规范\nprint('{:.2f}'.format(3.14159))     # 3.14\nprint('{:>10}'.format('hello'))     # '     hello'\nprint('{:<10}'.format('hello'))     # 'hello     '\nprint('{:^10}'.format('hello'))     # '  hello   '\nprint('{:*^10}'.format('hello'))    # '**hello***'\nprint('{:,}'.format(1000000))       # '1,000,000'\nprint('{:.2%}'.format(0.7856))      # '78.56%'\nprint('{:#b}'.format(42))           # '0b101010'\nprint('{:#x}'.format(255))          # '0xff'\n\n# format_map() - 使用映射格式化\ndata = {'name': 'Bob', 'score': 95}\nprint('{name} scored {score}'.format_map(data))  # Bob scored 95\n\n# f-string (Python 3.6+)\nname = 'Alice'\nage = 25\nprint(f'{name} is {age} years old')  # Alice is 25 years old\n\n# f-string 表达式\nprint(f'{2 + 3 = }')          # '2 + 3 = 5'\nprint(f'{3.14159:.2f}')       # '3.14'\nprint(f'{1000000:,}')         # '1,000,000'\nprint(f'{\"hello\":*^20}')     # '*******hello********'\n\n# f-string 格式化复杂对象\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    def __format__(self, spec):\n        return f'({self.x}, {self.y})'\n\np = Point(3, 4)\nprint(f'Point: {p}')  # Point: (3, 4)"
+      },
+      {
+        "type": "tip",
+        "text": "f-string 是最推荐的格式化方式，性能最好且可读性最高。format_map() 比 format() 稍快，因为它不创建中间字典。在 f-string 中可直接调用方法：f'{name.upper()}'。"
+      },
+      {
+        "type": "heading",
+        "text": "字符串常量与模板"
+      },
+      {
+        "type": "text",
+        "text": "Python 字符串的一些特殊用法和模板。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 字符串前缀\ns1 = r'hello\\nworld'    # 原始字符串，不转义\nprint(s1)                # hello\\nworld\n\ns2 = b'hello'            # 字节字符串\nprint(type(s2))          # <class 'bytes'>\n\ns3 = f'hello {name}'     # f-string\n\n# 字符串模板\nfrom string import Template\nt = Template('$name is $age years old')\nresult = t.substitute(name='Alice', age=25)\nprint(result)  # Alice is 25 years old\n\n# safe_substitute 不会因为缺少变量而报错\nresult = t.safe_substitute(name='Bob')\nprint(result)  # Bob is $age years old\n\n# string 模块常量\nimport string\nprint(string.ascii_lowercase)  # abcdefghijklmnopqrstuvwxyz\nprint(string.ascii_uppercase)  # ABCDEFGHIJKLMNOPQRSTUVWXYZ\nprint(string.digits)           # 0123456789\nprint(string.punctuation)      # !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~\nprint(string.whitespace)       # 空格、制表符、换行等\n\n# capwords - 单词首字母大写\nprint(string.capwords('hello world'))  # Hello World\nprint(string.capwords('hello  world'))  # Hello World（处理多余空格）"
+      },
+      {
+        "type": "tip",
+        "text": "原始字符串 r'' 在正则表达式和 Windows 路径中非常有用。string.Template 适合处理用户提供的模板，因为 substitute 会安全地抛出 KeyError。"
+      },
+      {
+        "type": "heading",
+        "text": "实战：字符串方法综合练习"
+      },
+      {
+        "type": "text",
+        "text": "结合多种字符串方法解决实际问题。"
+      },
+      {
+        "type": "code",
+        "language": "python",
+        "code": "# 1. 统计字符串中每个单词的出现次数\ntext = 'hello world hello python world hello'\nwords = text.split()\nword_counts = {}\nfor word in words:\n    word_counts[word] = word_counts.get(word, 0) + 1\nprint(word_counts)  # {'hello': 3, 'world': 2, 'python': 1}\n\n# 2. 驼峰命名转下划线命名\ndef camel_to_snake(s):\n    result = ''\n    for i, c in enumerate(s):\n        if c.isupper() and i > 0:\n            result += '_'\n        result += c.lower()\n    return result\n\nprint(camel_to_snake('getElementById'))  # get_element_by_id\n\n# 3. 检查回文字符串\ndef is_palindrome(s):\n    s = s.lower().replace(' ', '')\n    return s == s[::-1]\n\nprint(is_palindrome('A man a plan a canal Panama'))  # True\n\n# 4. 简单的文本压缩（RLE）\ndef rle_encode(s):\n    if not s:\n        return ''\n    result = []\n    count = 1\n    for i in range(1, len(s)):\n        if s[i] == s[i-1]:\n            count += 1\n        else:\n            result.append(f'{s[i-1]}{count}' if count > 1 else s[i-1])\n            count = 1\n    result.append(f'{s[-1]}{count}' if count > 1 else s[-1])\n    return ''.join(result)\n\nprint(rle_encode('aaabbbccda'))  # a3b3c2d1a1"
+      },
+      {
+        "type": "tip",
+        "text": "字符串拼接大量数据时，使用 join() 而不是 + 运算符。+ 会创建新字符串对象，性能随字符串数量增长而下降。"
+      },
+      {
+        "type": "heading",
+        "text": "practice_time"
+      },
+      {
+        "type": "text",
+        "text": "练习：字符串方法应用"
+      },
+      {
+        "type": "text",
+        "text": "编写一个函数，接收一个句子，返回将每个单词反转后的句子。例如：'Hello World' -> 'olleH dlroW'。提示：使用 split()、切片 [::-1] 和 join()。"
+      },
+      {
+        "type": "text",
+        "text": "编写一个函数，接收一个字符串，统计其中大写字母、小写字母、数字和特殊字符的数量。提示：使用 isupper()、islower()、isdigit() 方法。"
+      },
+      {
+        "type": "text",
+        "text": "编写一个函数，将罗马数字字符串转换为整数。例如：'MCMXCIV' -> 1994。提示：从右向左遍历，比较当前值与前一个值的大小关系。"
+      },
+      {
+        "type": "heading",
+        "text": "project_time"
+      },
+      {
+        "type": "text",
+        "text": "综合项目：文本分析工具"
+      },
+      {
+        "type": "text",
+        "text": "构建一个命令行文本分析工具：1) 使用 input() 读取用户输入的文本或从文件读取；2) 统计功能：单词数、句子数、段落数、平均单词长度；3) 查找功能：查找指定单词出现的次数和位置（使用 find()）；4) 替换功能：将指定单词替换为新单词（使用 replace()）；5) 格式化输出：使用 f-string 和 format() 格式化统计结果，对齐显示。要求：创建 TextAnalyzer 类，包含所有分析方法。"
+      }
+    ],
+    "tests": [],
+    "hint": "速查手册无需作答,阅读即完成。"
+  }
+]

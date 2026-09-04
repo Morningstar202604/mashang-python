@@ -1,0 +1,48 @@
+[
+  {
+    "id": "file-01",
+    "order": 1,
+    "chapter": 4,
+    "title": "文件打开基础",
+    "subtitle": "学习如何使用open()函数读取文件",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "文件的基础知识"},
+      {"type": "text", "text": "在Python中，open()函数用于打开文件。它返回一个文件对象，我们可以对其进行读取、写入或其他操作。"},
+      {"type": "code", "runnable": true, "code": "f = open('demo.txt', 'r')\ncontent = f.read()\nprint(content)\nf.close()\nprint('文件已关闭')", "language": "python"},
+      {"type": "output", "text": "假设demo.txt内容：Hello World"},
+      {"type": "quiz", "question": "打开文件进行只读的正确方式是？", "options": ["open('file.txt', 'w')", "open('file.txt', 'r')", "open('file.txt', 'a')"], "answer": 1, "explain": "'r'表示只读模式，文件必须已存在"},
+      {"type": "practice", "title": "练习：读取文件内容", "code": "f = open('my_data.txt', 'r')\ncontent = f.read()\nprint(content)\nf.close()", "hint": "使用f.read()一次性读取所有内容", "stdout": "[这里显示文件内容]"},
+      {"type": "tip", "text": "始终在使用完文件后调用.close()，或者使用with open()"},
+      {"type": "project", "title": "项目：读取并统计行数", "code": "f = open('sample.txt', 'r')\nlines = f.readlines()\ncount = len(lines)\nprint(f'文件共有{count}行')\nf.close()", "goal": "创建一个程序，打开文本文件并输出其总行数", "hint": "readlines()返回列表，len()计算长度"}
+    ],
+    "tests": ["file should be readable", "line count should be accurate"],
+    "hint": "open('文件名', 'r')打开文件，read()读取内容"
+  },
+  {
+    "id": "file-02",
+    "order": 2,
+    "chapter": 4,
+    "title": "文件写入与追加",
+    "subtitle": "学习写入和追加内容到文件",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 100,
+    
+    "blocks": [
+      {"type": "heading", "text": "写入文件"},
+      {"type": "text", "text": "使用'w'模式打开文件可以写入内容，但会覆盖原有内容。使用'a'模式可以追加内容。"},
+      {"type": "code", "runnable": true, "code": "with open('output.txt', 'w') as f:\n    f.write('第一行\\n')\n    f.write('第二行\\n')\nprint('写入完成')", "language": "python"},
+      {"type": "output", "text": "写入完成"},
+      {"type": "quiz", "question": "'w'模式和'a'模式的区别是什么？", "options": ["无区别", "w覆盖，a追加", "w只读，a写入"], "answer": 1, "explain": "'w'模式会覆盖文件，'a'模式追加到文件末尾"},
+      {"type": "practice", "title": "练习：追加写入", "code": "with open('log.txt', 'a') as f:\n    f.write('新添加的一行\\n')\nprint('追加完成')", "hint": "使用'a'模式追加，不会覆盖原有内容", "stdout": "追加完成"},
+      {"type": "tip", "text": "with语句会自动关闭文件，推荐使用"},
+      {"type": "project", "title": "项目：简单日志系统", "code": "import datetime\nwith open('app.log', 'a') as f:\n    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')\n    f.write(f'[{timestamp}] 应用启动\\n')\nprint('日志已记录')", "goal": "创建一个带时间戳的日志记录功能", "hint": "datetime模块获取当前时间"}
+    ],
+    "tests": ["file should be created", "content should be written correctly"],
+    "hint": "'w'覆盖写入，'a'追加写入"
+  }
+]

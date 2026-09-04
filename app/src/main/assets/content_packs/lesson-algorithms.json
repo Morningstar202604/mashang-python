@@ -1,0 +1,112 @@
+[
+  {
+    "id": "algo-01",
+    "order": 1,
+    "chapter": 1,
+    "title": "二分查找",
+    "subtitle": "在有序列表中对数级定位",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "二分查找 Binary Search"
+      },
+      {
+        "type": "text",
+        "text": "每次比较后把搜索区间减半,n 个元素最多比较 log2(n)+1 次。前提:序列必须有序。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "def binary_search(arr, target):\n    lo, hi = 0, len(arr) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return -1\n\nnums = [1, 3, 5, 7, 9, 11]\nprint(binary_search(nums, 7))\nprint(binary_search(nums, 4))"
+      },
+      {
+        "type": "output",
+        "text": "3\n-1"
+      },
+      {
+        "type": "quiz",
+        "question": "二分查找使用的前提条件是?",
+        "options": [
+          "列表元素是整数",
+          "序列必须有序",
+          "列表长度是偶数",
+          "元素各不相同"
+        ],
+        "answer": 1,
+        "explain": "二分依赖有序性判断丢弃哪一半,乱序时结果不可靠"
+      },
+      {
+        "type": "tip",
+        "text": "标准库 bisect 模块内置了二分插入与查找:from bisect import bisect_left"
+      }
+    ],
+    "tests": [],
+    "hint": "循环条件是 lo <= hi,注意边界加减一"
+  },
+  {
+    "id": "algo-02",
+    "order": 2,
+    "chapter": 1,
+    "title": "递归与记忆化",
+    "subtitle": "斐波那契的从 O(2^n) 到 O(n)",
+    "version": 1,
+    "difficulty": "advanced",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "递归的重复计算"
+      },
+      {
+        "type": "text",
+        "text": "朴素递归斐波那契会重复计算大量子问题。用字典缓存结果(记忆化)可把复杂度降到 O(n),标准库 functools.lru_cache 一行搞定。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "language": "python",
+        "code": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nprint([fib(i) for i in range(8)])\nprint(fib(50))"
+      },
+      {
+        "type": "output",
+        "text": "[0, 1, 1, 2, 3, 5, 8, 13]\n12586269025"
+      },
+      {
+        "type": "practice",
+        "title": "练习:爬楼梯",
+        "code": "def climb(n):\n    if n <= 2:\n        return n\n    a, b = 1, 2\n    for _ in range(3, n + 1):\n        a, b = b, a + b\n    return b\n\nprint(climb(5))",
+        "hint": "f(n)=f(n-1)+f(n-2),用两个变量滚动",
+        "stdout": "8"
+      },
+      {
+        "type": "quiz",
+        "question": "朴素递归 fib(30) 慢的根本原因是?",
+        "options": [
+          "递归深度太深",
+          "大量子问题被重复计算",
+          "Python 递归有上限",
+          "加法运算太慢"
+        ],
+        "answer": 1,
+        "explain": "无缓存时同一 fib(k) 会被计算指数次;记忆化后每个子问题只算一次"
+      },
+      {
+        "type": "project",
+        "title": "项目:两数之和",
+        "code": "def two_sum(nums, target):\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            return [seen[target - x], i]\n        seen[x] = i\n    return []\n\nprint(two_sum([2, 7, 11, 15], 9))",
+        "goal": "用哈希字典把 O(n²) 降为 O(n)",
+        "hint": "一边遍历一边存 值→下标"
+      },
+      {
+        "type": "tip",
+        "text": "lru_cache 也能缓存自定义函数,调试时可 print(fib.cache_info())"
+      }
+    ],
+    "tests": [],
+    "hint": "把大问题拆成相同形式的小问题"
+  }
+]

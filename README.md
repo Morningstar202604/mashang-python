@@ -1,172 +1,87 @@
-<div align="center">
+# 🎓 Python学习助手 - MashangPython
 
-<img src="docs/logo.svg" alt="PY//NOW · Mashang Python" width="720"/>
+离线 Python 学习 Android 应用:41 个学习单元、76 个交互式练习、测验打卡与成就系统,全部内容内置,零联网依赖。
 
-**Code now, master Python instantly. Learn offline, anywhere.**
+## 📋 项目概览
 
-A cyberpunk-styled Python learning terminal that fits in your pocket: embedded real CPython interpreter, 30-level gamified curriculum, auto-grading with assert, variable visualization, and six-tier progression system.
+| 指标 | 数据 |
+|------|------|
+| 学习单元 | 41 个(初级 → 专家) |
+| 交互练习 | 76 个(每单元 2 个速查/阅读型单元为 1 个) |
+| 总 XP 值 | 15,490 XP(完成练习/打卡获得) |
+| 最低 Android | API 24 (Android 7.0) |
+| 目标 SDK | API 34(compileSdk 35) |
+| 当前版本 | 2.0.0 (versionCode 2) |
 
-[![License: Source-Available NC](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
-[![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
-[![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
-[![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/Morningstar202604/mashang-python?style=social)](../../stargazers)
+## 🛠️ 技术栈
 
-🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
+- **语言**: Kotlin
+- **构建**: Gradle 8.7 + AGP 8.6.1(需 JDK 17+)
+- **UI**: View 体系 + ViewBinding,Material 组件,暗色主题
+- **数据**: 课程内容以 JSON 形式打包在 `assets/`,进度用 SharedPreferences 本地存储
+- **架构**: Activity + DialogFragment 轻量结构,数据层单例(ProgressManager/UserManager)
 
-[Download APK](#download-install) · [Curriculum](#curriculum-30-lessons--4-acts) · [Contributing](#contributing) · [Roadmap](#roadmap)
+> 说明:应用当前是"内容 + 测验"型学习工具,代码块展示讲解与预期输出;尚未集成可执行 Python 运行时(如 Chaquopy),这已列入路线图。
 
-</div>
+## 📁 项目结构
 
----
-
-## 🖥 What It Looks Like
-
-```text
-╔══════════════════════════════════╗
-║  PY//NOW · Mashang Python   ● CPython 3.13 Online
-╠══════════════════════════════════╣
-║  ▍Practice · Access Guard
-║  ┌────────────────────────────┐
-║  │ def access(level):         │  ← Neon syntax highlighting
-║  │     if level >= 100:       │
-║  └────────────────────────────┘
-║  [▶ Run & Grade]  [💡 Hint]
-║  ────────────────────────────
-║  ROOT                    ← Typewriter output
-║  // Variable Snapshot            ← App-exclusive feature
-║  (level:int) 120   (r:str) 'ROOT'
-╚══════════════════════════════════╝
 ```
-> Real device screenshots coming soon; the terminal frame above shows the actual in-app information structure.
+mashang-python/
+├── app/src/main/
+│   ├── java/com/mashang/python/
+│   │   ├── MainActivity.kt          # 主界面:课程列表/筛选/底部导航
+│   │   ├── CourseAdapter.kt         # 课程列表适配器(收藏/难度标签)
+│   │   ├── CourseDetailDialog.kt    # 课程详情:练习列表/完成标记
+│   │   ├── ExerciseDialog.kt        # 练习对话:7 种内容块/测验/XP
+│   │   ├── ProgressDialog.kt        # 进度弹窗:总览+近7天统计
+│   │   └── data/                    # LearningEngine/UserManager/ProgressManager/
+│   │                                # CheckInManager/AchievementManager/...
+│   ├── res/layout/                  # 布局(activity_*/dialog_*/block_*)
+│   ├── assets/                      # catalog.json + content_packs/(41 个课程包)
+│   └── AndroidManifest.xml
+├── scripts/                         # 内容维护脚本(Python)
+│   ├── sync_content.py              # 重建 catalog + 校验 + 同步根目录副本
+│   └── regen_packs.py               # 重生成指定课程包内容
+├── catalog.json / content_packs/    # 内容库根目录副本(与 assets 同步)
+└── build.gradle.kts / settings.gradle.kts / gradle wrapper
+```
 
-## 👤 Who Is This For
+## 🚀 如何构建
 
-| You Are | You Get |
-|---|---|
-| Beginner / Career Changer | 30 Chinese narrative lessons, from `print` to decorators |
-| Commuter / Fragmented Learner | Fully offline, code even in subway tunnels |
-| Teacher / Parent | No ads, no account, zero data upload — safe for students |
-| Developer | Complete Compose + Chaquopy reference implementation, MIT commercial use |
-
-## Why PY//NOW?
-
-Most programming learning apps either rely on cloud execution or look like dry manuals.
-**PY//NOW** embeds a complete **CPython 3.13 interpreter** directly into the APK—
-code, run, and pass challenges without internet; paired with CRT scanlines and neon glitch typography for a cyberpunk HUD,
-making "learning to code" feel like playing a game for the first time.
-
-| | Others | PY//NOW |
-|---|---|---|
-| Code Execution | ☁️ Cloud-based, dead without net | 📱 On-device CPython 3.13 |
-| Teaching Style | Dry documentation | Cyber narrative + life analogies + pop quizzes |
-| Runtime Feedback | Black-box print | Typewriter streaming + **Variable Snapshot Panel** |
-| Growth Motivation | Check-in calendar | XP / Six Tiers / Daily Quests / Achievement Wall |
-
-## ✨ Features
-
-- 🔌 **Fully Offline Engine** — Chaquopy-embedded CPython; network only for Content Hub course downloads (zero personal data collection/upload)
-- 🔌 **Offline First, Online Enhanced** — Learn without internet; one-tap pull of new course packs via Content Hub (Gitee/GitCode/GitHub triple-mirror fallback)
-- 🛡 **Sandbox Security** — Dead-loop watchdog force-interrupt, input queue takeover for `input()`, friendly localized exceptions
-- 🎹 **Code Editor** — Neon Python syntax highlighting, smart indentation (`:` auto-indent), Tab-to-space
-- 🖥 **Neural Interface REPL** — Stateful session, ↑↓ history, multi-line blocks, one-tap reset
-- 🔬 **Variable Snapshot** — Post-run display of every variable's name/type/value in namespace
-- ✅ **Assert Grading** — Must pass test cases to advance, preventing "understood but can't code"
-- ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier题型: type missing fragments / sort shuffled lines into correct program
-- 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
-- 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
-- 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
-
-## 📥 Download & Install
-
-> Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture, APK ~43MB.
-
-- ⭐ Recommended: Download `app-release.apk` from [GitHub Releases](../../releases)
-- China Direct: [Gitee Repository](https://gitee.com/badhope/mashang-python) synchronized release
-- Build yourself:
+前提:JDK 17+(本机已验证 JDK 21 可用)、Android SDK(compileSdk 35)。
 
 ```bash
-./gradlew :app:assembleDebug        # Debug build
-./gradlew :app:bundleRelease        # Store AAB (requires keystore.properties)
-python tests/test_engine_desktop.py   # Engine unit tests
-python tests/validate_content.py      # Full curriculum × answer key validation
+# 命令行构建
+./gradlew assembleDebug          # 产物: app/build/outputs/apk/debug/app-debug.apk
+
+# 或用 Android Studio 打开项目直接 Run
 ```
 
-## ❓ FAQ
+`local.properties` 需要指向本机 SDK(`sdk.dir=...`),用 Android Studio 打开会自动生成。
 
-**Q: Is it really fully offline? What's the network permission for?**
-Learning, coding, and grading are 100% offline. Network is only used when manually checking/downloading new course packs in "Content Hub", with zero personal data transmitted.
+## 📚 学习功能
 
-**Q: How is this different from Pydroid3 or other IDEs?**
-Pydroid is a development tool; we're a "curriculum-as-code" learning terminal—each lesson comes with graded challenges and a growth system. Our goal is to teach you, not just give you a blank editor.
+- **课程筛选**: 全部/初级/中级/高级/专家 按难度过滤
+- **练习闭环**: 答对全部测验 → 发放练习 XP → 整课完成判定 → 成就解锁,答错可重试
+- **每日打卡**: 连续天数与打卡 XP(10 + 2×连续天数,上限 50)
+- **成就系统**: 学习/连续/精通/特殊四类 14 项成就
+- **进度可视化**: 总课时/总 XP/连续天数 + 今日与近 7 天完成统计
+- **速查手册**: 4 个内置速查包,阅读即完成
 
-**Q: Will there be an iOS version?**
-The tech stack (Chaquopy) only supports Android; iOS would require a different approach and is on the long-term roadmap.
+## 🧑‍💻 维护内容库
 
-**Q: Can I use the curriculum commercially?**
-The source is open-sourced under the **Source-Available Non-Commercial License** for learning and study. You're welcome to build your own learning fork and contribute back, but **commercial use (paid distribution, in-app purchase, ads, embedding in commercial products) requires prior written permission** from the copyright holder.
-
-## 📚 Curriculum (30 Lessons · 4 Acts)
-
-<details open>
-<summary><b>Act I · Foundation Protocol</b> (click to collapse)</summary>
-
-`01 First Handshake` · `02 Variables & Types` · `03 String Operations` · `04 Numeric Protocols` · `05 Input Signals` · `06 Conditional Branching Matrix` · `07 Loop Engines` · `08 List Warehouses` · `09 Dictionary Key Vaults` · `10 Foundation Graduation`
-
-</details>
-
-<details>
-<summary><b>Act II · Advanced Gear</b></summary>
-
-`11 String Toolbox` · `12 Tuples & Sets` · `13 Function Evolution (*args/**kwargs)` · `14 Comprehension Storm` · `15 Exception Shields` · `16 Data Persistence (Files/JSON)` · `17 Module Summoning` · `18 Class & Object Awakening`
-
-</details>
-
-<details>
-<summary><b>Act III · High-Tier Implants</b></summary>
-
-`19 Inheritance & Magic Methods` · `20 Capstone Project · Cyber Bank` · `21 Generator Engines` · `22 Decorator Suits` · `23 Lambda Trio` · `24 Standard Library Combat (Counter/re)` · `25 Time & Random Universe` · `26 Graduation Project · Log Analyzer` · `27 Easter Egg · Built-in Function Tour (Content Hub Exclusive)`
-
-**Final Act · Beyond the Boundary** — Master Python core here:
-`28 File I/O Protocols` · `29 Custom Exceptions` · `30 Modules & Main Guard (__main__)`
-
-</details>
-
-Each lesson includes: **Runnable Example + OUTPUT Preview + Diagram/Table + QUIZ Pop Question + Assert Grading Challenge**
-Plus Arena 6 Major Challenges: Neon Counter / Palindrome Detector / Password Strength Firewall / Bracket Firewall / Run-Length Compressor / Inventory Manager.
-
-## 🧱 Tech Stack
-
-```
-Kotlin + Jetpack Compose (Material3 Cyber Custom Theme)
-        │  JSON Bridge PyBridge
-Chaquopy 16.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
-DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Highlighter
+```bash
+# 编辑 app/src/main/assets/content_packs/ 下的课程包后:
+python scripts/sync_content.py   # 重建 catalog.json、全量校验、同步根目录副本
 ```
 
-## 🤝 Contributing
+## 🗺️ 路线图
 
-All forms welcome: new lesson content, bug reports, UI polish, multi-language translations.
-Fork → New branch → Submit PR; for course content, please update answer keys in `tests/validate_content.py` and ensure all PASS.
+- [ ] 集成 Chaquopy 实现真实 Python 代码执行
+- [ ] 练习数量扩充至 100+
+- [ ] 错题本与复习提醒
+- [ ] 数据导出/导入(JSON 已支持导出)
 
-## 📄 License &amp; Privacy
+## 📝 License
 
-This repository is published under the **Source-Available Non-Commercial License** — open for learning, study, and exchange to assert project sovereignty, while the copyright holder reserves all commercialization rights.
-
-- ✅ You may view, study, modify, and redistribute the source for **non-commercial, educational** purposes (keep the license notice).
-- ❌ **Commercial use is prohibited without prior written permission** (paid distribution, IAP, ads, embedding in commercial products, etc.).
-- ™ "PY//NOW" / "码上Python" names and logos are reserved trademarks.
-
-Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
-
-📄 [Privacy Policy](PRIVACY_POLICY.md) · [Terms of Service](TERMS_OF_SERVICE.md)
-
-<div align="center">
-
-**If this project helps you, give it a ⭐ to help more learners discover it!**
-
-</div>
-
-
+MIT License

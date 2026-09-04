@@ -1,0 +1,52 @@
+[
+  {
+    "id": "op-01",
+    "order": 1,
+    "chapter": 2,
+    "title": "算术运算符",
+    "subtitle": "学习Python的基本算术运算",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "算术运算符"},
+      {"type": "text", "text": "Python支持所有基本算术运算符，可以进行加减乘除等数学运算。"},
+      {"type": "code", "runnable": true, "code": "# 算术运算符\na = 10\nb = 3\n\nprint(f'a + b = {a + b}')   # 加法\nprint(f'a - b = {a - b}')   # 减法\nprint(f'a * b = {a * b}')   # 乘法\nprint(f'a / b = {a / b}')   # 除法\nprint(f'a // b = {a // b}') # 整除\nprint(f'a % b = {a % b}')   # 取余\nprint(f'a ** b = {a ** b}') # 幂运算", "language": "python"},
+      {"type": "output", "text": "a + b = 13\na - b = 7\na * b = 30\na / b = 3.3333333333333335\na // b = 3\na % b = 1\na ** b = 1000"},
+      {"type": "quiz", "question": "10 // 3 的结果是什么？", "options": ["3.33", "3", "4", "3.0"], "answer": 1, "explain": "// 是整除运算符，结果为整数3"},
+      {"type": "practice", "title": "练习：计算圆的面积", "code": "import math\n\nradius = 5\narea = math.pi * radius ** 2\nprint(f'半径为{radius}的圆面积是: {area:.2f}')", "hint": "使用 ** 运算符计算平方", "stdout": "半径为5的圆面积是: 78.54"},
+      {"type": "tip", "text": "/ 返回浮点数，// 返回整数，% 返回余数"},
+      {"type": "project", "title": "项目：简单计算器", "code": "num1 = float(input('请输入第一个数: '))\noperator = input('请输入运算符(+, -, *, /): ')\nnum2 = float(input('请输入第二个数: '))\n\nif operator == '+':\n    result = num1 + num2\nelif operator == '-':\n    result = num1 - num2\nelif operator == '*':\n    result = num1 * num2\nelif operator == '/':\n    result = num1 / num2 if num2 != 0 else '错误:除数不能为零'\nelse:\n    result = '未知运算符'\n\nprint(f'{num1} {operator} {num2} = {result}')", "goal": "实现一个支持四则运算的计算器", "hint": "使用if-elif-else判断运算符"}
+    ],
+    "tests": ["arithmetic operators work correctly", "division by zero handled"],
+    "hint": "掌握+、-、*、/、//、%、**七种运算符"
+  },
+  {
+    "id": "op-02",
+    "order": 2,
+    "chapter": 2,
+    "title": "比较与逻辑运算符",
+    "subtitle": "学习比较运算和逻辑运算",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "比较运算符"},
+      {"type": "text", "text": "比较运算符用于比较两个值，返回布尔值True或False。"},
+      {"type": "code", "runnable": true, "code": "# 比较运算符\nx = 10\ny = 20\n\nprint(f'x == y: {x == y}')  # 等于\nprint(f'x != y: {x != y}')  # 不等于\nprint(f'x > y: {x > y}')    # 大于\nprint(f'x < y: {x < y}')    # 小于\nprint(f'x >= 10: {x >= 10}') # 大于等于\nprint(f'x <= 5: {x <= 5}')   # 小于等于", "language": "python"},
+      {"type": "output", "text": "x == y: False\nx != y: True\nx > y: False\nx < y: True\nx >= 10: True\nx <= 5: False"},
+      {"type": "heading", "text": "逻辑运算符"},
+      {"type": "text", "text": "逻辑运算符用于组合多个条件。"},
+      {"type": "code", "runnable": true, "code": "# 逻辑运算符\nage = 25\nincome = 8000\n\n# and: 两者都为True\nprint(f'age>18 and income>5000: {age>18 and income>5000}')\n\n# or: 至少一个为True\nprint(f'age<18 or income>10000: {age<18 or income>10000}')\n\n# not: 取反\nprint(f'not (age>30): {not (age>30)}')", "language": "python"},
+      {"type": "output", "text": "age>18 and income>5000: True\nage<18 or income>10000: False\nnot (age>30): True"},
+      {"type": "quiz", "question": "True and False 的结果是什么？", "options": ["True", "False", "None", "报错"], "answer": 1, "explain": "and运算符要求两边都为True才返回True"},
+      {"type": "practice", "title": "练习：判断闰年", "code": "year = 2024\n\nis_leap = (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)\nprint(f'{year}年是闰年吗? {is_leap}')", "hint": "闰年规则: 能被4整除但不能被100整除，或能被400整除", "stdout": "2024年是闰年吗? True"},
+      {"type": "tip", "text": "比较运算符返回布尔值，可以用于if条件判断"},
+      {"type": "project", "title": "项目：成绩评级系统", "code": "score = int(input('请输入分数(0-100): '))\n\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelif score >= 70:\n    grade = 'C'\nelif score >= 60:\n    grade = 'D'\nelse:\n    grade = 'F'\n\npassed = score >= 60\nprint(f'分数: {score}, 等级: {grade}, 及格: {passed}')", "goal": "根据分数输出等级和是否及格", "hint": "使用比较运算符判断分数范围"}
+    ],
+    "tests": ["comparison operators return boolean", "logical operators combine conditions"],
+    "hint": "==、!=、>、<、>=、<= 和 and、or、not"
+  }
+]

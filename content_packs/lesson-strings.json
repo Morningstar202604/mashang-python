@@ -1,0 +1,54 @@
+[
+  {
+    "id": "str-01",
+    "order": 1,
+    "chapter": 3,
+    "title": "字符串基础",
+    "subtitle": "学习字符串的创建和基本操作",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "字符串的创建"},
+      {"type": "text", "text": "字符串是Python中最常用的数据类型之一，用于表示文本数据。"},
+      {"type": "code", "runnable": true, "code": "# 字符串的创建方式\ns1 = 'Hello, World!'\ns2 = \"Python编程\"\ns3 = '''多行\n字符串'''\ns4 = \"\"\"另一种\n多行字符串\"\"\"\n\nprint(type(s1))\nprint(len(s1))  # 字符串长度", "language": "python"},
+      {"type": "output", "text": "<class 'str'>\n13"},
+      {"type": "heading", "text": "字符串索引和切片"},
+      {"type": "code", "runnable": true, "code": "text = 'Hello, Python'\n\n# 索引 (从0开始)\nprint(f'第一个字符: {text[0]}')\nprint(f'最后一个字符: {text[-1]}')\n\n# 切片 [start:end:step]\nprint(f'前5个字符: {text[:5]}')\nprint(f'从第7个开始: {text[7:]}')\nprint(f'反转字符串: {text[::-1]}')", "language": "python"},
+      {"type": "output", "text": "第一个字符: H\n最后一个字符: n\n前5个字符: Hello\n从第7个开始: Python\n反转字符串: nohtyP ,olleH"},
+      {"type": "quiz", "question": "字符串'hello'[1]的值是什么？", "options": ["h", "e", "l", "o"], "answer": 1, "explain": "索引从0开始，[1]获取第二个字符'e'"},
+      {"type": "practice", "title": "练习：提取文件扩展名", "code": "filename = 'document.pdf'\ndot_pos = filename.rfind('.')\nextension = filename[dot_pos:]\nprint(f'文件扩展名: {extension}')", "hint": "使用rfind()找到最后一个点的位置", "stdout": "文件扩展名: .pdf"},
+      {"type": "tip", "text": "字符串是不可变的，不能修改单个字符"},
+      {"type": "project", "title": "项目：字符串反转验证", "code": "text = input('请输入一个字符串: ')\nreversed_text = text[::-1]\nis_palindrome = text == reversed_text\n\nprint(f'原字符串: {text}')\nprint(f'反转后: {reversed_text}')\nprint(f'是否回文: {is_palindrome}')", "goal": "判断输入的字符串是否是回文", "hint": "使用切片[::-1]反转字符串"}
+    ],
+    "tests": ["string indexing works", "string slicing works"],
+    "hint": "字符串用引号创建，支持索引和切片"
+  },
+  {
+    "id": "str-02",
+    "order": 2,
+    "chapter": 3,
+    "title": "字符串方法",
+    "subtitle": "学习常用的字符串方法",
+    "version": 1,
+    "difficulty": "beginner",
+    "xp": 200,
+    
+    "blocks": [
+      {"type": "heading", "text": "常用字符串方法"},
+      {"type": "text", "text": "Python提供了丰富的字符串方法，可以方便地处理文本数据。"},
+      {"type": "code", "runnable": true, "code": "text = '  Hello, Python World!  '\n\n# 大小写转换\nprint(f'大写: {text.upper()}')\nprint(f'小写: {text.lower()}')\nprint(f'标题: {text.strip().title()}')\n\n# 去除空白\nprint(f'去除两边: [{text.strip()}]')\nprint(f'去除左边: [{text.lstrip()}]')\nprint(f'去除右边: [{text.rstrip()}]')", "language": "python"},
+      {"type": "output", "text": "大写:   HELLO, PYTHON WORLD!  \n小写:   hello, python world!  \n标题: Hello, Python World!\n去除两边: [Hello, Python World!]\n去除左边: [Hello, Python World!  ]\n去除右边: [  Hello, Python World!]"},
+      {"type": "heading", "text": "查找和替换"},
+      {"type": "code", "runnable": true, "code": "text = 'I love Python, Python is great'\n\n# 查找\nprint(f'Python出现的位置: {text.find(\"Python\")}')\nprint(f'Python出现的次数: {text.count(\"Python\")}')\n\n# 替换\nnew_text = text.replace('Python', 'Java')\nprint(f'替换后: {new_text}')\n\n# 分割和连接\nwords = text.split(', ')\nprint(f'分割: {words}')\njoined = ' | '.join(words)\nprint(f'连接: {joined}')", "language": "python"},
+      {"type": "output", "text": "Python出现的位置: 7\nPython出现的次数: 2\n替换后: I love Java, Java is great\n分割: ['I love Python', 'Python is great']\n连接: I love Python | Python is great"},
+      {"type": "quiz", "question": "哪个方法用于去除字符串两边的空白？", "options": ["strip()", "split()", "replace()", "find()"], "answer": 0, "explain": "strip()去除字符串两边的空白字符"},
+      {"type": "practice", "title": "练习：格式化姓名", "code": "first_name = '  john  '\nlast_name = 'DOE'\n\n# 格式化: 首字母大写，去除空白\nformatted = f'{first_name.strip().title()} {last_name.title()}'\nprint(f'格式化后: {formatted}')", "hint": "结合strip()和title()方法", "stdout": "格式化后: John Doe"},
+      {"type": "tip", "text": "字符串方法返回新字符串，原字符串不变"},
+      {"type": "project", "title": "项目：文本统计分析器", "code": "text = input('请输入一段文本: ')\n\n# 统计信息\nword_count = len(text.split())\nchar_count = len(text)\nchar_no_space = len(text.replace(' ', ''))\nupper_count = sum(1 for c in text if c.isupper())\nlower_count = sum(1 for c in text if c.islower())\n\nprint(f'单词数: {word_count}')\nprint(f'字符数: {char_count}')\nprint(f'字符数(无空格): {char_no_space}')\nprint(f'大写字母数: {upper_count}')\nprint(f'小写字母数: {lower_count}')", "goal": "统计输入文本的各种信息", "hint": "使用split()分割单词，isupper/islower判断大小写"}
+    ],
+    "tests": ["string methods work correctly", "string formatting works"],
+    "hint": "upper(), lower(), strip(), find(), replace(), split(), join()"
+  }
+]
