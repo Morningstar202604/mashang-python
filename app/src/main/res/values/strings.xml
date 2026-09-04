@@ -129,7 +129,7 @@
     <string name="content_desc_bookmark">收藏</string>
     <string name="label_tip_icon">💡</string>
     <string name="block_tip_default">提示内容</string>
-    <string name="block_code_default">print('Hello, World!')</string>
+    <string name="block_code_default">"print('Hello, World!')"</string>
     <string name="block_heading_default">标题</string>
     <string name="block_output_default">Hello, World!</string>
     <string name="block_text_default">文本内容</string>
