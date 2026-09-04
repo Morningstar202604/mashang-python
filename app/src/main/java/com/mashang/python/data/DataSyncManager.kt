@@ -2,6 +2,9 @@ package com.mashang.python.data
 
 import android.content.Context
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.mashang.python.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -27,7 +30,7 @@ class DataSyncManager private constructor(private val context: Context) {
 
     fun exportData(): String? {
         return try {
-            val user = userManager.getUser()
+            val user = userManager.getUser() ?: return null
             val progress = progressManager.getAllProgress()
 
             val exportData = mapOf(
@@ -59,8 +62,8 @@ class DataSyncManager private constructor(private val context: Context) {
         return try {
             if (json.isBlank()) return false
 
-            val gson = com.google.gson.Gson()
-            val data = gson.fromJson(json, com.google.gson.reflect.TypeToken<Map<String, Any>> {}.type)
+            val gson = Gson()
+            val data: Map<String, Any> = gson.fromJson(json, object : TypeToken<Map<String, Any>>() {}.type)
 
             val userMap = data["user"] as? Map<*, *>
             val progressMap = data["progress"] as? Map<*, *>

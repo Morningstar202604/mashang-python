@@ -44,7 +44,7 @@ class CourseAdapter(
         }
 
         private fun getDifficultyText(difficulty: String): String {
-            val res = root.context.resources
+            val res = binding.root.context.resources
             return when (difficulty) {
                 "beginner" -> res.getString(R.string.label_beginner)
                 "beginner+" -> res.getString(R.string.label_beginner_plus)

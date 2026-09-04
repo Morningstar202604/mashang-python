@@ -155,7 +155,7 @@ class ProfileActivity : AppCompatActivity() {
             }
             startActivity(Intent.createChooser(shareIntent, getString(R.string.title_share_chooser)))
         } catch (e: Exception) {
-            Toast.makeText(this, R.string.msg_export_failed + ": " + e.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.msg_export_failed) + ": " + e.message, Toast.LENGTH_SHORT).show()
         }
     }
 

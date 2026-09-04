@@ -272,7 +272,7 @@ class ExerciseDialog : DialogFragment() {
         }
         if (parts.isNotEmpty()) {
             android.widget.Toast.makeText(
-                context, R.string.msg_exercise_completed + " " + parts.joinToString("  "),
+                context, getString(R.string.msg_exercise_completed) + " " + parts.joinToString("  "),
                 android.widget.Toast.LENGTH_LONG
             ).show()
         }
@@ -282,12 +282,12 @@ class ExerciseDialog : DialogFragment() {
         // 显示代码运行结果
         val output = ex.blocks.find { it.type == "output" }
         if (output != null) {
-            android.widget.Toast.makeText(context, R.string.msg_code_output + ": " + output.output, android.widget.Toast.LENGTH_LONG).show()
+            android.widget.Toast.makeText(context, getString(R.string.msg_code_output) + ": " + output.output, android.widget.Toast.LENGTH_LONG).show()
         }
     }
 
     private fun showHint(ex: MainActivity.Exercise) {
-        android.widget.Toast.makeText(context, R.string.msg_hint + ": " + ex.hint, android.widget.Toast.LENGTH_LONG).show()
+        android.widget.Toast.makeText(context, getString(R.string.msg_hint) + ": " + ex.hint, android.widget.Toast.LENGTH_LONG).show()
     }
 
     override fun onStart() {
