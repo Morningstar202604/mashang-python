@@ -1,0 +1,105 @@
+name: CI
+
+# Automated CI pipeline: desktop tests + Android build + release APK upload
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Job 1: Desktop engine tests (fast, no Android SDK needed)
+  desktop-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install "pytest==8.*"
+        shell: bash
+
+      - name: Run engine tests
+        run: python -m pytest tests/test_engine_desktop.py -v
+        shell: bash
+
+      - name: Run JSON contract tests
+        run: python -m pytest tests/test_pybridge_contract.py -v
+        shell: bash
+
+      - name: Validate content pack
+        run: python tests/validate_content.py
+        shell: bash
+
+  # Job 2: Android build（PR 与 main/tags 都运行，保证依赖变更在合并前被验证）
+  android-build:
+    needs: desktop-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v6
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Cache Gradle
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build Debug APK
+        run: ./gradlew :app:assembleDebug --no-daemon
+        shell: bash
+
+      - name: Upload Debug APK artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: app-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
+
+  # Job 3: Create Release with APK (only on version tags)
+  create-release:
+    needs: android-build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download Debug APK
+        uses: actions/download-artifact@v8
+        with:
+          name: app-debug
+          path: artifacts/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/app-debug.apk
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
