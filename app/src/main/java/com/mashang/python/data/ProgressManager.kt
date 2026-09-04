@@ -3,6 +3,7 @@ package com.mashang.python.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.mashang.python.R
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -123,7 +124,7 @@ class ProgressManager private constructor(context: Context) {
         completedQuizzes: Set<Int>,
         earnedXp: Int
     ) {
-        val existingProgress = getLessonProgress(lessonId) ?: LessonProgress(lessonId, emptySet(), 0)
+        val existingProgress = getLessonProgress(lessonId) ?: LessonProgress(lessonId, completedQuizzes = emptySet(), earnedXp = 0)
         val updatedProgress = existingProgress.copy(
             completedQuizzes = completedQuizzes,
             earnedXp = earnedXp

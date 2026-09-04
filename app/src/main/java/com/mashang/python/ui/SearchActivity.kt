@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mashang.python.CourseAdapter
+import com.mashang.python.R
 import com.mashang.python.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {

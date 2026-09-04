@@ -2,9 +2,11 @@ package com.mashang.python.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mashang.python.MainActivity
+import com.mashang.python.R
 import com.mashang.python.data.UserManager
 import com.mashang.python.databinding.ActivityLoginBinding
 

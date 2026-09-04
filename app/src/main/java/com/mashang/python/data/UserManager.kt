@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
+import com.mashang.python.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -81,8 +82,8 @@ class UserManager private constructor(context: Context) {
         nickname?.let { user.nickname = it }
         totalXp?.let { user.totalXp = it }
         streak?.let { user.streak = it }
-        achievements?.let { user.achievements = it.toMutableSet() }
-        bookmarkedLessons?.let { user.bookmarkedLessons = it.toMutableSet() }
+        achievements?.let { user.achievements = it.toMutableList() }
+        bookmarkedLessons?.let { user.bookmarkedLessons = it.toMutableList() }
         saveUser(user)
     }
     

@@ -19,7 +19,7 @@ class CourseDetailDialog : DialogFragment() {
             return CourseDetailDialog().apply {
                 arguments = Bundle().apply {
                     putParcelable("unit", unit)
-                    putParcelableArray("exercises", exercises.toTypedArray())
+                    putParcelableArray("exercises", exercises)
                 }
             }
         }
