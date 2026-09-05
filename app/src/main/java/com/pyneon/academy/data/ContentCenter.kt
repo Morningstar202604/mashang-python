@@ -91,7 +91,7 @@ class ContentCenter {
                 lastError = e
             }
         }
-        throw IllegalStateException("所有镜像均不可达: ${lastError?.message}", lastError)
+        throw IllegalStateException("课程目录不可达: ${lastError?.message}", lastError)
     }
 
     fun download(context: Context, pack: ContentPack, baseUrl: String): File {
