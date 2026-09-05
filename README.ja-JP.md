@@ -49,7 +49,7 @@
 | 初心者 / キャリアチェンジャー | `print`からデコレーターまで、30講の中国語ナラティブレッスン |
 | 通勤・隙間時間学習者 | 完全オフライン、地下鉄のトンネルでもコード実行可能 |
 | 教師 / 保護者 | 広告なし、アカウント不要、データアップロードゼロ — 生徒に安心して勧められる |
-| 開発者 | Compose + Chaquopyの完全なリファレンス実装、MIT商用利用可能 |
+| 開発者 | Compose + Chaquopyの完全なリファレンス実装、ソース公開・非商用利用 |
 
 ## なぜPY//NOW？
 
@@ -84,7 +84,6 @@
 > Android 7.0+（minSdk 24）、arm64-v8a / x86_64二重アーキテクチャ、APK約43MB。
 
 - ⭐ おすすめ：[GitHub Releases](../../releases) から `app-release.apk` をダウンロード
-- 中国国内直結：[Gitee リポジトリ](https://gitee.com/badhope/mashang-python) 同期リリース
 - 開発者自身でビルド：
 
 ```bash
@@ -164,9 +163,3 @@ Fork → 新規ブランチ → PR提出；コース内容は `tests/validate_co
 
 [MIT](LICENSE) — 商用利用自由、著作権表示を保持してください。
 サードパーティコンポーネント：[Chaquopy](https://github.com/chaquo/chaquopy) (MIT)、Jetpack Compose (Apache-2.0)。
-
-<div align="center">
-
-**このプロジェクトが役に立ったら、⭐をつけてもっと多くの学習者に見つけてもらいましょう！**
-
-</div>

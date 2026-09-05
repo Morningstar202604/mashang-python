@@ -16,7 +16,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 
 🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
-[Download APK](#download-install) · [Curriculum](#curriculum-30-lessons--4-acts) · [Contributing](#contributing) · [Roadmap](#roadmap)
+[Download APK](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [Contributing](#contributing) · [Roadmap](#roadmap)
 
 </div>
 
@@ -49,7 +49,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 | Beginner / Career Changer | 30 Chinese narrative lessons, from `print` to decorators |
 | Commuter / Fragmented Learner | Fully offline, code even in subway tunnels |
 | Teacher / Parent | No ads, no account, zero data upload — safe for students |
-| Developer | Complete Compose + Chaquopy reference implementation, MIT commercial use |
+| Developer | Complete Compose + Chaquopy reference implementation, source-available, non-commercial use |
 
 ## Why PY//NOW?
 
@@ -84,7 +84,6 @@ making "learning to code" feel like playing a game for the first time.
 > Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture, APK ~43MB.
 
 - ⭐ Recommended: Download `app-release.apk` from [GitHub Releases](../../releases)
-- China Direct: [Gitee Repository](https://gitee.com/badhope/mashang-python) synchronized release
 - Build yourself:
 
 ```bash
@@ -162,11 +161,5 @@ This repository is published under the **Source-Available Non-Commercial License
 Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
 
 📄 [Privacy Policy](PRIVACY_POLICY.md) · [Terms of Service](TERMS_OF_SERVICE.md)
-
-<div align="center">
-
-**If this project helps you, give it a ⭐ to help more learners discover it!**
-
-</div>
 
 

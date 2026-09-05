@@ -84,7 +84,6 @@
 > Android 7.0+（minSdk 24），arm64-v8a / x86_64 双架构，APK 约 43MB。
 
 - ⭐ 推荐：从 [GitHub Releases](../../releases) 下载 `app-release.apk`
-- 国内直连：[Gitee 仓库](https://gitee.com/badhope/mashang-python) 同步发布
 - 开发者自行构建：
 
 ```bash
@@ -171,9 +170,3 @@ Fork → 新建分支 → 提交 PR；课程内容请同步更新 `tests/validat
 第三方组件：[Chaquopy](https://github.com/chaquo/chaquopy) (MIT)、Jetpack Compose (Apache-2.0)。
 
 📄 [隐私政策](PRIVACY_POLICY.md) · [用户协议](TERMS_OF_SERVICE.md)
-
-<div align="center">
-
-**如果这个项目对你有帮助，点一个 ⭐ 让更多学习者看到它！**
-
-</div>
