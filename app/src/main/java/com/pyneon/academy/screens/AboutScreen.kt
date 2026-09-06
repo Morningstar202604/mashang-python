@@ -55,7 +55,7 @@ fun AboutScreen(onBack: () -> Unit) {
         Text(
             "本应用以「源码可见·非商业」协议开源，仅用于学习、研究与交流，目的是宣称项目主权。" +
                 "版权持有人保留全部商业化权利：任何商业使用（付费分发、内购、广告变现、集成至商业产品等）" +
-                "须事先获得书面授权。\"PY//NOW\"、\"码上Python\" 名称与标识为保留商标。",
+                "须事先获得书面授权。\"PY//NOW\"、\"码上 Python\" 名称与标识为保留商标。",
             style = MaterialTheme.typography.bodySmall,
             color = TextMid
         )

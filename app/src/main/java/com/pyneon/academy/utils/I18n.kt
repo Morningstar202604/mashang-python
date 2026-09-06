@@ -23,7 +23,7 @@ object I18n {
             "welcome.title" -> "欢迎使用 PY//NOW"
             "welcome.subtitle" -> "码上 Python · 编程学院"
             "welcome.offline.title" -> "完全离线学习"
-            "welcome.offline.desc" -> "内置 CPython 3.13 解释器\n地铁、飞机、偏远地区都能学\n无需网络，随时开练"
+            "welcome.offline.desc" -> "内置 CPython 3.13 解释器\n地铁、飞机、偏远地区都能学\n无需网络，随时学习"
             "welcome.gamification.title" -> "游戏化成长"
             "welcome.gamification.desc" -> "XP 经验值系统\n6 大段位晋升\n每日任务 + 成就徽章\n让学习像打游戏一样上瘾"
             "welcome.snapshot.title" -> "独家变量快照"

@@ -92,7 +92,7 @@ fun CertificateScreen(onBack: () -> Unit) {
                     modifier = Modifier.size(44.dp)
                 )
                 GlitchText("PY//NOW", style = MaterialTheme.typography.titleLarge, color = NeonCyan)
-                Text("码上Python · 毕业认证", style = MaterialTheme.typography.titleMedium, color = TextMid)
+                Text("码上 Python · 毕业认证", style = MaterialTheme.typography.titleMedium, color = TextMid)
                 Box(Modifier.fillMaxWidth().height(1.dp).background(NeonYellow.copy(alpha = 0.4f)))
                 Spacer(Modifier.height(4.dp))
                 Text("兹证明 接入者「NEO」", style = MaterialTheme.typography.bodyLarge, color = TextMid)

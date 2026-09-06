@@ -2,9 +2,13 @@ package com.pyneon.academy.screens
 
 import com.pyneon.academy.utils.AppConstants
 import com.pyneon.academy.utils.ShareHelper
+import com.pyneon.academy.utils.ThemePreference
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +18,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Bolt
@@ -60,6 +68,7 @@ import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.SectionHeader
 import com.pyneon.academy.ui.effects.cyberGrid
 import com.pyneon.academy.ui.effects.scanlines
+import com.pyneon.academy.ui.theme.AppThemes
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
@@ -92,6 +101,7 @@ fun ProfileScreen(
     val unlocked = remember(progress, lessons.size) { unlockedAchievements(progress, lessons.size) }
     var confirmReset by remember { mutableStateOf(false) }
     var pythonVersion by remember { mutableStateOf(PyBridge.pythonVersion()) }
+    var currentThemeId by remember { mutableStateOf(ThemePreference.getCurrentThemeId(context)) }
 
     Column(
         Modifier
@@ -184,7 +194,7 @@ fun ProfileScreen(
         SectionHeader("系统信息", accent = NeonGreen)
         NeonCard(accent = NeonGreen) {
             InfoRow("运行时", "CPython $pythonVersion · Chaquopy 嵌入")
-            InfoRow("版本", "码上Python v${AppConstants.VERSION_NAME}")
+            InfoRow("版本", "${AppConstants.APP_NAME_CN} v${AppConstants.VERSION_NAME}")
             InfoRow("网络", "离线优先 · 联网仅拉取新课程")
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -216,6 +226,63 @@ fun ProfileScreen(
                 }
             }
         }
+
+        SectionHeader("主题切换", accent = NeonYellow)
+        NeonCard(accent = NeonYellow) {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text("选择你喜欢的颜色主题", style = MaterialTheme.typography.bodySmall, color = TextMid)
+                AppThemes.allThemes.forEach { theme ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                ThemePreference.saveTheme(context, theme.id)
+                                currentThemeId = theme.id
+                            }
+                            .border(
+                                width = if (currentThemeId == theme.id) 2.dp else 1.dp,
+                                color = if (currentThemeId == theme.id) theme.primary else TextDim.copy(alpha = 0.3f),
+                                shape = RoundedCornerShape(8.dp)
+                            )
+                            .padding(12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 主题颜色预览圆点
+                        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Box(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .background(theme.primary, CircleShape)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .background(theme.secondary, CircleShape)
+                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .background(theme.accent, CircleShape)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(12.dp))
+                        // 主题名称
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = theme.name,
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = if (currentThemeId == theme.id) theme.primary else TextHi
+                            )
+                        }
+                        // 选中标记
+                        if (currentThemeId == theme.id) {
+                            Text("✓", color = theme.primary, style = MaterialTheme.typography.titleMedium)
+                        }
+                    }
+                }
+            }
+        }
+
         SectionHeader("法律与关于", accent = NeonCyan)
         NeonCard(accent = NeonCyan) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {

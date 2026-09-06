@@ -146,7 +146,7 @@ object CertificatePoster {
             typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
             textAlign = Paint.Align.CENTER
         }
-        canvas.drawText("PY//NOW · 码上Python", WIDTH / 2f, MARGIN + 160f, subPaint)
+        canvas.drawText("PY//NOW · 码上 Python", WIDTH / 2f, MARGIN + 160f, subPaint)
 
         // Divider
         val dividerPaint = Paint().apply {
@@ -248,7 +248,7 @@ object CertificatePoster {
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
         }
-        canvas.drawText("PY//NOW 码上Python · 离线优先 · 零上传", WIDTH / 2f, (HEIGHT - MARGIN - 40).toFloat(), footerPaint)
+        canvas.drawText("PY//NOW 码上 Python · 离线优先 · 零上传", WIDTH / 2f, (HEIGHT - MARGIN - 40).toFloat(), footerPaint)
         canvas.drawText("github.com/Morningstar202604/mashang-python", WIDTH / 2f, (HEIGHT - MARGIN - 15).toFloat(), footerPaint)
 
         // Glitch accent lines

@@ -152,7 +152,7 @@ private fun LessonRow(
             }
             Spacer(Modifier.size(14.dp))
             Column(Modifier.weight(1f)) {
-                Text(title, style = MaterialTheme.typography.titleMedium, color = androidx.compose.ui.graphics.Color(0xFFE6F1FF))
+                Text(title, style = MaterialTheme.typography.titleMedium, color = TextHi)
                 if (subtitle.isNotEmpty()) {
                     Text(subtitle, style = MaterialTheme.typography.bodySmall, color = TextMid)
                 }

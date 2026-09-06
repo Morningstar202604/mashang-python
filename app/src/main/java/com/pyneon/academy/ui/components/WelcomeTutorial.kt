@@ -47,13 +47,10 @@ data class WelcomePage(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WelcomeTutorial(onComplete: () -> Unit) {
-    val pagerState = rememberPagerState(pageCount = { 4 })
-    val scope = rememberCoroutineScope()
-
     val pages = listOf(
         WelcomePage(
             title = "完全离线学习",
-            description = "内置 CPython 3.13 解释器\n地铁、飞机、偏远地区都能学\n无需网络，随时开练",
+            description = "内置 CPython 3.13 解释器\n地铁、飞机、偏远地区都能学\n无需网络，随时学习",
             icon = Icons.Outlined.WifiOff,
             accentColor = NeonCyan
         ),
@@ -76,6 +73,9 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
             accentColor = NeonMagenta
         )
     )
+
+    val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(pageCount = { pages.size })
 
     Box(
         Modifier
@@ -137,7 +137,7 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
                     .padding(horizontal = 24.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                if (pagerState.currentPage < 3) {
+                if (pagerState.currentPage < pages.lastIndex) {
                     NeonButton(
                         label = "下一步",
                         onClick = {

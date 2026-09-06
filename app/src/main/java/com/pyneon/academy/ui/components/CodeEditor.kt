@@ -2,6 +2,7 @@ package com.pyneon.academy.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -109,56 +113,27 @@ fun CodeEditor(
                 LineNumbersGutter(value)
             }
 
-            // Editor
-            androidx.compose.material3.TextField(
-                value = TextFieldValue(
-                    text = composedText,
-                    selection = androidx.compose.ui.text.TextRange(
-                        cursorPosition,
-                        selectionEnd ?: cursorPosition
-                    )
-                ),
-                onValueChange = { tfv ->
-                    val newText = tfv.text.toString()
+            // Editor - 使用最简单的 BasicTextField
+            val verticalScrollState = rememberScrollState()
+            val horizontalScrollState = rememberScrollState()
+            BasicTextField(
+                value = composedText,
+                onValueChange = { newText ->
                     setComposedText(newText)
                     onValueChange(newText)
-                    setCursorPosition(tfv.selection.end)
-                    setSelectionStart(tfv.composition?.start)
-                    setSelectionEnd(tfv.composition?.end)
+                    setCursorPosition(newText.length)
                 },
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(12.dp),
-                singleLine = false,
-                maxLines = Int.MAX_VALUE,
-                textStyle = NeonTextStyles.NeonCode.copy(
-                    fontSize = 14.sp,
-                    lineHeight = 22.sp,
-                    letterSpacing = 0.5.em
+                    .padding(12.dp)
+                    .verticalScroll(verticalScrollState)
+                    .horizontalScroll(horizontalScrollState),
+                textStyle = TextStyle(
+                    fontFamily = FontFamily.Default,
+                    fontSize = 16.sp,
+                    color = Color.White
                 ),
-                colors = androidx.compose.material3.TextFieldDefaults.colors(
-                    focusedContainerColor = NeonColors.Surface,
-                    unfocusedContainerColor = NeonColors.Surface,
-                    disabledContainerColor = NeonColors.Surface,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent,
-                    cursorColor = NeonColors.Primary,
-                    focusedPlaceholderColor = NeonColors.TextDim,
-                    unfocusedPlaceholderColor = NeonColors.TextDim,
-                    focusedTextColor = NeonColors.TextPrimary,
-                    unfocusedTextColor = NeonColors.TextPrimary,
-                    focusedLeadingIconColor = NeonColors.TextDim,
-                    unfocusedLeadingIconColor = NeonColors.TextDim,
-                    focusedTrailingIconColor = NeonColors.TextDim,
-                    unfocusedTrailingIconColor = NeonColors.TextDim
-                ),
-                placeholder = { Text(hint, style = NeonTextStyles.NeonCode.copy(color = NeonColors.TextDim)) },
-                visualTransformation = object : VisualTransformation {
-                    override fun filter(text: AnnotatedString): TransformedText {
-                        return TransformedText(annotatedText, OffsetMapping.Identity)
-                    }
-                },
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(Color.White),
                 readOnly = readOnly
             )
         }
@@ -227,30 +202,31 @@ fun buildAnnotatedString(code: String, language: String): AnnotatedString {
     val builtinPattern = "\\b(${builtins.joinToString("|")})\\b".toRegex()
 
     // Apply highlights (order matters: comments first, then strings, then others)
+    // 注意：addStyle 的 end 参数是 exclusive，所以要用 match.range.last + 1
     commentPattern.findAll(code).forEach { match ->
-        builder.addStyle(commentStyle, match.range.first, match.range.last)
+        builder.addStyle(commentStyle, match.range.first, match.range.last + 1)
     }
 
     stringPattern.findAll(code).forEach { match ->
-        builder.addStyle(stringStyle, match.range.first, match.range.last)
+        builder.addStyle(stringStyle, match.range.first, match.range.last + 1)
     }
 
     keywordPattern.findAll(code).forEach { match ->
-        builder.addStyle(keywordStyle, match.range.first, match.range.last)
+        builder.addStyle(keywordStyle, match.range.first, match.range.last + 1)
     }
 
     numberPattern.findAll(code).forEach { match ->
-        builder.addStyle(numberStyle, match.range.first, match.range.last)
+        builder.addStyle(numberStyle, match.range.first, match.range.last + 1)
     }
 
     builtinPattern.findAll(code).forEach { match ->
-        builder.addStyle(builtinStyle, match.range.first, match.range.last)
+        builder.addStyle(builtinStyle, match.range.first, match.range.last + 1)
     }
 
     functionPattern.findAll(code).forEach { match ->
         val name = match.groupValues[1]
         if (name !in keywords && name !in builtins) {
-            builder.addStyle(functionStyle, match.range.first, match.range.last)
+            builder.addStyle(functionStyle, match.range.first, match.range.last + 1)
         }
     }
 

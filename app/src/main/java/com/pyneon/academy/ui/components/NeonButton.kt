@@ -28,13 +28,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
+import com.pyneon.academy.ui.theme.NeonCyan
 
 @Composable
 fun NeonButton(
     label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    accent: Color = Color(0xFF00E5FF),
+    accent: Color = NeonCyan,
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null
 ) {

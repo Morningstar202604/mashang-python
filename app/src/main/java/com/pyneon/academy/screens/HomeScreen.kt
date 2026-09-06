@@ -99,7 +99,7 @@ fun HomeScreen(
                 Text("码上 Python · 编程学院 v${AppConstants.VERSION_NAME}", style = MaterialTheme.typography.labelSmall, color = TextDim)
             }
             Text(
-                "CPython $pythonVersion 在线",
+                "CPython $pythonVersion 就绪",
                 style = MaterialTheme.typography.labelSmall,
                 color = NeonGreen.copy(alpha = 0.8f)
             )

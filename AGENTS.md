@@ -1,24 +1,25 @@
 # PyNeon · 霓虹派
 
-赛博朋克风离线 Python 学习终端（Android）。产品计划书与设计规范见 `PLAN.md`（唯一事实来源）。
+赛博朋克风离线 Python 学习终端（Android）。设计规范见 `BRAND_GUIDELINES.md`；架构决策记录见 `docs/superpowers/specs/`。
 
 ## 技术栈锁定（勿随意变更）
 
-Chaquopy 16.0.0 与 AGP 8.7.3 / Kotlin 2.0.21 / Gradle 8.10.2 精确匹配，升级任一项前必须核对 Chaquopy 官方兼容表。
+Chaquopy **17.0.0** 与 AGP **8.13.2** / Kotlin **2.4.10** / Gradle **9.5.0**（wrapper 锁定）精确匹配。任何一项升级前必须核对 [Chaquopy 官方兼容表](https://chaquo.com/chaquopy/doc/current/android.html)（17.0 支持 AGP 7.3.x–9.2.x、Python 3.13）。
 
-- JDK 17：`D:\android-env\jdk-17.0.20+8`（已写入 gradle.properties 的 org.gradle.java.home）
-- Android SDK：`D:\android-env\android-sdk`（platforms 34/35）
+- JDK 17：`C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot`（构建走 `gradlew`，由 wrapper 下载 Gradle 9.5.0）
+- Android SDK：`C:\Users\X1882\Android\Sdk`（`ANDROID_HOME` 已指向，platforms 35 / build-tools 35.0.0）
 - 仓库链：阿里云镜像 → google() → mavenCentral() 三级回退（settings.gradle.kts）
 
 ## 常用命令
 
 ```powershell
-gradle :app:assembleDebug     # 构建 Debug APK → app/build/outputs/apk/debug/
-python -m pytest tests -q     # 桌面单元测试（runner.py / repl.py 执行引擎）
+.\gradlew :app:assembleDebug     # 构建 Debug APK → app/build/outputs/apk/debug/
+python -m pytest tests -q        # 桌面单元测试（runner.py / repl.py 执行引擎）
+python tests/validate_content.py # 课程 × 答案全量判题校验（31 讲 + 6 挑战）
 ```
 
 - tests/ 用例自行将 `app/src/main/python` 加入 sys.path，不要改动该机制。
-- Python 引擎改动后必须跑桌面测试；涉及 UI/构建改动用 /build 验证。
+- Python 引擎改动后必须跑桌面测试；涉及 UI/构建改动用 `.\gradlew :app:assembleDebug` 验证。
 
 ## 验证契约（完成任何代码任务前）
 
@@ -28,7 +29,7 @@ python -m pytest tests -q     # 桌面单元测试（runner.py / repl.py 执行�
 
 ## 设计规范
 
-颜色 Token、组件语言（切角卡片/霓虹描边/扫描线/Glitch）严格遵循 `PLAN.md` 第 5 节，禁止自造色值。
+颜色 Token、组件语言（切角卡片/霓虹描边/扫描线/Glitch）严格遵循 `BRAND_GUIDELINES.md` 的色板（Neon Cyan `#00E5FF` / Green `#00FF9C` / Magenta `#FF2D78` / Yellow `#F7FF00` / Bg `#0A0E17` / `#111827` / Dim `#6B7280`），禁止自造色值。
 
 ## 工具环境说明
 
