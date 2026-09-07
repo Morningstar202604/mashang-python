@@ -9,7 +9,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 [![License: Source-Available NC](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 [![Stars](https://img.shields.io/github/stars/Morningstar202604/mashang-python?style=social)](../../stargazers)
@@ -26,7 +26,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 
 ```text
 ╔══════════════════════════════════╗
-║  PY//NOW · Mashang Python   ● CPython 3.13 Online
+║  PY//NOW · Mashang Python   ● CPython 3.13 Ready
 ╠══════════════════════════════════╣
 ║  ▍Practice · Access Guard
 ║  ┌────────────────────────────┐
@@ -77,6 +77,7 @@ making "learning to code" feel like playing a game for the first time.
 - ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier题型: type missing fragments / sort shuffled lines into correct program
 - 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
 - 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
+- 🎨 **5 Color Themes** — Cyber Neon / Deep Space Gray / Aurora Green / Twilight Purple / Twilight Orange, theme persistence via SharedPreferences
 - 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
 
 ## 📥 Download & Install
@@ -141,7 +142,7 @@ Plus Arena 6 Major Challenges: Neon Counter / Palindrome Detector / Password Str
 ```
 Kotlin + Jetpack Compose (Material3 Cyber Custom Theme)
         │  JSON Bridge PyBridge
-Chaquopy 16.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
+Chaquopy 17.0.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
 DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Highlighter
 ```
 

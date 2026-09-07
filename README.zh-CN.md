@@ -10,7 +10,7 @@
 [![License: 源码可见·非商业](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/%E8%AF%BE%E7%A8%8B-30%E8%AE%B2-F7FF00.svg)](#-课程体系-30-讲--四幕)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 
@@ -26,7 +26,7 @@
 
 ```text
 ╔══════════════════════════════════╗
-║  PY//NOW · 码上Python   ● CPython 3.13 在线
+║  PY//NOW · 码上 Python   ● CPython 3.13 就绪
 ╠══════════════════════════════════╣
 ║  ▍实战演练 · 权限门卫
 ║  ┌────────────────────────────┐
@@ -54,11 +54,11 @@
 ## 为什么是码上？
 
 市面上的编程学习 App 要么联网依赖云执行，要么白净得像说明书。
-**码上Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
+**码上 Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
 没有网络也能写代码、跑代码、判题通关；再配一套 CRT 扫描线与霓虹故障字的赛博 HUD，
 让「学编程」第一次有了打游戏的感觉。
 
-| | 别人的 | 码上Python |
+| | 别人的 | 码上 Python |
 |---|---|---|
 | 代码执行 | ☁️ 云端，断网即瘫 | 📱 本机 CPython 3.13 |
 | 教学风格 | 干瘪文档 | 赛博剧情 + 生活化比喻 + 随堂一问 |
@@ -77,6 +77,7 @@
 - ✍️ **填空题 + 🧩 代码排序** —— 对标 Mimo 的低门槛题型：只敲缺失片段 / 把打乱的代码行排成正确程序
 - 🎓 **毕业证书** —— 通关全部课程解锁霓虹认证页，截图即分享
 - 🧭 **手把手引导** —— 每课标配：生活化比喻 → ASCII 图解 → TASK 跟改 → PRACTICE 跟练 → STEPS 思路卡
+- 🎨 **5 种颜色主题** —— 赛博霓虹 / 深空灰 / 极光绿 / 暮光紫 / 暮光橙，SharedPreferences 持久化主题选择
 - 🏆 **游戏化** —— 脚本小子 → 数据幽灵 → 网络浪人 → 义体黑客 → 街头传奇 → 系统架构师
 
 ## 📥 下载安装
@@ -141,7 +142,7 @@ Pydroid 是开发工具；我们是"课程即代码"的学习终端——每讲�
 ```
 Kotlin + Jetpack Compose (Material3 赛博定制主题)
         │  JSON 协议桥 PyBridge
-Chaquopy 16.0 ──► CPython 3.13 (runner.py 沙箱 / repl.py 会话)
+Chaquopy 17.0.0 ──► CPython 3.13 (runner.py 沙箱 / repl.py 会话)
 DataStore 进度存档 │ Navigation 单Activity五Tab │ 自研语法高亮器
 ```
 
@@ -165,7 +166,7 @@ Fork → 新建分支 → 提交 PR；课程内容请同步更新 `tests/validat
 
 - ✅ 可查看、学习、修改、为非商业教育目的再分发（须保留许可声明）。
 - ❌ **未经书面授权禁止商业使用**（付费分发、内购、广告、集成进商业产品等）。
-- ™ "PY//NOW" / "码上Python" 名称与标识为保留商标。
+- ™ "PY//NOW" / "码上 Python" 名称与标识为保留商标。
 
 第三方组件：[Chaquopy](https://github.com/chaquo/chaquopy) (MIT)、Jetpack Compose (Apache-2.0)。
 

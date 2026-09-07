@@ -10,7 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-neon.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0-FF2D78.svg)]()
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/%E3%82%AB%E3%83%AA%E3%82%AD%E3%83%A5%E3%83%A9%E3%83%A0-30%E8%AC%9B-F7FF00.svg)](#カリキュラム30講-4幕)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 
@@ -26,7 +26,7 @@
 
 ```text
 ╔══════════════════════════════════╗
-║  PY//NOW · Mashang Python   ● CPython 3.13 オンライン
+║  PY//NOW · Mashang Python   ● CPython 3.13 準備完了
 ╠══════════════════════════════════╣
 ║  ▍実践演習 · アクセスガード
 ║  ┌────────────────────────────┐
@@ -54,7 +54,7 @@
 ## なぜPY//NOW？
 
 市面上的编程学习 App 要么联网依赖云执行，要么白净得像说明书。
-**码上Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
+**码上 Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
 没有网络也能写代码、跑代码、判题通关；再配一套 CRT 扫描线与霓虹故障字的赛博 HUD，
 让「学编程」第一次有了打游戏的感觉。
 
@@ -141,7 +141,7 @@ Pydroidは開発ツール；私たちは「カリキュラム即コード」の�
 ```
 Kotlin + Jetpack Compose (Material3 サイバーカスタムテーマ)
         │  JSON プロトコル橋 PyBridge
-Chaquopy 16.0 ──► CPython 3.13 (runner.py サンドボックス / repl.py セッション)
+Chaquopy 17.0.0 ──► CPython 3.13 (runner.py サンドボックス / repl.py セッション)
 DataStore 進捗保存 │ Navigation 単Activity五Tab │ 自製構文ハイライター
 ```
 
