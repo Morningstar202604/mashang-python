@@ -1,5 +1,20 @@
 # Changelog
 
+## [Unreleased] - 2026-09-13
+### Added
+- 亮色主题「白纸模式」：新增第 6 套主题，白底深字、全套色彩按白底重新调优；主题切换即时生效，无需重启
+- APK 自更新：设置页新增「检查更新」，从 GitCode 主仓目录（catalog.json）拉取版本信息、下载并校验 SHA-256 后交给系统安装器
+- 内容代码块支持 `stdin` 字段：含 `input()` 的示例可直接运行（如第 5 课交互输入示例）
+### Changed
+- 全局色彩 Token 重构为 NeonTokens + CompositionLocal：Bg0/TextHi/NeonCyan 等名称在 Compose 下跟随当前主题，为明暗双主题打底
+- 版本号单一来源：AppConstants 改为读取 BuildConfig（发版只改 build.gradle.kts）
+- release 构建开启 R8 混淆 + 资源压缩，并补齐 Chaquopy / kotlinx.serialization 保留规则
+- `tools/upload_release.sh`：检测到签名凭据时自动构建并发布签名 release 包，上传后自动同步 catalog.json 的 app 段
+### Fixed
+- l25（datetime/random）两处示例用 `date.today()` 却硬编码期望输出 → 改为固定日期，输出可复现
+- 内容包 bonus-27 `sum: 30→31`、dsa03 `neon 2→1` 期望输出错误修正
+- 代码编辑器文字颜色改为跟随主题（原硬编码白色）
+
 ## [0.3.7] - 2026-09-13
 ### Added
 - 增补包 · DSA 算法基础（5 讲）：复杂度直觉 / 双指针 / 哈希表 / 栈与队列 / 递归记忆化
