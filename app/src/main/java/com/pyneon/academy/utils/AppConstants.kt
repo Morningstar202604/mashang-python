@@ -1,12 +1,14 @@
 package com.pyneon.academy.utils
 
+import com.pyneon.academy.BuildConfig
+
 /**
  * 应用全局常量
  */
 object AppConstants {
-    // 版本信息（与 build.gradle.kts 保持同步）
-    const val VERSION_NAME = "0.3.7"
-    const val VERSION_CODE = 13
+    // 版本信息（单一来源：由 build.gradle.kts 生成 BuildConfig，发版只改 gradle）
+    val VERSION_NAME: String = BuildConfig.VERSION_NAME
+    val VERSION_CODE: Int = BuildConfig.VERSION_CODE
     
     // 应用名称
     const val APP_NAME = "PY//NOW"

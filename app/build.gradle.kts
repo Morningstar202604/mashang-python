@@ -16,6 +16,9 @@ android {
         targetSdk = 35
         versionCode = 13
         versionName = "0.3.7"
+        // 版本号单一来源：BuildConfig.VERSION_NAME / VERSION_CODE
+        buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
+        buildConfigField("int", "VERSION_CODE", "$versionCode")
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }
@@ -39,7 +42,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // 生产构建启用 R8 压缩/混淆，缩小 APK 体积
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             // D1: 仅当环境变量齐备、release 签名已创建时才挂载，否则保持未签名
             signingConfigs.findByName("release")?.let { signingConfig = it }
@@ -51,6 +56,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources.excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
