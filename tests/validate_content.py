@@ -492,6 +492,144 @@ def structural_checks(lessons):
     return problems
 
 
+# DSA 增补包参考答案（与 content_packs/dsa-*.json 的 exercise 一一对应）
+SOLUTIONS.update(
+    {
+        "dsa01": "def sum_to_n(n):\n    return n * (n + 1) // 2\n\nprint(sum_to_n(5))\nprint(sum_to_n(100))",
+        "dsa02": (
+            "def two_sum_sorted(nums, target):\n"
+            "    i, j = 0, len(nums) - 1\n"
+            "    while i < j:\n"
+            "        s = nums[i] + nums[j]\n"
+            "        if s == target:\n"
+            "            return (i, j)\n"
+            "        elif s < target:\n"
+            "            i += 1\n"
+            "        else:\n"
+            "            j -= 1\n"
+            "    return (-1, -1)\n"
+            "\n"
+            "print(two_sum_sorted([2, 7, 11, 15], 9))"
+        ),
+        "dsa03": (
+            "def first_unique(s):\n"
+            "    counts = {}\n"
+            "    for ch in s:\n"
+            "        counts[ch] = counts.get(ch, 0) + 1\n"
+            "    for i, ch in enumerate(s):\n"
+            "        if counts[ch] == 1:\n"
+            "            return i\n"
+            "    return -1\n"
+            "\n"
+            "print(first_unique('pyneon'))\n"
+            "print(first_unique('aabb'))"
+        ),
+        "dsa04": (
+            "def bracket_depth(s):\n"
+            "    depth = 0\n"
+            "    best = 0\n"
+            "    for ch in s:\n"
+            "        if ch == '(':\n"
+            "            depth += 1\n"
+            "            best = max(best, depth)\n"
+            "        else:\n"
+            "            depth -= 1\n"
+            "            if depth < 0:\n"
+            "                return -1\n"
+            "    return -1 if depth != 0 else best\n"
+            "\n"
+            "print(bracket_depth('(()(()))'))\n"
+            "print(bracket_depth('(()'))"
+        ),
+        "dsa05": (
+            "def fib_memo(n, memo=None):\n"
+            "    if memo is None:\n"
+            "        memo = {}\n"
+            "    if n in memo:\n"
+            "        return memo[n]\n"
+            "    if n < 2:\n"
+            "        return n\n"
+            "    memo[n] = fib_memo(n - 1, memo) + fib_memo(n - 2, memo)\n"
+            "    return memo[n]\n"
+            "\n"
+            "print(fib_memo(10))\n"
+            "print(fib_memo(30))"
+        ),
+        "dsa06": (
+            "def choose_sort(nums):\n"
+            "    data = list(nums)\n"
+            "    for i in range(len(data)):\n"
+            "        mi = i\n"
+            "        for j in range(i + 1, len(data)):\n"
+            "            if data[j] < data[mi]:\n"
+            "                mi = j\n"
+            "        data[i], data[mi] = data[mi], data[i]\n"
+            "    return data\n"
+            "\n"
+            "print(choose_sort([3, 1, 2]))"
+        ),
+        "dsa07": (
+            "def binary_search(nums, target):\n"
+            "    lo, hi = 0, len(nums) - 1\n"
+            "    while lo <= hi:\n"
+            "        mid = (lo + hi) // 2\n"
+            "        if nums[mid] == target:\n"
+            "            return mid\n"
+            "        elif nums[mid] < target:\n"
+            "            lo = mid + 1\n"
+            "        else:\n"
+            "            hi = mid - 1\n"
+            "    return -1\n"
+            "\n"
+            "print(binary_search([1, 2, 3, 4, 5], 3))\n"
+            "print(binary_search([1, 2, 3, 4, 5], 9))"
+        ),
+        "dsa08": (
+            "def min_coins(amount):\n"
+            "    count = 0\n"
+            "    for c in [25, 10, 5, 1]:\n"
+            "        count += amount // c\n"
+            "        amount %= c\n"
+            "    return count\n"
+            "\n"
+            "print(min_coins(41))\n"
+            "print(min_coins(30))"
+        ),
+        "dsa09": (
+            "class Node:\n"
+            "    def __init__(self, value):\n"
+            "        self.value = value\n"
+            "        self.next = None\n"
+            "\n"
+            "def ll_length(head):\n"
+            "    cnt = 0\n"
+            "    cur = head\n"
+            "    while cur is not None:\n"
+            "        cnt += 1\n"
+            "        cur = cur.next\n"
+            "    return cnt\n"
+            "\n"
+            "n1 = Node(1); n2 = Node(2); n3 = Node(3)\n"
+            "n1.next = n2; n2.next = n3\n"
+            "print(ll_length(n1))\n"
+            "print(ll_length(None))"
+        ),
+        "dsa10": (
+            "def max_subarray(nums):\n"
+            "    best = float('-inf')\n"
+            "    cur = 0\n"
+            "    for x in nums:\n"
+            "        cur = max(x, cur + x)\n"
+            "        best = max(best, cur)\n"
+            "    return best\n"
+            "\n"
+            "print(max_subarray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))\n"
+            "print(max_subarray([-1, -2]))"
+        ),
+    }
+)
+
+
 def main():
     lessons = []
     for name in LESSON_FILES:
@@ -502,6 +640,10 @@ def main():
     )
     with open(pack_path, encoding="utf-8") as f:
         lessons.extend(json.load(f))
+    for pack in ("dsa-basics.json", "dsa-mastery.json"):
+        pack_path = os.path.join(os.path.dirname(__file__), "..", "content_packs", pack)
+        with open(pack_path, encoding="utf-8") as f:
+            lessons.extend(json.load(f))
     with open(os.path.join(APP_ASSETS, "challenges.json"), encoding="utf-8") as f:
         challenges = json.load(f)
 

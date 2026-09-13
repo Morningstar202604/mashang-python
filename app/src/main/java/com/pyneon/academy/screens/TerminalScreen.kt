@@ -1,5 +1,6 @@
 package com.pyneon.academy.screens
 
+import com.pyneon.academy.ai.CoachEngine
 import com.pyneon.academy.utils.AppConstants
 
 import androidx.compose.foundation.background
@@ -77,6 +78,7 @@ fun TerminalScreen() {
     val history = remember { mutableStateListOf<String>() }
     var historyIndex by remember { mutableStateOf(-1) }
     var busy by remember { mutableStateOf(false) }
+    var lastErr by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
 
     LaunchedEffect(Unit) {
@@ -85,6 +87,35 @@ fun TerminalScreen() {
         lines.clear()
         lines.add(TermLine("sys", "码上 · 神经接口 v${AppConstants.VERSION_NAME} · CPython ${PyBridge.pythonVersion()}"))
         lines.add(TermLine("sys", "逐行输入 Python 语句；多行块以空行结束。"))
+    }
+
+    fun terminalCommand(line: String): String {
+        val cmd = line.substringAfter("/").trim().lowercase()
+        return when (cmd) {
+            "help", "?" ->
+                buildString {
+                    appendLine("本地命令：")
+                    appendLine("/coach   对最近的报错做诊断引导")
+                    appendLine("/help    显示本帮助")
+                    appendLine("其余输入都会交给 CPython 3.13 执行")
+                }
+            "coach" -> {
+                if (lastErr.isBlank()) {
+                    "🤖 教练：还没有可诊断的报错。先运行一段会发生错误的代码，再输入 /coach。"
+                } else {
+                    val type = Regex("""(\w+Error|Timeout|InputError|TestFailed)""").find(lastErr)?.value
+                        ?: "Error"
+                    val tip = CoachEngine.analyze(type, lastErr, null, "")
+                    buildString {
+                        appendLine("🤖 教练：${tip.title}")
+                        appendLine(tip.summary)
+                        tip.steps.forEachIndexed { i, s -> appendLine("${i + 1}) $s") }
+                        tip.example?.let { appendLine("示例："); appendLine(it) }
+                    }
+                }
+            }
+            else -> "未知命令：$cmd（试试 /help）"
+        }
     }
 
     fun submit(raw: String) {
@@ -97,6 +128,12 @@ fun TerminalScreen() {
         historyIndex = -1
         lines.add(TermLine("in", if (morePending) "… $line" else "> $line"))
         input = TextFieldValue("")
+        // 本地命令：/help /coach，不进入 Python 解释器
+        if (line.startsWith("/")) {
+            busy = false
+            lines.add(TermLine("sys", terminalCommand(line)))
+            return
+        }
         scope.launch {
             val result = withContext(Dispatchers.Default) { PyBridge.replPush(line) }
             val wasPending = morePending
@@ -108,6 +145,7 @@ fun TerminalScreen() {
             if (output.isNotEmpty()) {
                 output.split('\n').filter { it.isNotEmpty() }.forEach {
                     val isErr = it.startsWith("Traceback") || it.contains("Error") || it.startsWith("  ")
+                    if (isErr) lastErr = it
                     lines.add(TermLine(if (isErr) "err" else "out", it))
                 }
             }

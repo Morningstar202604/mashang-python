@@ -5,8 +5,8 @@ package com.pyneon.academy.utils
  */
 object AppConstants {
     // 版本信息（与 build.gradle.kts 保持同步）
-    const val VERSION_NAME = "0.3.6"
-    const val VERSION_CODE = 12
+    const val VERSION_NAME = "0.3.7"
+    const val VERSION_CODE = 13
     
     // 应用名称
     const val APP_NAME = "PY//NOW"

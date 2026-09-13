@@ -39,6 +39,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.pyneon.academy.ai.CoachEngine
+import com.pyneon.academy.ai.CoachTip
 import com.pyneon.academy.data.Block
 import com.pyneon.academy.data.Clock
 import com.pyneon.academy.data.LessonRepository
@@ -90,6 +92,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
         mutableStateOf(exercise?.starterCode ?: "")
     }
     var checkResult by remember(lessonId) { mutableStateOf<RunResult?>(null) }
+    var coachTip by remember(lessonId) { mutableStateOf<CoachTip?>(null) }
     var checking by remember(lessonId) { mutableStateOf(false) }
     var hintOpen by remember(lessonId) { mutableStateOf(false) }
     var rewardXp by remember { mutableStateOf<Int?>(null) }
@@ -289,6 +292,57 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                     if (!checking && checkResult != null) {
                         Spacer(Modifier.height(10.dp))
                         ConsoleResult(result = checkResult, running = false)
+                    }
+                    val needCoach = !checking && checkResult != null &&
+                        (checkResult?.passed == false || checkResult?.errorType != null)
+                    if (needCoach) {
+                        Spacer(Modifier.height(10.dp))
+                        NeonButton(
+                            label = "问教练 · 只提示不代写",
+                            accent = NeonMagenta,
+                            leadingIcon = Icons.Outlined.Lightbulb,
+                            onClick = {
+                                coachTip = CoachEngine.analyze(
+                                    checkResult?.errorType,
+                                    checkResult?.errorMessage,
+                                    checkResult?.traceback,
+                                    editorValue
+                                )
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    coachTip?.let { tip ->
+                        AlertDialog(
+                            onDismissRequest = { coachTip = null },
+                            title = { Text("🤖 教练：${tip.title}", style = MaterialTheme.typography.titleMedium) },
+                            text = {
+                                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    Text(tip.summary, style = MaterialTheme.typography.bodyMedium)
+                                    tip.lineRef?.let {
+                                        Text(
+                                            "定位：疑似第 $it 行附近",
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = TextDim
+                                        )
+                                    }
+                                    tip.steps.forEachIndexed { i, s ->
+                                        Text("${i + 1}. $s", style = MaterialTheme.typography.bodyMedium)
+                                    }
+                                    tip.example?.let {
+                                        Text(
+                                            it,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                                            color = NeonCyan
+                                        )
+                                    }
+                                }
+                            },
+                            confirmButton = {
+                                TextButton(onClick = { coachTip = null }) { Text("明白了") }
+                            }
+                        )
                     }
                     if (alreadySolved && checkResult?.passed != false) {
                         Text(

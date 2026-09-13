@@ -1,11 +1,27 @@
 {
-  "updated_at": "2026-08-26",
+  "updated_at": "2026-09-13",
+  "sha256": "71753c511cad91b1ff787659a022a46344f456ffeb23671a46aaf97806d97823",
   "packs": [
     {
       "id": "bonus-builtin",
       "name": "彩蛋课 · 内置函数巡礼",
       "version": 1,
-      "description": "把 Python 的城市公共服务一次逛完：len/sorted/enumerate/zip/any/all…附随堂一问与判题实战。"
+      "description": "把 Python 的城市公共服务一次逛完：len/sorted/enumerate/zip/any/all…附随堂一问与判题实战。",
+      "sha256": "cbc176ad590a14869da645b534a9f5d44710d674b06ac045aa3bbac2d55095fb"
+    },
+    {
+      "id": "dsa-basics",
+      "name": "增补包 · DSA 算法基础",
+      "version": 1,
+      "description": "复杂度直觉 / 双指针 / 哈希表 / 栈与队列 / 递归记忆化：5 讲原创算法入门，每讲含闯关判题。",
+      "sha256": "9a4987a5aca53cb99ad9ea610770b7c0ceb2a9027fdc13f2db84b69ee40e0eed"
+    },
+    {
+      "id": "dsa-mastery",
+      "name": "增补包 · DSA 算法进阶",
+      "version": 1,
+      "description": "手写排序 / 二分查找 / 贪心找零 / 链表思维 / 最大子段和：5 讲原创算法进阶，对标竞赛入门。",
+      "sha256": "79de2683cf442b9072ee184a3ccb734da176f6c4842a4b1e867d30e1d9ff221d"
     }
   ]
 }

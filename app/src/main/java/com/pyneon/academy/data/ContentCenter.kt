@@ -64,7 +64,9 @@ class ContentCenter {
                 // C1: catalog 强制 sha256 校验（必须提供，缺失即拒绝）
                 val catalogSha = obj.optString("sha256").takeIf { it.isNotBlank() }
                     ?: throw SecurityException("catalog 缺少 sha256 字段，拒绝加载（$url）")
-                if (sha256Hex(text) != catalogSha) {
+                // 自引用约束：签名目标是“剥离顶层 sha256 字段后的原文”，
+                // 这样目录自身的哈希可计算，且篡改任一字段都会导致校验失败。
+                if (sha256Hex(stripSelfSha(text)) != catalogSha) {
                     throw SecurityException("catalog 完整性校验失败（sha256 不匹配）: $url")
                 }
                 val packs = mutableListOf<ContentPack>()
@@ -166,4 +168,11 @@ class ContentCenter {
         val bytes = digest.digest(input.toByteArray(StandardCharsets.UTF_8))
         return bytes.joinToString("") { "%02x".format(it) }
     }
+
+    /**
+     * 剥离顶层 `"sha256": "<64位hex>"` 字段，使目录自签名可计算。
+     * 仅影响 catalog 自身签名字段的排除，其他字段原样保留并被哈希覆盖。
+     */
+    private fun stripSelfSha(text: String): String =
+        text.replace(Regex("\"sha256\"\\s*:\\s*\"[0-9a-f]{64}\""), "\"sha256\": \"\"")
 }
