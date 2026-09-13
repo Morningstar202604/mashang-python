@@ -19,6 +19,9 @@ keystore.properties
 __pycache__/
 *.pyc
 
+# pytest 运行缓存
+.pytest_cache/
+
 # Room 导出的数据库 schema（由 exportSchema=true 生成，用于手写迁移时 diff）
 app/schemas/
 

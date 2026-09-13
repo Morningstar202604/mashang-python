@@ -72,8 +72,8 @@
     const out = pyodide.runPython(fn + "(__payload)");
     return JSON.parse(out);
   }
-  function runCode(code, timeout) {
-    return pyCall("run_code_json", { code: code, stdin: [], timeout: timeout || 8 });
+  function runCode(code, timeout, stdin) {
+    return pyCall("run_code_json", { code: code, stdin: stdin || [], timeout: timeout || 8 });
   }
   function checkExercise(code, tests, stdin) {
     return pyCall("check_exercise_json", { code: code, tests: tests || [], stdin: stdin || [] });
@@ -140,7 +140,7 @@
   }
 
   // 可运行代码卡（可选 expected 用于随堂练习自动比对）
-  function codeCard(code, expected) {
+  function codeCard(code, expected, stdin) {
     const card = el("div", "code-card");
     const ta = el("textarea", "code-area");
     ta.value = code;
@@ -159,7 +159,7 @@
       run.textContent = "运行中…";
       out.innerHTML = "";
       try {
-        const r = runCode(ta.value);
+        const r = runCode(ta.value, undefined, stdin);
         out.appendChild(renderRunResult(r));
         if (expected != null) {
           const ok = (r.stdout || "").trim() === String(expected).trim();
@@ -282,7 +282,7 @@
   function renderPractice(b) {
     const c = el("div", "card");
     c.appendChild(el("div", "quiz-q", esc(b.title || "随堂练习")));
-    c.appendChild(codeCard(b.code, b.output));
+    c.appendChild(codeCard(b.code, b.output, b.stdin || []));
     c.appendChild(el("div", "hint", "预期输出："));
     c.appendChild(el("pre", "term preview", esc(b.output || "")));
     if (b.hint) c.appendChild(el("div", "hint", "💡 " + esc(b.hint)));
@@ -339,7 +339,7 @@
       case "diagram": return el("pre", "diagram", esc(b.text));
       case "output": return el("pre", "term preview", esc(b.text));
       case "table": return renderTable(b);
-      case "code": return b.runnable === false ? el("pre", "term", esc(b.code)) : codeCard(b.code);
+      case "code": return b.runnable === false ? el("pre", "term", esc(b.code)) : codeCard(b.code, null, b.stdin || []);
       case "quiz": return renderQuiz(b);
       case "order": return renderOrder(b);
       case "practice": return renderPractice(b);
