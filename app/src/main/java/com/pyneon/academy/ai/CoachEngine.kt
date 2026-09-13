@@ -220,12 +220,13 @@ object CoachEngine {
         title: String,
         summary: String,
         steps: List<String>,
-        example: String?
+        example: String?,
+        lineRef: Int? = null
     ): CoachTip = CoachTip(
         title = title,
         summary = summary,
         steps = steps,
         example = example,
-        lineRef = null
+        lineRef = lineRef
     )
 }

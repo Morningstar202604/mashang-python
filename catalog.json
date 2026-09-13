@@ -1,6 +1,6 @@
 {
   "updated_at": "2026-09-13",
-  "sha256": "71753c511cad91b1ff787659a022a46344f456ffeb23671a46aaf97806d97823",
+  "sha256": "70bf8555190f7030ab59cc6c10813e1d41c861907db0fb1ce3964b4d8be64cfa",
   "packs": [
     {
       "id": "bonus-builtin",
@@ -23,5 +23,11 @@
       "description": "手写排序 / 二分查找 / 贪心找零 / 链表思维 / 最大子段和：5 讲原创算法进阶，对标竞赛入门。",
       "sha256": "79de2683cf442b9072ee184a3ccb734da176f6c4842a4b1e867d30e1d9ff221d"
     }
-  ]
+  ],
+  "app": {
+    "versionCode": 13,
+    "versionName": "0.3.7",
+    "apkUrl": "releases/pynow-0.3.7.apk",
+    "apkSha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  }
 }
