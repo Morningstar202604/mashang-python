@@ -226,7 +226,7 @@ object CertificatePoster {
         canvas.drawText("NEO", WIDTH / 2f, (barY + 180).toFloat(), namePaint)
 
         // QR Code
-        val qrData = "https://github.com/Morningstar202604/mashang-python\n完成度: $percent% | XP: $earnedXp"
+        val qrData = "https://gitcode.com/badhope/mashang-python\n完成度: $percent% | XP: $earnedXp"
         val qrBitmap = generateQRCode(qrData, 300)
         val qrX = (WIDTH - qrBitmap.width) / 2
         val qrY = (barY + 240).toInt()
@@ -249,7 +249,7 @@ object CertificatePoster {
             textAlign = Paint.Align.CENTER
         }
         canvas.drawText("PY//NOW 码上 Python · 离线优先 · 零上传", WIDTH / 2f, (HEIGHT - MARGIN - 40).toFloat(), footerPaint)
-        canvas.drawText("github.com/Morningstar202604/mashang-python", WIDTH / 2f, (HEIGHT - MARGIN - 15).toFloat(), footerPaint)
+        canvas.drawText("gitcode.com/badhope/mashang-python", WIDTH / 2f, (HEIGHT - MARGIN - 15).toFloat(), footerPaint)
 
         // Glitch accent lines
         val glitchPaint = Paint().apply {

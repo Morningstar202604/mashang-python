@@ -75,7 +75,7 @@ fun AboutScreen(onBack: () -> Unit) {
             NeonButton(
                 label = "源代码",
                 accent = NeonCyan,
-                onClick = { ShareHelper.openUrl(context, AppConstants.GITHUB_REPO) },
+                onClick = { ShareHelper.openUrl(context, AppConstants.REPO_URL) },
                 modifier = Modifier.weight(1f)
             )
             NeonButton(

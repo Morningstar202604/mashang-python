@@ -35,7 +35,8 @@ class ContentCenter {
         private val SAFE_ID_REGEX = Regex("""^[a-zA-Z0-9_-]+$""")
 
         private val CATALOG_URLS = listOf(
-            "https://raw.githubusercontent.com/Morningstar202604/mashang-python/main/catalog.json"
+            // GitCode 主仓 raw（GitHub 旧镜像已删除）
+            "https://raw.gitcode.com/badhope/mashang-python/main/catalog.json"
         )
     }
 

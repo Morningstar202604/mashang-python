@@ -5,15 +5,15 @@ package com.pyneon.academy.utils
  */
 object AppConstants {
     // 版本信息（与 build.gradle.kts 保持同步）
-    const val VERSION_NAME = "0.3.4"
-    const val VERSION_CODE = 10
+    const val VERSION_NAME = "0.3.6"
+    const val VERSION_CODE = 12
     
     // 应用名称
     const val APP_NAME = "PY//NOW"
     const val APP_NAME_CN = "码上 Python"
     
-    // GitHub 仓库地址
-    const val GITHUB_REPO = "https://github.com/Morningstar202604/mashang-python"
+    // 项目主页（GitCode 主仓）
+    const val REPO_URL = "https://gitcode.com/badhope/mashang-python"
 
     // 分享标签
     const val SHARE_HASHTAG = "#PY_NOW #Python学习"
@@ -27,9 +27,9 @@ object AppConstants {
 
     // 注：开发者地址/客服信息在华为开发者后台填写并公开展示，无需在本仓库硬编码。
 
-    // 隐私政策与用户协议（托管于公开仓库，可作为应用市场隐私政策 URL）
+    // 隐私政策与用户协议（托管于 GitCode 主仓，可作为应用市场隐私政策 URL）
     const val PRIVACY_POLICY_URL =
-        "https://github.com/Morningstar202604/mashang-python/blob/main/PRIVACY_POLICY.md"
+        "https://gitcode.com/badhope/mashang-python/blob/main/PRIVACY_POLICY.md"
     const val TERMS_URL =
-        "https://github.com/Morningstar202604/mashang-python/blob/main/TERMS_OF_SERVICE.md"
+        "https://gitcode.com/badhope/mashang-python/blob/main/TERMS_OF_SERVICE.md"
 }

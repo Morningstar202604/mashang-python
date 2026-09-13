@@ -138,7 +138,7 @@ fun SettingsScreen(onBack: () -> Unit) {
                         label = "开源仓库",
                         accent = NeonYellow,
                         leadingIcon = Icons.Outlined.Code,
-                        onClick = { ShareHelper.openUrl(context, AppConstants.GITHUB_REPO) },
+                        onClick = { ShareHelper.openUrl(context, AppConstants.REPO_URL) },
                         modifier = Modifier.weight(1f)
                     )
                 }

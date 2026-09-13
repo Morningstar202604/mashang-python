@@ -12,7 +12,6 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/Morningstar202604/mashang-python?style=social)](../../stargazers)
 
 🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
@@ -84,7 +83,7 @@ making "learning to code" feel like playing a game for the first time.
 
 > Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture, APK ~43MB.
 
-- ⭐ Recommended: Download `app-release.apk` from [GitHub Releases](../../releases)
+- ⭐ Recommended: Download the latest `pynow-*.apk` from [Releases](../../releases)（GitCode）
 - Build yourself:
 
 ```bash

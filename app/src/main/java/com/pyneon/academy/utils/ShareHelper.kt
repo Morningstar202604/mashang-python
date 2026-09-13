@@ -39,7 +39,7 @@ object ShareHelper {
             appendLine("🏆 段位: $rank")
             appendLine()
             appendLine("完全离线学 Python，你也来试试！")
-            appendLine(AppConstants.GITHUB_REPO)
+            appendLine(AppConstants.REPO_URL)
         }
         
         shareText(context, text, "分享我的学习成就")

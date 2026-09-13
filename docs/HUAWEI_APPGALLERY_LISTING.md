@@ -13,8 +13,8 @@
 | 年龄分级 | 3+（所有人，不含广告与内购） |
 | 价格 | 免费 |
 | 系统要求 | Android 7.0（API 24）及以上 |
-| 隐私政策 URL | https://github.com/Morningstar202604/mashang-python/blob/main/PRIVACY_POLICY.md |
-| 官网/源码 | https://github.com/Morningstar202604/mashang-python |
+| 隐私政策 URL | https://gitcode.com/badhope/mashang-python/blob/main/PRIVACY_POLICY.md |
+| 官网/源码 | https://gitcode.com/badhope/mashang-python |
 
 ## 二、权限说明（必填）
 

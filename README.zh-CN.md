@@ -84,7 +84,7 @@
 
 > Android 7.0+（minSdk 24），arm64-v8a / x86_64 双架构，APK 约 43MB。
 
-- ⭐ 推荐：从 [GitHub Releases](../../releases) 下载 `app-release.apk`
+- ⭐ 推荐：从 [Releases](../../releases)（GitCode）下载最新的 `pynow-*.apk`
 - 开发者自行构建：
 
 ```bash
