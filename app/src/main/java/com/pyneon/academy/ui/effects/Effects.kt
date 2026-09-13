@@ -57,7 +57,7 @@ fun Modifier.scanlines(): Modifier = drawBehind {
     var y = 0f
     while (y < size.height) {
         drawRect(
-            color = Color.Black.copy(alpha = 0.05f),
+            color = Color.Black.copy(alpha = 0.028f),
             topLeft = Offset(0f, y),
             size = Size(size.width, 1f)
         )

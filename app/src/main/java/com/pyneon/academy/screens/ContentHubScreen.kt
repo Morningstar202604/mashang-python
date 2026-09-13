@@ -34,8 +34,6 @@ import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.SectionHeader
-import com.pyneon.academy.ui.effects.cyberGrid
-import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
@@ -80,8 +78,6 @@ fun ContentHubScreen(onBack: () -> Unit) {
         Modifier
             .fillMaxSize()
             .background(Bg0)
-            .cyberGrid(NeonCyan.copy(alpha = 0.03f), 48.dp)
-            .scanlines()
             .verticalScroll(rememberScrollState())
             .statusBarsPadding()
             .padding(bottom = 40.dp)

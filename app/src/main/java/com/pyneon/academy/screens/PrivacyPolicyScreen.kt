@@ -17,9 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pyneon.academy.ui.components.NeonButton
-import com.pyneon.academy.ui.effects.GlitchText
-import com.pyneon.academy.ui.effects.cyberGrid
-import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.TextMid
@@ -33,14 +30,12 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
         Modifier
             .fillMaxSize()
             .background(Bg0)
-            .cyberGrid(NeonCyan.copy(alpha = 0.04f), 48.dp)
-            .scanlines()
             .verticalScroll(rememberScrollState())
             .statusBarsPadding()
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        GlitchText("隐私政策 // PRIVACY", style = MaterialTheme.typography.headlineSmall, color = NeonCyan)
+        Text("隐私政策", style = MaterialTheme.typography.headlineSmall, color = NeonCyan)
         Text(
             "开发者/运营者：${AppConstants.DEV_NAME}\n隐私联系：${AppConstants.CONTACT_EMAIL}",
             style = MaterialTheme.typography.bodySmall,

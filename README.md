@@ -34,7 +34,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 ║  └────────────────────────────┘
 ║  [▶ Run & Grade]  [💡 Hint]
 ║  ────────────────────────────
-║  ROOT                    ← Typewriter output
+║  ROOT                    ← Instant result display
 ║  // Variable Snapshot            ← App-exclusive feature
 ║  (level:int) 120   (r:str) 'ROOT'
 ╚══════════════════════════════════╝
@@ -61,23 +61,27 @@ making "learning to code" feel like playing a game for the first time.
 |---|---|---|
 | Code Execution | ☁️ Cloud-based, dead without net | 📱 On-device CPython 3.13 |
 | Teaching Style | Dry documentation | Cyber narrative + life analogies + pop quizzes |
-| Runtime Feedback | Black-box print | Typewriter streaming + **Variable Snapshot Panel** |
+| Runtime Feedback | Black-box print | **Variable Snapshot Panel** + instant result display |
 | Growth Motivation | Check-in calendar | XP / Six Tiers / Daily Quests / Achievement Wall |
 
 ## ✨ Features
 
 - 🔌 **Fully Offline Engine** — Chaquopy-embedded CPython; network only for Content Hub course downloads (zero personal data collection/upload)
-- 🔌 **Offline First, Online Enhanced** — Learn without internet; one-tap pull of new course packs via Content Hub (Gitee/GitCode/GitHub triple-mirror fallback)
+- 🔌 **Offline First, Online Enhanced** — Learn without internet; one-tap pull of new course packs via Content Hub (GitCode source, sha256 verified)
 - 🛡 **Sandbox Security** — Dead-loop watchdog force-interrupt, input queue takeover for `input()`, friendly localized exceptions
 - 🎹 **Code Editor** — Neon Python syntax highlighting, smart indentation (`:` auto-indent), Tab-to-space
 - 🖥 **Neural Interface REPL** — Stateful session, ↑↓ history, multi-line blocks, one-tap reset
 - 🔬 **Variable Snapshot** — Post-run display of every variable's name/type/value in namespace
 - ✅ **Assert Grading** — Must pass test cases to advance, preventing "understood but can't code"
 - ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier题型: type missing fragments / sort shuffled lines into correct program
+- 🧭 **L0 Rule Coach** — On-error guidance: offline rules give "diagnosis → 3 steps → fix example", hints never write the code for you
+- 📦 **Content Hub** — Course pack system: bonus built-in-function tour + DSA Basics/Mastery expansion packs (10 lessons), download and learn on demand
+- 📖 **Mistake Book + Spaced Repetition** — Wrong answers auto-collected; reviewed on a day/1d/3d/7d… schedule
 - 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
 - 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
 - 🎨 **5 Color Themes** — Cyber Neon / Deep Space Gray / Aurora Green / Twilight Purple / Twilight Orange, theme persistence via SharedPreferences
 - 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
+- 👓 **Readability-First UI** — Effects confined to decoration zones (boot/home/terminal…); lesson body and graded results use larger sans-serif text, no gimmicks
 
 ## 📥 Download & Install
 

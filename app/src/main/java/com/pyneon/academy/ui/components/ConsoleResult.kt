@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.pyneon.academy.py.RunResult
 import com.pyneon.academy.py.VarInfo
 import com.pyneon.academy.ui.effects.BlinkingCursor
-import com.pyneon.academy.ui.effects.TypewriterText
 import com.pyneon.academy.ui.theme.DangerRed
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
@@ -59,7 +58,8 @@ fun ConsoleResult(
 
         result?.let { r ->
             if (!running && r.stdout.isNotEmpty()) {
-                TypewriterText(
+                // 判题/运行结果必须一眼看清，直接展示，不做逐字动画
+                Text(
                     text = r.stdout.trimEnd('\n'),
                     color = NeonGreen,
                     style = MaterialTheme.typography.bodyMedium

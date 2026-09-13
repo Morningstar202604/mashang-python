@@ -35,8 +35,6 @@ import com.pyneon.academy.data.Progress
 import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
-import com.pyneon.academy.ui.effects.cyberGrid
-import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
@@ -56,8 +54,6 @@ fun LessonsScreen(openLesson: (String) -> Unit) {
         Modifier
             .fillMaxSize()
             .background(Bg0)
-            .cyberGrid(NeonCyan.copy(alpha = 0.04f), 48.dp)
-            .scanlines()
     ) {
         Column(
             Modifier

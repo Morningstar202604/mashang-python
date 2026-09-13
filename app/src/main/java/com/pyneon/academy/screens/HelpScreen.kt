@@ -16,9 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pyneon.academy.ui.components.NeonButton
-import com.pyneon.academy.ui.effects.GlitchText
-import com.pyneon.academy.ui.effects.cyberGrid
-import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextMid
@@ -33,14 +30,12 @@ fun HelpScreen(onBack: () -> Unit) {
         Modifier
             .fillMaxSize()
             .background(Bg0)
-            .cyberGrid(NeonYellow.copy(alpha = 0.04f), 48.dp)
-            .scanlines()
             .verticalScroll(rememberScrollState())
             .statusBarsPadding()
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        GlitchText("帮助中心 // HELP", style = MaterialTheme.typography.headlineSmall, color = NeonYellow)
+        Text("帮助中心", style = MaterialTheme.typography.headlineSmall, color = NeonYellow)
 
         FaqItem("如何运行代码？", "在课程或「接口」页编写代码后，点击「运行 & 判题」即可在本地 CPython 中执行并获得自动批改反馈。")
         FaqItem("变量快照是什么？", "每次运行后，应用会展示当前内存中的变量及其类型/值，帮助你直观理解代码执行过程。这是本应用的独家功能。")

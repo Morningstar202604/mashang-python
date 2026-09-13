@@ -66,8 +66,6 @@ import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.SectionHeader
-import com.pyneon.academy.ui.effects.cyberGrid
-import com.pyneon.academy.ui.effects.scanlines
 import com.pyneon.academy.ui.theme.AppThemes
 import com.pyneon.academy.ui.theme.Bg0
 import com.pyneon.academy.ui.theme.NeonCyan
@@ -107,8 +105,6 @@ fun ProfileScreen(
         Modifier
             .fillMaxSize()
             .background(Bg0)
-            .cyberGrid(NeonMagenta.copy(alpha = 0.04f), 48.dp)
-            .scanlines()
             .verticalScroll(rememberScrollState())
             .statusBarsPadding()
             .padding(20.dp),
