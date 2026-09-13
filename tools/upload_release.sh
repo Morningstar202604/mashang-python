@@ -62,4 +62,5 @@ except urllib.error.HTTPError as e:
     sys.exit(1)
 PY
 
-echo "✅ Release: https://gitcode.com/$REPO_OWNER/$REPO_NAME/releases/tag/$TAG"
+# GitCode 不支持 /releases/tag/<TAG> 与 /releases/download/... 直链，统一指向列表页
+echo "✅ Release 列表页: https://gitcode.com/$REPO_OWNER/$REPO_NAME/releases"
