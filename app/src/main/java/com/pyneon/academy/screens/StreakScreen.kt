@@ -68,6 +68,7 @@ import com.pyneon.academy.ui.components.NeonColors
 import com.pyneon.academy.ui.components.NeonTextStyles
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.components.NeonButton
+import com.pyneon.academy.ui.theme.DarkTokens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -255,12 +256,13 @@ data class BadgeDef(
 )
 
 val BADGE_DEFS = listOf(
-    BadgeDef("first_day", "初登基地", Icons.Default.LocalFireDepartment, NeonColors.Accent),
-    BadgeDef("three_days", "三日不绝", Icons.Default.TrendingUp, NeonColors.Primary),
-    BadgeDef("week_warrior", "周末战士", Icons.Default.EmojiEvents, NeonColors.Secondary),
-    BadgeDef("fortnight", "半月常驻", Icons.Default.Star, NeonColors.Cyan),
-    BadgeDef("month_master", "月度大师", Icons.Default.Diamond, NeonColors.Magenta),
-    BadgeDef("centurion", "百日统领", Icons.Default.MilitaryTech, NeonColors.Gold)
+    // 徽章色取品牌深色常量（非组合上下文初始化；亮色下作为彩色徽标仍可辨）
+    BadgeDef("first_day", "初登基地", Icons.Default.LocalFireDepartment, DarkTokens.secondary),
+    BadgeDef("three_days", "三日不绝", Icons.Default.TrendingUp, DarkTokens.primary),
+    BadgeDef("week_warrior", "周末战士", Icons.Default.EmojiEvents, DarkTokens.purple),
+    BadgeDef("fortnight", "半月常驻", Icons.Default.Star, DarkTokens.primary),
+    BadgeDef("month_master", "月度大师", Icons.Default.Diamond, DarkTokens.secondary),
+    BadgeDef("centurion", "百日统领", Icons.Default.MilitaryTech, DarkTokens.gold)
 )
 
 // Drawable resource for fire icon

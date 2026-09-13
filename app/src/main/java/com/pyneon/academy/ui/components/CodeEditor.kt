@@ -77,8 +77,9 @@ fun CodeEditor(
     val (selectionEnd, setSelectionEnd) = remember { mutableStateOf<Int?>(null) }
 
     // Syntax highlighting
-    val annotatedText = remember(value) {
-        buildAnnotatedString(value, language)
+    val syntaxTokens = com.pyneon.academy.ui.theme.LocalNeonTokens.current
+    val annotatedText = remember(value, syntaxTokens) {
+        buildAnnotatedString(value, language, syntaxTokens)
     }
 
     // Handle value changes from parent
@@ -129,11 +130,12 @@ fun CodeEditor(
                     .verticalScroll(verticalScrollState)
                     .horizontalScroll(horizontalScrollState),
                 textStyle = TextStyle(
-                    fontFamily = FontFamily.Default,
-                    fontSize = 16.sp,
-                    color = Color.White
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    lineHeight = 21.sp,
+                    color = NeonColors.TextPrimary
                 ),
-                cursorBrush = androidx.compose.ui.graphics.SolidColor(Color.White),
+                cursorBrush = androidx.compose.ui.graphics.SolidColor(NeonColors.TextPrimary),
                 readOnly = readOnly
             )
         }
@@ -144,7 +146,7 @@ fun CodeEditor(
 fun LineNumbersGutter(code: String) {
     val lines = code.split("\n")
     val lineCount = maxOf(lines.size, 1)
-    val textStyle = NeonTextStyles.NeonCode.copy(fontSize = 14.sp, lineHeight = 22.sp, color = NeonColors.TextDim)
+    val textStyle = NeonTextStyles.NeonCode.copy(fontSize = 14.sp, lineHeight = 21.sp, color = NeonColors.TextDim)
 
     Column(
         modifier = Modifier
@@ -167,16 +169,20 @@ fun LineNumbersGutter(code: String) {
 }
 
 // Simple syntax highlighter for Python
-fun buildAnnotatedString(code: String, language: String): AnnotatedString {
+fun buildAnnotatedString(
+    code: String,
+    language: String,
+    tokens: com.pyneon.academy.ui.theme.NeonTokens = com.pyneon.academy.ui.theme.DarkTokens
+): AnnotatedString {
     val builder = AnnotatedString.Builder(code)
     if (language != "python") return builder.toAnnotatedString()
 
-    val keywordStyle = SpanStyle(color = NeonColors.Primary, fontWeight = FontWeight.Bold)
-    val stringStyle = SpanStyle(color = NeonColors.Success)
-    val commentStyle = SpanStyle(color = NeonColors.TextDim, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
-    val numberStyle = SpanStyle(color = NeonColors.Accent)
-    val functionStyle = SpanStyle(color = NeonColors.Cyan, fontWeight = FontWeight.Normal)
-    val builtinStyle = SpanStyle(color = NeonColors.Secondary)
+    val keywordStyle = SpanStyle(color = tokens.primary, fontWeight = FontWeight.Bold)
+    val stringStyle = SpanStyle(color = tokens.success)
+    val commentStyle = SpanStyle(color = tokens.textDim, fontStyle = androidx.compose.ui.text.font.FontStyle.Italic)
+    val numberStyle = SpanStyle(color = tokens.secondary)
+    val functionStyle = SpanStyle(color = tokens.primary, fontWeight = FontWeight.Normal)
+    val builtinStyle = SpanStyle(color = tokens.purple)
 
     val keywords = setOf(
         "def", "class", "if", "elif", "else", "for", "while", "try", "except", "finally",

@@ -1,22 +1,19 @@
 package com.pyneon.academy.data
 
-import com.pyneon.academy.ui.theme.NeonCyan
-import com.pyneon.academy.ui.theme.NeonGreen
-import com.pyneon.academy.ui.theme.NeonMagenta
-import com.pyneon.academy.ui.theme.NeonPurple
-import com.pyneon.academy.ui.theme.NeonYellow
-import com.pyneon.academy.ui.theme.TextMid
+import androidx.compose.ui.graphics.Color
+import com.pyneon.academy.ui.theme.DarkTokens
 
-data class Rank(val index: Int, val name: String, val minXp: Int, val color: androidx.compose.ui.graphics.Color)
+data class Rank(val index: Int, val name: String, val minXp: Int, val color: Color)
 
 object Ranks {
+    // 段位色固定取品牌深色常量：两种主题下都保持辨识度（Ranks 在非组合上下文初始化）
     val all = listOf(
-        Rank(0, "脚本小子", 0, TextMid),
-        Rank(1, "数据幽灵", 150, NeonCyan),
-        Rank(2, "网络浪人", 400, NeonGreen),
-        Rank(3, "义体黑客", 900, NeonYellow),
-        Rank(4, "街头传奇", 1600, NeonMagenta),
-        Rank(5, "系统架构师", 2600, NeonPurple)
+        Rank(0, "脚本小子", 0, DarkTokens.textMid),
+        Rank(1, "数据幽灵", 150, DarkTokens.primary),
+        Rank(2, "网络浪人", 400, DarkTokens.success),
+        Rank(3, "义体黑客", 900, DarkTokens.gold),
+        Rank(4, "街头传奇", 1600, DarkTokens.secondary),
+        Rank(5, "系统架构师", 2600, DarkTokens.purple)
     )
 
     fun forXp(xp: Int): Rank = all.last { xp >= it.minXp }

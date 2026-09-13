@@ -29,7 +29,7 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import com.pyneon.academy.data.LessonRepository
 import com.pyneon.academy.data.ProgressStore
-import com.pyneon.academy.ui.components.NeonColors
+import com.pyneon.academy.ui.theme.DarkTokens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -67,9 +67,9 @@ object CertificatePoster {
             modifier = Modifier.fillMaxWidth()
         ) {
             if (generating) {
-                androidx.compose.material3.Text("生成中...", color = com.pyneon.academy.ui.components.NeonColors.TextDim)
+                androidx.compose.material3.Text("生成中...", color = DarkTokens.textDim)
             } else {
-                androidx.compose.material3.Text("生成分享海报", color = com.pyneon.academy.ui.components.NeonColors.Primary)
+                androidx.compose.material3.Text("生成分享海报", color = DarkTokens.primary)
             }
         }
     }
@@ -89,11 +89,11 @@ object CertificatePoster {
         val canvas = Canvas(bitmap)
 
         // Background
-        canvas.drawColor(NeonColors.Surface.toArgb())
+        canvas.drawColor(DarkTokens.surfaceDark.toArgb())
 
         // Grid lines
         val gridPaint = Paint().apply {
-            color = NeonColors.Primary.toArgb()
+            color = DarkTokens.primary.toArgb()
             alpha = 30
             strokeWidth = 1f
         }
@@ -106,7 +106,7 @@ object CertificatePoster {
 
         // Neon border
         val borderPaint = Paint().apply {
-            color = NeonColors.Primary.toArgb()
+            color = DarkTokens.primary.toArgb()
             style = Paint.Style.STROKE
             strokeWidth = 4f
         }
@@ -118,7 +118,7 @@ object CertificatePoster {
 
         // Inner glow border
         val glowPaint = Paint().apply {
-            color = NeonColors.Cyan.toArgb()
+            color = DarkTokens.primary.toArgb()
             style = Paint.Style.STROKE
             strokeWidth = 2f
         }
@@ -130,7 +130,7 @@ object CertificatePoster {
 
         // Title
         val titlePaint = Paint().apply {
-            color = NeonColors.Primary.toArgb()
+            color = DarkTokens.primary.toArgb()
             textSize = 48f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.MONOSPACE, Typeface.BOLD)
@@ -140,7 +140,7 @@ object CertificatePoster {
 
         // Subtitle
         val subPaint = Paint().apply {
-            color = NeonColors.TextSecondary.toArgb()
+            color = DarkTokens.textDim.toArgb()
             textSize = 24f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
@@ -150,7 +150,7 @@ object CertificatePoster {
 
         // Divider
         val dividerPaint = Paint().apply {
-            color = NeonColors.Primary.toArgb()
+            color = DarkTokens.primary.toArgb()
             alpha = 100
             strokeWidth = 2f
         }
@@ -172,7 +172,7 @@ object CertificatePoster {
 
         // Stats
         val statPaint = Paint().apply {
-            color = NeonColors.TextPrimary.toArgb()
+            color = DarkTokens.textHi.toArgb()
             textSize = 32f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.MONOSPACE, Typeface.NORMAL)
@@ -184,7 +184,7 @@ object CertificatePoster {
         canvas.drawText("获得经验: $earnedXp / $totalXp XP", WIDTH / 2f, (statY + 50).toFloat(), statPaint)
 
         val percent = if (totalLessons > 0) (completedLessons * 100 / totalLessons) else 0
-        canvas.drawText("通关进度: $percent%", WIDTH / 2f, (statY + 100).toFloat(), statPaint.apply { color = NeonColors.Cyan.toArgb() })
+        canvas.drawText("通关进度: $percent%", WIDTH / 2f, (statY + 100).toFloat(), statPaint.apply { color = DarkTokens.primary.toArgb() })
 
         // Progress bar
         val barWidth = (WIDTH - 2 * MARGIN - 100).toFloat()
@@ -194,13 +194,13 @@ object CertificatePoster {
         val fillWidth = barWidth * percent / 100f
 
         val bgPaint = Paint().apply {
-            color = NeonColors.TextDim.toArgb()
+            color = DarkTokens.textDim.toArgb()
             alpha = 60
         }
         canvas.drawRoundRect(barX, barY, barX + barWidth, barY + barHeight, 6f, 6f, bgPaint)
 
         val fillPaint = Paint().apply {
-            color = NeonColors.Cyan.toArgb()
+            color = DarkTokens.primary.toArgb()
             style = Paint.Style.FILL
         }
         canvas.drawRoundRect(barX, barY, barX + fillWidth, barY + barHeight, 6f, 6f, fillPaint)
@@ -208,7 +208,7 @@ object CertificatePoster {
         // Date
         val dateStr = SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA).format(Date())
         val datePaint = Paint().apply {
-            color = NeonColors.TextDim.toArgb()
+            color = DarkTokens.textDim.toArgb()
             textSize = 22f
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
@@ -217,7 +217,7 @@ object CertificatePoster {
 
         // Nickname placeholder
         val namePaint = Paint().apply {
-            color = NeonColors.Gold.toArgb()
+            color = DarkTokens.gold.toArgb()
             textSize = 36f
             isAntiAlias = true
             typeface = Typeface.create(Typeface.SERIF, Typeface.BOLD)
@@ -234,7 +234,7 @@ object CertificatePoster {
 
         // QR Label
         val qrLabelPaint = Paint().apply {
-            color = NeonColors.TextDim.toArgb()
+            color = DarkTokens.textDim.toArgb()
             textSize = 18f
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
@@ -243,7 +243,7 @@ object CertificatePoster {
 
         // Footer
         val footerPaint = Paint().apply {
-            color = NeonColors.TextDim.toArgb()
+            color = DarkTokens.textDim.toArgb()
             textSize = 16f
             isAntiAlias = true
             textAlign = Paint.Align.CENTER
@@ -253,7 +253,7 @@ object CertificatePoster {
 
         // Glitch accent lines
         val glitchPaint = Paint().apply {
-            color = NeonColors.Magenta.toArgb()
+            color = DarkTokens.secondary.toArgb()
             alpha = 80
             strokeWidth = 1f
         }

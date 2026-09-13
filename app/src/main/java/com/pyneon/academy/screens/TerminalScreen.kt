@@ -226,7 +226,7 @@ fun TerminalScreen() {
                     "err" -> NeonMagenta
                     else -> TextDim
                 }
-                Text(line.text, style = MaterialTheme.typography.bodyMedium, color = color)
+                Text(line.text, style = com.pyneon.academy.ui.theme.MonoCode.copy(color = color))
             }
         }
 
@@ -235,13 +235,12 @@ fun TerminalScreen() {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     if (morePending) "… " else "> ",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = NeonCyan
+                    style = com.pyneon.academy.ui.theme.MonoCode.copy(color = NeonCyan)
                 )
                 androidx.compose.foundation.text.BasicTextField(
                     value = input,
                     onValueChange = { input = it },
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(color = TextHi),
+                    textStyle = com.pyneon.academy.ui.theme.MonoCode.copy(color = TextHi),
                     cursorBrush = Brush.verticalGradient(listOf(NeonGreen, NeonGreen)),
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),

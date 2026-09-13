@@ -27,7 +27,10 @@ fun PythonCodeField(
     minHeight: Int = 60,
     language: String = "python"
 ) {
-    val annotated = remember(value.text) { buildAnnotatedString(value.text, language) }
+    val syntaxTokens = com.pyneon.academy.ui.theme.LocalNeonTokens.current
+    val annotated = remember(value.text, syntaxTokens) {
+        buildAnnotatedString(value.text, language, syntaxTokens)
+    }
     BasicTextField(
         value = value.copy(annotatedString = annotated),
         onValueChange = onValueChange,

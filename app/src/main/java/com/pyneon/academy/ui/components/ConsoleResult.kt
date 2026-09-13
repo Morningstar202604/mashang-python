@@ -58,11 +58,11 @@ fun ConsoleResult(
 
         result?.let { r ->
             if (!running && r.stdout.isNotEmpty()) {
-                // 判题/运行结果必须一眼看清，直接展示，不做逐字动画
+                // 判题/运行结果必须一眼看清，直接展示，不做逐字动画；用等宽保证对齐
                 Text(
                     text = r.stdout.trimEnd('\n'),
                     color = NeonGreen,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = com.pyneon.academy.ui.theme.MonoCode
                 )
             }
             val errType = r.errorType
@@ -93,8 +93,7 @@ fun ConsoleResult(
                         AnimatedVisibility(visible = open) {
                             Text(
                                 tb,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = TextDim,
+                                style = com.pyneon.academy.ui.theme.MonoCode.copy(color = TextDim),
                                 modifier = Modifier.padding(top = 4.dp)
                             )
                         }

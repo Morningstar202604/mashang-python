@@ -11,10 +11,21 @@ import com.pyneon.academy.ui.theme.AppThemes
  */
 object ThemePreference {
     private const val PREFS_NAME = "pyneon_theme"
-    private const val KEY_THEME_ID = "theme_id"
+    const val KEY_THEME_ID = "theme_id"
 
     private fun getPrefs(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+    /**
+     * 注册主题偏好监听（供 MainActivity 实现即时切换，无需重启）
+     */
+    fun registerListener(context: Context, listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getPrefs(context).registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unregisterListener(context: Context, listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        getPrefs(context).unregisterOnSharedPreferenceChangeListener(listener)
     }
 
     /**

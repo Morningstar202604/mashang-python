@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.pyneon.academy.ui.theme.TextHi
+import com.pyneon.academy.ui.theme.DarkTokens
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -62,9 +63,9 @@ fun ArenaScreen(openChallenge: (String) -> Unit) {
     val challenges = remember { LessonRepository.challenges(context) }
     val difficultyColor: (String) -> Color = {
         when (it) {
-            "低" -> NeonGreen
-            "高" -> NeonMagenta
-            else -> NeonYellow
+            "低" -> DarkTokens.success
+            "高" -> DarkTokens.secondary
+            else -> DarkTokens.gold
         }
     }
     Column(

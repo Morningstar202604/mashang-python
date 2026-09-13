@@ -40,6 +40,7 @@ import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.effects.NeonCard
 import com.pyneon.academy.ui.effects.SectionHeader
 import com.pyneon.academy.ui.theme.Bg0
+import com.pyneon.academy.ui.theme.DarkTokens
 import com.pyneon.academy.ui.theme.NeonCyan
 import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonMagenta
@@ -157,20 +158,20 @@ private fun describeActivity(
     return when (rec.type) {
         ActivityType.LESSON_OPEN -> {
             val name = rec.refId.removePrefix("les_").let { lessonTitle[it] ?: rec.refId }
-            Triple("开始学习「$name」", NeonCyan, Icons.Outlined.MenuBook)
+            Triple("开始学习「$name」", DarkTokens.primary, Icons.Outlined.MenuBook)
         }
         ActivityType.LESSON_DONE -> {
             val name = lessonTitle[rec.refId] ?: rec.refId
-            Triple("完成课程「$name」", NeonGreen, Icons.Outlined.CheckCircle)
+            Triple("完成课程「$name」", DarkTokens.success, Icons.Outlined.CheckCircle)
         }
         ActivityType.EXERCISE -> {
             val name = rec.refId.removePrefix("les_").let { lessonTitle[it] ?: rec.refId }
-            Triple("通过练习「$name」", NeonMagenta, Icons.Outlined.Terminal)
+            Triple("通过练习「$name」", DarkTokens.secondary, Icons.Outlined.Terminal)
         }
         ActivityType.CHALLENGE -> {
             val id = rec.refId.removePrefix("chal_")
             val name = challengeTitle[id] ?: id
-            Triple("通过挑战「$name」", NeonYellow, Icons.Outlined.LocalFireDepartment)
+            Triple("通过挑战「$name」", DarkTokens.gold, Icons.Outlined.LocalFireDepartment)
         }
     }
 }

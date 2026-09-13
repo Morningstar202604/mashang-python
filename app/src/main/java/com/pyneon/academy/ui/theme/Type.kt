@@ -20,3 +20,13 @@ val AppTypography = Typography(
     labelMedium = TextStyle(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold, fontSize = 12.sp, lineHeight = 18.sp),
     labelSmall = TextStyle(fontFamily = FontFamily.Monospace, fontWeight = FontWeight.Bold, fontSize = 10.sp, lineHeight = 15.sp)
 )
+
+/**
+ * 代码专用样式：等宽字体保证缩进/对齐精确（代码块、编辑器、终端、输出统一使用）。
+ * 字号取整、行高与字号成比例，避免 Compose 在不同字体下的间距抖动。
+ */
+val MonoCode = TextStyle(
+    fontFamily = FontFamily.Monospace,
+    fontSize = 14.sp,
+    lineHeight = 21.sp
+)
