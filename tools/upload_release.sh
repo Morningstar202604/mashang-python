@@ -39,11 +39,27 @@ echo "🔵 create release HTTP $HTTP"
 
 # 2) 获取附件上传地址（官方 upload_url 接口）
 UP=$(curl -sS "$API/$TAG/upload_url?access_token=$TOKEN&file_name=$APK_NAME")
-URL=$(echo "$UP" | python3 -c "import json,sys; print(json.load(sys.stdin)['url'])")
-HEADERS=$(echo "$UP" | python3 -c "import json,sys; print(' '.join('-H \"%s: %s\"' % (k,v) for k,v in json.load(sys.stdin)['headers'].items()))")
 
-# 3) PUT 上传 APK（gitcode 附件走 OBS 签名直传）
+# 3) PUT 上传 APK（gitcode 附件走 OBS 签名直传，避免 shell 转义此处用 python3 完成）
 echo "📤 uploading $APK_NAME ..."
-eval "curl -sS -o /dev/null -w 'upload HTTP %{http_code}\\n' -X PUT \"$URL\" $HEADERS --data-binary @\"$APK_PATH\""
+GITCODE_API="$API" GITCODE_TOKEN="$TOKEN" GITCODE_TAG="$TAG" GITCODE_APK_NAME="$APK_NAME" GITCODE_APK_PATH="$APK_PATH" python3 - <<'PY'
+import json, os, sys, urllib.error, urllib.request
+api = os.environ["GITCODE_API"]
+token = os.environ["GITCODE_TOKEN"]
+tag = os.environ["GITCODE_TAG"]
+apk_name = os.environ["GITCODE_APK_NAME"]
+apk_path = os.environ["GITCODE_APK_PATH"]
+with urllib.request.urlopen(f"{api}/{tag}/upload_url?access_token={token}&file_name={apk_name}") as r:
+    info = json.load(r)
+with open(apk_path, "rb") as f:
+    data = f.read()
+req = urllib.request.Request(info["url"], data=data, headers=info["headers"], method="PUT")
+try:
+    with urllib.request.urlopen(req, timeout=300) as r:
+        print("upload status:", r.status)
+except urllib.error.HTTPError as e:
+    print("upload HTTPError:", e.code, e.read()[:200], file=sys.stderr)
+    sys.exit(1)
+PY
 
 echo "✅ Release: https://gitcode.com/$REPO_OWNER/$REPO_NAME/releases/tag/$TAG"
