@@ -134,7 +134,7 @@
     "exercise": {
       "title": "代号清洗器",
       "brief": "实现 slugify(title)：去掉首尾空白、转小写、把内部空格换成 '-'。slugify('Hello Neon City') 返回 'hello-neon-city'。",
-      "starterCode": "def slugify(title):\n    return \n\nprint(slugify('Hello Neon City'))\nprint(slugify('  PY  '))",
+      "starterCode": "def slugify(title):\n    return ____\n\nprint(slugify('Hello Neon City'))\nprint(slugify('  PY  '))",
       "hint": "三步链条：title.strip().lower().replace(' ', '-')",
       "tests": [
         "assert slugify('Hello Neon City') == 'hello-neon-city'",
@@ -339,7 +339,7 @@
     "exercise": {
       "title": "弹性结算台",
       "brief": "实现 flex_total(*nums, start=0)：返回所有数字之和再加 start。flex_total(1,2,3)==6；flex_total(1,2,start=10)==13；flex_total()==0。",
-      "starterCode": "def flex_total(*nums, start=0):\n    return \n\nprint(flex_total(1, 2, 3))\nprint(flex_total(1, 2, start=10))",
+      "starterCode": "def flex_total(*nums, start=0):\n    return ____\n\nprint(flex_total(1, 2, 3))\nprint(flex_total(1, 2, start=10))",
       "hint": "sum(nums) 处理元组，最后 + start。",
       "tests": [
         "assert flex_total(1, 2, 3) == 6",
@@ -441,7 +441,7 @@
     "exercise": {
       "title": "偶数平方矩阵",
       "brief": "用一条列表推导式实现 even_squares(n)：返回 1..n 中所有偶数的平方。even_squares(5) 返回 [4, 16]。",
-      "starterCode": "def even_squares(n):\n    return \n\nprint(even_squares(5))\nprint(even_squares(1))",
+      "starterCode": "def even_squares(n):\n    return ____\n\nprint(even_squares(5))\nprint(even_squares(1))",
       "hint": "[i * i for i in range(1, n + 1) if i % 2 == 0]",
       "tests": [
         "assert even_squares(5) == [4, 16]",
@@ -547,7 +547,7 @@
     "exercise": {
       "title": "防爆除法器",
       "brief": "实现两个函数：safe_div(a, b) 在除零时返回 None 否则返回结果；parse_age(s) 把字符串转整数，失败返回 -1。",
-      "starterCode": "def safe_div(a, b):\n    \n\ndef parse_age(s):\n    \n\nprint(safe_div(6, 3), safe_div(1, 0))\nprint(parse_age('20'), parse_age('abc'))",
+      "starterCode": "def safe_div(a, b):\n    ____\n\ndef parse_age(s):\n    ____\n\nprint(safe_div(6, 3), safe_div(1, 0))\nprint(parse_age('20'), parse_age('abc'))",
       "hint": "safe_div 用 try/except ZeroDivisionError；parse_age 捕获 ValueError 后 return -1。",
       "tests": [
         "assert safe_div(6, 3) == 2.0",
@@ -672,7 +672,7 @@
     "exercise": {
       "title": "档案还原师",
       "brief": "实现 restore_agent(json_str)：解析 JSON 字符串为字典；若缺少 'level' 键则补上默认值 1 后返回。",
-      "starterCode": "import json\n\ndef restore_agent(json_str):\n    \n\nprint(restore_agent('{\"name\": \"V\"}'))\nprint(restore_agent('{\"name\": \"J\", \"level\": 5}'))",
+      "starterCode": "import json\n\ndef restore_agent(json_str):\n    ____\n\nprint(restore_agent('{\"name\": \"V\"}'))\nprint(restore_agent('{\"name\": \"J\", \"level\": 5}'))",
       "hint": "data = json.loads(json_str)，然后 data.setdefault('level', 1)，返回 data。setdefault 正是「没有就补上」的意思。",
       "tests": [
         "assert restore_agent('{\"name\": \"V\"}') == {'name': 'V', 'level': 1}",
@@ -804,7 +804,7 @@
     "exercise": {
       "title": "固定种子的骰子",
       "brief": "实现 roll(sides, times)：先 random.seed(7)，再掷 times 次 sides 面骰子，返回结果列表。roll(6, 4) 应返回 [3, 2, 4, 6]。",
-      "starterCode": "import random\n\ndef roll(sides, times):\n    \n\nprint(roll(6, 4))",
+      "starterCode": "import random\n\ndef roll(sides, times):\n    ____\n\nprint(roll(6, 4))",
       "hint": "先 random.seed(7)，然后列表推导式 [random.randint(1, sides) for _ in range(times)]。",
       "tests": [
         "assert roll(6, 4) == [3, 2, 4, 6]",
@@ -905,7 +905,7 @@
     "exercise": {
       "title": "造一台霓虹机器人",
       "brief": "定义类 NeonBot：__init__(self, name, hp=100)；方法 hit(self, dmg) 扣血但最低到 0；方法 is_alive(self) 血量>0 时返回 True。",
-      "starterCode": "class NeonBot:\n    def __init__(self, name, hp=100):\n        \n\n    def hit(self, dmg):\n        \n\n    def is_alive(self):\n        \n\nb = NeonBot('K', 50)\nb.hit(30)\nprint(b.hp, b.is_alive())\nb.hit(999)\nprint(b.is_alive())",
+      "starterCode": "class NeonBot:\n    def __init__(self, name, hp=100):\n        ____\n\n    def hit(self, dmg):\n        ____\n\n    def is_alive(self):\n        ____\n\nb = NeonBot('K', 50)\nb.hit(30)\nprint(b.hp, b.is_alive())\nb.hit(999)\nprint(b.is_alive())",
       "hint": "hit 里写 self.hp = max(0, self.hp - dmg)；is_alive 里 return self.hp > 0。",
       "tests": [
         "b = NeonBot('K', 50)",

@@ -93,7 +93,7 @@
     "exercise": {
       "title": "建立身份档案",
       "brief": "创建变量 hacker_name 保存你的代号（任意非空字符串），变量 online 设为 True，然后用 print 输出它们。",
-      "starterCode": "hacker_name = '你的代号'\nonline = \n\nprint(hacker_name, online)",
+      "starterCode": "hacker_name = '你的代号'\nonline = ____\n\nprint(hacker_name, online)",
       "hint": "布尔值直接写 True（首字母大写），不需要引号。",
       "tests": [
         "assert isinstance(hacker_name, str) and len(hacker_name) > 0",
@@ -228,7 +228,7 @@
     "exercise": {
       "title": "装备初始化",
       "brief": "设定能量 energy 为整数 9000，护盾 shield 为小数 62.5，然后计算总和 total = energy + shield。",
-      "starterCode": "energy = \nshield = \n\ntotal = energy + shield\nprint(total)",
+      "starterCode": "energy = ____\nshield = ____\n\ntotal = energy + shield\nprint(total)",
       "hint": "energy 用整数写法（无引号无小数点），shield 带小数点即可。",
       "tests": [
         "assert isinstance(energy, int) and energy > 0",
@@ -341,7 +341,7 @@
     "exercise": {
       "title": "伪造通行代号",
       "brief": "已知 base = 'CYBER'。请构造 full_id = base + '-' + base 的后三个字母，最终形如 CYBER-BER。",
-      "starterCode": "base = 'CYBER'\n\nfull_id = base + '-' + \nprint(full_id)",
+      "starterCode": "base = 'CYBER'\n\nfull_id = base + '-' + ____ \nprint(full_id)",
       "hint": "切片 base[2:] 得到 'BER'，再与 base 和 '-' 拼接。",
       "tests": [
         "assert full_id == 'CYBER-BER'"
@@ -472,7 +472,7 @@
     "exercise": {
       "title": "伤害结算器",
       "brief": "实现函数 damage(attack, defense)：攻击开平方取整，再减去防御的一半（整除）。damage(25, 6) 应返回 2。",
-      "starterCode": "def damage(attack, defense):\n    return \n\nprint(damage(25, 6))\nprint(damage(100, 10))",
+      "starterCode": "def damage(attack, defense):\n    return ____\n\nprint(damage(25, 6))\nprint(damage(100, 10))",
       "hint": "** 0.5 即开平方；先 int(attack ** 0.5) 再减 defense // 2。",
       "tests": [
         "assert damage(25, 6) == 2",
@@ -514,7 +514,8 @@
       {
         "type": "code",
         "runnable": true,
-        "code": "callsign = input('代号: ')\nhours = int(input('在线小时: '))\n\nprint(f'{callsign} 已潜行 {hours} 小时')\nprint(hours >= 8 and '精英级' or '学徒级')"
+        "code": "callsign = input('代号: ')\nhours = int(input('在线小时: '))\n\nprint(f'{callsign} 已潜行 {hours} 小时')\nprint(hours >= 8 and '精英级' or '学徒级')",
+        "stdin": ["neo", "12"]
       },
       {
         "type": "diagram",
@@ -572,7 +573,7 @@
     "exercise": {
       "title": "信号回执",
       "brief": "函数 echo_band(band) 接收频段字符串，返回格式为 BAND:<原串大写> 的回执。例如 echo_band('neon') 返回 'BAND:NEON'。",
-      "starterCode": "def echo_band(band):\n    return \n\nprint(echo_band('neon'))",
+      "starterCode": "def echo_band(band):\n    return ____\n\nprint(echo_band('neon'))",
       "hint": "band.upper() 转大写，再用 f-string 拼 'BAND:{...}'。",
       "tests": [
         "assert echo_band('neon') == 'BAND:NEON'",
@@ -673,7 +674,7 @@
     "exercise": {
       "title": "权限门卫",
       "brief": "实现 access(level)：level >= 100 返回 'ROOT'；>= 50 返回 'OPERATOR'；否则返回 'GUEST'。",
-      "starterCode": "def access(level):\n    \n\nprint(access(120))\nprint(access(66))\nprint(access(3))",
+      "starterCode": "def access(level):\n    ____\n\nprint(access(120))\nprint(access(66))\nprint(access(3))",
       "hint": "三个分支三段 return；注意 elif 的条件顺序要从高到低。",
       "tests": [
         "assert access(120) == 'ROOT'",
@@ -893,7 +894,7 @@
     "exercise": {
       "title": "巅峰战力扫描",
       "brief": "不用内置 max，实现 peak(values)：遍历找出最大值并返回。空列表返回 None。",
-      "starterCode": "def peak(values):\n    \n\nprint(peak([88, 92, 79]))\nprint(peak([]))",
+      "starterCode": "def peak(values):\n    ____\n\nprint(peak([88, 92, 79]))\nprint(peak([]))",
       "hint": "先判断 if not values: return None；再用一个 best 变量记录当前最大，逐个比较更新。",
       "tests": [
         "assert peak([88, 92, 79]) == 92",
@@ -1097,7 +1098,7 @@
     "exercise": {
       "title": "街头信用评估",
       "brief": "实现 street_credit(stats)：stats 形如 {'atk':x,'def':y,'hack':z}。三项之和 >= 100 返回 'LEGEND'，>= 60 返回 'PRO'，否则 'ROOKIE'。",
-      "starterCode": "def street_credit(stats):\n    \n\ns = {'atk': 40, 'def': 35, 'hack': 30}\nprint(street_credit(s))",
+      "starterCode": "def street_credit(stats):\n    ____\n\ns = {'atk': 40, 'def': 35, 'hack': 30}\nprint(street_credit(s))",
       "hint": "sum(stats.values()) 先求总分，再走 if / elif / else 三段返回。",
       "tests": [
         "assert street_credit({'atk': 40, 'def': 35, 'hack': 30}) == 'LEGEND'",

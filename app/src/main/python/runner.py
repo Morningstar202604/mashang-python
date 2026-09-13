@@ -4,6 +4,7 @@ import sys
 import threading
 import time
 import traceback
+import types
 
 DEFAULT_TIMEOUT = 8.0
 EXERCISE_TEST_TIMEOUT = 2.0
@@ -143,7 +144,21 @@ def _snapshot(namespace):
     for key, value in namespace.items():
         if key.startswith("__"):
             continue
-        if callable(value) and getattr(value, "__module__", None) == "builtins":
+        # 只展示“数据变量”：过滤内置函数/自定义函数/方法/类/模块等噪音，
+        # 避免快照面板出现 random: module 这类与学习无关的条目。
+        if isinstance(
+            value,
+            (
+                type,
+                types.ModuleType,
+                types.FunctionType,
+                types.BuiltinFunctionType,
+                types.BuiltinMethodType,
+                types.MethodType,
+                types.LambdaType,
+                types.GeneratorType,
+            ),
+        ):
             continue
         try:
             if sys.getsizeof(value, 0) > MAX_VAR_BYTES:

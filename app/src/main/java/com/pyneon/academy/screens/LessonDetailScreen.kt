@@ -39,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.pyneon.academy.ai.CoachEngine
 import com.pyneon.academy.ai.CoachTip
 import com.pyneon.academy.data.Block
@@ -199,7 +200,7 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                             scope.launch {
                                 runningKey = index
                                 val r = withContext(Dispatchers.Default) {
-                                    PyBridge.runCode(block.code)
+                                    PyBridge.runCode(block.code, block.stdin)
                                 }
                                 runResults[index] = r
                                 runningKey = null
@@ -262,10 +263,10 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                                             lessonId = lesson.id,
                                             blockType = "exercise",
                                             blockIndex = -1,
-                                        userCode = editorValue,
-                                        expected = exercise.tests.joinToString("\n"),
-                                        actual = r.stdout ?: "",
-                                        error = errorMsg,
+                                            userCode = editorValue,
+                                            expected = exercise.tests.joinToString("\n"),
+                                            actual = r.stdout ?: "",
+                                            error = errorMsg,
                                             conceptTags = extractConceptTags(lesson.id)
                                         )
                                     }
@@ -447,8 +448,7 @@ private fun OutputPreview(text: String) {
         Spacer(Modifier.height(4.dp))
         Text(
             text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = NeonGreen.copy(alpha = 0.92f)
+            style = com.pyneon.academy.ui.theme.MonoCode.copy(color = NeonGreen.copy(alpha = 0.95f))
         )
     }
 }
@@ -466,8 +466,7 @@ private fun DiagramBox(text: String) {
         Spacer(Modifier.height(6.dp))
         Text(
             text,
-            style = MaterialTheme.typography.bodyMedium,
-            color = TextHi.copy(alpha = 0.9f)
+            style = com.pyneon.academy.ui.theme.MonoCode.copy(color = TextHi.copy(alpha = 0.95f))
         )
     }
 }
@@ -766,7 +765,7 @@ private fun OrderPuzzleCard(order: Block.Order) {
                     )
                 }
                 Spacer(Modifier.size(10.dp))
-                Text(line, style = MaterialTheme.typography.bodySmall, color = TextMid)
+                Text(line, style = com.pyneon.academy.ui.theme.MonoCode.copy(fontSize = 12.sp, lineHeight = 18.sp), color = TextMid)
             }
         }
         if (verdict != null) {

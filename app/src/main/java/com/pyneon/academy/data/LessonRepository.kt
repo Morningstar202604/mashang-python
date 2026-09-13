@@ -9,7 +9,7 @@ sealed class Block {
     data class Paragraph(val text: String) : Block()
     data class Tip(val text: String) : Block()
     data class Warn(val text: String) : Block()
-    data class CodeBlock(val code: String, val runnable: Boolean) : Block()
+    data class CodeBlock(val code: String, val runnable: Boolean, val stdin: List<String> = emptyList()) : Block()
     data class Output(val text: String) : Block()
     data class Table(val headers: List<String>, val rows: List<List<String>>) : Block()
     data class Diagram(val text: String) : Block()
@@ -121,7 +121,13 @@ object LessonRepository {
                 "text" -> blocks.add(Block.Paragraph(b.getString("text")))
                 "tip" -> blocks.add(Block.Tip(b.getString("text")))
                 "warn" -> blocks.add(Block.Warn(b.getString("text")))
-                "code" -> blocks.add(Block.CodeBlock(b.getString("code"), b.optBoolean("runnable", defaultRunnable)))
+                "code" -> blocks.add(Block.CodeBlock(
+                    code = b.getString("code"),
+                    runnable = b.optBoolean("runnable", defaultRunnable),
+                    stdin = b.optJSONArray("stdin")?.let { sa ->
+                        buildList { for (j in 0 until sa.length()) add(sa.getString(j)) }
+                    } ?: emptyList()
+                ))
                 "output" -> blocks.add(Block.Output(b.getString("text")))
                 "table" -> {
                     val headers = b.getJSONArray("headers").let { ha ->

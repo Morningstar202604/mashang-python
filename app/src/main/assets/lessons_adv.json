@@ -96,7 +96,7 @@
     "exercise": {
       "title": "暗影忍者",
       "brief": "基于 NeonBot（上一课已定义过的规格）实现子类 Ninja：构造时多接收 weapon 参数默认 '刀'；覆写 hit(dmg) 使实际只受一半伤害（整除）；覆写 __str__ 返回 'Ninja:<名字>'。",
-      "starterCode": "class NeonBot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\nclass Ninja(NeonBot):\n    \n\nk = Ninja('K', weapon='振动刀')\nk.hit(30)\nprint(k.hp, k.weapon)\nprint(str(k))",
+      "starterCode": "class NeonBot:\n    def __init__(self, name, hp=100):\n        self.name = name\n        self.hp = hp\n\nclass Ninja(NeonBot):\n    ____\n\nk = Ninja('K', weapon='振动刀')\nk.hit(30)\nprint(k.hp, k.weapon)\nprint(str(k))",
       "hint": "hit 里调用 super().hit(dmg // 2)；__str__ 里 return f'Ninja:{self.name}'。",
       "tests": [
         "k = Ninja('K', weapon='振动刀')",
@@ -196,7 +196,7 @@
     "exercise": {
       "title": "最小可用钱包",
       "brief": "实现类 Wallet：__init__(self, balance=0)；deposit(amount) 加钱并返回新余额；withdraw(amount) 余额不足时 raise ValueError('insufficient')，否则扣钱并返回新余额。",
-      "starterCode": "class Wallet:\n    \n\nw = Wallet(100)\nprint(w.withdraw(30))\ntry:\n    w.withdraw(999)\nexcept ValueError as e:\n    print('拦截:', e)",
+      "starterCode": "class Wallet:\n    ____\n\nw = Wallet(100)\nprint(w.withdraw(30))\ntry:\n    w.withdraw(999)\nexcept ValueError as e:\n    print('拦截:', e)",
       "hint": "withdraw 里 if amount > self.balance: raise ValueError('insufficient')。",
       "tests": [
         "w = Wallet(100)",
@@ -303,7 +303,7 @@
     "exercise": {
       "title": "斐波那契发生器",
       "brief": "实现生成器函数 fibonacci(k)：依次产出前 k 个斐波那契数（从 0 开始）。list(fibonacci(6)) == [0, 1, 1, 2, 3, 5]。",
-      "starterCode": "def fibonacci(k):\n    \n\nprint(list(fibonacci(6)))",
+      "starterCode": "def fibonacci(k):\n    ____\n\nprint(list(fibonacci(6)))",
       "hint": "a, b = 0, 1；循环 k 次：yield a 后 a, b = b, a + b——Python 的双变量同时赋值是灵魂操作。",
       "tests": [
         "assert list(fibonacci(6)) == [0, 1, 1, 2, 3, 5]",
@@ -406,7 +406,7 @@
     "exercise": {
       "title": "锻造双重战衣",
       "brief": "两问合一：① 实现 make_multiplier(factor)，返回一个能把输入乘以 factor 的函数；② 实现装饰器 double_result，被它装饰的函数返回值会翻倍。",
-      "starterCode": "def make_multiplier(factor):\n    \n\ndef double_result(fn):\n    \n\n@double_result\ndef add(a, b):\n    return a + b\n\ntwice = make_multiplier(2)\nprint(twice(5), add(1, 2))",
+      "starterCode": "def make_multiplier(factor):\n    ____\n\ndef double_result(fn):\n    ____\n\n@double_result\ndef add(a, b):\n    return a + b\n\ntwice = make_multiplier(2)\nprint(twice(5), add(1, 2))",
       "hint": "make_multiplier 内层 return x * factor；double_result 内层 return fn(a, b) * 2。",
       "tests": [
         "twice = make_multiplier(2)",
@@ -533,7 +533,7 @@
     "exercise": {
       "title": "模式切换处理器",
       "brief": "实现 process(nums, mode)：mode 为 'sq' 时返回每个数的平方；为 'dbl' 时返回翻倍结果。内部请用一个字典把模式映射到 lambda，再配合 map 完成。",
-      "starterCode": "def process(nums, mode):\n    ops = {\n        'sq': ,\n        'dbl': \n    }\n    return list(map(ops[mode], nums))\n\nprint(process([1, 2, 3], 'sq'))\nprint(process([1, 2, 3], 'dbl'))",
+      "starterCode": "def process(nums, mode):\n    ops = {\n        'sq': ____,\n        'dbl': ____\n    }\n    return list(map(ops[mode], nums))\n\nprint(process([1, 2, 3], 'sq'))\nprint(process([1, 2, 3], 'dbl'))",
       "hint": "'sq': lambda x: x * x 和 'dbl': lambda x: x * 2。",
       "tests": [
         "assert process([1, 2, 3], 'sq') == [1, 4, 9]",
@@ -635,7 +635,7 @@
     "exercise": {
       "title": "热词追踪器",
       "brief": "实现 top_word(sentence)：转小写、按空格切分后统计词频，返回出现次数最多的单词。测试数据保证没有并列第一。top_word('Neon city NEON rain') 返回 'neon'。",
-      "starterCode": "from collections import Counter\n\ndef top_word(sentence):\n    \n\nprint(top_word('Neon city NEON rain'))",
+      "starterCode": "from collections import Counter\n\ndef top_word(sentence):\n    ____\n\nprint(top_word('Neon city NEON rain'))",
       "hint": "words = sentence.lower().split()，然后 Counter(words).most_common(1)[0][0]。",
       "tests": [
         "assert top_word('Neon city NEON rain') == 'neon'",
@@ -747,7 +747,7 @@
       {
         "type": "practice",
         "title": "倒计时计算器",
-        "code": "from datetime import date\ntoday = date.today()\nnew_year = date(today.year + 1, 1, 1)\ndays = (new_year - today).days\nprint(f'今天: {today}')\nprint(f'距元旦还有 {days} 天')",
+        "code": "from datetime import date\ntoday = date(2025, 7, 4)\nnew_year = date(today.year + 1, 1, 1)\ndays = (new_year - today).days\nprint(f'今天: {today}')\nprint(f'距元旦还有 {days} 天')",
         "output": "今天: 2025-07-04\n距元旦还有 181 天",
         "hint": "date 对象可以直接相减得到 timedelta；.days 取天数整数。"
       },
@@ -762,7 +762,7 @@
       {
         "type": "code",
         "runnable": true,
-        "code": "from datetime import date, timedelta\ntoday = date.today()\nyesterday = today - timedelta(days=1)\nprint(today.strftime('%Y-%m-%d %A'))\nprint(yesterday)"
+        "code": "from datetime import date, timedelta\ntoday = date(2025, 7, 4)\nyesterday = today - timedelta(days=1)\nprint(today.strftime('%Y-%m-%d %A'))\nprint(yesterday)"
       },
       {
         "type": "output",
@@ -772,7 +772,7 @@
     "exercise": {
       "title": "命运裁决者",
       "brief": "两个函数：weekday_of(y, m, d) 返回该日期英文星期缩写（date(y,m,d).strftime('%a')，2026-08-26 是 'Wed'）；shuffle_copy(lst, seed) 返回洗牌后的新列表但不修改原列表。",
-      "starterCode": "from datetime import date\nimport random\n\ndef weekday_of(y, m, d):\n    \n\ndef shuffle_copy(lst, seed):\n    \n\nprint(weekday_of(2026, 8, 26))\nprint(shuffle_copy([1, 2, 3, 4, 5], 99))",
+      "starterCode": "from datetime import date\nimport random\n\ndef weekday_of(y, m, d):\n    ____\n\ndef shuffle_copy(lst, seed):\n    ____\n\nprint(weekday_of(2026, 8, 26))\nprint(shuffle_copy([1, 2, 3, 4, 5], 99))",
       "hint": "weekday 用 date(y, m, d).strftime('%a')；shuffle_copy 里 copy = list(lst) 后 random.Random(seed).shuffle(copy) 再返回 copy。",
       "tests": [
         "assert weekday_of(2026, 8, 26) == 'Wed'",
@@ -1101,7 +1101,7 @@
     "exercise": {
       "title": "加密笔记写入",
       "brief": "实现 write_note(path, text)：用 'w' 模式把 text 写入文件（utf-8），返回写入的字符数。",
-      "starterCode": "def write_note(path, text):\n    \n\nprint(write_note('note.txt', 'hello'))\nprint(open('note.txt', encoding='utf-8').read())",
+      "starterCode": "def write_note(path, text):\n    ____\n\nprint(write_note('note.txt', 'hello'))\nprint(open('note.txt', encoding='utf-8').read())",
       "hint": "with open(path, 'w', encoding='utf-8') as f: f.write(text)，然后 return len(text)。",
       "tests": [
         "assert write_note('note.txt', 'hello') == 5",
@@ -1191,7 +1191,7 @@
     "exercise": {
       "title": "入侵检测警报",
       "brief": "定义 HackError(Exception)（默认消息 '非法入侵'）；实现 guard(n)：n 为负时 raise HackError，否则返回 n * 2。",
-      "starterCode": "class HackError(Exception):\n    def __init__(self, msg='非法入侵'):\n        super().__init__(msg)\n\ndef guard(n):\n    \n\nprint(guard(5))\ntry:\n    guard(-1)\nexcept HackError as e:\n    print('已拦截:', e)",
+      "starterCode": "class HackError(Exception):\n    def __init__(self, msg='非法入侵'):\n        super().__init__(msg)\n\ndef guard(n):\n    ____\n\nprint(guard(5))\ntry:\n    guard(-1)\nexcept HackError as e:\n    print('已拦截:', e)",
       "hint": "if n < 0: raise HackError()；正常路径 return n * 2。",
       "tests": [
         "assert guard(6) == 12",
@@ -1279,7 +1279,7 @@
     "exercise": {
       "title": "圆面积计算器",
       "brief": "使用 math.pi 实现 area_circle(r)：返回半径为 r 的圆面积，保留两位小数（round(x, 2)）。",
-      "starterCode": "import math\n\ndef area_circle(r):\n    \n\nprint(area_circle(1))\nprint(area_circle(2))",
+      "starterCode": "import math\n\ndef area_circle(r):\n    ____\n\nprint(area_circle(1))\nprint(area_circle(2))",
       "hint": "面积公式 π·r²：round(math.pi * r * r, 2)。",
       "tests": [
         "import math\nassert abs(area_circle(1) - math.pi) < 0.01",
