@@ -20,9 +20,21 @@ data class ContentPack(
     val sha256: String? = null
 )
 
+/**
+ * 应用自身（APK）更新信息，来自 catalog.json 的顶层 "app" 段。
+ * @param apkUrl 可为完整 URL，也可为相对路径（自动拼接到 catalog 所在仓库 base）
+ */
+data class AppUpdateInfo(
+    val versionCode: Int,
+    val versionName: String,
+    val apkUrl: String,
+    val apkSha256: String?
+)
+
 data class ContentCatalog(
     val updatedAt: String,
-    val packs: List<ContentPack>
+    val packs: List<ContentPack>,
+    val appUpdate: AppUpdateInfo? = null
 )
 
 class ContentCenter {
@@ -30,6 +42,8 @@ class ContentCenter {
     companion object {
         private const val TIMEOUT_MS = 10000
         private const val MAX_RESPONSE_BYTES = 5 * 1024 * 1024 // C5: HTTP 响应体积上限 5MB
+        // APK 体积上限（含 Python 运行时较大，300MB 足够容纳 arm64 + x86_64 双 ABI）
+        private const val MAX_APK_BYTES = 300 * 1024 * 1024
         private const val TAG = "ContentCenter"
         // C3: 包 id 白名单，仅允许安全文件名字符，杜绝路径穿越
         private val SAFE_ID_REGEX = Regex("""^[a-zA-Z0-9_-]+$""")
@@ -89,7 +103,15 @@ class ContentCenter {
                         )
                     )
                 }
-                return ContentCatalog(obj.optString("updated_at"), packs) to url.removeSuffix("/catalog.json")
+                val appUpdate = obj.optJSONObject("app")?.let { app ->
+                    AppUpdateInfo(
+                        versionCode = app.optInt("versionCode", 0),
+                        versionName = app.optString("versionName", ""),
+                        apkUrl = app.optString("apkUrl", ""),
+                        apkSha256 = app.optString("apkSha256").takeIf { it.isNotBlank() }
+                    )
+                }
+                return ContentCatalog(obj.optString("updated_at"), packs, appUpdate) to url.removeSuffix("/catalog.json")
             } catch (e: Exception) {
                 lastError = e
             }
@@ -125,6 +147,35 @@ class ContentCenter {
         return target
     }
 
+    /**
+     * 下载新版 APK 到缓存目录并校验 sha256，返回可安装的 APK 文件。
+     * apkUrl 支持完整 URL 或相对路径（相对 catalog 所在仓库 base）。
+     */
+    fun downloadApk(context: Context, update: AppUpdateInfo, baseUrl: String): File {
+        require(update.versionCode > 0 && update.apkUrl.isNotBlank()) {
+            "更新信息不完整（缺少版本号或下载地址）"
+        }
+        val url = if (update.apkUrl.startsWith("http://") || update.apkUrl.startsWith("https://")) {
+            update.apkUrl
+        } else {
+            "$baseUrl/${update.apkUrl.trimStart('/')}"
+        }
+        val expected = update.apkSha256
+            ?: throw SecurityException("更新包缺少 sha256 字段，拒绝下载")
+        val bytes = httpGetBytes(url, MAX_APK_BYTES)
+        if (sha256Hex(bytes) != expected) {
+            throw SecurityException("更新包完整性校验失败（sha256 不匹配）")
+        }
+        val dir = File(context.cacheDir, "app-updates").apply { mkdirs() }
+        val target = File(dir, "pynow-${update.versionName}.apk")
+        // 原子落盘：先写临时文件再改名，避免安装到写一半的损坏包
+        val tmp = File(dir, "tmp_${update.versionCode}.apk")
+        tmp.writeBytes(bytes)
+        if (target.exists()) target.delete()
+        tmp.renameTo(target)
+        return target
+    }
+
     private fun requireSafeId(id: String) {
         require(id.isNotBlank() && id.matches(SAFE_ID_REGEX)) {
             "非法包 id（含非法字符，已拒绝）: '$id'"
@@ -142,6 +193,33 @@ class ContentCenter {
             }
             // C5: 按字节流式读取并设 5MB 上限，超限断开并报错，避免 OOM
             return readStreamCapped(conn.inputStream)
+        } finally {
+            conn.disconnect()
+        }
+    }
+
+    private fun httpGetBytes(url: String, maxBytes: Int): ByteArray {
+        val conn = URL(url).openConnection() as HttpURLConnection
+        conn.connectTimeout = TIMEOUT_MS
+        conn.readTimeout = TIMEOUT_MS
+        conn.setRequestProperty("Accept", "application/octet-stream")
+        try {
+            if (conn.responseCode !in 200..299) {
+                throw IllegalStateException("HTTP ${conn.responseCode} ($url)")
+            }
+            val buf = ByteArray(64 * 1024)
+            var total = 0
+            val out = ByteArrayOutputStream(256 * 1024)
+            while (true) {
+                val n = conn.inputStream.read(buf)
+                if (n < 0) break
+                total += n
+                if (total > maxBytes) {
+                    throw IllegalStateException("下载超过 ${maxBytes / (1024 * 1024)}MB 上限，已中断")
+                }
+                out.write(buf, 0, n)
+            }
+            return out.toByteArray()
         } finally {
             conn.disconnect()
         }
@@ -167,6 +245,11 @@ class ContentCenter {
         val digest = MessageDigest.getInstance("SHA-256")
         val bytes = digest.digest(input.toByteArray(StandardCharsets.UTF_8))
         return bytes.joinToString("") { "%02x".format(it) }
+    }
+
+    private fun sha256Hex(bytes: ByteArray): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        return digest.digest(bytes).joinToString("") { "%02x".format(it) }
     }
 
     /**

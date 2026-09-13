@@ -34,6 +34,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.pyneon.academy.data.AppUpdateInfo
+import com.pyneon.academy.data.ContentCenter
 import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.effects.GlitchText
@@ -48,14 +50,73 @@ import com.pyneon.academy.ui.theme.TextDim
 import com.pyneon.academy.ui.theme.TextMid
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.utils.AppConstants
+import com.pyneon.academy.utils.AppUpdater
 import com.pyneon.academy.utils.ShareHelper
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Composable
 fun SettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var confirmClearHistory by remember { mutableStateOf(false) }
+
+    // ===== 应用更新状态 =====
+    val center = remember { ContentCenter() }
+    var checkingUpdate by remember { mutableStateOf(false) }
+    var updateInfo by remember { mutableStateOf<AppUpdateInfo?>(null) }
+    var updateBase by remember { mutableStateOf("") }
+    var updateMessage by remember { mutableStateOf<String?>(null) }
+    var downloading by remember { mutableStateOf(false) }
+
+    fun checkForUpdate() {
+        if (checkingUpdate || downloading) return
+        scope.launch {
+            checkingUpdate = true
+            updateMessage = null
+            updateInfo = null
+            try {
+                val (cat, base) = withContext(Dispatchers.IO) { center.fetchCatalog() }
+                updateBase = base
+                val app = cat.appUpdate
+                if (app == null) {
+                    updateMessage = "服务器暂未提供应用更新渠道"
+                } else if (app.versionCode > AppConstants.VERSION_CODE) {
+                    updateInfo = app
+                    updateMessage = "发现新版本 v${app.versionName}"
+                } else {
+                    updateMessage = "已是最新版本 v${AppConstants.VERSION_NAME}"
+                }
+            } catch (e: Exception) {
+                updateMessage = "检查失败：${e.message?.take(60) ?: "网络不可用"}"
+            }
+            checkingUpdate = false
+        }
+    }
+
+    fun downloadAndInstall() {
+        val app = updateInfo ?: return
+        if (downloading) return
+        scope.launch {
+            downloading = true
+            updateMessage = "下载中 v${app.versionName}（APK 较大，请稍候）…"
+            try {
+                val apk = withContext(Dispatchers.IO) {
+                    center.downloadApk(context, app, updateBase)
+                }
+                val ok = AppUpdater.installApk(context, apk)
+                updateMessage = if (ok) {
+                    "已拉起系统安装器，按提示完成更新"
+                } else {
+                    "未找到系统安装器，请稍后重试"
+                }
+            } catch (e: Exception) {
+                updateMessage = "下载/安装失败：${e.message?.take(60)}"
+            }
+            downloading = false
+        }
+    }
 
     Column(
         Modifier
@@ -89,6 +150,48 @@ fun SettingsScreen(onBack: () -> Unit) {
                     accent = NeonMagenta,
                     leadingIcon = Icons.Outlined.Delete,
                     onClick = { confirmClearHistory = true }
+                )
+            }
+        }
+
+        SectionHeader("应用更新", accent = NeonYellow)
+        NeonCard(accent = NeonYellow) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                InfoRow("当前版本", "v${AppConstants.VERSION_NAME} (code ${AppConstants.VERSION_CODE})")
+                updateMessage?.let {
+                    Text(
+                        it,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = if (it.startsWith("检查失败") || it.contains("失败")) NeonMagenta else TextMid,
+                        modifier = Modifier.padding(top = 2.dp)
+                    )
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    NeonButton(
+                        label = when {
+                            downloading -> "下载中…"
+                            checkingUpdate -> "检查中…"
+                            else -> "检查更新"
+                        },
+                        accent = NeonCyan,
+                        enabled = !checkingUpdate && !downloading,
+                        onClick = { checkForUpdate() },
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (updateInfo != null) {
+                        NeonButton(
+                            label = "下载并安装 v${updateInfo!!.versionName}",
+                            accent = NeonYellow,
+                            enabled = !downloading,
+                            onClick = { downloadAndInstall() },
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+                Text(
+                    "更新包来自 GitCode 主仓，下载后校验 SHA-256 并交给系统安装器。",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextDim
                 )
             }
         }
