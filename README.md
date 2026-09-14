@@ -6,7 +6,7 @@
 
 A cyberpunk-styled Python learning terminal that fits in your pocket: embedded real CPython interpreter, 30-level gamified curriculum, auto-grading with assert, variable visualization, and six-tier progression system.
 
-[![License: Source-Available NC](https://img.shields.io/badge/License-Source--Available%20Non--Commercial-00E5FF.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
@@ -48,7 +48,7 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 | Beginner / Career Changer | 30 Chinese narrative lessons, from `print` to decorators |
 | Commuter / Fragmented Learner | Fully offline, code even in subway tunnels |
 | Teacher / Parent | No ads, no account, zero data upload — safe for students |
-| Developer | Complete Compose + Chaquopy reference implementation, source-available, non-commercial use |
+| Developer | Complete Compose + Chaquopy reference implementation, MIT-licensed |
 
 ## Why PY//NOW?
 
@@ -79,13 +79,14 @@ making "learning to code" feel like playing a game for the first time.
 - 📖 **Mistake Book + Spaced Repetition** — Wrong answers auto-collected; reviewed on a day/1d/3d/7d… schedule
 - 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
 - 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
-- 🎨 **5 Color Themes** — Cyber Neon / Deep Space Gray / Aurora Green / Twilight Purple / Twilight Orange, theme persistence via SharedPreferences
+- ⚡ **In-App Self-Update** — Check for new versions in Settings, pull from GitCode repo, verify SHA-256, install via system installer
+- 🎨 **6 Color Themes** — Cyber Neon / Deep Space Gray / Aurora Green / Twilight Purple / Twilight Orange / Paper White, instant switch without restart
 - 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
 - 👓 **Readability-First UI** — Effects confined to decoration zones (boot/home/terminal…); lesson body and graded results use larger sans-serif text, no gimmicks
 
 ## 📥 Download & Install
 
-> Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture, APK ~43MB.
+> Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture. Release builds are R8-minified.
 
 - ⭐ Recommended: Download the latest `pynow-*.apk` from [Releases](../../releases)（GitCode）
 - Build yourself:
@@ -109,7 +110,7 @@ Pydroid is a development tool; we're a "curriculum-as-code" learning terminal—
 The tech stack (Chaquopy) only supports Android; iOS would require a different approach and is on the long-term roadmap.
 
 **Q: Can I use the curriculum commercially?**
-The source is open-sourced under the **Source-Available Non-Commercial License** for learning and study. You're welcome to build your own learning fork and contribute back, but **commercial use (paid distribution, in-app purchase, ads, embedding in commercial products) requires prior written permission** from the copyright holder.
+Yes. The project is open-sourced under the **MIT License** — free to use, modify, and distribute, including commercial use, as long as the license notice is retained. See [LICENSE](LICENSE) for the full terms.
 
 ## 📚 Curriculum (30 Lessons · 4 Acts)
 
@@ -156,11 +157,11 @@ Fork → New branch → Submit PR; for course content, please update answer keys
 
 ## 📄 License &amp; Privacy
 
-This repository is published under the **Source-Available Non-Commercial License** — open for learning, study, and exchange to assert project sovereignty, while the copyright holder reserves all commercialization rights.
+This repository is published under the **MIT License** — free to use, modify, and distribute for any purpose (personal, educational, or commercial), provided the license notice is retained.
 
-- ✅ You may view, study, modify, and redistribute the source for **non-commercial, educational** purposes (keep the license notice).
-- ❌ **Commercial use is prohibited without prior written permission** (paid distribution, IAP, ads, embedding in commercial products, etc.).
-- ™ "PY//NOW" / "码上Python" names and logos are reserved trademarks.
+- ✅ You may view, study, modify, redistribute, and build commercial products upon it.
+- ✅ No warranty is provided; use at your own risk.
+- ™ "PY//NOW" / "码上Python" names and logos remain reserved trademarks.
 
 Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
 

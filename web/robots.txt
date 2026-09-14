@@ -1,0 +1,11 @@
+# 码上Python · 网页端爬虫协议
+#
+# 本文件面向将 web/ 目录部署到任意静态托管（GitHub Pages / Gitee Pages 等）后的
+# 搜索引擎爬虫。站点为纯前端单页应用（index.html + 内联 data.js/engine.js），
+# 全部页面内容随 HTML 一并输出，允许全量抓取。
+#
+# 部署后若希望更精确地提交收录，请将下面一行改为实际域名后取消注释：
+# Sitemap: https://<your-host>/sitemap.xml
+
+User-agent: *
+Allow: /
