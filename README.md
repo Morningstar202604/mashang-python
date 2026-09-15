@@ -39,7 +39,29 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 ║  (level:int) 120   (r:str) 'ROOT'
 ╚══════════════════════════════════╝
 ```
-> Real device screenshots coming soon; the terminal frame above shows the actual in-app information structure.
+> Real-device screenshots and a usage demo video are below — the terminal frame above shows the actual in-app information structure.
+
+### 🎬 Usage Video · 使用视频
+
+<p align="center">
+  <video src="demo/usage-video.mp4" poster="demo/shots/home.png" controls width="380"></video>
+</p>
+
+> 📥 [Download / watch the demo video — MP4, 1080×1920, ~57s](demo/usage-video.mp4)
+
+### 📱 Screenshots · 应用截图
+
+| 指挥台 Home | 数据流 Lessons | 课程详情 Lesson |
+|:--:|:--:|:--:|
+| ![Home](demo/home.png) | ![Lessons](demo/lessons.png) | ![Lesson Detail](demo/lesson_detail.png) |
+
+| 主题切换 Themes | 神经档案 Profile | 角斗场 Arena |
+|:--:|:--:|:--:|
+| ![Themes](demo/theme_selector.png) | ![Profile](demo/profile.png) | ![Arena](demo/arena.png) |
+
+| 欢迎引导 Welcome |
+|:--:|
+| ![Welcome](demo/welcome1.png) |
 
 ## 👤 Who Is This For
 

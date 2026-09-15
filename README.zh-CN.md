@@ -40,7 +40,29 @@
 ║  (level:int) 120   (r:str) 'ROOT'
 ╚══════════════════════════════════╝
 ```
-> 真机截图陆续补充中；上面的终端框就是 App 内的实际信息结构。
+> 下面是真机截图与使用演示视频——上面的终端框就是 App 内的实际信息结构。
+
+### 🎬 使用视频
+
+<p align="center">
+  <video src="demo/usage-video.mp4" poster="demo/shots/home.png" controls width="380"></video>
+</p>
+
+> 📥 [下载 / 观看使用演示视频（MP4，1080×1920，约 57 秒）](demo/usage-video.mp4)
+
+### 📱 应用截图
+
+| 指挥台 Home | 数据流 Lessons | 课程详情 Lesson |
+|:--:|:--:|:--:|
+| ![首页](demo/home.png) | ![课程列表](demo/lessons.png) | ![课程详情](demo/lesson_detail.png) |
+
+| 主题切换 Themes | 神经档案 Profile | 角斗场 Arena |
+|:--:|:--:|:--:|
+| ![主题切换](demo/theme_selector.png) | ![档案](demo/profile.png) | ![角斗场](demo/arena.png) |
+
+| 欢迎引导 Welcome |
+|:--:|
+| ![欢迎](demo/welcome1.png) |
 
 ## 👤 适合谁
 
