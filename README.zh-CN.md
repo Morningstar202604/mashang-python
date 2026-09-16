@@ -27,9 +27,12 @@
 
 <p align="center">
   <video src="demo/promo-video.mp4" poster="demo/promo-poster.jpg" controls width="380"></video>
+  <br/>
+  <a href="demo/promo-video.mp4"><img src="demo/promo-poster.jpg" width="460" alt="▶ 观看宣传片"/></a>
+  <br/>
+  <sub>▶ 点击海报观看 · <a href="demo/promo-video.mp4">直接打开视频</a>（MP4，1080×1920，约 50 秒，原创合成配乐）</sub>
 </p>
 
-> 📥 [直接观看 / 下载宣传片（MP4，1080×1920，约 50 秒，原创合成配乐）](demo/promo-video.mp4)
 > 🌐 [在线下载页](https://aa84776376caeb1e2.app.workbuddy.host) —— 手机打开即看截图 / 视频 / 二维码下载，无需登录任何账号
 
 ## ⚡ 核心亮点 · 30 秒速览
@@ -60,9 +63,11 @@
 
 <p align="center">
   <video src="demo/usage-video.mp4" poster="demo/shots/home.png" controls width="380"></video>
+  <br/>
+  <a href="demo/usage-video.mp4"><img src="demo/shots/lesson-console.png" width="300" alt="▶ 观看使用演示"/></a>
+  <br/>
+  <sub>▶ 点击画面观看 · <a href="demo/usage-video.mp4">直接打开视频</a>（MP4，1080×1920，约 57 秒）</sub>
 </p>
-
-> 📥 [下载 / 观看使用演示视频（MP4，1080×1920，约 57 秒）](demo/usage-video.mp4)
 
 ## 👤 适合谁
 

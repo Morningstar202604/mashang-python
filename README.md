@@ -26,9 +26,12 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 
 <p align="center">
   <video src="demo/promo-video.mp4" poster="demo/promo-poster.jpg" controls width="380"></video>
+  <br/>
+  <a href="demo/promo-video.mp4"><img src="demo/promo-poster.jpg" width="460" alt="▶ Watch the trailer"/></a>
+  <br/>
+  <sub>▶ Click the poster to watch · <a href="demo/promo-video.mp4">open video directly</a> (MP4, 1080×1920, ~50s, original synth soundtrack)</sub>
 </p>
 
-> 📥 [Watch / download the trailer (MP4, 1080×1920, ~50s, original synth soundtrack)](demo/promo-video.mp4)
 > 🌐 [Online download page](https://aa84776376caeb1e2.app.workbuddy.host) — screenshots, videos and QR download on your phone, no account needed
 
 ## ⚡ TL;DR · 30 Seconds
@@ -79,9 +82,11 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 
 <p align="center">
   <video src="demo/usage-video.mp4" poster="demo/shots/home.png" controls width="380"></video>
+  <br/>
+  <a href="demo/usage-video.mp4"><img src="demo/shots/lesson-console.png" width="300" alt="▶ Watch the demo"/></a>
+  <br/>
+  <sub>▶ Click to watch · <a href="demo/usage-video.mp4">open video directly</a> (MP4, 1080×1920, ~57s)</sub>
 </p>
-
-> 📥 [Download / watch the demo video — MP4, 1080×1920, ~57s](demo/usage-video.mp4)
 
 ## 👤 Who Is This For
 

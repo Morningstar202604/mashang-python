@@ -98,10 +98,15 @@ jobs:
           name: app-debug
           path: artifacts/
 
+      # 命名与 README 中的 pynow-*.apk 保持一致
+      - name: Rename APK for release
+        run: mv artifacts/app-debug.apk "artifacts/pynow-${GITHUB_REF_NAME}.apk"
+        shell: bash
+
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
-          files: artifacts/app-debug.apk
+          files: artifacts/pynow-*.apk
           draft: false
           prerelease: false
           generate_release_notes: true
