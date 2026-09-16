@@ -12,14 +12,34 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
+[![Download Page](https://img.shields.io/badge/%F0%9F%8C%90-Download_Page-FF2D78.svg)](https://aa84776376caeb1e2.app.workbuddy.host)
 
 🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
-[Download APK](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [Contributing](#contributing) · [Roadmap](#roadmap)
+[🎬 Trailer](#-trailer50-seconds) · [⚡ TL;DR](#-tldr30-seconds) · [📥 Download](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [⭐ Star](../../stargazers)
 
 </div>
 
 ---
+
+## 🎬 Trailer · 50 Seconds
+
+<p align="center">
+  <video src="demo/promo-video.mp4" poster="demo/promo-poster.jpg" controls width="380"></video>
+</p>
+
+> 📥 [Watch / download the trailer (MP4, 1080×1920, ~50s, original synth soundtrack)](demo/promo-video.mp4)
+> 🌐 [Online download page](https://aa84776376caeb1e2.app.workbuddy.host) — screenshots, videos and QR download on your phone, no account needed
+
+## ⚡ TL;DR · 30 Seconds
+
+| You Ask | One-Line Answer |
+|---|:--|
+| **Does it work offline?** | ✅ **Truly offline** — a full CPython 3.13 interpreter is embedded in the APK; code, run and get graded in subway tunnels |
+| **Will I actually learn to code?** | ✅ **Assert auto-grading** — you don't advance until test cases pass; cures "understood but can't write" |
+| **Ads? Account? Tracking?** | ✅ **Zero ads · zero account · zero data upload**, MIT-licensed — safe to recommend to students |
+| **Anything unique?** | 🔬 **Variable Snapshot panel** (whole namespace visualized after each run) · Six Tiers · Daily Quests · Mistake Book |
+| **How much content?** | 📚 **30 main lessons + 10 algorithm bonus lessons**, from `print` to decorators, plus 6 Arena challenges |
 
 ## 🖥 What It Looks Like
 
@@ -39,29 +59,29 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 ║  (level:int) 120   (r:str) 'ROOT'
 ╚══════════════════════════════════╝
 ```
-> Real-device screenshots and a usage demo video are below — the terminal frame above shows the actual in-app information structure.
+> Real-device screenshots and demo videos are below — the terminal frame above shows the actual in-app information structure.
 
-### 🎬 Usage Video · 使用视频
+## 📱 Screenshots
+
+| Home | Lessons | Lesson Detail |
+|:--:|:--:|:--:|
+| ![Home](demo/home.png) | ![Lessons](demo/lessons.png) | ![Lesson Detail](demo/lesson_detail.png) |
+
+| Themes | Profile | Arena |
+|:--:|:--:|:--:|
+| ![Themes](demo/theme_selector.png) | ![Profile](demo/profile.png) | ![Arena](demo/arena.png) |
+
+| Welcome |
+|:--:|
+| ![Welcome](demo/welcome1.png) |
+
+## 🎥 Usage Demo · 57s Hands-on
 
 <p align="center">
   <video src="demo/usage-video.mp4" poster="demo/shots/home.png" controls width="380"></video>
 </p>
 
 > 📥 [Download / watch the demo video — MP4, 1080×1920, ~57s](demo/usage-video.mp4)
-
-### 📱 Screenshots · 应用截图
-
-| 指挥台 Home | 数据流 Lessons | 课程详情 Lesson |
-|:--:|:--:|:--:|
-| ![Home](demo/home.png) | ![Lessons](demo/lessons.png) | ![Lesson Detail](demo/lesson_detail.png) |
-
-| 主题切换 Themes | 神经档案 Profile | 角斗场 Arena |
-|:--:|:--:|:--:|
-| ![Themes](demo/theme_selector.png) | ![Profile](demo/profile.png) | ![Arena](demo/arena.png) |
-
-| 欢迎引导 Welcome |
-|:--:|
-| ![Welcome](demo/welcome1.png) |
 
 ## 👤 Who Is This For
 
@@ -81,36 +101,49 @@ making "learning to code" feel like playing a game for the first time.
 
 | | Others | PY//NOW |
 |---|---|---|
-| Code Execution | ☁️ Cloud-based, dead without net | 📱 On-device CPython 3.13 |
+| Code Execution | ☁️ Cloud-based, dead without net | 📱 **On-device CPython 3.13** |
 | Teaching Style | Dry documentation | Cyber narrative + life analogies + pop quizzes |
 | Runtime Feedback | Black-box print | **Variable Snapshot Panel** + instant result display |
-| Growth Motivation | Check-in calendar | XP / Six Tiers / Daily Quests / Achievement Wall |
+| Growth Motivation | Check-in calendar | **XP / Six Tiers / Daily Quests / Achievement Wall** |
 
 ## ✨ Features
 
-- 🔌 **Fully Offline Engine** — Chaquopy-embedded CPython; network only for Content Hub course downloads (zero personal data collection/upload)
-- 🔌 **Offline First, Online Enhanced** — Learn without internet; one-tap pull of new course packs via Content Hub (GitCode source, sha256 verified)
-- 🛡 **Sandbox Security** — Dead-loop watchdog force-interrupt, input queue takeover for `input()`, friendly localized exceptions
-- 🎹 **Code Editor** — Neon Python syntax highlighting, smart indentation (`:` auto-indent), Tab-to-space
-- 🖥 **Neural Interface REPL** — Stateful session, ↑↓ history, multi-line blocks, one-tap reset
-- 🔬 **Variable Snapshot** — Post-run display of every variable's name/type/value in namespace
-- ✅ **Assert Grading** — Must pass test cases to advance, preventing "understood but can't code"
-- ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier题型: type missing fragments / sort shuffled lines into correct program
-- 🧭 **L0 Rule Coach** — On-error guidance: offline rules give "diagnosis → 3 steps → fix example", hints never write the code for you
-- 📦 **Content Hub** — Course pack system: bonus built-in-function tour + DSA Basics/Mastery expansion packs (10 lessons), download and learn on demand
-- 📖 **Mistake Book + Spaced Repetition** — Wrong answers auto-collected; reviewed on a day/1d/3d/7d… schedule
-- 🎓 **Graduation Certificate** — Unlock neon certification page upon completing all courses, screenshot to share
-- 🧭 **Hand-holding Guidance** — Each lesson includes: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
-- ⚡ **In-App Self-Update** — Check for new versions in Settings, pull from GitCode repo, verify SHA-256, install via system installer
+### 🧠 Learning Loop — Until You Can Code It
+
+- ✅ **Assert Grading** — must pass test cases to advance, preventing "understood but can't code"
+- ✍️ **Fill-in-the-Blank + 🧩 Code Sorting** — Mimo-style low-barrier exercises: type missing fragments / sort shuffled lines into a correct program
+- 🧭 **L0 Rule Coach** — on-error guidance: offline rules give "diagnosis → 3 steps → fix example"; hints never write the code for you
+- 📖 **Mistake Book + Spaced Repetition** — wrong answers auto-collected; reviewed on a day/1d/3d/7d… schedule
+- 🧭 **Hand-holding Guidance** — each lesson: life analogy → ASCII diagram → TASK follow-along → PRACTICE hands-on → STEPS thinking card
+
+### 🔥 Hardcore Engine — Runs Fully Offline
+
+- 🔌 **Offline CPython 3.13** — Chaquopy-embedded real interpreter; network only for Content Hub course packs (sha256 verified, zero personal data)
+- 🛡 **Sandbox Security** — dead-loop watchdog force-interrupt, input queue takeover for `input()`, friendly localized exceptions
+- 🎹 **Code Editor** — neon Python syntax highlighting, smart indentation (`:` auto-indent), Tab-to-space
+- 🖥 **Neural Interface REPL** — stateful session, ↑↓ history, multi-line blocks, one-tap reset
+- 🔬 **Variable Snapshot** — every variable's name/type/value in the namespace, shown after each run
+
+### 🏆 Gamification — Learning Feels Like a Game
+
+- 🏆 **Six Tiers** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
+- ⚡ **Daily Quests / XP / Streak** — a goal every day, feedback on every run
+- 📦 **Content Hub** — course pack system: Built-in Function Tour bonus + DSA Basics/Mastery packs (10 lessons), download and learn on demand
+- 🎓 **Graduation Certificate** — neon certification page unlocked upon completing all courses, screenshot to share
+
+### 🧩 Engineering Quality
+
 - 🎨 **6 Color Themes** — Cyber Neon / Deep Space Gray / Aurora Green / Twilight Purple / Twilight Orange / Paper White, instant switch without restart
-- 🏆 **Gamification** — Script Kiddie → Data Ghost → Network Ronin → Cyber Hacker → Street Legend → System Architect
-- 👓 **Readability-First UI** — Effects confined to decoration zones (boot/home/terminal…); lesson body and graded results use larger sans-serif text, no gimmicks
+- 👓 **Readability-First UI** — effects confined to decoration zones (boot/home/terminal…); lesson body and graded results use larger sans-serif text, no gimmicks
+- ⚡ **In-App Self-Update** — check for new versions in Settings, pull from GitCode repo, verify SHA-256, install via system installer
 
 ## 📥 Download & Install
 
+> ⚡ **Fastest path** → 🌐 [Online download page](https://aa84776376caeb1e2.app.workbuddy.host): scan or tap, with trailer, screenshots and install guide.
+
 > Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture. Release builds are R8-minified.
 
-- ⭐ Recommended: Download the latest `pynow-*.apk` from [Releases](../../releases)（GitCode）
+- ⭐ Recommended: download the latest `pynow-*.apk` from [Releases](../../releases) (GitCode)
 - Build yourself:
 
 ```bash
@@ -177,7 +210,7 @@ DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Hig
 All forms welcome: new lesson content, bug reports, UI polish, multi-language translations.
 Fork → New branch → Submit PR; for course content, please update answer keys in `tests/validate_content.py` and ensure all PASS.
 
-## 📄 License &amp; Privacy
+## 📄 License & Privacy
 
 This repository is published under the **MIT License** — free to use, modify, and distribute for any purpose (personal, educational, or commercial), provided the license notice is retained.
 
@@ -188,5 +221,3 @@ This repository is published under the **MIT License** — free to use, modify, 
 Third-party components: [Chaquopy](https://github.com/chaquo/chaquopy) (MIT), Jetpack Compose (Apache-2.0).
 
 📄 [Privacy Policy](PRIVACY_POLICY.md) · [Terms of Service](TERMS_OF_SERVICE.md)
-
-
