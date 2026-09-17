@@ -66,6 +66,10 @@ body {
 }
 .nav-btn:hover { color: var(--textHi); border-color: var(--neonCyan); }
 .nav-btn.active { color: var(--bg0); background: var(--neonCyan); border-color: var(--neonCyan); box-shadow: 0 0 14px rgba(0,229,255,0.5); font-weight: 700; }
+.nav-dl { text-decoration: none; display: inline-flex; align-items: center;
+  color: var(--neonGreen, #00FF9C); border-color: rgba(0,255,156,0.45); }
+.nav-dl:hover { color: var(--bg0); background: var(--neonGreen, #00FF9C);
+  border-color: var(--neonGreen, #00FF9C); box-shadow: 0 0 14px rgba(0,255,156,0.5); }
 .status { font-size: 12px; color: var(--textDim); display: flex; align-items: center; gap: 8px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 .dot.off { background: var(--neonMagenta); box-shadow: 0 0 8px var(--neonMagenta); }
