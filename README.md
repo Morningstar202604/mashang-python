@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/logo.svg" alt="PY//NOW · Mashang Python" width="720"/>
+<img src="docs/banner.png" alt="PY//NOW · Mashang Python" width="830"/>
 
 **Code now, master Python instantly. Learn offline, anywhere.**
 

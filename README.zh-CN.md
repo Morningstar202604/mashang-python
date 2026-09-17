@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/logo.svg" alt="码上Python · PY//NOW" width="720"/>
+<img src="docs/banner.png" alt="码上Python · PY//NOW" width="830"/>
 
 **码上，就是马上。Learn Python instantly — on your phone, fully offline.**
 
