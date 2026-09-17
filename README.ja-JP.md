@@ -183,6 +183,7 @@ flowchart LR
 ## 📥 ダウンロードとインストール
 
 > ⚡ **最速ルート** → 🌐 [オンラインダウンロードページ](https://aa84776376caeb1e2.app.workbuddy.host)：QR コードをスキャンまたはタップ。予告編・スクショ・インストールガイド付き。
+> 🛰 **GitHub Pages ミラー** → [x33834.github.io/mashang-python](https://x33834.github.io/mashang-python/)（同ページ + アーキテクチャ図解付き）
 
 > Android 7.0+（minSdk 24）、arm64-v8a / x86_64 デュアルアーキテクチャ。Release ビルドは R8 難読化済み。
 

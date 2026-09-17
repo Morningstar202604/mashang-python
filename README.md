@@ -182,6 +182,7 @@ Each tier unlocks a new title + neon achievement wall. Complete every course to 
 ## 📥 Download & Install
 
 > ⚡ **Fastest path** → 🌐 [Online download page](https://aa84776376caeb1e2.app.workbuddy.host): scan or tap, with trailer, screenshots and install guide.
+> 🛰 **GitHub Pages mirror** → [x33834.github.io/mashang-python](https://x33834.github.io/mashang-python/) (same page + architecture visuals)
 
 > Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture. Release builds are R8-minified.
 
