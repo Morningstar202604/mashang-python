@@ -4,20 +4,20 @@
 
 **码上，就是马上。Learn Python instantly — on your phone, fully offline.**
 
-一台装进口袋的赛博朋克 Python 学习终端：内嵌真·CPython 解释器，
+一台装进口袋的赛博朋克 Python 学习终端：内嵌真·CPython 3.13 解释器，
 30 讲闯关课程、assert 自动判题、变量可视化、六段位成长体系。
 
+[![CI Build](https://img.shields.io/github/actions/workflow/status/X33834/mashang-python/ci.yml?branch=main&label=CI%20Build)](https://github.com/X33834/mashang-python/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/%E8%AF%BE%E7%A8%8B-30%E8%AE%B2-F7FF00.svg)](#-课程体系30-讲--四幕)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 [![Download Page](https://img.shields.io/badge/%F0%9F%8C%90-%E5%9C%A8%E7%BA%BF%E4%B8%8B%E8%BD%BD%E9%A1%B5-FF2D78.svg)](https://aa84776376caeb1e2.app.workbuddy.host)
 
 🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
-[🎬 宣传片](#-宣传片50-秒入坑) · [⚡ 核心亮点](#-核心亮点30-秒速览) · [📥 下载 APK](#-下载安装) · [课程体系](#-课程体系30-讲--四幕) · [⭐ 点个 Star](../../stargazers)
+[🎬 宣传片](#-宣传片50-秒入坑) · [⚡ 核心亮点](#-核心亮点30-秒速览) · [📊 它怎么离线](#-它怎么做到离线也能跑) · [📥 下载 APK](#-下载安装) · [课程体系](#-课程体系30-讲--四幕) · [⭐ Star](../../stargazers)
 
 </div>
 
@@ -39,11 +39,73 @@
 
 | 你最关心的 | 一句话答案 |
 |---|:--|
-| **断网还能学吗？** | ✅ **真·全离线** —— CPython 3.13 解释器整个嵌进 APK，地铁隧道里照样写代码、跑代码、判题升级 |
-| **学完能算「会写」吗？** | ✅ **assert 自动判题** —— 测试用例不通过就不放行，专治「看懂了但不会写」 |
+| **断网还能学吗？** | ✅ **真·全离线** —— CPython 3.13 整个嵌进 APK，地铁隧道里照样写码、跑码、判题升级 |
+| **学完能算「会写」吗？** | ✅ **assert 自动判题** —— 测试用例不过就不放行，专治「看懂了但不会写」 |
 | **有广告 / 要注册吗？** | ✅ **零广告 · 零账号 · 零数据上传**，MIT 开源，教师可放心推给学生 |
-| **有什么独门功能？** | 🔬 **变量快照面板**（运行后整个命名空间可视化）· 六段位成长 · 每日任务 · 错题本间隔复习 |
-| **课程量多大？** | 📚 **30 讲主线 + 10 讲算法增补包**，从 `print` 一路打到装饰器，另附角斗场 6 大挑战 |
+| **独门功能是什么？** | 🔬 **变量快照面板**（运行后整个命名空间可视化）· 六段位成长 · 每日任务 · 错题本间隔复习 |
+| **课程量多大？** | 📚 **30 讲主线 + 10 讲算法增补**，从 `print` 打到装饰器，另附角斗场 6 大挑战 |
+
+> 🎯 **一句话定位**：不是又一个「空白代码编辑器」，而是一台把 **CPython 解释器 + 判题引擎 + 游戏化成长** 全塞进手机的离线学习终端。
+
+## 📊 它怎么做到离线也能跑
+
+别人靠云端执行、断网即瘫；**码上 Python** 把完整的 CPython 3.13 直接嵌进 APK，所有代码都在这台手机本地跑——下面这张图就是它的运行链路：
+
+```mermaid
+flowchart TD
+    UI["📱 Jetpack Compose UI<br/>赛博 HUD · 五 Tab 导航"] -->|"JSON 协议桥 PyBridge"| KT["⚙️ Kotlin 业务层<br/>进度 / 主题 / 判题调度"]
+    KT -->|"Chaquopy 17.0.0"| PY["🐍 CPython 3.13 运行时"]
+    PY --> RUN["runner.py · 安全沙箱<br/>死循环看门狗 · input 接管"]
+    PY --> REPL["repl.py · 有状态会话<br/>↑↓ 历史 · 多行块"]
+    RUN --> OUT["📊 变量快照 + 判题结果"]
+    REPL --> OUT
+    OUT -->|"回写进度"| DS[("💾 DataStore 存档")]
+    OUT -->|"驱动 UI"| UI
+    KT --> DS
+    classDef neon fill:#0A0E17,stroke:#00E5FF,color:#E6F6FF;
+    classDef green fill:#06281F,stroke:#00FF9C,color:#D6FFF0;
+    classDef pink fill:#2A0A18,stroke:#FF2D78,color:#FFD9E7;
+    class UI,KT neon;
+    class PY,RUN,REPL green;
+    class OUT pink;
+```
+
+> 联网**只**在「内容中心」手动拉取课程包时发生（sha256 校验、不携带任何个人数据）。学习、写码、判题 100% 离线。
+
+## 🔁 学习闭环 · 教会你为止
+
+不是「看视频→忘了」，而是一套强制你动手的闭环：写完 → 跑 → 判题 → 不过就辅导 → 过了才升级。
+
+```mermaid
+flowchart LR
+    W["✍️ 写代码"] --> R["▶ 运行"]
+    R --> G{"assert 判题"}
+    G -- "通过" --> U["⚡ 段位 +XP"]
+    G -- "未通过" --> C["🧭 L0 规则教练<br/>诊断→三步引导→修复示例"]
+    C --> W
+    U --> W
+```
+
+## 📈 内容规模一览
+
+```mermaid
+pie title 内容规模（讲 / 项）
+    "30 讲主线课程" : 30
+    "10 讲算法增补包" : 10
+    "6 大角斗场挑战" : 6
+    "47 道 assert 判题" : 47
+```
+
+## 🏆 六段位成长体系
+
+像打游戏一样升级——从「脚本小子」一路打到「系统架构师」：
+
+```mermaid
+flowchart LR
+    T1["🥉 脚本小子"] --> T2["🥈 数据幽灵"] --> T3["🥉 网络浪人"] --> T4["🥇 义体黑客"] --> T5["🏆 街头传奇"] --> T6["👑 系统架构师"]
+```
+
+每升一段解锁新称号 + 霓虹成就墙，通关全部课程还会发**毕业证书**（霓虹认证页，截图即分享）。
 
 ## 📱 真机截图
 
@@ -79,11 +141,6 @@
 | 开发者 | Compose + Chaquopy 完整参考实现，MIT 开源 |
 
 ## 为什么是码上？
-
-市面上的编程学习 App 要么联网依赖云执行，要么白净得像说明书。
-**码上 Python** 把完整的 **CPython 3.13 解释器** 直接嵌进 APK——
-没有网络也能写代码、跑代码、判题通关；再配一套 CRT 扫描线与霓虹故障字的赛博 HUD，
-让「学编程」第一次有了打游戏的感觉。
 
 | | 别人的 | 码上 Python |
 |---|---|---|
@@ -190,6 +247,8 @@ Kotlin + Jetpack Compose (Material3 赛博定制主题)
 Chaquopy 17.0.0 ──► CPython 3.13 (runner.py 沙箱 / repl.py 会话)
 DataStore 进度存档 │ Navigation 单Activity五Tab │ 自研语法高亮器
 ```
+
+更直观的运行链路见上方 [「它怎么做到离线也能跑」](#-它怎么做到离线也能跑) 的架构图。
 
 ## 🗺 Roadmap
 

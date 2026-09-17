@@ -6,17 +6,17 @@
 
 A cyberpunk-styled Python learning terminal that fits in your pocket: embedded real CPython interpreter, 30-level gamified curriculum, auto-grading with assert, variable visualization, and six-tier progression system.
 
+[![CI Build](https://img.shields.io/github/actions/workflow/status/X33834/mashang-python/ci.yml?branch=main&label=CI%20Build)](https://github.com/X33834/mashang-python/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-00E5FF.svg)](LICENSE)
 [![Android](https://img.shields.io/badge/Android-7.0%2B-00E5FF.svg)]()
 [![Python](https://img.shields.io/badge/CPython-3.13--offline-00FF9C.svg)]()
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.4-FF2D78.svg)]()
 [![Lessons](https://img.shields.io/badge/Curriculum-30_Lessons-F7FF00.svg)](#curriculum-30-lessons--4-acts)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-F7FF00.svg)](CONTRIBUTING.md)
 [![Download Page](https://img.shields.io/badge/%F0%9F%8C%90-Download_Page-FF2D78.svg)](https://aa84776376caeb1e2.app.workbuddy.host)
 
 🌐 [English](README.md) | [中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
 
-[🎬 Trailer](#-trailer50-seconds) · [⚡ TL;DR](#-tldr30-seconds) · [📥 Download](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [⭐ Star](../../stargazers)
+[🎬 Trailer](#-trailer50-seconds) · [⚡ TL;DR](#-tldr30-seconds) · [📊 How it runs](#-how-it-runs-fully-offline) · [📥 Download](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [⭐ Star](../../stargazers)
 
 </div>
 
@@ -44,25 +44,67 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 | **Anything unique?** | 🔬 **Variable Snapshot panel** (whole namespace visualized after each run) · Six Tiers · Daily Quests · Mistake Book |
 | **How much content?** | 📚 **30 main lessons + 10 algorithm bonus lessons**, from `print` to decorators, plus 6 Arena challenges |
 
-## 🖥 What It Looks Like
+> 🎯 **One-line pitch**: not another blank code editor — a pocket learning terminal that bundles a **CPython interpreter + grading engine + game-like progression**, fully offline.
 
-```text
-╔══════════════════════════════════╗
-║  PY//NOW · Mashang Python   ● CPython 3.13 Ready
-╠══════════════════════════════════╣
-║  ▍Practice · Access Guard
-║  ┌────────────────────────────┐
-║  │ def access(level):         │  ← Neon syntax highlighting
-║  │     if level >= 100:       │
-║  └────────────────────────────┘
-║  [▶ Run & Grade]  [💡 Hint]
-║  ────────────────────────────
-║  ROOT                    ← Instant result display
-║  // Variable Snapshot            ← App-exclusive feature
-║  (level:int) 120   (r:str) 'ROOT'
-╚══════════════════════════════════╝
+## 📊 How It Runs Fully Offline
+
+Others rely on cloud execution and die without a network. **PY//NOW** embeds a complete CPython 3.13 interpreter right into the APK — every line of code runs on this phone. Here is the runtime chain:
+
+```mermaid
+flowchart TD
+    UI["📱 Jetpack Compose UI<br/>Cyber HUD · Five-Tab Nav"] -->|"JSON Bridge PyBridge"| KT["⚙️ Kotlin Business Layer<br/>Progress / Theme / Grading"]
+    KT -->|"Chaquopy 17.0.0"| PY["🐍 CPython 3.13 Runtime"]
+    PY --> RUN["runner.py · Safe Sandbox<br/>Dead-loop Watchdog · input Takeover"]
+    PY --> REPL["repl.py · Stateful Session<br/>↑↓ History · Multi-line"]
+    RUN --> OUT["📊 Variable Snapshot + Grade"]
+    REPL --> OUT
+    OUT -->|"Save Progress"| DS[("💾 DataStore")]
+    OUT -->|"Drive UI"| UI
+    KT --> DS
+    classDef neon fill:#0A0E17,stroke:#00E5FF,color:#E6F6FF;
+    classDef green fill:#06281F,stroke:#00FF9C,color:#D6FFF0;
+    classDef pink fill:#2A0A18,stroke:#FF2D78,color:#FFD9E7;
+    class UI,KT neon;
+    class PY,RUN,REPL green;
+    class OUT pink;
 ```
-> Real-device screenshots and demo videos are below — the terminal frame above shows the actual in-app information structure.
+
+> Network is used **only** when you manually fetch course packs in "Content Hub" (sha256-verified, zero personal data). Learning, coding, and grading are 100% offline.
+
+## 🔁 The Learning Loop — Until You Can Code It
+
+Not "watch a video → forget". A closed loop that forces you to write: type → run → grade → coach if failed → tier up only when passed.
+
+```mermaid
+flowchart LR
+    W["✍️ Write Code"] --> R["▶ Run"]
+    R --> G{"assert Grading"}
+    G -- "Pass" --> U["⚡ Tier Up +XP"]
+    G -- "Fail" --> C["🧭 L0 Rule Coach<br/>Diagnose → 3 Steps → Fix Example"]
+    C --> W
+    U --> W
+```
+
+## 📈 Content At A Glance
+
+```mermaid
+pie title Content Scale (lessons / items)
+    "30 Main Lessons" : 30
+    "10 Algorithm Bonus" : 10
+    "6 Arena Challenges" : 6
+    "47 assert Graders" : 47
+```
+
+## 🏆 Six-Tier Progression
+
+Level up like a game — from "Script Kiddie" all the way to "System Architect":
+
+```mermaid
+flowchart LR
+    T1["🥉 Script Kiddie"] --> T2["🥈 Data Ghost"] --> T3["🥉 Network Ronin"] --> T4["🥇 Cyber Hacker"] --> T5["🏆 Street Legend"] --> T6["👑 System Architect"]
+```
+
+Each tier unlocks a new title + neon achievement wall. Complete every course to earn a **Graduation Certificate** (neon cert page, screenshot to share).
 
 ## 📱 Screenshots
 
@@ -98,11 +140,6 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 | Developer | Complete Compose + Chaquopy reference implementation, MIT-licensed |
 
 ## Why PY//NOW?
-
-Most programming learning apps either rely on cloud execution or look like dry manuals.
-**PY//NOW** embeds a complete **CPython 3.13 interpreter** directly into the APK—
-code, run, and pass challenges without internet; paired with CRT scanlines and neon glitch typography for a cyberpunk HUD,
-making "learning to code" feel like playing a game for the first time.
 
 | | Others | PY//NOW |
 |---|---|---|
@@ -209,6 +246,18 @@ Kotlin + Jetpack Compose (Material3 Cyber Custom Theme)
 Chaquopy 17.0.0 ──► CPython 3.13 (runner.py sandbox / repl.py session)
 DataStore Progress │ Navigation Single-Activity Five-Tab │ Custom Syntax Highlighter
 ```
+
+See the [How It Runs](#-how-it-runs-fully-offline) architecture diagram above for the visual runtime chain.
+
+## 🗺 Roadmap
+
+- [x] v0.1 MVP: engine loop + 7 screens + grading
+- [x] v0.2 content explosion: 26 lessons + 4 new content blocks (table/diagram/quiz/output preview)
+- [x] v0.2.1 Content Hub: online course-pack download (client-cloud), first pack "Built-in Function Tour"
+- [x] v0.3 milestone: DSA bonus packs ×2 (10 lessons), L0 offline rule coach, mistake book + spaced repetition, UI readability cleanup
+- [ ] v0.3 remaining: turtle canvas · matplotlib output · runtime variable animation
+- [ ] v0.4 on-device AI tutor (online LLM) · multi-language · tablet layout
+- [ ] v1.0 full app-store distribution
 
 ## 🤝 Contributing
 
