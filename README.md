@@ -183,6 +183,7 @@ Each tier unlocks a new title + neon achievement wall. Complete every course to 
 
 > ⚡ **Fastest path** → 🌐 [Online download page](https://aa84776376caeb1e2.app.workbuddy.host): scan or tap, with trailer, screenshots and install guide.
 > 🛰 **GitHub Pages mirror** → [x33834.github.io/mashang-python](https://x33834.github.io/mashang-python/) (same page + architecture visuals)
+> 📦 **Repos (parallel sync, pick any)** → [GitHub/x33834](https://github.com/x33834/mashang-python) · [GitCode](https://gitcode.com/badhope/mashang-python) · [Gitee](https://gitee.com/badhope/mashang-python)
 
 > Android 7.0+ (minSdk 24), arm64-v8a / x86_64 dual architecture. Release builds are R8-minified.
 

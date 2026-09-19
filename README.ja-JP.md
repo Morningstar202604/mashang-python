@@ -184,6 +184,7 @@ flowchart LR
 
 > ⚡ **最速ルート** → 🌐 [オンラインダウンロードページ](https://aa84776376caeb1e2.app.workbuddy.host)：QR コードをスキャンまたはタップ。予告編・スクショ・インストールガイド付き。
 > 🛰 **GitHub Pages ミラー** → [x33834.github.io/mashang-python](https://x33834.github.io/mashang-python/)（同ページ + アーキテクチャ図解付き）
+> 📦 **リポジトリ（並列同期、どれでも）** → [GitHub/x33834](https://github.com/x33834/mashang-python) · [GitCode](https://gitcode.com/badhope/mashang-python) · [Gitee](https://gitee.com/badhope/mashang-python)
 
 > Android 7.0+（minSdk 24）、arm64-v8a / x86_64 デュアルアーキテクチャ。Release ビルドは R8 難読化済み。
 
