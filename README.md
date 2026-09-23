@@ -18,6 +18,8 @@ A cyberpunk-styled Python learning terminal that fits in your pocket: embedded r
 
 [🎬 Trailer](#-trailer50-seconds) · [⚡ TL;DR](#-tldr30-seconds) · [📊 How it runs](#-how-it-runs-fully-offline) · [📥 Download](#download--install) · [Curriculum](#curriculum-30-lessons--4-acts) · [⭐ Star](../../stargazers)
 
+🌐 **Live Site / 在线官网**：[X33834 Pages](https://x33834.github.io/mashang-python/) · [Morningstar202604 Pages](https://morningstar202604.github.io/mashang-python/)
+
 </div>
 
 ---
