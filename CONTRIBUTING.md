@@ -26,3 +26,17 @@
 
 ## 安全提醒
 任何 keystore、密码、token 一律不得进入仓库（`.gitignore` 已拦截常见文件名）。
+
+## 发布流程（维护者）
+
+每次对外更新按此清单执行，不跳步：
+
+1. **定版本**：按语义化版本（SemVer）——修 Bug 升补丁位、新功能升次版本、破坏性改动升主版本
+2. **同步文档**：改代码的同时更新 README（版本/截图，如界面有变）与依赖清单（requirements / package.json）
+3. **本地验证**：跑通测试与构建（与 CI 同款命令），全绿才继续
+4. **合并**：以 PR 方式合入 `main`，CI 全绿后合并
+5. **打标签**：`git tag -a vX.Y.Z -m "vX.Y.Z"` 并推送（`git push origin vX.Y.Z`）
+6. **发布**：基于该 tag 创建 GitHub Release，Release Notes 写清本次变更要点
+7. **部署**：确认 GitHub Pages / 站点自动部署完成且可访问
+
+变更记录以 GitHub Releases 与 git log 为准。
