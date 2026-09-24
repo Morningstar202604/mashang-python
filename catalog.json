@@ -1,13 +1,13 @@
 {
   "updated_at": "2026-09-13",
-  "sha256": "70bf8555190f7030ab59cc6c10813e1d41c861907db0fb1ce3964b4d8be64cfa",
+  "sha256": "15e3b4931efcf835c585214416b4df74bb6f8135267a9f3d4c19114fec634a22",
   "packs": [
     {
       "id": "bonus-builtin",
       "name": "彩蛋课 · 内置函数巡礼",
       "version": 1,
       "description": "把 Python 的城市公共服务一次逛完：len/sorted/enumerate/zip/any/all…附随堂一问与判题实战。",
-      "sha256": "cbc176ad590a14869da645b534a9f5d44710d674b06ac045aa3bbac2d55095fb"
+      "sha256": "6873777ff8eed32ef7bbc16df67385d6fbeffd45ed0431335c8cd6db2b1afc9d"
     },
     {
       "id": "dsa-basics",
@@ -23,11 +23,5 @@
       "description": "手写排序 / 二分查找 / 贪心找零 / 链表思维 / 最大子段和：5 讲原创算法进阶，对标竞赛入门。",
       "sha256": "79de2683cf442b9072ee184a3ccb734da176f6c4842a4b1e867d30e1d9ff221d"
     }
-  ],
-  "app": {
-    "versionCode": 13,
-    "versionName": "0.3.7",
-    "apkUrl": "releases/pynow-0.3.7.apk",
-    "apkSha256": "0000000000000000000000000000000000000000000000000000000000000000"
-  }
+  ]
 }

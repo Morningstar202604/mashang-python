@@ -67,8 +67,8 @@ fun WelcomeTutorial(onComplete: () -> Unit) {
             accentColor = NeonGreen
         ),
         WelcomePage(
-            title = "7天入门计划",
-            description = "每天2个精心设计的课程\n循序渐进掌握 Python\n从基础语法到面向对象\n完成即可独立编程",
+            title = "四幕系统课程",
+            description = "38 讲由浅入深\n从基础语法到生产实战\n每讲配实战判题\n完成后独立写出可用工具",
             icon = Icons.Outlined.CalendarToday,
             accentColor = NeonMagenta
         )

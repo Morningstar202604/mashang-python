@@ -63,11 +63,11 @@ import com.pyneon.academy.utils.AppPrefs
 private data class TopDest(val route: String, val label: String, val icon: ImageVector)
 
 private val TOP_DESTS = listOf(
-    TopDest("home", "指挥台", Icons.Outlined.SpaceDashboard),
-    TopDest("lessons", "数据流", Icons.AutoMirrored.Outlined.MenuBook),
-    TopDest("terminal", "接口", Icons.Outlined.Terminal),
-    TopDest("arena", "角斗场", Icons.Outlined.LocalFireDepartment),
-    TopDest("profile", "档案", Icons.Outlined.Person)
+    TopDest("home", "首页", Icons.Outlined.SpaceDashboard),
+    TopDest("lessons", "课程", Icons.AutoMirrored.Outlined.MenuBook),
+    TopDest("terminal", "终端", Icons.Outlined.Terminal),
+    TopDest("arena", "挑战", Icons.Outlined.LocalFireDepartment),
+    TopDest("profile", "我的", Icons.Outlined.Person)
 )
 
 @Composable
@@ -166,9 +166,7 @@ fun AppRoot() {
                     onOpenLesson = { id -> navController.navigate("lesson/$id") },
                     onOpenTerminal = { navController.navigate("terminal") },
                     onOpenArena = { navController.navigate("arena") },
-                    onOpenLessons = { navController.navigate("lessons") },
-                    onOpenTracks = { navController.navigate("tracks") },
-                    onOpenTrack = { id -> navController.navigate("track/$id") }
+                    onOpenLessons = { navController.navigate("lessons") }
                 )
             }
             composable("tracks") {
@@ -187,7 +185,16 @@ fun AppRoot() {
             }
             composable("lesson/{id}") { entry ->
                 val id = entry.arguments?.getString("id").orEmpty()
-                LessonDetailScreen(lessonId = id, onBack = { navController.popBackStack() })
+                LessonDetailScreen(
+                    lessonId = id,
+                    onBack = { navController.popBackStack() },
+                    // U4: 学完一课直接进入下一课（替换当前页，避免栈无限增长）
+                    onNextLesson = { nextId ->
+                        navController.navigate("lesson/$nextId") {
+                            popUpTo("lesson/$id") { inclusive = true }
+                        }
+                    }
+                )
             }
             composable("terminal") { TerminalScreen() }
             composable("arena") {

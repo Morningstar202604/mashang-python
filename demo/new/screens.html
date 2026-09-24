@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>码上 Python · 界面展示</title>
+<style>
+  :root{
+    --bg:#0E1420; --bg1:#182232; --card:#151E2C; --cardHi:#1E2A3C;
+    --cyan:#00E5FF; --magenta:#FF2D78; --green:#00FF9C; --yellow:#F7FF00; --purple:#C35DF5;
+    --hi:#FBFDFF; --mid:#B4C4DA; --dim:#93A3B8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+  html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,sans-serif}
+  .screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--hi);opacity:0;pointer-events:none;transition:opacity .25s}
+  .screen.active{opacity:1;pointer-events:auto}
+  /* 状态栏 */
+  .status{display:flex;justify-content:space-between;align-items:center;padding:12px 22px 6px;font-size:15px;font-weight:600}
+  .status .sig{display:flex;gap:5px;align-items:center;font-size:12px;color:var(--mid)}
+  .bar{width:16px;height:9px;border:1.4px solid var(--hi);border-radius:2.5px;padding:1.5px;position:relative}
+  .bar i{display:block;height:100%;width:65%;background:var(--green);border-radius:1px}
+  .bat{width:20px;height:10px;border:1.4px solid var(--hi);border-radius:2.5px;position:relative}
+  .bat:after{content:"";position:absolute;right:-3.5px;top:2px;width:2px;height:5px;background:var(--hi);border-radius:1px}
+  .bat i{display:block;height:100%;width:60%;background:var(--green);border-radius:1px}
+  /* 品牌行 */
+  .brand{display:flex;justify-content:space-between;align-items:baseline;padding:8px 22px 0}
+  .brand h1{font-size:24px;letter-spacing:1px;color:var(--cyan);text-shadow:0 0 12px rgba(0,229,255,.55)}
+  .brand .ver{font-size:11px;color:var(--dim);margin-top:2px}
+  .brand .py{font-size:11px;color:var(--mid);display:flex;align-items:center;gap:5px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  .title{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 0}
+  .title h2{font-size:20px;letter-spacing:1px}
+  .title .sub{font-size:12px;color:var(--dim)}
+  .scroll{flex:1;overflow:hidden;padding:12px 22px 84px;display:flex;flex-direction:column;gap:12px}
+  /* 卡片 */
+  .card{background:var(--card);border:1px solid rgba(0,229,255,.22);border-radius:16px;padding:14px;box-shadow:0 0 22px rgba(0,229,255,.06) inset}
+  .sec{font-size:11px;letter-spacing:2px;color:var(--cyan);margin:4px 0 8px;display:flex;align-items:center;gap:8px}
+  .sec:before{content:"";width:18px;height:1px;background:var(--cyan);opacity:.5}
+  /* 首页数据卡 */
+  .stats{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(0,229,255,.09),rgba(255,45,120,.05));border:1px solid rgba(0,229,255,.3);border-radius:16px;padding:14px 16px}
+  .rank .r{font-size:18px;color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.4)}
+  .rank .x{font-size:12px;color:var(--mid);margin-top:3px}
+  .srow{display:flex;gap:18px}
+  .srow .s b{display:block;font-size:16px}
+  .srow .s span{font-size:11px;color:var(--dim)}
+  .task{display:flex;justify-content:space-between;align-items:center}
+  .task .t b{font-size:15px;font-weight:500}
+  .task .t span{display:block;font-size:12px;color:var(--mid);margin-top:3px}
+  .chip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--yellow);color:var(--yellow)}
+  .chip.done{border-color:var(--green);color:var(--green)}
+  .track{display:flex;align-items:center;gap:12px}
+  .track .ico{width:40px;height:40px;border-radius:10px;background:rgba(0,229,255,.12);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--cyan)}
+  .track .tt{flex:1}
+  .track .tt b{font-size:15px;color:var(--cyan)}
+  .track .tt span{display:block;font-size:12px;color:var(--mid);margin-top:2px}
+  .track .live{font-size:11px;color:var(--green);display:flex;align-items:center;gap:4px}
+  /* 按钮 */
+  .btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border-radius:12px;font-size:14px;font-weight:600;letter-spacing:1px;background:var(--card);border:1px solid var(--bc,var(--cyan))}
+  .btn.c{color:var(--cyan);border-color:rgba(0,229,255,.45);box-shadow:0 0 14px rgba(0,229,255,.12) inset}
+  .btn.m{color:var(--magenta);border-color:rgba(255,45,120,.45)}
+  .btn.y{color:var(--yellow);border-color:rgba(247,255,0,.4)}
+  .btn.g{color:var(--green);border-color:rgba(0,255,156,.4)}
+  /* 课程页 */
+  .chapter{font-size:12px;color:var(--dim);letter-spacing:2px;margin-bottom:2px}
+  .lesson{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid rgba(0,229,255,.16);border-radius:14px;padding:12px 14px}
+  .lesson .no{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .lesson .no.lock{background:rgba(147,163,184,.12);color:var(--dim)}
+  .lesson .no.done{background:rgba(0,255,156,.14);color:var(--green)}
+  .lesson .no.cur{background:rgba(247,255,0,.14);color:var(--yellow);box-shadow:0 0 12px rgba(247,255,0,.25)}
+  .lesson .lb{flex:1}
+  .lesson .lb b{font-size:14px;font-weight:500}
+  .lesson .lb span{display:block;font-size:11px;color:var(--dim);margin-top:2px}
+  .lesson .st{font-size:11px}
+  .lesson .st.done{color:var(--green)}
+  .lesson .st.cur{color:var(--yellow)}
+  .lesson .st.lock{color:var(--dim)}
+  .bar-prog{height:6px;background:var(--cardHi);border-radius:3px;overflow:hidden;margin-top:8px}
+  .bar-prog i{display:block;height:100%;width:4%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);border-radius:3px}
+  /* 终端页 */
+  .term{background:#0B1019;border:1px solid rgba(0,229,255,.35);border-radius:14px;padding:16px;font-family:"Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:13px;line-height:1.9;flex:1;box-shadow:0 0 26px rgba(0,229,255,.08)}
+  .term .ln{color:var(--cyan)}
+  .term .out{color:var(--green)}
+  .term .in{color:var(--hi);caret-color:var(--cyan)}
+  .term .cur{display:inline-block;width:7px;height:15px;background:var(--cyan);animation:blink 1s steps(1) infinite;vertical-align:-2px}
+  @keyframes blink{50%{opacity:0}}
+  .run{display:flex;gap:10px;margin-top:12px}
+  .run .box{flex:1;background:var(--cardHi);border:1px solid rgba(0,229,255,.2);border-radius:12px;padding:11px 14px;font-family:Consolas,monospace;font-size:13px;color:var(--hi)}
+  .run .go{background:rgba(0,255,156,.16);border:1px solid rgba(0,255,156,.5);color:var(--green);border-radius:12px;padding:0 20px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:6px}
+  /* 挑战页 */
+  .ch{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid rgba(255,45,120,.2);border-radius:14px;padding:12px 14px}
+  .ch .no{width:38px;height:38px;border-radius:10px;background:rgba(255,45,120,.14);color:var(--magenta);display:flex;align-items:center;justify-content:center;font-size:16px}
+  .ch.cur{border-color:rgba(247,255,0,.5);box-shadow:0 0 16px rgba(247,255,0,.08)}
+  .ch .cb{flex:1}
+  .ch .cb b{font-size:14px;font-weight:500}
+  .ch .cb span{display:block;font-size:11px;color:var(--dim);margin-top:2px}
+  .ch .xp{font-size:12px;color:var(--yellow);font-weight:600}
+  .ch .xp.lock{color:var(--dim)}
+  /* 判题页 */
+  .judge{display:flex;flex-direction:column;gap:12px}
+  .editor{background:#0B1019;border:1px solid rgba(0,229,255,.35);border-radius:14px;padding:16px;font-family:"Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:13px;line-height:2;box-shadow:0 0 26px rgba(0,229,255,.08)}
+  .editor .kw{color:var(--magenta)} .editor .fn{color:var(--cyan)} .editor .st{color:var(--yellow)}
+  .verdict{display:flex;align-items:center;gap:12px;background:rgba(0,255,156,.1);border:1px solid rgba(0,255,156,.55);border-radius:14px;padding:14px 16px;box-shadow:0 0 18px rgba(0,255,156,.1)}
+  .verdict .big{font-size:20px;color:var(--green)}
+  .verdict b{font-size:15px;color:var(--green)}
+  .verdict span{font-size:11px;color:var(--mid);margin-top:2px;display:block}
+  .vrow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .vcell{background:var(--card);border:1px solid rgba(0,229,255,.16);border-radius:12px;padding:10px 12px;font-size:11px;color:var(--mid)}
+  .vcell b{display:block;font-size:13px;color:var(--hi);margin-top:2px}
+  .vcell.g b{color:var(--green)}
+  .xpf{background:var(--card);border:1px solid rgba(247,255,0,.4);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center}
+  .xpf b{font-size:15px;color:var(--yellow)}
+  /* 我的页 */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .mbtn{display:flex;flex-direction:column;align-items:center;gap:5px;background:var(--card);border:1px solid rgba(0,229,255,.18);border-radius:12px;padding:11px 6px;font-size:12px;color:var(--mid)}
+  .mbtn .ic{font-size:17px}
+  .mbtn b{font-weight:500;font-size:12px;color:var(--hi)}
+  .theme{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid rgba(247,255,0,.35);border-radius:12px;padding:10px 12px}
+  .theme .dots{display:flex;gap:4px}
+  .theme .dots i{width:14px;height:14px;border-radius:50%}
+  .theme b{flex:1;font-size:13px;font-weight:500}
+  .theme .ok{color:var(--yellow);font-size:13px}
+  .theme .curc{border:2px solid var(--hi)}
+  /* 底部导航 */
+  .nav{position:absolute;left:0;right:0;bottom:0;display:flex;background:rgba(14,20,32,.96);border-top:1px solid rgba(0,229,255,.18);padding:10px 8px calc(10px + env(safe-area-inset-bottom));backdrop-filter:blur(6px)}
+  .nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--dim);text-decoration:none;letter-spacing:1px}
+  .nav a .i{font-size:17px}
+  .nav a.on{color:var(--cyan);text-shadow:0 0 10px rgba(0,229,255,.5)}
+</style>
+</head>
+<body>
+
+<!-- ============ 首页 ============ -->
+<section class="screen active" id="home">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="brand">
+    <div><h1>PY//NOW</h1><div class="ver">码上 Python · 编程学院 v0.3.7</div></div>
+    <div class="py"><span class="dot"></span>CPython 3.13.9 在线</div>
+  </div>
+  <div class="scroll">
+    <div class="stats">
+      <div class="rank"><div class="r">脚本小子</div><div class="x">0 XP</div></div>
+      <div class="srow">
+        <div class="s"><b style="color:var(--yellow)">1</b><span>连击天数</span></div>
+        <div class="s"><b style="color:var(--cyan)">0/49</b><span>课程进度</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec">每日任务</div>
+      <div class="task">
+        <div class="t"><b>今日通过 1 个练习或挑战</b><span>奖励：+30 XP</span></div>
+        <div class="chip">待完成</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec">课程体系</div>
+      <div class="track">
+        <div class="ico">PY</div>
+        <div class="tt"><b>Python 四幕体系</b><span>49 讲 · 判题实战 · REPL</span></div>
+        <div class="live"><span class="dot"></span>已上线</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec">继续行动</div>
+      <div class="btns">
+        <div class="btn c">继续学习</div>
+        <div class="btn m">课程列表</div>
+        <div class="btn y">Python 终端</div>
+        <div class="btn g">挑战</div>
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a class="on"><span class="i">⌂</span>首页</a>
+    <a><span class="i">▤</span>课程</a>
+    <a><span class="i">›_</span>终端</a>
+    <a><span class="i">⚡</span>挑战</a>
+    <a><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<!-- ============ 课程页 ============ -->
+<section class="screen" id="lessons">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="title"><h2>课程</h2><div class="sub">0/49 已学</div></div>
+  <div class="scroll">
+    <div class="bar-prog"><i></i></div>
+    <div>
+      <div class="chapter">CHAPTER 01</div>
+      <div class="chapter" style="color:var(--cyan);margin-bottom:8px">第一幕 · 基础协议</div>
+      <div class="lesson" style="margin-bottom:8px"><div class="no done">✓</div><div class="lb"><b>第一次握手</b><span>print 基础 · 运行你的第一行代码</span></div><div class="st done">已完成</div></div>
+      <div class="lesson" style="border-color:rgba(247,255,0,.5)"><div class="no cur">02</div><div class="lb"><b>变量与数据类型</b><span>类型 · 变量 · 赋值</span></div><div class="st cur">进行中</div></div>
+    </div>
+    <div>
+      <div class="chapter">CHAPTER 01 续</div>
+      <div class="chapter" style="color:var(--cyan);margin-bottom:8px">第一幕 · 基础协议</div>
+      <div class="lesson" style="margin-bottom:8px"><div class="no lock">🔒</div><div class="lb"><b>字符串行动</b><span>文本 · 拼接 · 格式化</span></div><div class="st lock">未解锁</div></div>
+      <div class="lesson" style="margin-bottom:8px"><div class="no lock">🔒</div><div class="lb"><b>数字运算协议</b><span>运算符 · 数学计算</span></div><div class="st lock">未解锁</div></div>
+      <div class="lesson" style="margin-bottom:8px"><div class="no lock">🔒</div><div class="lb"><b>输入信号</b><span>input · 交互输入</span></div><div class="st lock">未解锁</div></div>
+      <div class="lesson"><div class="no lock">🔒</div><div class="lb"><b>条件分支矩阵</b><span>if · elif · else</span></div><div class="st lock">未解锁</div></div>
+    </div>
+    <div>
+      <div class="chapter">CHAPTER 02</div>
+      <div class="chapter" style="color:var(--dim);margin-bottom:8px">第二幕 · 进阶装备</div>
+      <div class="lesson" style="opacity:.7;margin-bottom:8px"><div class="no lock">🔒</div><div class="lb"><b>字符串百宝箱</b><span>方法 · 切片 · 常用操作</span></div><div class="st lock">未解锁</div></div>
+    </div>
+    <div>
+      <div class="chapter">CHAPTER 04</div>
+      <div class="chapter" style="color:var(--green);margin-bottom:8px">第四幕 · 生产实战（新增）</div>
+      <div class="lesson" style="opacity:.8;margin-bottom:8px"><div class="no lock">🔒</div><div class="lb"><b>正则表达式</b><span>re · 文本匹配与提取</span></div><div class="st lock">未解锁</div></div>
+      <div class="lesson" style="opacity:.8"><div class="no lock">🔒</div><div class="lb"><b>异步协程 async/await</b><span>asyncio · 现代并发</span></div><div class="st lock">未解锁</div></div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a><span class="i">⌂</span>首页</a>
+    <a class="on"><span class="i">▤</span>课程</a>
+    <a><span class="i">›_</span>终端</a>
+    <a><span class="i">⚡</span>挑战</a>
+    <a><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<!-- ============ 判题页 ============ -->
+<section class="screen" id="judge">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="title"><h2>实战判题</h2><div class="sub">l02 · 变量与数据类型</div></div>
+  <div class="scroll">
+    <div class="card">
+      <div class="sec">题目</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.8">定义一个变量 <span style="color:var(--cyan);font-family:Consolas">name</span>，值为 <span style="color:var(--yellow);font-family:Consolas">"码上"</span>；再定义变量 <span style="color:var(--cyan);font-family:Consolas">level</span> 为整数 <span style="color:var(--yellow);font-family:Consolas">3</span>，并用 <span style="color:var(--cyan);font-family:Consolas">print</span> 输出一句话。</div>
+    </div>
+    <div class="editor">
+      <div><span class="fn">name</span> = <span class="st">"码上"</span></div>
+      <div><span class="fn">level</span> = <span class="kw">3</span></div>
+      <div><span class="fn">print</span>(<span class="st">f"我在</span>{<span class="fn">name</span>}<span class="st">，第</span>{<span class="fn">level</span>}<span class="st">课"</span>)</div>
+    </div>
+    <div class="verdict"><span class="big">✓</span><div><b>判题通过 · +25 XP</b><span>输出匹配 2/2 测试用例 · 用时 0.04s</span></div></div>
+    <div class="vrow">
+      <div class="vcell">变量快照<b>name = '码上'</b></div>
+      <div class="vcell g">类型推断<b>str · int</b></div>
+    </div>
+    <div class="xpf"><span style="color:var(--mid);font-size:12px">今日经验 +25 · 连击 +1</span><b>继续下一课 →</b></div>
+  </div>
+  <nav class="nav">
+    <a><span class="i">⌂</span>首页</a>
+    <a class="on"><span class="i">▤</span>课程</a>
+    <a><span class="i">›_</span>终端</a>
+    <a><span class="i">⚡</span>挑战</a>
+    <a><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<!-- ============ 终端页 ============ -->
+<section class="screen" id="terminal">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="title"><h2>Python 终端</h2><div class="sub">REPL · 实时运行</div></div>
+  <div class="scroll">
+    <div class="term">
+      <div><span class="ln">&gt;&gt;&gt;</span> <span class="in">print("你好，Python")</span></div>
+      <div><span class="out">你好，Python</span></div>
+      <div><span class="ln">&gt;&gt;&gt;</span> <span class="in">1 + 2 * 3</span></div>
+      <div><span class="out">7</span></div>
+      <div><span class="ln">&gt;&gt;&gt;</span> <span class="in">name = "码上"</span></div>
+      <div><span class="ln">&gt;&gt;&gt;</span> <span class="in">f"马上开始：{name}"</span></div>
+      <div><span class="out">'马上开始：码上'</span></div>
+      <div><span class="ln">&gt;&gt;&gt;</span> <span class="cur"></span></div>
+    </div>
+    <div class="run">
+      <div class="box">print("下一行代码")</div>
+      <div class="go">▶ 运行</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a><span class="i">⌂</span>首页</a>
+    <a><span class="i">▤</span>课程</a>
+    <a class="on"><span class="i">›_</span>终端</a>
+    <a><span class="i">⚡</span>挑战</a>
+    <a><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<!-- ============ 挑战页 ============ -->
+<section class="screen" id="arena">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="title"><h2>挑战</h2><div class="sub">实战闯关 · 共 6 关</div></div>
+  <div class="scroll">
+    <div class="ch cur" style="margin-bottom:8px"><div class="no">01</div><div class="cb"><b>霓虹计数器</b><span>循环 + 计数器 · 已解锁</span></div><div class="xp">150 XP</div></div>
+    <div class="ch" style="margin-bottom:8px"><div class="no">02</div><div class="cb"><b>回文侦测器</b><span>字符串反转 · 逻辑判断</span></div><div class="xp lock">180 XP</div></div>
+    <div class="ch" style="margin-bottom:8px"><div class="no">03</div><div class="cb"><b>密码强度防火墙</b><span>条件分支综合</span></div><div class="xp lock">220 XP</div></div>
+    <div class="ch" style="margin-bottom:8px"><div class="no">04</div><div class="cb"><b>括号防火墙</b><span>栈思想 · 配对检测</span></div><div class="xp lock">200 XP</div></div>
+    <div class="ch" style="margin-bottom:8px"><div class="no">05</div><div class="cb"><b>游程压缩器</b><span>列表处理 · 压缩算法</span></div><div class="xp lock">220 XP</div></div>
+    <div class="ch"><div class="no">06</div><div class="cb"><b>库存管家</b><span>字典 · 数据管理</span></div><div class="xp lock">260 XP</div></div>
+  </div>
+  <nav class="nav">
+    <a><span class="i">⌂</span>首页</a>
+    <a><span class="i">▤</span>课程</a>
+    <a><span class="i">›_</span>终端</a>
+    <a class="on"><span class="i">⚡</span>挑战</a>
+    <a><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<!-- ============ 我的页 ============ -->
+<section class="screen" id="profile">
+  <div class="status"><span>9:41</span><span class="sig"><span class="bar"><i></i></span> <span class="bat"><i></i></span></span></div>
+  <div class="title"><h2>我的</h2><div class="sub">脚本小子 · 0 XP</div></div>
+  <div class="scroll">
+    <div class="stats">
+      <div class="rank"><div class="r">数据幽灵</div><div class="x">下一目标 150 XP</div></div>
+      <div class="srow">
+        <div class="s"><b style="color:var(--yellow)">1</b><span>连击</span></div>
+        <div class="s"><b style="color:var(--cyan)">2</b><span>勋章</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="sec" style="color:var(--magenta)">进阶工具</div>
+      <div class="grid2">
+        <div class="mbtn"><span class="ic" style="color:var(--yellow)">🔥</span><b>连击台</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--magenta)">🐞</span><b>错题本</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--cyan)">⇄</span><b>备份/恢复</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--green)">↗</span><b>分享成就</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--green)">◷</span><b>复习台</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--cyan)">🕘</span><b>学习历史</b></div>
+        <div class="mbtn"><span class="ic" style="color:var(--green)">⚙</span><b>系统设置</b></div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(247,255,0,.35)">
+      <div class="sec" style="color:var(--yellow)">主题切换 · 7 种 + 自定义</div>
+      <div class="theme" style="margin-bottom:8px;border-color:rgba(0,229,255,.45)"><div class="dots"><i style="background:#00E5FF" class="curc"></i><i style="background:#FF2D78"></i><i style="background:#F7FF00"></i></div><b>赛博霓虹</b><span class="ok">✓</span></div>
+      <div class="theme" style="margin-bottom:8px"><div class="dots"><i style="background:#00E676"></i><i style="background:#69F0AE"></i><i style="background:#00C853"></i></div><b>极光绿</b></div>
+      <div class="theme"><div class="dots"><i style="background:conic-gradient(#00E5FF,#FF2D78,#BB86FC,#00E5FF)"></i></div><b>自定义颜色</b><span style="font-size:11px;color:var(--dim)">10 色板 · #RRGGBB</span></div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a><span class="i">⌂</span>首页</a>
+    <a><span class="i">▤</span>课程</a>
+    <a><span class="i">›_</span>终端</a>
+    <a><span class="i">⚡</span>挑战</a>
+    <a class="on"><span class="i">◉</span>我的</a>
+  </nav>
+</section>
+
+<script>
+  function show(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+  window.__show = show;
+</script>
+</body>
+</html>

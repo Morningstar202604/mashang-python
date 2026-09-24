@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.pyneon.academy"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.pyneon.academy"
@@ -20,7 +20,9 @@ android {
         buildConfigField("String", "VERSION_NAME", "\"$versionName\"")
         buildConfigField("int", "VERSION_CODE", "$versionCode")
         ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            // F6: 发布版只打 arm64-v8a（真机覆盖 99.9%，APK 体积减半）；
+            // x86_64 仅 debug 保留（模拟器）。需要模拟器调试时在 debug 构建追加。
+            abiFilters += listOf("arm64-v8a")
         }
     }
 
@@ -101,4 +103,10 @@ dependencies {
 
     // QR code for certificate poster
     implementation("com.google.zxing:core:3.5.4")
+
+    // F3: 代码编辑器替换自研 BasicTextField —— 复用开源成熟实现（sora-editor, LGPL-2.1）
+    // 提供 Python 增量语法高亮、自动缩进、行号、撤销/重做；不再自研编辑器。
+    implementation(platform("io.github.rosemoe:editor-bom:0.24.6"))
+    implementation("io.github.rosemoe:editor")
+    implementation("io.github.rosemoe:language-textmate")
 }

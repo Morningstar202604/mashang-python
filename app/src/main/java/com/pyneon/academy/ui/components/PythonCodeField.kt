@@ -1,5 +1,8 @@
 package com.pyneon.academy.ui.components
 
+import com.pyneon.academy.ui.theme.MonoCode
+import com.pyneon.academy.ui.theme.LocalNeonTokens
+import com.pyneon.academy.ui.theme.AppTypography
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.defaultMinSize
@@ -36,16 +39,16 @@ fun PythonCodeField(
         onValueChange = onValueChange,
         readOnly = readOnly,
         modifier = modifier
-            .background(NeonColors.Surface)
+            .background(LocalNeonTokens.current.surfaceDark)
             .border(
                 width = 1.dp,
-                color = NeonColors.Primary.copy(alpha = 0.2f),
+                color = LocalNeonTokens.current.primary.copy(alpha = 0.2f),
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(8.dp)
             .defaultMinSize(minHeight = minHeight.dp),
-        textStyle = NeonTextStyles.NeonCode,
-        cursorBrush = Brush.linearGradient(listOf(NeonColors.Primary, NeonColors.Cyan)),
+        textStyle = MonoCode,
+        cursorBrush = Brush.linearGradient(listOf(LocalNeonTokens.current.primary, LocalNeonTokens.current.primary)),
         decorationBox = { innerTextField -> innerTextField() }
     )
 }

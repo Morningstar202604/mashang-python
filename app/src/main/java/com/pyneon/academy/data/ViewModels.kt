@@ -182,9 +182,14 @@ class ReviewViewModel(app: Application) : AndroidViewModel(app) {
 
     fun generateCardsForLesson(lesson: Lesson) {
         viewModelScope.launch(Dispatchers.IO) {
-            val existing = loadReviewCards().filter { it.lessonId != lesson.id }
-            val newCards = ReviewScheduler.createInitialCards(lesson)
-            saveAllReviewCards(existing + newCards)
+            // B3: 只在缺失时补充该课卡片；旧实现 filter 掉该课全部旧卡再重写，
+            // 会覆盖用户已推进的复习进度（interval/repetitions）。
+            val existing = loadReviewCards()
+            val existingIds = existing.map { it.id }.toSet()
+            val missing = ReviewScheduler.createInitialCards(lesson).filter { it.id !in existingIds }
+            if (missing.isNotEmpty()) {
+                saveAllReviewCards(existing + missing)
+            }
         }
     }
 }

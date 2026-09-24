@@ -64,11 +64,12 @@ import androidx.compose.ui.unit.em
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pyneon.academy.R
 import com.pyneon.academy.ui.effects.NeonCard
-import com.pyneon.academy.ui.components.NeonColors
-import com.pyneon.academy.ui.components.NeonTextStyles
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.theme.DarkTokens
+import com.pyneon.academy.ui.theme.AppTypography
+import com.pyneon.academy.ui.theme.LocalNeonTokens
+import com.pyneon.academy.ui.theme.MonoCode
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,7 +88,7 @@ fun StreakScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = NeonColors.Surface
+        color = LocalNeonTokens.current.surfaceDark
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -95,15 +96,15 @@ fun StreakScreen(
         ) {
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = { GlitchText("连击台", style = NeonTextStyles.NeonTitle, color = NeonColors.Primary) },
+                title = { GlitchText("连击台", style = AppTypography.titleLarge, color = LocalNeonTokens.current.primary) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "返回", tint = NeonColors.Primary)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "返回", tint = LocalNeonTokens.current.primary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = NeonColors.Surface,
-                    titleContentColor = NeonColors.Primary
+                    containerColor = LocalNeonTokens.current.surfaceDark,
+                    titleContentColor = LocalNeonTokens.current.primary
                 )
             )
 
@@ -124,18 +125,18 @@ fun StreakScreen(
                         imageVector = Icons.Filled.LocalFireDepartment,
                         contentDescription = "火焰",
                         modifier = Modifier.size(64.dp),
-                        tint = NeonColors.Accent
+                        tint = LocalNeonTokens.current.secondary
                     )
                     androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(12.dp))
                     Text(
                         "${streak.currentStreak}",
-                        style = NeonTextStyles.NeonTitle.copy(fontSize = 72.sp, fontWeight = FontWeight.Bold),
-                        color = NeonColors.Accent
+                        style = AppTypography.titleLarge.copy(fontSize = 72.sp, fontWeight = FontWeight.Bold),
+                        color = LocalNeonTokens.current.secondary
                     )
                     Text(
                         "天连击",
-                        style = NeonTextStyles.NeonBody,
-                        color = NeonColors.TextSecondary
+                        style = AppTypography.bodyMedium,
+                        color = LocalNeonTokens.current.textDim
                     )
                     androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(16.dp))
                     Row(
@@ -150,7 +151,7 @@ fun StreakScreen(
                         androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(14.dp))
                         NeonButton(
                             label = "开始复习 $dueCount 张",
-                            accent = NeonColors.Primary,
+                            accent = LocalNeonTokens.current.primary,
                             onClick = onOpenReview,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -168,7 +169,7 @@ fun StreakScreen(
                 elevation = 4.dp
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("已解锁勋章", style = NeonTextStyles.NeonSubtitle, color = NeonColors.TextSecondary)
+                    Text("已解锁勋章", style = AppTypography.titleMedium, color = LocalNeonTokens.current.textDim)
                     androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(12.dp))
                     BadgeGrid(badges = streak.badgesUnlocked.split(",").filter { it.isNotBlank() })
                 }
@@ -184,7 +185,7 @@ fun StreakScreen(
                 elevation = 2.dp
             ) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("未解锁勋章", style = NeonTextStyles.NeonSubtitle, color = NeonColors.TextSecondary)
+                    Text("未解锁勋章", style = AppTypography.titleMedium, color = LocalNeonTokens.current.textDim)
                     androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(12.dp))
                     BadgeGrid(
                         badges = BADGE_DEFS.filter { it.id !in streak.badgesUnlocked.split(",") }.map { it.id },
@@ -199,10 +200,10 @@ fun StreakScreen(
 @Composable
 fun StatItem(label: String, value: String, icon: ImageVector) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(icon, contentDescription = "", tint = NeonColors.Primary, modifier = Modifier.size(20.dp))
+        Icon(icon, contentDescription = "", tint = LocalNeonTokens.current.primary, modifier = Modifier.size(20.dp))
         androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
-        Text(value, style = NeonTextStyles.NeonBody.copy(fontWeight = FontWeight.Bold), color = NeonColors.Primary)
-        Text(label, style = NeonTextStyles.NeonCaption, color = NeonColors.TextDim)
+        Text(value, style = AppTypography.bodyMedium.copy(fontWeight = FontWeight.Bold), color = LocalNeonTokens.current.primary)
+        Text(label, style = AppTypography.bodySmall, color = LocalNeonTokens.current.textDim)
     }
 }
 
@@ -224,7 +225,7 @@ fun BadgeGrid(badges: List<String>, locked: Boolean = false) {
 @Composable
 fun BadgeItem(def: BadgeDef, locked: Boolean) {
     val (icon, color) = if (locked) {
-        Icons.Default.Lock to NeonColors.TextDim.copy(alpha = 0.4f)
+        Icons.Default.Lock to LocalNeonTokens.current.textDim.copy(alpha = 0.4f)
     } else {
         def.icon to def.color
     }
@@ -243,7 +244,7 @@ fun BadgeItem(def: BadgeDef, locked: Boolean) {
         ) {
             Icon(icon, contentDescription = "", tint = color, modifier = Modifier.size(32.dp))
             androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(8.dp))
-            Text(def.name, style = NeonTextStyles.NeonCaption, color = color, textAlign = TextAlign.Center, maxLines = 2)
+            Text(def.name, style = AppTypography.bodySmall, color = color, textAlign = TextAlign.Center, maxLines = 2)
         }
     }
 }

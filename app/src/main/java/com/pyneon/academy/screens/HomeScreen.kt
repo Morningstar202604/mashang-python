@@ -34,7 +34,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pyneon.academy.data.LessonRepository
@@ -43,7 +42,6 @@ import com.pyneon.academy.data.ProgressStore
 import com.pyneon.academy.data.Ranks
 import com.pyneon.academy.data.Track
 import com.pyneon.academy.data.TrackRepository
-import com.pyneon.academy.data.TrackStatus
 import com.pyneon.academy.data.dailyMissionDone
 import com.pyneon.academy.py.PyBridge
 import com.pyneon.academy.ui.components.NeonButton
@@ -68,9 +66,7 @@ fun HomeScreen(
     onOpenLesson: (String) -> Unit,
     onOpenTerminal: () -> Unit,
     onOpenArena: () -> Unit,
-    onOpenLessons: () -> Unit,
-    onOpenTracks: () -> Unit,
-    onOpenTrack: (String) -> Unit
+    onOpenLessons: () -> Unit
 ) {
     val context = LocalContext.current
     val progress by ProgressStore.flow(context).collectAsState(initial = Progress())
@@ -147,7 +143,7 @@ fun HomeScreen(
                 Spacer(Modifier.size(10.dp))
                 Column(Modifier.weight(1f)) {
                     Text("今日通过 1 个练习或挑战", style = MaterialTheme.typography.bodyLarge, color = TextHi)
-                    Text("奖励：+30 XP 燃烧神经", style = MaterialTheme.typography.bodySmall, color = TextMid)
+                    Text("奖励：+30 XP", style = MaterialTheme.typography.bodySmall, color = TextMid)
                 }
                 if (dailyMissionDone(progress)) {
                     Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = NeonGreen)
@@ -157,7 +153,7 @@ fun HomeScreen(
             }
         }
 
-        SectionHeader("课程体系 · 多轨道")
+        SectionHeader("课程体系")
         val readyTrack = TrackRepository.readyTrack()
         if (readyTrack != null) {
             NeonCard(accent = NeonCyan, filled = true, onClick = onOpenLessons) {
@@ -183,30 +179,6 @@ fun HomeScreen(
             }
         }
 
-        val featured = TrackRepository.categories.mapNotNull { cat ->
-            cat.tracks.firstOrNull { it.status != TrackStatus.READY }
-        }
-        featured.chunked(2).forEach { pair ->
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                pair.forEach { track ->
-                    MiniTrackCard(track = track, onClick = { onOpenTrack(track.id) }, modifier = Modifier.weight(1f))
-                }
-                if (pair.size == 1) Spacer(Modifier.weight(1f))
-            }
-        }
-        NeonCard(accent = NeonCyan, onClick = onOpenTracks) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    Icons.AutoMirrored.Outlined.MenuBook,
-                    contentDescription = null,
-                    tint = NeonCyan,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(Modifier.size(8.dp))
-                Text("查看完整课程体系（20+ 轨道） ▸", style = MaterialTheme.typography.labelMedium, color = NeonCyan)
-            }
-        }
-
         SectionHeader("继续行动")
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NeonButton(
@@ -226,14 +198,14 @@ fun HomeScreen(
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             NeonButton(
-                label = "神经接口终端",
+                label = "Python 终端",
                 onClick = onOpenTerminal,
                 modifier = Modifier.weight(1f),
                 accent = NeonGreen,
                 leadingIcon = Icons.Outlined.Terminal
             )
             NeonButton(
-                label = "角斗场",
+                label = "挑战",
                 onClick = onOpenArena,
                 modifier = Modifier.weight(1f),
                 accent = NeonYellow,
@@ -250,28 +222,5 @@ private fun StatLine(icon: androidx.compose.ui.graphics.vector.ImageVector, text
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(18.dp))
         Text(text, style = MaterialTheme.typography.bodyMedium, color = TextMid)
-    }
-}
-
-@Composable
-private fun MiniTrackCard(track: Track, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val accent = Color(track.accentArgb)
-    NeonCard(accent = accent, onClick = onClick, modifier = modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Column(Modifier.weight(1f)) {
-                Text(track.title, style = MaterialTheme.typography.titleSmall, color = accent)
-                Text(
-                    if (track.status == TrackStatus.READY) track.category
-                    else "${track.category} ${track.progressPercent}%",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = TextDim
-                )
-            }
-            if (track.status == TrackStatus.READY) {
-                Icon(Icons.Outlined.PlayArrow, contentDescription = null, tint = NeonGreen, modifier = Modifier.size(16.dp))
-            } else {
-                Icon(Icons.Outlined.Lock, contentDescription = null, tint = TextDim, modifier = Modifier.size(16.dp))
-            }
-        }
     }
 }

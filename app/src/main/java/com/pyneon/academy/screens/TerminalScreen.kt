@@ -85,7 +85,7 @@ fun TerminalScreen() {
         PyBridge.ensureStarted(context)
         withContext(Dispatchers.Default) { PyBridge.replStart() }
         lines.clear()
-        lines.add(TermLine("sys", "码上 · 神经接口 v${AppConstants.VERSION_NAME} · CPython ${PyBridge.pythonVersion()}"))
+        lines.add(TermLine("sys", "码上 Python 终端 v${AppConstants.VERSION_NAME} · CPython ${PyBridge.pythonVersion()}"))
         lines.add(TermLine("sys", "逐行输入 Python 语句；多行块以空行结束。"))
     }
 
@@ -187,7 +187,7 @@ fun TerminalScreen() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(Modifier.weight(1f)) {
-                Text("神经接口 // REPL", style = MaterialTheme.typography.headlineSmall, color = NeonGreen)
+                Text("终端 // REPL", style = MaterialTheme.typography.headlineSmall, color = NeonGreen)
                 Text(
                     if (morePending) "状态：等待代码块续行…" else "状态：就绪",
                     style = MaterialTheme.typography.labelSmall,

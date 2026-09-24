@@ -27,7 +27,9 @@ object CoachEngine {
     ): CoachTip {
         val type = (errorType ?: "").trim()
         val message = (errorMessage ?: "").trim()
-        val lineRef = LINE_PATTERN.findAll(traceback ?: "").lastOrNull()
+        // B1: 取第一个 "Line N"（用户代码帧）而非 lastOrNull——
+        // 旧实现取最后一个匹配，命中的往往是库内部帧而非用户出错的行。
+        val lineRef = LINE_PATTERN.findAll(traceback ?: "").firstOrNull()
             ?.groupValues?.get(1)?.toIntOrNull()
 
         // 判题不过：只给自查清单，不给答案
@@ -65,7 +67,7 @@ object CoachEngine {
                 "课堂判题环境预置了测试数据，交互式 input() 在这里不可用。",
                 listOf(
                     "把测试用数据直接写死在代码里（赋值给变量），再跑判题",
-                    "想练习交互输入，请去「神经接口」终端里运行",
+                    "想练习交互输入，请去「终端」里运行",
                     "判题只看你的输出是否匹配断言，固定数据不影响结果"
                 ),
                 "name = 'neo'   # 代替 name = input()"
@@ -188,6 +190,45 @@ object CoachEngine {
                     "解包 a, b = ... 时确认右侧正好 2 个元素"
                 ),
                 "if s.isdigit():\n    n = int(s)"
+            )
+        }
+        // FileNotFoundError
+        if (type == "FileNotFoundError") {
+            return tip(
+                "文件不存在：路径写错了或文件还没创建",
+                "open() 的路径指向一个不存在的文件。课堂环境里文件系统是受限的。",
+                listOf(
+                    "确认文件名拼写与扩展名（.txt / .csv）完全一致",
+                    "路径是相对路径时，确认文件真的在当前目录；先写出文件再读取",
+                    "课堂环境不建议依赖外部文件，练习时可用字符串代替文件内容"
+                ),
+                "with open('data.txt', 'w') as f:\n    f.write('hello')   # 先写后读"
+            )
+        }
+        // ImportError
+        if (type == "ImportError" || type == "ModuleNotFoundError") {
+            return tip(
+                "导入失败：模块不存在或拼写错误",
+                "import 的模块名拼错了、未安装，或把文件名当成了模块。",
+                listOf(
+                    "核对模块名拼写（random、math、json 都是内置的）",
+                    "自己写的文件不要起名 random.py / math.py，会顶掉内置模块",
+                    "不要 import 不存在或课堂未提供的第三方包"
+                ),
+                "import random   # 内置模块，直接可用"
+            )
+        }
+        // RecursionError
+        if (type == "RecursionError") {
+            return tip(
+                "递归太深：函数无限调用自己",
+                "RecursionError 表示函数调用自己一直没有终止条件，栈被耗尽。",
+                listOf(
+                    "找函数的递归出口：什么时候不再调用自己？",
+                    "递归参数每次都要向出口靠近（如 n-1、列表变短）",
+                    "出口条件写太晚/太宽都会触发；先想清楚最小规模（如 n=0）会发生什么"
+                ),
+                "def f(n):\n    if n <= 0: return 0   # 出口\n    return f(n - 1)   # 向出口靠近"
             )
         }
         // 其他未知错误

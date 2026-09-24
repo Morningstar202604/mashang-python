@@ -103,7 +103,7 @@ fun PyNeonTheme(
     appTheme: AppTheme,
     content: @Composable () -> Unit
 ) {
-    val tokens = if (appTheme.isLight) LightTokens else DarkTokens
+    val tokens = appTheme.toNeonTokens()
     CompositionLocalProvider(LocalNeonTokens provides tokens) {
         MaterialTheme(
             colorScheme = createColorScheme(appTheme),

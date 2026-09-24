@@ -41,6 +41,7 @@ import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -100,6 +101,8 @@ fun ProfileScreen(
     var confirmReset by remember { mutableStateOf(false) }
     var pythonVersion by remember { mutableStateOf(PyBridge.pythonVersion()) }
     var currentThemeId by remember { mutableStateOf(ThemePreference.getCurrentThemeId(context)) }
+    var customColorInput by remember { mutableStateOf(ThemePreference.getCustomColor(context)) }
+    var customError by remember { mutableStateOf<String?>(null) }
 
     Column(
         Modifier
@@ -110,7 +113,7 @@ fun ProfileScreen(
             .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        GlitchText("神经档案 // PROFILE", style = MaterialTheme.typography.headlineSmall, color = NeonMagenta)
+        GlitchText("我的 // PROFILE", style = MaterialTheme.typography.headlineSmall, color = NeonMagenta)
 
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             StatCard("总经验", "${progress.xpTotal}", "XP", NeonCyan, Modifier.weight(1f))
@@ -275,6 +278,110 @@ fun ProfileScreen(
                             Text("✓", color = theme.primary, style = MaterialTheme.typography.titleMedium)
                         }
                     }
+                }
+
+                // ===== 自定义色调 =====
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            currentThemeId = AppThemes.CUSTOM_THEME_ID
+                            // 之前应用过的合法主色立即生效，无需重复点「应用」
+                            if (AppThemes.parseHex(customColorInput) != null) {
+                                ThemePreference.saveCustomColor(context, customColorInput.trim())
+                                ThemePreference.saveTheme(context, AppThemes.CUSTOM_THEME_ID)
+                            }
+                        }
+                        .border(
+                            width = if (currentThemeId == AppThemes.CUSTOM_THEME_ID) 2.dp else 1.dp,
+                            color = if (currentThemeId == AppThemes.CUSTOM_THEME_ID)
+                                AppThemes.parseHex(customColorInput) ?: TextDim
+                            else TextDim.copy(alpha = 0.3f),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(20.dp)
+                            .background(AppThemes.parseHex(customColorInput) ?: TextDim, CircleShape)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "自定义颜色",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = if (currentThemeId == AppThemes.CUSTOM_THEME_ID)
+                            AppThemes.parseHex(customColorInput) ?: TextHi
+                        else TextHi,
+                        modifier = Modifier.weight(1f)
+                    )
+                    if (currentThemeId == AppThemes.CUSTOM_THEME_ID) {
+                        Text("✓", color = AppThemes.parseHex(customColorInput) ?: TextDim, style = MaterialTheme.typography.titleMedium)
+                    }
+                }
+                if (currentThemeId == AppThemes.CUSTOM_THEME_ID) {
+                    Text(
+                        "点选下方色板或输入 #RRGGBB 主色，整套界面即时跟随；主色偏暗时自动切亮色背景保护可读性。",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = TextDim
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    val presets = listOf(
+                        "#00E5FF", "#FF2D78", "#00E676", "#BB86FC", "#FFAB40",
+                        "#FFD54F", "#4DD0E1", "#FF5252", "#FFFFFF", "#7C4DFF"
+                    )
+                    presets.chunked(5).forEach { rowColors ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(bottom = 8.dp)) {
+                            rowColors.forEach { hex ->
+                                val c = AppThemes.parseHex(hex) ?: TextDim
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .background(c, CircleShape)
+                                        .border(
+                                            width = if (customColorInput.trim() == hex) 3.dp else 1.dp,
+                                            color = if (customColorInput.trim() == hex) SurfaceDark else TextDim.copy(alpha = 0.4f),
+                                            shape = CircleShape
+                                        )
+                                        .clickable {
+                                            customColorInput = hex
+                                            customError = null
+                                            ThemePreference.saveCustomColor(context, hex)
+                                            ThemePreference.saveTheme(context, AppThemes.CUSTOM_THEME_ID)
+                                            currentThemeId = AppThemes.CUSTOM_THEME_ID
+                                        }
+                                )
+                            }
+                        }
+                    }
+                    OutlinedTextField(
+                        value = customColorInput,
+                        onValueChange = { customColorInput = it; customError = null },
+                        singleLine = true,
+                        label = { Text("主色（#RRGGBB）", style = MaterialTheme.typography.labelMedium) },
+                        isError = customError != null,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    customError?.let {
+                        Text(it, style = MaterialTheme.typography.labelSmall, color = NeonMagenta)
+                    }
+                    Spacer(Modifier.height(6.dp))
+                    NeonButton(
+                        label = "应用此色",
+                        accent = NeonCyan,
+                        onClick = {
+                            if (AppThemes.parseHex(customColorInput) == null) {
+                                customError = "颜色格式应为 #RRGGBB，例如 #00E5FF"
+                            } else {
+                                customError = null
+                                ThemePreference.saveCustomColor(context, customColorInput.trim())
+                                ThemePreference.saveTheme(context, AppThemes.CUSTOM_THEME_ID)
+                                currentThemeId = AppThemes.CUSTOM_THEME_ID
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
             }
         }

@@ -60,7 +60,7 @@ fun LessonsScreen(openLesson: (String) -> Unit) {
                 .statusBarsPadding()
                 .padding(horizontal = 20.dp, vertical = 12.dp)
         ) {
-            GlitchText("数据流 // LESSONS", style = MaterialTheme.typography.headlineSmall, color = NeonCyan)
+            GlitchText("课程 // LESSONS", style = MaterialTheme.typography.headlineSmall, color = NeonCyan)
             Text(
                 "按顺序解锁 · 完成练习即通关",
                 style = MaterialTheme.typography.bodySmall,
@@ -75,23 +75,18 @@ fun LessonsScreen(openLesson: (String) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 96.dp, top = 8.dp)
         ) {
-            val chapters = mapOf(
-                1 to "第一幕 · 基础协议",
-                2 to "第二幕 · 进阶装备",
-                3 to "第三幕 · 高阶义体",
-                4 to "终幕 · 边界之外",
-                10 to "增补包 · DSA 算法基础",
-                11 to "增补包 · DSA 算法进阶"
-            )
             items(lessons.size, key = { lessons[it].id }) { index ->
                 val lesson = lessons[index]
-                val showHeader = index == 0 || lessons[index - 1].chapter != lesson.chapter
+                // 章节名来自课程数据本身（chapterName），不再依赖 UI 硬编码映射，
+                // 新增课程包（DSA/彩蛋等）也能正确分组。
+                val showHeader = index == 0 || lessons[index - 1].chapterName != lesson.chapterName
                 val locked = index > 0 && lessons[index - 1].id !in progress.completedLessons
+                val prevLesson = if (index > 0) lessons[index - 1] else null
                 val done = lesson.id in progress.completedLessons
                 Column {
-                    if (showHeader) {
+                    if (showHeader && lesson.chapterName.isNotBlank()) {
                         Text(
-                            chapters[lesson.chapter] ?: "章节 ${lesson.chapter}",
+                            lesson.chapterName,
                             style = MaterialTheme.typography.titleMedium,
                             color = NeonMagenta,
                             modifier = Modifier.padding(top = if (index == 0) 0.dp else 14.dp, bottom = 4.dp)
@@ -111,7 +106,9 @@ fun LessonsScreen(openLesson: (String) -> Unit) {
                     },
                     onClick = {
                         if (locked) {
-                            Toast.makeText(context, "先完成上一课的练习以解锁", Toast.LENGTH_SHORT).show()
+                            // 解锁条件显式化：告诉用户具体是哪一课挡住了
+                            val target = prevLesson?.title ?: "上一课"
+                            Toast.makeText(context, "先完成「$target」即可解锁本节", Toast.LENGTH_SHORT).show()
                         } else {
                             openLesson(lesson.id)
                         }

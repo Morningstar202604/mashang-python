@@ -17,6 +17,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pyneon.academy.ui.components.NeonButton
 import com.pyneon.academy.ui.theme.Bg0
+import com.pyneon.academy.ui.theme.NeonCyan
+import com.pyneon.academy.ui.theme.NeonGreen
 import com.pyneon.academy.ui.theme.NeonYellow
 import com.pyneon.academy.ui.theme.TextMid
 import com.pyneon.academy.data.LessonRepository
@@ -26,6 +28,7 @@ import com.pyneon.academy.utils.ShareHelper
 @Composable
 fun HelpScreen(onBack: () -> Unit) {
     val context = LocalContext.current
+    val totalLessons = LessonRepository.lessons(context).size
     Column(
         Modifier
             .fillMaxSize()
@@ -37,16 +40,35 @@ fun HelpScreen(onBack: () -> Unit) {
     ) {
         Text("帮助中心", style = MaterialTheme.typography.headlineSmall, color = NeonYellow)
 
-        FaqItem("如何运行代码？", "在课程或「接口」页编写代码后，点击「运行 & 判题」即可在本地 CPython 中执行并获得自动批改反馈。")
-        FaqItem("变量快照是什么？", "每次运行后，应用会展示当前内存中的变量及其类型/值，帮助你直观理解代码执行过程。这是本应用的独家功能。")
-        FaqItem("完全离线吗？", "是的。CPython 解释器嵌入在设备本地，全部内置课程无网络也能学习。联网仅用于「内容中心」手动下载额外课程包。")
-        FaqItem("我的进度会丢吗？", "进度保存在本机。你可在「档案 → 进阶工具 → 备份/恢复」中将数据导出为文件；需要重置时点「重置全部进度」。")
-        FaqItem("如何获得毕业证书？", "通关全部 ${LessonRepository.lessons(context).size} 讲课程后，「档案」页的「毕业认证」将解锁，可查看并分享你的专属证书。")
-        FaqItem("运行报错怎么办？", "错误会由智能错误提示解析，给出可能原因与修正建议；也可到「档案 → 错题本」复盘历史练习。")
+        // ===== 快速上手 =====
+        HelpSection("快速上手（60 秒）")
+        FaqItem("1 · 从哪开始？", "进入「课程」页，从第一幕第一课开始。课程按章节解锁，完成一课才能解锁下一课；通关后按「下一课」直达。")
+        FaqItem("2 · 怎么练习？", "每课末尾有「实战演练」：在代码编辑器写代码，点「运行判题」自动批改。答对得 XP 并解锁下一课；答错进错题本。")
+        FaqItem("3 · 代码在哪随手试？", "底部「终端」页是 REPL 终端，像 Python 交互环境一样随时输入、立即运行，适合验证小片段。")
+        FaqItem("4 · 学完能拿什么？", "通关全部 $totalLessons 讲课程后，「我的」页解锁毕业证书；「挑战」页有 6 个实战闯关拿额外 XP。")
+
+        // ===== 常用功能 =====
+        HelpSection("常用功能")
+        FaqItem("变量快照是什么？", "每次运行后，应用展示当前内存中的变量名、类型与值——直观看到代码执行过程，是学「代码到底在干什么」的独家利器。")
+        FaqItem("错题本 / 复习台怎么用？", "判题失败的练习自动收入错题本（我的 → 错题本）；完成课程后系统按间隔重复生成复习卡（我的 → 复习台），对抗遗忘。")
+        FaqItem("主题能换吗？", "我的 → 主题切换：7 套预置色调 + 自定义主色（#RRGGBB 或色板点选），即时生效并自动保存。")
+        FaqItem("内容中心是什么？", "联网后可从「内容中心」下载额外课程包（如 DSA 算法系列）。断网不影响已安装课程。")
+        FaqItem("进度安全吗？", "进度存本机。我的 → 备份/恢复 可导出为 JSON 文件（含 XP、通关、错题、复习卡），换机后可导入。")
+
+        // ===== 常见问题 =====
+        HelpSection("常见问题")
+        FaqItem("完全离线吗？", "是。CPython 3.13 解释器内嵌在应用里，38 讲内置课程无网络也能学。联网仅用于内容中心下载额外包。")
+        FaqItem("代码报错看不懂怎么办？", "判题结果里点「问教练 · 只提示不代写」，智能教练会解释错误类型、定位疑似行号并给排查步骤，不直接给答案。")
+        FaqItem("不小心重置了进度能找回吗？", "先到备份/恢复导出过备份就能导入找回；未备份的重置不可撤销，重置前有二次确认。")
+        FaqItem("课程为什么是锁着的？", "课程按章节渐进解锁：必须先通过上一课，才能进入下一课——保证基础扎实再进阶。")
+        FaqItem("终端里怎么退出？", "终端是实时交互环境，无需退出；清空输入或按返回回到其他页面即可。")
+        FaqItem("判题卡住不动？", "代码若包含死循环，判题有超时保护会自动中断并提示。尽量先想清楚逻辑再运行。")
+        FaqItem("更新怎么获取？", "应用暂未内置自动更新；新版本通过应用商店或重新安装获得，学习数据不丢失（建议先备份）。")
+        FaqItem("如何联系开发者？", "点下方「联系我们」发邮件，或到开源仓库提 issue（见「我的 → 系统设置 → 开源仓库」）。")
 
         NeonButton(
             label = "联系我们",
-            accent = NeonYellow,
+            accent = NeonGreen,
             onClick = { ShareHelper.sendEmail(context, AppConstants.CONTACT_EMAIL, "PY//NOW 使用咨询") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -57,6 +79,16 @@ fun HelpScreen(onBack: () -> Unit) {
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+private fun HelpSection(title: String) {
+    Text(
+        title,
+        style = MaterialTheme.typography.titleMedium,
+        color = NeonCyan,
+        modifier = Modifier.padding(top = 6.dp)
+    )
 }
 
 @Composable

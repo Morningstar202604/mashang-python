@@ -40,6 +40,7 @@ data class Lesson(
     val id: String,
     val order: Int,
     val chapter: Int,
+    val chapterName: String = "",
     val title: String,
     val subtitle: String,
     val xp: Int,
@@ -69,7 +70,7 @@ object LessonRepository {
 
     fun lessons(context: Context): List<Lesson> {
         lessonCache?.let { return it }
-        val parsed = listOf("lessons_basic.json", "lessons_mid.json", "lessons_adv.json").flatMap { fileName ->
+        val parsed = listOf("lessons_basic.json", "lessons_mid.json", "lessons_adv.json", "lessons_pro.json").flatMap { fileName ->
             val raw = context.assets.open(fileName).bufferedReader().use { it.readText() }
             val array = JSONArray(raw)
             buildList {
@@ -187,6 +188,7 @@ object LessonRepository {
             id = obj.getString("id"),
             order = obj.getInt("order"),
             chapter = obj.optInt("chapter", 1),
+            chapterName = obj.optString("chapterName", ""),
             title = obj.getString("title"),
             subtitle = obj.optString("subtitle"),
             xp = obj.optInt("xp", 50),

@@ -54,7 +54,8 @@
       ],
       "stdin": [],
       "xp": 190
-    }
+    },
+    "chapterName": "增补包 · DSA 算法进阶"
   },
   {
     "id": "dsa07",
@@ -111,7 +112,8 @@
       ],
       "stdin": [],
       "xp": 190
-    }
+    },
+    "chapterName": "增补包 · DSA 算法进阶"
   },
   {
     "id": "dsa08",
@@ -167,7 +169,8 @@
       ],
       "stdin": [],
       "xp": 190
-    }
+    },
+    "chapterName": "增补包 · DSA 算法进阶"
   },
   {
     "id": "dsa09",
@@ -222,7 +225,8 @@
       ],
       "stdin": [],
       "xp": 190
-    }
+    },
+    "chapterName": "增补包 · DSA 算法进阶"
   },
   {
     "id": "dsa10",
@@ -278,6 +282,7 @@
       ],
       "stdin": [],
       "xp": 220
-    }
+    },
+    "chapterName": "增补包 · DSA 算法进阶"
   }
 ]

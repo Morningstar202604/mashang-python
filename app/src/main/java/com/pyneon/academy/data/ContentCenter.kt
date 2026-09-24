@@ -20,21 +20,9 @@ data class ContentPack(
     val sha256: String? = null
 )
 
-/**
- * 应用自身（APK）更新信息，来自 catalog.json 的顶层 "app" 段。
- * @param apkUrl 可为完整 URL，也可为相对路径（自动拼接到 catalog 所在仓库 base）
- */
-data class AppUpdateInfo(
-    val versionCode: Int,
-    val versionName: String,
-    val apkUrl: String,
-    val apkSha256: String?
-)
-
 data class ContentCatalog(
     val updatedAt: String,
-    val packs: List<ContentPack>,
-    val appUpdate: AppUpdateInfo? = null
+    val packs: List<ContentPack>
 )
 
 class ContentCenter {
@@ -42,8 +30,6 @@ class ContentCenter {
     companion object {
         private const val TIMEOUT_MS = 10000
         private const val MAX_RESPONSE_BYTES = 5 * 1024 * 1024 // C5: HTTP 响应体积上限 5MB
-        // APK 体积上限（含 Python 运行时较大，300MB 足够容纳 arm64 + x86_64 双 ABI）
-        private const val MAX_APK_BYTES = 300 * 1024 * 1024
         private const val TAG = "ContentCenter"
         // C3: 包 id 白名单，仅允许安全文件名字符，杜绝路径穿越
         private val SAFE_ID_REGEX = Regex("""^[a-zA-Z0-9_-]+$""")
@@ -103,15 +89,7 @@ class ContentCenter {
                         )
                     )
                 }
-                val appUpdate = obj.optJSONObject("app")?.let { app ->
-                    AppUpdateInfo(
-                        versionCode = app.optInt("versionCode", 0),
-                        versionName = app.optString("versionName", ""),
-                        apkUrl = app.optString("apkUrl", ""),
-                        apkSha256 = app.optString("apkSha256").takeIf { it.isNotBlank() }
-                    )
-                }
-                return ContentCatalog(obj.optString("updated_at"), packs, appUpdate) to url.removeSuffix("/catalog.json")
+                return ContentCatalog(obj.optString("updated_at"), packs) to url.removeSuffix("/catalog.json")
             } catch (e: Exception) {
                 lastError = e
             }
@@ -143,35 +121,6 @@ class ContentCenter {
         packs.listFiles()
             ?.filter { it.name.startsWith("${pack.id}.v") && it.name != target.name }
             ?.forEach { it.delete() }
-        tmp.renameTo(target)
-        return target
-    }
-
-    /**
-     * 下载新版 APK 到缓存目录并校验 sha256，返回可安装的 APK 文件。
-     * apkUrl 支持完整 URL 或相对路径（相对 catalog 所在仓库 base）。
-     */
-    fun downloadApk(context: Context, update: AppUpdateInfo, baseUrl: String): File {
-        require(update.versionCode > 0 && update.apkUrl.isNotBlank()) {
-            "更新信息不完整（缺少版本号或下载地址）"
-        }
-        val url = if (update.apkUrl.startsWith("http://") || update.apkUrl.startsWith("https://")) {
-            update.apkUrl
-        } else {
-            "$baseUrl/${update.apkUrl.trimStart('/')}"
-        }
-        val expected = update.apkSha256
-            ?: throw SecurityException("更新包缺少 sha256 字段，拒绝下载")
-        val bytes = httpGetBytes(url, MAX_APK_BYTES)
-        if (sha256Hex(bytes) != expected) {
-            throw SecurityException("更新包完整性校验失败（sha256 不匹配）")
-        }
-        val dir = File(context.cacheDir, "app-updates").apply { mkdirs() }
-        val target = File(dir, "pynow-${update.versionName}.apk")
-        // 原子落盘：先写临时文件再改名，避免安装到写一半的损坏包
-        val tmp = File(dir, "tmp_${update.versionCode}.apk")
-        tmp.writeBytes(bytes)
-        if (target.exists()) target.delete()
         tmp.renameTo(target)
         return target
     }
@@ -254,8 +203,10 @@ class ContentCenter {
 
     /**
      * 剥离顶层 `"sha256": "<64位hex>"` 字段，使目录自签名可计算。
-     * 仅影响 catalog 自身签名字段的排除，其他字段原样保留并被哈希覆盖。
+     * 注意：只替换第一次出现（count=1），即顶层字段；
+     * packs[].sha256 等子字段保留原值并进入签名覆盖范围——
+     * 若用正则替换全部 sha256 字段，目录对"篡改各包哈希"将失去校验能力。
      */
     private fun stripSelfSha(text: String): String =
-        text.replace(Regex("\"sha256\"\\s*:\\s*\"[0-9a-f]{64}\""), "\"sha256\": \"\"")
+        text.replaceFirst(Regex("\"sha256\"\\s*:\\s*\"[0-9a-f]{64}\""), "\"sha256\": \"\"")
 }

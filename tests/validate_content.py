@@ -12,7 +12,7 @@ APP_ASSETS = os.path.join(
     os.path.dirname(__file__), "..", "app", "src", "main", "assets"
 )
 
-LESSON_FILES = ["lessons_basic.json", "lessons_mid.json", "lessons_adv.json"]
+LESSON_FILES = ["lessons_basic.json", "lessons_mid.json", "lessons_adv.json", "lessons_pro.json"]
 
 SOLUTIONS = {
     "l01": "hacker_name = 'V'\nonline = True\nprint(hacker_name, online)",
@@ -350,6 +350,126 @@ SOLUTIONS = {
         "\n"
         "print(area_circle(1))\n"
         "print(area_circle(2))"
+    ),
+    "l31": (
+        "import re\n"
+        "\n"
+        "def is_phone(s):\n"
+        "    return bool(re.fullmatch(r'1[3-9]\\d{9}', s))\n"
+        "\n"
+        "print(is_phone('13800138000'))\n"
+        "print(is_phone('12345'))"
+    ),
+    "l32": (
+        "from dataclasses import dataclass\n"
+        "\n"
+        "@dataclass\n"
+        "class Student:\n"
+        "    name: str\n"
+        "    score: int\n"
+        "\n"
+        "    def level(self) -> str:\n"
+        "        if self.score >= 90:\n"
+        "            return '优秀'\n"
+        "        elif self.score >= 60:\n"
+        "            return '及格'\n"
+        "        else:\n"
+        "            return '加油'\n"
+        "\n"
+        "s = Student('小明', 92)\n"
+        "print(s, s.level())"
+    ),
+    "l33": (
+        "from functools import partial\n"
+        "from operator import mul\n"
+        "\n"
+        "double = partial(mul, 2)\n"
+        "\n"
+        "print(double(10))\n"
+        "print(double(-3))"
+    ),
+    "l34": (
+        "import threading\n"
+        "\n"
+        "results = []\n"
+        "\n"
+        "def collect(n):\n"
+        "    results.append(n)\n"
+        "\n"
+        "threads = [threading.Thread(target=collect, args=(i,)) for i in range(2)]\n"
+        "for t in threads:\n"
+        "    t.start()\n"
+        "for t in threads:\n"
+        "    t.join()\n"
+        "print(sorted(results))"
+    ),
+    "l35": (
+        "import asyncio\n"
+        "\n"
+        "done = []\n"
+        "\n"
+        "async def greet(name: str, delay: float):\n"
+        "    await asyncio.sleep(delay)\n"
+        "    done.append(name)\n"
+        "    print(f'你好，{name}')\n"
+        "\n"
+        "async def main():\n"
+        "    await asyncio.gather(greet('A', 0.05), greet('B', 0.05))\n"
+        "\n"
+        "asyncio.run(main())"
+    ),
+    "l36": (
+        "def parse_config(args):\n"
+        "    cfg = {}\n"
+        "    i = 0\n"
+        "    while i < len(args):\n"
+        "        key = args[i]\n"
+        "        if key == '--name' and i + 1 < len(args):\n"
+        "            cfg['name'] = args[i + 1]\n"
+        "            i += 2\n"
+        "        elif key == '--times' and i + 1 < len(args):\n"
+        "            cfg['times'] = int(args[i + 1])\n"
+        "            i += 2\n"
+        "        else:\n"
+        "            i += 1\n"
+        "    return cfg\n"
+        "\n"
+        "print(parse_config(['--name', 'Python', '--times', '3']))"
+    ),
+    "l37": (
+        "import unittest\n"
+        "\n"
+        "def max3(a, b, c):\n"
+        "    return max(a, b, c)\n"
+        "\n"
+        "class TestMax3(unittest.TestCase):\n"
+        "    def test_max_basic(self):\n"
+        "        self.assertEqual(max3(1, 9, 5), 9)\n"
+        "\n"
+        "    def test_max_all_equal(self):\n"
+        "        self.assertEqual(max3(4, 4, 4), 4)\n"
+        "\n"
+        "suite = unittest.TestLoader().loadTestsFromTestCase(TestMax3)\n"
+        "result = unittest.TextTestRunner(verbosity=0).run(suite)\n"
+        "print('通过', result.testsRun, '个，失败', len(result.failures) + len(result.errors))"
+    ),
+    "l38": (
+        "def parse_requirements(text):\n"
+        "    result = []\n"
+        "    for ln in text.strip().splitlines():\n"
+        "        ln = ln.strip()\n"
+        "        if not ln or ln.startswith('#'):\n"
+        "            continue\n"
+        "        for sep in ('==', '>='):\n"
+        "            if sep in ln:\n"
+        "                name, ver = ln.split(sep, 1)\n"
+        "                result.append((name.strip(), sep + ver.strip()))\n"
+        "                break\n"
+        "        else:\n"
+        "            result.append((ln, ''))\n"
+        "    return result\n"
+        "\n"
+        "print(parse_requirements('requests==2.32.3\\nflask>=3.0\\npytest'))"
     ),
     "c01": (
         "def neon_fb(n):\n"

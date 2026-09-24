@@ -76,17 +76,17 @@ object ReviewScheduler {
         lesson.blocks.forEachIndexed { idx, block ->
             when (block) {
                 is Block.Quiz -> {
-                    block.options.forEachIndexed { optIdx, _ ->
-                        cards.add(ReviewCard(
-                            id = "${lesson.id}:quiz:$idx:$optIdx",
-                            lessonId = lesson.id,
-                            blockType = "quiz",
-                            blockIndex = idx,
-                            question = block.question,
-                            answer = block.options[block.answerIndex],
-                            nextReviewDate = now
-                        ))
-                    }
+                    // B3: 一个 quiz 只生成一张卡（题目 + 正确选项），
+                    // 旧实现为每个选项生成一张，3 选项题会生成 3 张几乎相同的卡。
+                    cards.add(ReviewCard(
+                        id = "${lesson.id}:quiz:$idx",
+                        lessonId = lesson.id,
+                        blockType = "quiz",
+                        blockIndex = idx,
+                        question = block.question,
+                        answer = block.options[block.answerIndex],
+                        nextReviewDate = now
+                    ))
                 }
                 is Block.Fill -> {
                     cards.add(ReviewCard(

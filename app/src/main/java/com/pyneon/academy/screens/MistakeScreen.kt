@@ -52,9 +52,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pyneon.academy.R
+import com.pyneon.academy.ui.theme.AppTypography
+import com.pyneon.academy.ui.theme.LocalNeonTokens
+import com.pyneon.academy.ui.theme.MonoCode
 import com.pyneon.academy.ui.effects.NeonCard
-import com.pyneon.academy.ui.components.NeonColors
-import com.pyneon.academy.ui.components.NeonTextStyles
 import com.pyneon.academy.data.MistakeViewModel
 import com.pyneon.academy.ui.effects.GlitchText
 import com.pyneon.academy.ui.components.NeonButton
@@ -87,7 +88,7 @@ fun MistakeScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = NeonColors.Surface
+        color = LocalNeonTokens.current.surfaceDark
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -95,22 +96,22 @@ fun MistakeScreen(
         ) {
             TopAppBar(
                 modifier = Modifier.fillMaxWidth(),
-                title = { GlitchText(lessonId?.let { "错题本·$it" } ?: "错题本", style = NeonTextStyles.NeonTitle, color = NeonColors.Primary) },
+                title = { GlitchText(lessonId?.let { "错题本·$it" } ?: "错题本", style = AppTypography.titleLarge, color = LocalNeonTokens.current.primary) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "返回", tint = NeonColors.Primary)
+                        Icon(Icons.Default.ArrowBack, contentDescription = "返回", tint = LocalNeonTokens.current.primary)
                     }
                 },
                 actions = {
                     if (displayMistakes.isNotEmpty()) {
                         IconButton(onClick = { viewModel.clearAll() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "清空", tint = NeonColors.Error)
+                            Icon(Icons.Default.Delete, contentDescription = "清空", tint = LocalNeonTokens.current.danger)
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = NeonColors.Surface,
-                    titleContentColor = NeonColors.Primary
+                    containerColor = LocalNeonTokens.current.surfaceDark,
+                    titleContentColor = LocalNeonTokens.current.primary
                 )
             )
 
@@ -128,7 +129,7 @@ fun MistakeScreen(
                                 .height(2.dp)
                                 .fillMaxWidth()
                                 .graphicsLayer { translationX = tabPositions.firstOrNull()?.left?.toPx() ?: 0f }
-                                .background(NeonColors.Primary)
+                                .background(LocalNeonTokens.current.primary)
                         )
                     },
                     divider = {},
@@ -138,16 +139,16 @@ fun MistakeScreen(
                         text = { Text("全部") },
                         selected = filterConcept == null,
                         onClick = { filterConcept = null },
-                        selectedContentColor = NeonColors.Primary,
-                        unselectedContentColor = NeonColors.TextSecondary
+                        selectedContentColor = LocalNeonTokens.current.primary,
+                        unselectedContentColor = LocalNeonTokens.current.textDim
                     )
                     weakConcepts.forEach { (concept, count) ->
                         androidx.compose.material3.Tab(
                             text = { Text("$concept ($count)") },
                             selected = filterConcept == concept,
                             onClick = { filterConcept = concept },
-                            selectedContentColor = NeonColors.Primary,
-                            unselectedContentColor = NeonColors.TextSecondary
+                            selectedContentColor = LocalNeonTokens.current.primary,
+                            unselectedContentColor = LocalNeonTokens.current.textDim
                         )
                     }
                 }
@@ -163,12 +164,12 @@ fun MistakeScreen(
                             modifier = Modifier.padding(32.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Icon(Icons.Default.BugReport, contentDescription = "", tint = NeonColors.TextDim, modifier = Modifier.size(48.dp))
+                            Icon(Icons.Default.BugReport, contentDescription = "", tint = LocalNeonTokens.current.textDim, modifier = Modifier.size(48.dp))
                             androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         if (lessonId != null) "该课暂无错题" else "太棒了，暂无错题！",
-                        style = NeonTextStyles.NeonBody,
-                        color = NeonColors.TextSecondary
+                        style = AppTypography.bodyMedium,
+                        color = LocalNeonTokens.current.textDim
                     )
                         }
                     }
@@ -209,13 +210,13 @@ fun MistakeItem(
                 val blockLabel = if (mistake.blockIndex >= 0) "l${mistake.blockIndex + 1}" else "练习"
                 Text(
                     "$blockLabel · ${mistake.blockType.uppercase()}",
-                    style = NeonTextStyles.NeonSubtitle,
-                    color = NeonColors.Primary
+                    style = AppTypography.titleMedium,
+                    color = LocalNeonTokens.current.primary
                 )
                 Text(
                     android.text.format.DateFormat.format("MM-dd HH:mm", mistake.timestamp).toString(),
-                    style = NeonTextStyles.NeonCaption,
-                    color = NeonColors.TextDim
+                    style = AppTypography.bodySmall,
+                    color = LocalNeonTokens.current.textDim
                 )
             }
 
@@ -223,8 +224,8 @@ fun MistakeItem(
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     "标签: ${mistake.conceptTags.joinToString(", ")}",
-                    style = NeonTextStyles.NeonCaption,
-                    color = NeonColors.TextDim
+                    style = AppTypography.bodySmall,
+                    color = LocalNeonTokens.current.textDim
                 )
             }
 
@@ -234,15 +235,15 @@ fun MistakeItem(
             NeonCard(
                 modifier = Modifier.fillMaxWidth(),
                 elevation = 1.dp,
-                backgroundColor = NeonColors.Surface.copy(alpha = 0.6f)
+                backgroundColor = LocalNeonTokens.current.surfaceDark.copy(alpha = 0.6f)
             ) {
                 Column(modifier = Modifier.padding(12.dp)) {
                     Row {
-                        Icon(Icons.Default.Code, contentDescription = "", tint = NeonColors.Error, modifier = Modifier.padding(end = 8.dp))
-                        Text("你的代码", style = NeonTextStyles.NeonCaption, color = NeonColors.Error)
+                        Icon(Icons.Default.Code, contentDescription = "", tint = LocalNeonTokens.current.danger, modifier = Modifier.padding(end = 8.dp))
+                        Text("你的代码", style = AppTypography.bodySmall, color = LocalNeonTokens.current.danger)
                     }
                     androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
-                    Text(mistake.userCode, style = NeonTextStyles.NeonCode, color = NeonColors.TextPrimary)
+                    Text(mistake.userCode, style = MonoCode, color = LocalNeonTokens.current.textHi)
                 }
             }
 
@@ -256,18 +257,18 @@ fun MistakeItem(
                 Column(modifier = Modifier.weight(1f)) {
                     NeonCard(elevation = 1.dp) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            Text("期望输出", style = NeonTextStyles.NeonCaption, color = NeonColors.Success)
+                            Text("期望输出", style = AppTypography.bodySmall, color = LocalNeonTokens.current.success)
                             androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
-                            Text(mistake.expectedOutput, style = NeonTextStyles.NeonCode, color = NeonColors.TextPrimary)
+                            Text(mistake.expectedOutput, style = MonoCode, color = LocalNeonTokens.current.textHi)
                         }
                     }
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     NeonCard(elevation = 1.dp) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            Text("实际输出", style = NeonTextStyles.NeonCaption, color = NeonColors.Error)
+                            Text("实际输出", style = AppTypography.bodySmall, color = LocalNeonTokens.current.danger)
                             androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
-                            Text(mistake.actualOutput, style = NeonTextStyles.NeonCode, color = NeonColors.TextPrimary)
+                            Text(mistake.actualOutput, style = MonoCode, color = LocalNeonTokens.current.textHi)
                         }
                     }
                 }
@@ -275,14 +276,14 @@ fun MistakeItem(
 
             if (mistake.errorMessage.isNotBlank()) {
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(8.dp))
-                NeonCard(elevation = 1.dp, backgroundColor = NeonColors.Error.copy(alpha = 0.1f)) {
+                NeonCard(elevation = 1.dp, backgroundColor = LocalNeonTokens.current.danger.copy(alpha = 0.1f)) {
                     Column(modifier = Modifier.padding(12.dp)) {
                         Row {
-                            Icon(Icons.Default.BugReport, contentDescription = "", tint = NeonColors.Error, modifier = Modifier.padding(end = 8.dp))
-                            Text("错误信息", style = NeonTextStyles.NeonCaption, color = NeonColors.Error)
+                            Icon(Icons.Default.BugReport, contentDescription = "", tint = LocalNeonTokens.current.danger, modifier = Modifier.padding(end = 8.dp))
+                            Text("错误信息", style = AppTypography.bodySmall, color = LocalNeonTokens.current.danger)
                         }
                         androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(4.dp))
-                        Text(mistake.errorMessage, style = NeonTextStyles.NeonCode, color = NeonColors.Error)
+                        Text(mistake.errorMessage, style = MonoCode, color = LocalNeonTokens.current.danger)
                     }
                 }
             }
@@ -293,9 +294,9 @@ fun MistakeItem(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                NeonButton(label = "删除", accent = NeonColors.TextDim, onClick = onDelete)
+                NeonButton(label = "删除", accent = LocalNeonTokens.current.textDim, onClick = onDelete)
                 androidx.compose.foundation.layout.Spacer(modifier = Modifier.width(8.dp))
-                NeonButton(label = "重做此题", accent = NeonColors.Primary, onClick = onRetry)
+                NeonButton(label = "重做此题", accent = LocalNeonTokens.current.primary, onClick = onRetry)
             }
         }
     }

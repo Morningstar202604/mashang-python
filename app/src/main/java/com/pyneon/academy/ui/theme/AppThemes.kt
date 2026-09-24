@@ -1,6 +1,8 @@
 package com.pyneon.academy.ui.theme
 
+import android.graphics.Color as AndroidColor
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 
 /**
  * 主题数据类
@@ -18,7 +20,25 @@ data class AppTheme(
     val textSecondary: Color,  // 次要文字色
     val textDim: Color,        // 暗淡文字色
     val isLight: Boolean = false  // 是否为亮色主题（决定 lightColorScheme 与亮色 Token）
-)
+) {
+    /** 映射为本项目的 Design Token（NeonCyan/TextHi/Bg0…统一跟随所选主题） */
+    fun toNeonTokens(): NeonTokens = NeonTokens(
+        bg0 = background,
+        bg1 = surface,
+        surfaceDark = surface,
+        surfaceHigh = surfaceHigh,
+        textHi = textPrimary,
+        textMid = textSecondary,
+        textDim = textDim,
+        primary = primary,
+        secondary = secondary,
+        accent = accent,
+        success = if (isLight) LightTokens.success else DarkTokens.success,
+        danger = if (isLight) LightTokens.danger else DarkTokens.danger,
+        gold = accent,
+        purple = secondary
+    )
+}
 
 /**
  * 预定义主题列表
@@ -109,6 +129,20 @@ object AppThemes {
         isLight = true
     )
 
+    val softEyeCare = AppTheme(
+        id = "soft_eye_care",
+        name = "柔光护眼",
+        primary = Color(0xFF8FBFAF),      // 低饱和青绿，长时间看更柔和
+        secondary = Color(0xFFC9A26B),     // 暖棕
+        accent = Color(0xFFD9B26A),        // 暖金
+        background = Color(0xFF2B2B25),    // 暖深灰（非纯黑，减少眩光）
+        surface = Color(0xFF34342C),       // 暖灰
+        surfaceHigh = Color(0xFF3F3F35),   // 浅暖灰
+        textPrimary = Color(0xFFE9E5D9),   // 暖白
+        textSecondary = Color(0xFFC4BFA9), // 浅暖灰
+        textDim = Color(0xFF9C9680)        // 中暖灰
+    )
+
     /**
      * 所有可用主题列表
      */
@@ -118,6 +152,7 @@ object AppThemes {
         auroraGreen,
         twilightPurple,
         sunsetOrange,
+        softEyeCare,
         paperLight
     )
 
@@ -126,5 +161,49 @@ object AppThemes {
      */
     fun getThemeById(id: String): AppTheme {
         return allThemes.find { it.id == id } ?: cyberNeon
+    }
+
+    /** 自定义主题的固定 id（存储在 ThemePreference 中） */
+    const val CUSTOM_THEME_ID = "custom"
+
+    /** 解析 "#RRGGBB" / "#AARRGGBB" 十六进制颜色；非法输入返回 null */
+    fun parseHex(hex: String): Color? {
+        val trimmed = hex.trim().removePrefix("#")
+        if (trimmed.length != 6 && trimmed.length != 8) return null
+        return try {
+            Color(AndroidColor.parseColor("#$trimmed"))
+        } catch (_: IllegalArgumentException) {
+            null
+        }
+    }
+
+    /**
+     * 由用户指定主色生成整套主题：
+     * - secondary/accent 由主色在 HSV 色环上旋转衍生（hue+40° / hue+80°，饱和度略降）
+     * - 主色过暗（明度 < 0.35）时自动切换亮色底，保证文字可读
+     */
+    fun customTheme(hexColor: String): AppTheme {
+        val base = parseHex(hexColor) ?: cyberNeon.primary
+        val hsv = FloatArray(3)
+        AndroidColor.colorToHSV(base.toArgb(), hsv)
+        val h = hsv[0]; val s = hsv[1]; val v = hsv[2]
+        val secondary = Color(AndroidColor.HSVToColor(floatArrayOf((h + 0.11f) % 1f, (s * 0.85f).coerceIn(0f, 1f), v)))
+        val accent = Color(AndroidColor.HSVToColor(floatArrayOf((h + 0.22f) % 1f, (s * 0.70f).coerceIn(0f, 1f), v)))
+        val light = v < 0.35f
+        val baseTheme = if (light) paperLight else cyberNeon
+        return AppTheme(
+            id = CUSTOM_THEME_ID,
+            name = "自定义",
+            primary = base,
+            secondary = secondary,
+            accent = accent,
+            background = baseTheme.background,
+            surface = baseTheme.surface,
+            surfaceHigh = baseTheme.surfaceHigh,
+            textPrimary = baseTheme.textPrimary,
+            textSecondary = baseTheme.textSecondary,
+            textDim = baseTheme.textDim,
+            isLight = light
+        )
     }
 }

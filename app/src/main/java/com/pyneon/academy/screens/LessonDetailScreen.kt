@@ -75,7 +75,7 @@ import kotlinx.coroutines.withContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
+fun LessonDetailScreen(lessonId: String, onBack: () -> Unit, onNextLesson: ((String) -> Unit)? = null) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val lesson = remember(lessonId) { LessonRepository.lesson(context, lessonId) }
@@ -105,6 +105,10 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
         }
         return
     }
+
+    // U4: 提升到函数级作用域，供顶部进度条与完成弹窗的「下一课」入口共用
+    val allLessons = remember(lessonId) { LessonRepository.lessons(context) }
+    val lessonIdx = allLessons.indexOfFirst { it.id == lessonId }
 
     // Generate review cards when lesson is first completed
     androidx.compose.runtime.LaunchedEffect(alreadySolved) {
@@ -140,8 +144,6 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
             )
         }
 
-        val allLessons = remember(lessonId) { LessonRepository.lessons(context) }
-        val lessonIdx = allLessons.indexOfFirst { it.id == lessonId }
         if (lessonIdx >= 0 && allLessons.isNotEmpty()) {
             Column(Modifier.padding(horizontal = 20.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -355,13 +357,15 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
     }
 
     rewardXp?.let { gained ->
+        // U4: 学完一课，弹出「下一课」入口，学习流不中断
+        val nextLesson = allLessons.getOrNull(lessonIdx + 1)
         AlertDialog(
             onDismissRequest = { rewardXp = null },
             title = { GlitchText(if (gained > 0) "任务完成" else "已通关", style = MaterialTheme.typography.headlineSmall, color = NeonGreen) },
             text = {
                 Column {
                     if (gained > 0) {
-                        Text("+$gained XP 已写入神经档案", style = MaterialTheme.typography.bodyLarge, color = NeonYellow)
+                        Text("+$gained XP 已记录", style = MaterialTheme.typography.bodyLarge, color = NeonYellow)
                         Text("课程进度已同步，下一课解锁。", style = MaterialTheme.typography.bodyMedium, color = TextMid)
                     } else {
                         Text("本练习此前已完成，继续保持连击吧。", style = MaterialTheme.typography.bodyMedium, color = TextMid)
@@ -369,7 +373,14 @@ fun LessonDetailScreen(lessonId: String, onBack: () -> Unit) {
                 }
             },
             confirmButton = {
-                TextButton(onClick = { rewardXp = null }) { Text("继续", color = NeonCyan) }
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = { rewardXp = null }) { Text("留在本课", color = TextMid) }
+                    if (gained > 0 && nextLesson != null && onNextLesson != null) {
+                        TextButton(onClick = { rewardXp = null; onNextLesson(nextLesson.id) }) {
+                            Text("下一课：${nextLesson.title} →", color = NeonGreen)
+                        }
+                    }
+                }
             },
             containerColor = SurfaceDark
         )
@@ -417,401 +428,5 @@ private fun extractConceptTags(lessonId: String): List<String> {
         lessonId.startsWith("l29") -> listOf("exceptions", "custom")
         lessonId.startsWith("l30") -> listOf("modules", "packages")
         else -> listOf("general")
-    }
-}
-
-@Composable
-private fun TipBox(text: String, accent: androidx.compose.ui.graphics.Color, tag: String) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(accent.copy(alpha = 0.07f), MaterialTheme.shapes.medium)
-            .border(1.dp, accent.copy(alpha = 0.18f), MaterialTheme.shapes.medium)
-            .padding(horizontal = 14.dp, vertical = 14.dp)
-    ) {
-        Text(tag, style = MaterialTheme.typography.labelMedium, color = accent)
-        Spacer(Modifier.height(4.dp))
-        Text(text, style = MaterialTheme.typography.bodyMedium, color = TextMid)
-    }
-}
-
-@Composable
-private fun OutputPreview(text: String) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(Bg1, MaterialTheme.shapes.medium)
-            .border(1.dp, NeonGreen.copy(alpha = 0.35f), MaterialTheme.shapes.medium)
-            .padding(14.dp)
-    ) {
-        Text("OUTPUT · 运行结果", style = MaterialTheme.typography.labelSmall, color = NeonGreen.copy(alpha = 0.7f))
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text,
-            style = com.pyneon.academy.ui.theme.MonoCode.copy(color = NeonGreen.copy(alpha = 0.95f))
-        )
-    }
-}
-
-@Composable
-private fun DiagramBox(text: String) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .background(NeonCyan.copy(alpha = 0.05f), MaterialTheme.shapes.medium)
-            .border(1.dp, NeonCyan.copy(alpha = 0.4f), MaterialTheme.shapes.medium)
-            .padding(14.dp)
-    ) {
-        Text("DIAGRAM · 图示", style = MaterialTheme.typography.labelSmall, color = NeonCyan.copy(alpha = 0.75f))
-        Spacer(Modifier.height(6.dp))
-        Text(
-            text,
-            style = com.pyneon.academy.ui.theme.MonoCode.copy(color = TextHi.copy(alpha = 0.95f))
-        )
-    }
-}
-
-@Composable
-private fun NeonTable(headers: List<String>, rows: List<List<String>>) {
-    val lineColor = NeonCyan.copy(alpha = 0.30f)
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .border(1.dp, lineColor, MaterialTheme.shapes.small)
-    ) {
-        Row(Modifier.background(SurfaceHigh).fillMaxWidth()) {
-            headers.forEach { h ->
-                Box(Modifier.weight(1f).padding(8.dp)) {
-                    Text(h, style = MaterialTheme.typography.labelMedium, color = NeonCyan)
-                }
-            }
-        }
-        rows.forEachIndexed { rowIndex, row ->
-            Row(Modifier.fillMaxWidth().background(if (rowIndex % 2 == 1) SurfaceHigh.copy(alpha = 0.35f) else androidx.compose.ui.graphics.Color.Transparent)) {
-                row.forEach { cell ->
-                    Box(Modifier.weight(1f).padding(horizontal = 8.dp, vertical = 6.dp)) {
-                        Text(cell, style = MaterialTheme.typography.bodySmall, color = TextMid)
-                    }
-                }
-            }
-            Box(Modifier.fillMaxWidth().height(1.dp).background(lineColor.copy(alpha = 0.5f)))
-        }
-    }
-}
-
-@Composable
-private fun QuizCard(quiz: Block.Quiz) {
-    var selected by remember(quiz.question) { mutableStateOf<Int?>(null) }
-    NeonCard(accent = if (selected == null) NeonYellow else if (selected == quiz.answerIndex) NeonGreen else NeonMagenta) {
-        Text("QUIZ · 随堂一问", style = MaterialTheme.typography.labelSmall, color = NeonYellow.copy(alpha = 0.85f))
-        Text(
-            quiz.question,
-            style = MaterialTheme.typography.bodyLarge,
-            color = TextHi,
-            modifier = Modifier.padding(top = 6.dp, bottom = 12.dp)
-        )
-        quiz.options.forEachIndexed { i, opt ->
-            val isAnswer = i == quiz.answerIndex
-            val chosen = selected == i
-            val borderColor = when {
-                selected == null -> TextDim
-                chosen && isAnswer -> NeonGreen
-                chosen && !isAnswer -> NeonMagenta
-                isAnswer -> NeonGreen.copy(alpha = 0.6f)
-                else -> TextDim.copy(alpha = 0.4f)
-            }
-            val bg = when {
-                selected != null && isAnswer -> NeonGreen.copy(alpha = 0.10f)
-                selected != null && chosen -> NeonMagenta.copy(alpha = 0.10f)
-                else -> androidx.compose.ui.graphics.Color.Transparent
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .androidxClickable { if (selected == null) selected = i }
-                    .background(bg, MaterialTheme.shapes.extraSmall)
-                    .border(1.dp, borderColor, MaterialTheme.shapes.extraSmall)
-                    .padding(horizontal = 12.dp, vertical = 12.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(26.dp)
-                        .background(borderColor.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
-                ) {
-                    Text(
-                        "${'A' + i}",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = borderColor
-                    )
-                }
-                Spacer(Modifier.size(10.dp))
-                Text(opt, style = MaterialTheme.typography.bodyMedium, color = TextMid)
-            }
-            Spacer(Modifier.height(8.dp))
-        }
-        if (selected != null) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 6.dp)
-                    .background(
-                        if (selected == quiz.answerIndex) NeonGreen.copy(alpha = 0.06f) else NeonYellow.copy(alpha = 0.06f),
-                        MaterialTheme.shapes.extraSmall
-                    )
-                    .padding(10.dp)
-            ) {
-                Text(
-                    if (selected == quiz.answerIndex) "✓ 答对了" else "✗ 正确答案是 ${'A' + quiz.answerIndex}",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = if (selected == quiz.answerIndex) NeonGreen else NeonYellow
-                )
-                Text(quiz.explain, style = MaterialTheme.typography.bodySmall, color = TextMid, modifier = Modifier.padding(top = 4.dp))
-            }
-        }
-    }
-}
-
-private fun Modifier.androidxClickable(onClick: () -> Unit): Modifier = this.clickable(onClick = onClick)
-
-@Composable
-private fun StepsCard(items: List<String>) {
-    NeonCard(accent = NeonGreen, filled = true) {
-        Text("STEPS · 解题步骤", style = MaterialTheme.typography.labelSmall, color = NeonGreen)
-        Spacer(Modifier.height(8.dp))
-        items.forEachIndexed { i, step ->
-            if (i > 0) {
-                Box(
-                    Modifier
-                        .padding(start = 14.dp, top = 2.dp, bottom = 2.dp)
-                        .size(width = 20.dp, height = 1.dp)
-                        .background(NeonGreen.copy(alpha = 0.25f))
-                )
-            }
-            Row(
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.padding(top = if (i == 0) 0.dp else 8.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(30.dp)
-                        .background(NeonGreen, MaterialTheme.shapes.extraSmall)
-                        .padding(horizontal = 0.dp)
-                ) {
-                    Text(
-                        "${i + 1}",
-                        style = MaterialTheme.typography.labelLarge,
-                        color = Bg0
-                    )
-                }
-                Spacer(Modifier.size(12.dp))
-                Text(
-                    step,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = TextMid,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun Modifier.androidxBackground(color: androidx.compose.ui.graphics.Color, shape: androidx.compose.ui.graphics.Shape): Modifier =
-    this.background(color, shape)
-
-@Composable
-private fun PracticeCard(practice: Block.Practice) {
-    NeonCard(accent = NeonCyan, filled = true) {
-        Text("PRACTICE · 跟做练习", style = MaterialTheme.typography.labelSmall, color = NeonCyan)
-        Spacer(Modifier.height(4.dp))
-        Text(practice.title, style = MaterialTheme.typography.titleSmall, color = TextHi)
-        Spacer(Modifier.height(10.dp))
-        Text("试一试：", style = MaterialTheme.typography.labelSmall, color = NeonCyan.copy(alpha = 0.7f))
-        Spacer(Modifier.height(4.dp))
-        PythonCodeField(
-            value = remember(practice.code) { TextFieldValue(practice.code) },
-            onValueChange = {},
-            readOnly = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(SurfaceHigh.copy(alpha = 0.45f))
-                .border(1.dp, NeonCyan.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
-                .padding(4.dp),
-            minHeight = 60
-        )
-        Spacer(Modifier.height(10.dp))
-        Text("预期输出：", style = MaterialTheme.typography.labelSmall, color = NeonGreen.copy(alpha = 0.7f))
-        Spacer(Modifier.height(4.dp))
-        OutputPreview(practice.output)
-        Spacer(Modifier.height(8.dp))
-        TipBox(practice.hint, NeonCyan, "提示")
-    }
-}
-
-@Composable
-private fun FillCard(fill: Block.Fill) {
-    var input by remember(fill.goal) { mutableStateOf("") }
-    var attempts by remember(fill.goal) { mutableStateOf(0) }
-    val correct = input.trim() == fill.answer.trim()
-    val checked = attempts > 0
-    NeonCard(accent = NeonYellow, filled = true) {
-        Text("FILL · 填空补全", style = MaterialTheme.typography.labelSmall, color = NeonYellow)
-        Spacer(Modifier.height(4.dp))
-        Text(fill.goal, style = MaterialTheme.typography.bodyMedium, color = TextHi)
-        Spacer(Modifier.height(8.dp))
-        PythonCodeField(
-            value = remember(fill.code) { TextFieldValue(fill.code) },
-            onValueChange = {},
-            readOnly = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(SurfaceHigh.copy(alpha = 0.45f))
-                .border(1.dp, NeonYellow.copy(alpha = 0.2f), MaterialTheme.shapes.extraSmall)
-                .padding(4.dp),
-            minHeight = 60
-        )
-        Spacer(Modifier.height(10.dp))
-        OutlinedTextField(
-            value = input,
-            onValueChange = { input = it },
-            singleLine = true,
-            label = { Text("输入 ____ 处缺失的内容", style = MaterialTheme.typography.labelMedium) },
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            NeonButton(label = "检查", accent = NeonYellow, onClick = { attempts += 1 })
-            if (checked && !correct) {
-                NeonButton(label = "看答案", accent = TextMid, onClick = { input = fill.answer })
-            }
-        }
-        if (checked) {
-            Spacer(Modifier.height(6.dp))
-            Text(
-                if (correct) "✓ 正确！" else "✗ 还不对，再试试",
-                style = MaterialTheme.typography.labelMedium,
-                color = if (correct) NeonGreen else NeonMagenta
-            )
-            if (correct || attempts >= 3) {
-                Spacer(Modifier.height(2.dp))
-                Text(fill.explain, style = MaterialTheme.typography.bodySmall, color = TextMid)
-            }
-        }
-    }
-}
-
-@Composable
-private fun OrderPuzzleCard(order: Block.Order) {
-    val shuffled = remember(order.title) { order.lines.shuffled() }
-    val selection = remember(order.title) { mutableStateListOf<Int>() }
-    val solved = selection.size == order.lines.size &&
-        selection.map { shuffled[it] } == order.lines
-    val verdict: Boolean? = if (selection.size == order.lines.size) solved else null
-    NeonCard(accent = when (verdict) { true -> NeonGreen; false -> NeonMagenta; null -> NeonCyan }, filled = true) {
-        Text("ORDER · 代码排序", style = MaterialTheme.typography.labelSmall, color = NeonCyan)
-        Spacer(Modifier.height(4.dp))
-        Text(order.title, style = MaterialTheme.typography.bodyMedium, color = TextHi)
-        Spacer(Modifier.height(2.dp))
-        Text("按正确顺序依次点击下面的代码行", style = MaterialTheme.typography.labelSmall, color = TextDim)
-        Spacer(Modifier.height(8.dp))
-        shuffled.forEachIndexed { displayIdx, line ->
-            val pickOrder = selection.indexOf(displayIdx)
-            val picked = pickOrder >= 0
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 3.dp)
-                    .androidxClickable {
-                        if (verdict == null) {
-                            if (picked) selection.remove(displayIdx) else selection.add(displayIdx)
-                        }
-                    }
-                    .background(
-                        when {
-                            verdict == true -> NeonGreen.copy(alpha = 0.10f)
-                            picked -> NeonCyan.copy(alpha = 0.12f)
-                            else -> SurfaceHigh.copy(alpha = 0.35f)
-                        },
-                        MaterialTheme.shapes.extraSmall
-                    )
-                    .border(
-                        1.dp,
-                        when {
-                            verdict == true -> NeonGreen.copy(alpha = 0.5f)
-                            picked -> NeonCyan.copy(alpha = 0.55f)
-                            else -> TextDim.copy(alpha = 0.35f)
-                        },
-                        MaterialTheme.shapes.extraSmall
-                    )
-                    .padding(horizontal = 10.dp, vertical = 10.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .background(
-                            if (picked) NeonCyan else TextDim.copy(alpha = 0.3f),
-                            MaterialTheme.shapes.extraSmall
-                        )
-                ) {
-                    Text(
-                        if (picked) "${pickOrder + 1}" else "·",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = if (picked) Bg0 else TextMid
-                    )
-                }
-                Spacer(Modifier.size(10.dp))
-                Text(line, style = com.pyneon.academy.ui.theme.MonoCode.copy(fontSize = 12.sp, lineHeight = 18.sp), color = TextMid)
-            }
-        }
-        if (verdict != null) {
-            Spacer(Modifier.height(6.dp))
-            Text(
-                if (verdict) "✓ 顺序正确，程序逻辑成立！" else "✗ 顺序不对，点行可取消重选",
-                style = MaterialTheme.typography.labelMedium,
-                color = if (verdict) NeonGreen else NeonMagenta
-            )
-        }
-        if (selection.isNotEmpty()) {
-            Spacer(Modifier.height(6.dp))
-            NeonButton(label = "重排", accent = TextMid, onClick = { selection.clear() })
-        }
-    }
-}
-
-@Composable
-private fun CodeExampleCard(
-    code: String,
-    runnable: Boolean,
-    result: RunResult?,
-    running: Boolean,
-    onRun: () -> Unit
-) {
-    NeonCard(accent = NeonCyan) {
-        PythonCodeField(
-            value = remember(code) { TextFieldValue(code) },
-            onValueChange = {},
-            readOnly = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(SurfaceHigh.copy(alpha = 0.45f))
-                .border(1.dp, NeonCyan.copy(alpha = 0.15f), MaterialTheme.shapes.extraSmall)
-                .padding(4.dp),
-            minHeight = 80
-        )
-        Spacer(Modifier.height(10.dp))
-        if (runnable) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                NeonButton(label = "▶ 运行", accent = NeonGreen, enabled = !running, onClick = onRun)
-                if (running) {
-                    Text("EXECUTING…", style = MaterialTheme.typography.labelMedium, color = NeonYellow)
-                }
-            }
-        }
-        ConsoleResult(result = result, running = running)
     }
 }

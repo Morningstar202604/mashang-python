@@ -80,8 +80,8 @@ fun ArenaScreen(openChallenge: (String) -> Unit) {
                 .statusBarsPadding()
                 .padding(horizontal = 20.dp, vertical = 12.dp)
         ) {
-            GlitchText("角斗场 // ARENA", style = MaterialTheme.typography.headlineSmall, color = NeonYellow)
-            Text("限时挑战你的神经反射 · assert 判题", style = MaterialTheme.typography.bodySmall, color = TextDim, modifier = Modifier.padding(top = 4.dp))
+            GlitchText("挑战 // ARENA", style = MaterialTheme.typography.headlineSmall, color = NeonYellow)
+            Text("编程挑战 · assert 判题，通过得 XP", style = MaterialTheme.typography.bodySmall, color = TextDim, modifier = Modifier.padding(top = 4.dp))
         }
         Column(
             Modifier

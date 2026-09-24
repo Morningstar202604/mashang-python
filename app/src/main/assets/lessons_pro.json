@@ -1,0 +1,599 @@
+[
+  {
+    "id": "l31",
+    "order": 31,
+    "chapter": "第四幕 · 生产实战",
+    "title": "正则表达式：文本挖掘",
+    "subtitle": "re 模块 · 查找/提取/替换",
+    "xp": 160,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "给文本装一把「精确搜索」的放大镜"
+      },
+      {
+        "type": "text",
+        "text": "处理日志、清洗数据、校验手机号/邮箱……凡是「从文字里找东西、改东西」，都靠正则表达式。它是文本处理的第一技能——学会了，就不用再堆一长串 if/for 去拼字符串。"
+      },
+      {
+        "type": "diagram",
+        "text": "三个最常用动作：\n  re.search(模式, 文本)   任意位置找第一个\n  re.findall(模式, 文本)  找出所有匹配\n  re.sub(模式, 替换, 文本) 替换匹配到的部分"
+      },
+      {
+        "type": "text",
+        "text": "模式里的 \\d 代表「一个数字」，+ 代表「前面的东西出现 1 次以上」。所以 r'\\d+' 匹配「一段连续数字」，r'\\d{11}' 匹配「恰好 11 位数字」。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import re\n\ntext = '下单时间 2026-09-25，订单号 A-12345'\nprint(re.findall(r'\\d+', text))          # 所有连续数字\n\nm = re.search(r'A-\\d+', text)            # 找第一个订单号\nprint(m.group() if m else '未找到')\n\nprint(re.sub(r'\\d{4}-\\d{2}-\\d{2}', '日期', text))  # 替换日期"
+      },
+      {
+        "type": "output",
+        "text": "['2026', '09', '25', '12345']\nA-12345\n下单时间 日期，订单号 A-12345"
+      },
+      {
+        "type": "table",
+        "headers": [
+          "写法",
+          "含义"
+        ],
+        "rows": [
+          [
+            "\\d / \\w / \\s",
+            "数字 / 字母数字下划线 / 空白"
+          ],
+          [
+            ". * + ?",
+            "任意字符 / 0次以上 / 1次以上 / 0或1次"
+          ],
+          [
+            "{n}",
+            "恰好 n 次"
+          ],
+          [
+            "[abc]",
+            "a、b、c 中任意一个"
+          ],
+          [
+            "^ $",
+            "开头 / 结尾"
+          ]
+        ]
+      },
+      {
+        "type": "warn",
+        "text": "正则字符串永远加 r 前缀（原始字符串）。不加 r，'\\d' 会被 Python 先转义成 'd'，正则收到的是残缺模式，结果全错。"
+      },
+      {
+        "type": "tip",
+        "text": "先想清楚「我要匹配什么」，再写模式。拿不准就先 r 前缀 + findall 看结果，逐步调。"
+      },
+      {
+        "type": "quiz",
+        "question": "模式 r'1[3-9]\\d{9}' 能匹配什么？",
+        "options": [
+          "任意 11 位数字",
+          "第二位是 3-9 的手机号",
+          "所有数字"
+        ],
+        "answer": 1,
+        "explain": "1 开头、第二位 3-9、再接 9 位数字——正是标准手机号。"
+      },
+      {
+        "type": "practice",
+        "title": "邮箱提取器",
+        "code": "import re\ntext = '联系 admin@py.com 或 support@py.com'\nemails = re.findall(r'[\\w.]+@[\\w.]+', text)\nprint(emails)\nprint('共', len(emails), '个')",
+        "output": "['admin@py.com', 'support@py.com']\n共 2 个",
+        "hint": "findall 返回全部匹配；[\\w.]+ 匹配字母数字和点号。"
+      }
+    ],
+    "exercise": {
+      "title": "手机号校验器",
+      "brief": "补全 is_phone(s)：用 re.fullmatch 判断字符串是否标准手机号（1 开头、第二位 3-9、共 11 位数字），匹配返回 True，否则 False。",
+      "starterCode": "import re\n\ndef is_phone(s):\n    # 用 re.fullmatch 检查整串是否完全匹配\n    ____\n\nprint(is_phone('13800138000'))  # True\nprint(is_phone('12345'))        # False",
+      "hint": "fullmatch 要求整串完全匹配；直接返回匹配结果是否非空。",
+      "tests": [
+        "assert is_phone('13800138000') is True",
+        "assert is_phone('12800138000') is False",
+        "assert is_phone('138001380001') is False",
+        "assert is_phone('abcd') is False"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l32",
+    "order": 32,
+    "chapter": "第四幕 · 生产实战",
+    "title": "类型提示与数据类",
+    "subtitle": "typing · dataclass · 可读性",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "给代码装上「路牌」"
+      },
+      {
+        "type": "text",
+        "text": "Python 是动态语言，但不代表不该写类型。类型提示（Type Hints）是给人和工具看的路牌：函数接收什么、返回什么，一眼看懂；IDE 还会在你传错类型时提前标红。"
+      },
+      {
+        "type": "diagram",
+        "text": "三种常见写法：\n  x: int = 5                    变量注解\n  def add(a: int, b: int) -> int:  参数 + 返回值\n  scores: list[int] = [90, 85]    容器元素类型"
+      },
+      {
+        "type": "text",
+        "text": "注解只是「说明」，运行时不会强制检查——它不改变程序行为，但极大改善可读性和协作体验。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "def greet(name: str, times: int = 1) -> str:\n    return f'你好，{name}!' * times\n\nprint(greet('码上'))\nprint(greet('Python', 3))"
+      },
+      {
+        "type": "output",
+        "text": "你好，码上!\n你好，Python!你好，Python!你好，Python!"
+      },
+      {
+        "type": "heading",
+        "text": "dataclass：几行代码定义「装数据的类」"
+      },
+      {
+        "type": "text",
+        "text": "写一个只装数据的类，要手动写 __init__、__repr__、__eq__……样板代码一大堆。@dataclass 按字段自动生成这一切。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Point:\n    x: int\n    y: int\n\np1 = Point(3, 4)\np2 = Point(3, 4)\nprint(p1)        # 自动友好的 __repr__\nprint(p1 == p2)  # 自动按字段比较"
+      },
+      {
+        "type": "output",
+        "text": "Point(x=3, y=4)\nTrue"
+      },
+      {
+        "type": "tip",
+        "text": "只存数据的类优先用 dataclass；有复杂行为的类才手写。给字段默认值用 field(default=...)。"
+      },
+      {
+        "type": "quiz",
+        "question": "@dataclass 自动帮我们生成了哪些方法？",
+        "options": [
+          "只有 __init__",
+          "__init__、__repr__、__eq__",
+          "所有魔法方法"
+        ],
+        "answer": 1,
+        "explain": "它按字段自动生成构造、显示、比较，是样板代码的终结者。"
+      }
+    ],
+    "exercise": {
+      "title": "学生数据类",
+      "brief": "补全 Student 数据类：字段 name: str、score: int；方法 level() 返回 '优秀'（score>=90）、'及格'（score>=60）、'加油'（其他）。",
+      "starterCode": "from dataclasses import dataclass\n\n@dataclass\nclass Student:\n    name: str\n    score: int\n\n    def level(self) -> str:\n        ____\n\ns = Student('小明', 92)\nprint(s, s.level())",
+      "hint": "三档 if/elif 判断；dataclass 的字段注解不能省。",
+      "tests": [
+        "assert Student('a', 92).level() == '优秀'",
+        "assert Student('b', 60).level() == '及格'",
+        "assert Student('c', 59).level() == '加油'",
+        "assert Student('d', 100).level() == '优秀'"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l33",
+    "order": 33,
+    "chapter": "第四幕 · 生产实战",
+    "title": "函数式工具箱",
+    "subtitle": "itertools · functools · 少写循环",
+    "xp": 160,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "itertools 与 functools：标准库替你写好的循环优化器"
+      },
+      {
+        "type": "text",
+        "text": "嵌套双循环、全排列、缓存、固定参数……这些高频套路 itertools 和 functools 全都封装好了。能用标准库就不手写——这也是 Python 的哲学。"
+      },
+      {
+        "type": "diagram",
+        "text": "常用武器：\n  product(A, B)        笛卡尔积（等价嵌套双循环）\n  chain(a, b)          把多个可迭代对象串起来\n  permutations(x, n)   全排列\n  partial(f, 固定参)    提前固定部分参数\n  lru_cache            自动缓存函数结果（加速递归）"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "from itertools import product, chain\n\nfor a, b in product([1, 2], ['x', 'y']):\n    print(a, b)\n\nprint(list(chain([1, 2], [3, 4])))"
+      },
+      {
+        "type": "output",
+        "text": "1 x\n1 y\n2 x\n2 y\n[1, 2, 3, 4]"
+      },
+      {
+        "type": "text",
+        "text": "product 就是「嵌套双循环」的替代品：两行变一行，还不容易写错缩进。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "from functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n: int) -> int:\n    if n < 2:\n        return n\n    return fib(n - 1) + fib(n - 2)\n\nprint(fib(50))  # 不缓存会算到天荒地老"
+      },
+      {
+        "type": "output",
+        "text": "12586269025"
+      },
+      {
+        "type": "warn",
+        "text": "lru_cache 缓存的函数，参数必须是可哈希的（int/str/tuple 可以，list 不行）。"
+      },
+      {
+        "type": "quiz",
+        "question": "itertools.product([1,2], ['a']) 会生成几个组合？",
+        "options": [
+          "2 个",
+          "3 个",
+          "4 个"
+        ],
+        "answer": 0,
+        "explain": "2×1=2 个：(1,'a') 和 (2,'a')。"
+      },
+      {
+        "type": "practice",
+        "title": "排队问题",
+        "code": "from itertools import permutations\n\nfor p in permutations(['A', 'B', 'C'], 2):\n    print(''.join(p))",
+        "output": "AB\nAC\nBA\nBC\nCA\nCB",
+        "hint": "permutations(序列, 取几个)；''.join 把字符拼成串。"
+      }
+    ],
+    "exercise": {
+      "title": "两倍函数",
+      "brief": "用 functools.partial 创建一个 double：接收一个数，返回它的两倍（即 partial 固定 operator.mul 的乘数 2）。",
+      "starterCode": "from functools import partial\nfrom operator import mul\n\ndouble = ____\n\nprint(double(10))  # 20\nprint(double(-3))   # -6",
+      "hint": "partial(mul, 2) 固定第一个参数为 2，调用 double(10) 即 mul(2, 10)。",
+      "tests": [
+        "assert double(10) == 20",
+        "assert double(0) == 0",
+        "assert double(-3) == -6"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l34",
+    "order": 34,
+    "chapter": "第四幕 · 生产实战",
+    "title": "并发初探：线程与进程",
+    "subtitle": "threading · GIL · 选型",
+    "xp": 170,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "让程序「同时」做多件事"
+      },
+      {
+        "type": "text",
+        "text": "下载文件、等网络响应、批量处理……这些场景里程序大部分时间在「等待」。并发能让你在等一件事时，同时推进另一件事。"
+      },
+      {
+        "type": "text",
+        "text": "线程（threading.Thread）是最直观的并发：把任务丢给线程，主程序继续往下走。适合 IO 密集场景（网络、文件、等待）。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import threading, time\n\ndef work(name, sec):\n    time.sleep(sec)\n    print(f'{name} 完成')\n\nt1 = threading.Thread(target=work, args=('任务A', 1))\nt2 = threading.Thread(target=work, args=('任务B', 1))\nt1.start(); t2.start()\nt1.join(); t2.join()\nprint('全部完成')"
+      },
+      {
+        "type": "output",
+        "text": "任务A 完成\n任务B 完成\n全部完成"
+      },
+      {
+        "type": "text",
+        "text": "注意：Python 有 GIL（全局解释器锁），同一时刻只有一个线程在执行 Python 代码。所以 CPU 密集计算（大循环、重计算）用多线程不会变快——那种场景改用多进程 multiprocessing。"
+      },
+      {
+        "type": "diagram",
+        "text": "什么时候用谁：\n  IO 密集（网络/文件/等待） -> 线程 threading / 异步 asyncio\n  CPU 密集（计算/循环）    -> 多进程 multiprocessing\n  共享数据要安全          -> threading.Lock 加锁"
+      },
+      {
+        "type": "warn",
+        "text": "多个线程同时改同一个变量会互相踩踏（数据竞争）。用 threading.Lock 保护共享数据。"
+      },
+      {
+        "type": "quiz",
+        "question": "GIL 存在意味着什么？",
+        "options": [
+          "Python 完全不能用并发",
+          "同一时刻只有一个线程执行 Python 代码",
+          "线程一定比进程慢"
+        ],
+        "answer": 1,
+        "explain": "GIL 限制的是「同时执行」，不限制「交替推进」——IO 等待时照样能并发受益。"
+      }
+    ],
+    "exercise": {
+      "title": "线程收数",
+      "brief": "启动 2 个线程，每个线程往共享列表 results 追加自己的编号 n。补全 collect 函数，主线程 join 后打印排序结果。",
+      "starterCode": "import threading\n\nresults = []\n\ndef collect(n):\n    # 把 n 追加到 results\n    ____\n\nthreads = [threading.Thread(target=collect, args=(i,)) for i in range(2)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint(sorted(results))",
+      "hint": "results.append(n) 一行即可。",
+      "tests": [
+        "assert sorted(results) == [0, 1]",
+        "assert len(results) == 2"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l35",
+    "order": 35,
+    "chapter": "第四幕 · 生产实战",
+    "title": "异步协程 async/await",
+    "subtitle": "asyncio · 单线程协作式并发",
+    "xp": 180,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "async/await：单线程里的「协作式并发」"
+      },
+      {
+        "type": "text",
+        "text": "协程是另一种并发思路：不切换线程，而是在「等待」处主动让出控制权。一个线程轮流推进多个任务——谁在等 IO，就让位给下一个。"
+      },
+      {
+        "type": "diagram",
+        "text": "三个关键词：\n  async def     定义协程函数（调用返回协程对象，不立即执行）\n  await         在协程内部等待另一个协程\n  asyncio.run() 启动事件循环的总入口"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import asyncio\n\nasync def say(what, sec):\n    await asyncio.sleep(sec)\n    print(what)\n\nasync def main():\n    # 三个任务并发：总耗时约 1 秒，而不是 3 秒\n    await asyncio.gather(\n        say('第一次', 1),\n        say('第二次', 1),\n        say('第三次', 1),\n    )\n\nasyncio.run(main())\nprint('完成')"
+      },
+      {
+        "type": "output",
+        "text": "第一次\n第二次\n第三次\n完成"
+      },
+      {
+        "type": "text",
+        "text": "线程切换由操作系统决定，协程切换由你自己控制（遇到 await 才让位）。所以协程更轻、更可控，现代异步网络代码几乎都用它。"
+      },
+      {
+        "type": "warn",
+        "text": "不要在 async 函数里用 time.sleep——它会阻塞整个事件循环。等待一律用 await asyncio.sleep。"
+      },
+      {
+        "type": "tip",
+        "text": "纯 CPU 计算的任务用不着 async；async 适合「等待 IO」多的场景（网络请求、数据库、文件读写）。"
+      },
+      {
+        "type": "quiz",
+        "question": "await asyncio.sleep(1) 的作用是？",
+        "options": [
+          "阻塞整个程序 1 秒",
+          "让出控制权，1 秒后继续",
+          "结束协程"
+        ],
+        "answer": 1,
+        "explain": "await 是让位点，事件循环趁机推进其他协程。"
+      }
+    ],
+    "exercise": {
+      "title": "并发问候",
+      "brief": "补全 greet 协程：等待 delay 秒后，把 name 追加到全局列表 done，并打印问候。main 用 gather 并发跑两个问候。",
+      "starterCode": "import asyncio\n\ndone = []\n\nasync def greet(name: str, delay: float):\n    await asyncio.sleep(delay)\n    ____  # done.append(name) 并打印问候\n\nasync def main():\n    await asyncio.gather(greet('A', 0.05), greet('B', 0.05))\n\nasyncio.run(main())",
+      "hint": "done.append(name)；print(f'你好，{name}')。",
+      "tests": [
+        "assert asyncio.iscoroutinefunction(greet)",
+        "assert sorted(done) == ['A', 'B']",
+        "assert len(done) == 2"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l36",
+    "order": 36,
+    "chapter": "第四幕 · 生产实战",
+    "title": "命令行工具箱",
+    "subtitle": "sys.argv · argparse · CLI",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "把脚本变成「可复用的命令行工具」"
+      },
+      {
+        "type": "text",
+        "text": "脚本每次都要改代码才能换参数，那是「一次性脚本」。用 sys.argv 或 argparse 接收命令行参数，脚本就能反复用、给别人用。CLI 是 Python 的第一应用场景。"
+      },
+      {
+        "type": "diagram",
+        "text": "sys.argv 是什么：\n  命令行执行  python tool.py A B\n  sys.argv = ['tool.py', 'A', 'B']\n  下标 0 是脚本名，1 开始是参数"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "import sys\n\n# 在终端运行 python tool.py A B 时，sys.argv 会带上参数\nargs = sys.argv[1:]\nprint('收到参数:', args)\nprint('参数个数:', len(args))"
+      },
+      {
+        "type": "output",
+        "text": "收到参数: []\n参数个数: 0"
+      },
+      {
+        "type": "code",
+        "runnable": false,
+        "code": "# 更专业的是 argparse：自动生成 --help、类型转换\nimport argparse\n\nparser = argparse.ArgumentParser(description='加法器')\nparser.add_argument('a', type=int, help='第一个数')\nparser.add_argument('b', type=int, help='第二个数')\nparser.add_argument('--verbose', action='store_true', help='打印过程')\nargs = parser.parse_args()\n\nif args.verbose:\n    print(f'{args.a} + {args.b} =', end=' ')\nprint(args.a + args.b)\n\n# 终端运行：python tool.py 3 5 --verbose  ->  3 + 5 = 8"
+      },
+      {
+        "type": "text",
+        "text": "argparse 自动生成 --help、支持可选参数、自动类型转换，是写 CLI 的标准姿势。action='store_true' 表示「开关型」参数：出现即 True，不出现即 False。"
+      },
+      {
+        "type": "quiz",
+        "question": "argparse 的 --verbose action='store_true' 表示？",
+        "options": [
+          "必须给一个值",
+          "出现则为 True，不出现为 False",
+          "每次出现自动加一"
+        ],
+        "answer": 1,
+        "explain": "store_true 是开关型参数：出现即 True，适合标志位。"
+      },
+      {
+        "type": "practice",
+        "title": "手动解析参数",
+        "code": "def pick_flag(args):\n    return '--verbose' in args\n\nargs = ['run', '--verbose']\nprint('verbose:', pick_flag(args))\nprint('参数数:', len(args))",
+        "output": "verbose: True\n参数数: 2",
+        "hint": "in 运算符判断列表里有没有某个字符串。"
+      }
+    ],
+    "exercise": {
+      "title": "迷你参数解析",
+      "brief": "补全 parse_config(args)：解析 ['--name', 'Python', '--times', '3'] 这类参数列表，返回 {'name': 'Python', 'times': 3}（times 转成 int）；空列表返回空字典。",
+      "starterCode": "def parse_config(args):\n    cfg = {}\n    i = 0\n    while i < len(args):\n        key = args[i]\n        if key == '--name' and i + 1 < len(args):\n            cfg['name'] = args[i + 1]\n            i += 2\n        elif key == '--times' and i + 1 < len(args):\n            cfg['times'] = int(args[i + 1])\n            i += 2\n        else:\n            i += 1\n    ____  # 返回 cfg\n\nprint(parse_config(['--name', 'Python', '--times', '3']))",
+      "hint": "return cfg。",
+      "tests": [
+        "assert parse_config(['--name','A','--times','2']) == {'name':'A','times':2}",
+        "assert parse_config([]) == {}",
+        "assert parse_config(['--times','5']) == {'times':5}"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l37",
+    "order": 37,
+    "chapter": "第四幕 · 生产实战",
+    "title": "调试与测试",
+    "subtitle": "assert · unittest · TDD 习惯",
+    "xp": 160,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "让 bug 无处可逃"
+      },
+      {
+        "type": "text",
+        "text": "写好代码只是开始。assert 能在第一时间拦住错误假设；unittest 把「验证」变成可以反复运行的习惯。先写测试、再写实现（TDD）是专业团队的日常。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "def divide(a, b):\n    assert b != 0, '除数不能为 0'\n    return a / b\n\nprint(divide(10, 2))\n\ntry:\n    divide(1, 0)\nexcept AssertionError as e:\n    print('拦截:', e)"
+      },
+      {
+        "type": "output",
+        "text": "5.0\n拦截: 除数不能为 0"
+      },
+      {
+        "type": "text",
+        "text": "unittest 是标准库测试框架：写一个继承 unittest.TestCase 的类，方法名以 test_ 开头，用 assertEqual 等断言。测试能反复跑，改了代码立刻知道有没有改坏。"
+      },
+      {
+        "type": "code",
+        "runnable": false,
+        "code": "import unittest\n\ndef add(a, b):\n    return a + b\n\nclass TestAdd(unittest.TestCase):\n    def test_normal(self):\n        self.assertEqual(add(1, 2), 3)\n\n    def test_negative(self):\n        self.assertEqual(add(-1, 1), 0)\n\nif __name__ == '__main__':\n    unittest.main()\n\n# 终端运行：python test_add.py  ->  Ran 2 tests ... OK"
+      },
+      {
+        "type": "tip",
+        "text": "测试命名用「test_ + 行为描述」，断言越具体越好；写之前先想「这个函数可能在哪出错」。"
+      },
+      {
+        "type": "quiz",
+        "question": "assert b != 0, '提示' 中的第二个参数是？",
+        "options": [
+          "断言结果",
+          "失败时显示的错误消息",
+          "返回给调用者的值"
+        ],
+        "answer": 1,
+        "explain": "assert 失败抛 AssertionError，第二个参数是附加的错误消息。"
+      }
+    ],
+    "exercise": {
+      "title": "补全测试",
+      "brief": "被测函数 max3 已定义。补全 TestMax3 的两个测试：test_max_basic 断言 max3(1,9,5)==9；test_max_all_equal 断言 max3(4,4,4)==4。",
+      "starterCode": "import unittest\n\ndef max3(a, b, c):\n    return max(a, b, c)\n\nclass TestMax3(unittest.TestCase):\n    def test_max_basic(self):\n        ____\n\n    def test_max_all_equal(self):\n        ____\n\nsuite = unittest.TestLoader().loadTestsFromTestCase(TestMax3)\nresult = unittest.TextTestRunner(verbosity=0).run(suite)\nprint('通过', result.testsRun, '个，失败', len(result.failures) + len(result.errors))",
+      "hint": "self.assertEqual(max3(1, 9, 5), 9)；self.assertEqual(max3(4, 4, 4), 4)。",
+      "tests": [
+        "assert result.testsRun == 2",
+        "assert len(result.failures) == 0 and len(result.errors) == 0"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  },
+  {
+    "id": "l38",
+    "order": 38,
+    "chapter": "第四幕 · 生产实战",
+    "title": "虚拟环境与工程化",
+    "subtitle": "venv · pip · requirements",
+    "xp": 150,
+    "blocks": [
+      {
+        "type": "heading",
+        "text": "从「能跑的脚本」到「能交付的项目」"
+      },
+      {
+        "type": "text",
+        "text": "一个正经项目要回答三个问题：依赖是什么（requirements.txt）、环境怎么隔离（venv）、别人怎么跑起来（固定版本 + README）。"
+      },
+      {
+        "type": "diagram",
+        "text": "虚拟环境流程（在电脑终端执行）：\n  python -m venv .venv            创建隔离环境\n  source .venv/bin/activate       激活（Windows 用 .venv\\Scripts\\activate）\n  pip install 包名                装依赖到当前环境\n  pip freeze > requirements.txt   导出依赖清单\n  pip install -r requirements.txt 别人一键装齐"
+      },
+      {
+        "type": "text",
+        "text": "为什么要隔离？项目 A 要 requests 2.x，项目 B 要 3.x——全局环境会打架。venv 让每个项目有自己干净的房间。"
+      },
+      {
+        "type": "text",
+        "text": "requirements.txt 是「依赖清单」：每行一个包名+版本。它让项目可复现——换台机器、换个人，都能装出一模一样的环境。"
+      },
+      {
+        "type": "code",
+        "runnable": true,
+        "code": "req = '''requests==2.32.3\nflask>=3.0\npytest\n'''\n\n# 解析依赖清单：每行转成 (名字, 版本约束)\nlines = [ln.strip() for ln in req.strip().splitlines() if ln.strip()]\nfor ln in lines:\n    if '==' in ln:\n        name, ver = ln.split('==')\n    elif '>=' in ln:\n        name, ver = ln.split('>=')\n    else:\n        name, ver = ln, ''\n    print(f'{name} ({ver})')"
+      },
+      {
+        "type": "output",
+        "text": "requests (2.32.3)\nflask (>=3.0)\npytest ()"
+      },
+      {
+        "type": "warn",
+        "text": "不要把 .venv、__pycache__ 提交到 Git；用 .gitignore 排除它们。"
+      },
+      {
+        "type": "quiz",
+        "question": "requirements.txt 的作用是？",
+        "options": [
+          "记录运行日志",
+          "声明项目依赖及版本，实现可复现",
+          "存放配置文件路径"
+        ],
+        "answer": 1,
+        "explain": "任何人 pip install -r requirements.txt 就能装齐依赖，实现可复现。"
+      },
+      {
+        "type": "practice",
+        "title": "依赖清单统计",
+        "code": "req = 'requests==2.32.3\\nflask>=3.0\\npytest'\nlines = [ln for ln in req.splitlines() if ln]\nprint('依赖数:', len(lines))\nprint('带版本:', sum('==' in ln or '>=' in ln for ln in lines))",
+        "output": "依赖数: 3\n带版本: 2",
+        "hint": "sum(布尔列表) 统计 True 的个数。"
+      }
+    ],
+    "exercise": {
+      "title": "解析依赖清单",
+      "brief": "补全 parse_requirements(text)：把多行依赖文本解析成 [(包名, 版本约束或'')] 列表。支持 '=='、'>=' 和无版本三种行；空行和 # 开头的注释行跳过。",
+      "starterCode": "def parse_requirements(text):\n    result = []\n    for ln in text.strip().splitlines():\n        ln = ln.strip()\n        if not ln or ln.startswith('#'):\n            continue\n        for sep in ('==', '>='):\n            if sep in ln:\n                name, ver = ln.split(sep, 1)\n                result.append((name.strip(), sep + ver.strip()))\n                break\n        else:\n            result.append((ln, ''))\n    ____  # 返回 result\n\nprint(parse_requirements('requests==2.32.3\\nflask>=3.0\\npytest'))",
+      "hint": "return result。注意无版本行要放进 else 分支。",
+      "tests": [
+        "assert parse_requirements('a==1.0\\nb>=2\\nc') == [('a','==1.0'),('b','>=2'),('c','')]",
+        "assert parse_requirements('# 注释\\nflask==3.0') == [('flask','==3.0')]",
+        "assert parse_requirements('') == []"
+      ]
+    },
+    "chapterName": "第四幕 · 生产实战"
+  }
+]

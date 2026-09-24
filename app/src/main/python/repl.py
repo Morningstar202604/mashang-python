@@ -12,6 +12,9 @@ from runner import DEFAULT_TIMEOUT, SandboxTimeout, _Watchdog, _truncate
 REPL_TIMEOUT = DEFAULT_TIMEOUT
 
 _console = None
+# E3: REPL 会话是进程内单例（跨 push 保持状态），用锁保证 start/reset/push
+# 的原子性，避免 UI 线程与后台线程并发访问同一个 console 导致串台。
+_console_lock = threading.Lock()
 
 
 class NeonConsole(code_module.InteractiveConsole):
@@ -64,29 +67,35 @@ class NeonConsole(code_module.InteractiveConsole):
 
 def _active_console() -> NeonConsole:
     global _console
-    if _console is None:
-        _console = NeonConsole()
-    return _console
+    with _console_lock:
+        if _console is None:
+            _console = NeonConsole()
+        return _console
 
 
 def start():
     global _console
-    _console = NeonConsole()
+    with _console_lock:
+        _console = NeonConsole()
     return json.dumps({"ok": True})
 
 
 def reset():
+    # 说明：重建 InteractiveConsole 会清空 locals（变量/函数定义）；
+    # 模块级副作用（import 过的模块、改过的 builtins 等）不会因重建而回滚，
+    # 这是 CPython 会话的固有行为，教学场景可接受。
     return start()
 
 
 def push(line, timeout=None):
     console = _active_console()
-    # Honour an optional per-call budget (used by tests); defaults to REPL_TIMEOUT.
-    console._timeout = REPL_TIMEOUT if timeout is None else float(timeout)
-    console.capture.seek(0)
-    console.capture.truncate(0)
-    more = console.push(line)
-    return json.dumps(
-        {"more": bool(more), "output": _truncate(console.capture.getvalue())},
-        ensure_ascii=False,
-    )
+    with _console_lock:
+        # Honour an optional per-call budget (used by tests); defaults to REPL_TIMEOUT.
+        console._timeout = REPL_TIMEOUT if timeout is None else float(timeout)
+        console.capture.seek(0)
+        console.capture.truncate(0)
+        more = console.push(line)
+        return json.dumps(
+            {"more": bool(more), "output": _truncate(console.capture.getvalue())},
+            ensure_ascii=False,
+        )

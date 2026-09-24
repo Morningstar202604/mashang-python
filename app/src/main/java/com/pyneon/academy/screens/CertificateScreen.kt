@@ -68,7 +68,7 @@ fun CertificateScreen(onBack: () -> Unit) {
             .statusBarsPadding()
             .padding(16.dp)
     ) {
-        NeonButton(label = "◄ 返回档案", accent = TextMid, onClick = onBack)
+        NeonButton(label = "◄ 返回", accent = TextMid, onClick = onBack)
         Spacer(Modifier.height(14.dp))
 
         Box(

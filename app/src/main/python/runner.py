@@ -113,11 +113,20 @@ def _run_protected(code, namespace, stdin_lines, timeout):
             state["finished"] = True
 
     started_at = time.perf_counter()
-    worker = threading.Thread(target=target, daemon=True)
+    worker = threading.Thread(target=target, daemon=True, name="pyneon-sandbox")
     worker.start()
     worker.join(timeout + 1.5)
     duration_ms = int((time.perf_counter() - started_at) * 1000)
 
+    # E1: 说明与兜底——settrace 看门狗只覆盖纯 Python 字节码；若用户代码卡在
+    # C 扩展调用（time.sleep、纯 C 实现的循环等），join 超时后 daemon 线程可能
+    # 仍在后台运行。这是 CPython 无法安全强杀线程的固有限制，处理策略：
+    #   1) 输出/错误缓冲不再读取（结果已按 Timeout 返回），避免脏数据上屏；
+    #   2) 每次运行都用全新命名空间，残留线程写不到共享状态；
+    #   3) daemon 线程随进程退出，不会阻止 App 关闭。
+    # 若未来要覆盖 C 阻塞场景，需改为子进程执行（multiprocessing），成本较高，
+    # 教学场景暂不启用。
+    still_alive = not state["finished"]
     error = (
         None
         if state["finished"] and state["error"] is None
@@ -136,12 +145,18 @@ def _run_protected(code, namespace, stdin_lines, timeout):
         "stderr": _truncate(err_buf.getvalue()),
         "error": error,
         "duration_ms": duration_ms,
+        # 供调用方判断是否需要重建会话（超时线程可能仍在写命名空间）
+        "worker_still_alive": still_alive,
     }
 
 
 def _snapshot(namespace):
+    # E4: 先收集全部“数据变量”，再按【定义顺序逆序】展示（最近定义的排最前）。
+    # 理由：(1) 教学场景里用户最想看到的是刚算出的变量；(2) 顺序每次运行一致，
+    # 可预期；(3) 不再像旧实现那样遍历到 MAX_VARS 就 break——那会按插入序截断，
+    # 漏掉最后定义的变量（恰恰是最该展示的）。
     items = []
-    for key, value in namespace.items():
+    for key, value in reversed(namespace.items()):
         if key.startswith("__"):
             continue
         # 只展示“数据变量”：过滤内置函数/自定义函数/方法/类/模块等噪音，
@@ -203,11 +218,18 @@ def check_exercise(code, tests, stdin_lines=None):
 
     failures = []
     test_outputs = []
+    # E2: 用户代码在 namespace 中运行完毕后，测试跑在【共享的副本】test_ns 上：
+    #   - 测试用例之间保持共享状态（现有课程把 tests 写成"准备→动作→断言"的
+    #     有序脚本，这是内容格式的事实约束，必须兼容）；
+    #   - 测试的赋值/副作用不会污染用户命名空间，变量快照因此只展示用户代码
+    #     真正定义的内容；
+    #   - 用户代码定义的函数/类通过浅拷贝对测试可见（copy 共享引用）。
+    test_ns = namespace.copy()
     for index, test in enumerate(tests, start=1):
         test_state = {"finished": False, "error": None}
         test_out = io.StringIO()
 
-        def test_target(ns=namespace, source=test, st=test_state, buf=test_out):
+        def test_target(ns=test_ns, source=test, st=test_state, buf=test_out):
             old_stdout = sys.stdout
             try:
                 sys.stdout = buf

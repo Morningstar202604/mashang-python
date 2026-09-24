@@ -43,7 +43,7 @@ fun PrivacyPolicyScreen(onBack: () -> Unit) {
         )
 
         PolicyBlock("我们收集什么", "我们不收集任何个人信息，不要求注册账号，也不集成任何第三方统计、广告或追踪 SDK。")
-        PolicyBlock("本地存储的数据", "你的学习进度、错题、偏好仅保存在你自己的设备本地（Android DataStore/SharedPreferences），不会上传到任何服务器。你可随时在「档案」页「重置全部进度」清除，或直接卸载应用。")
+        PolicyBlock("本地存储的数据", "你的学习进度、错题、偏好仅保存在你自己的设备本地（Android DataStore/SharedPreferences），不会上传到任何服务器。你可随时在「我的」页「重置全部进度」清除，或直接卸载应用。")
         PolicyBlock("网络权限说明", "应用仅声明了联网（INTERNET）权限，且只用于你在「内容中心」手动点击下载课程拓展包，该过程不附带传输任何个人信息。无网络时全部内置课程仍可完整运行。")
         PolicyBlock("嵌入的 Python", "通过 Chaquopy 在设备端嵌入真实 CPython 解释器，所有代码均在你的手机本地执行，不会发送到外部服务器。")
         PolicyBlock("未成年人", "本应用面向全年龄段，内容为编程学习，不含面向未成年人的定向收集或商业推送。")

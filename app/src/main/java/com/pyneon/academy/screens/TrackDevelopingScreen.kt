@@ -93,7 +93,7 @@ fun TrackDevelopingScreen(
                     .clickable { onBack() }
             )
             Text(
-                " 轨道档案",
+                " 轨道信息",
                 style = MaterialTheme.typography.titleMedium,
                 color = TextMid,
                 modifier = Modifier.padding(start = 8.dp)
